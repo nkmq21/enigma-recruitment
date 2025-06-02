@@ -1,7 +1,8 @@
+"use client";
 import * as React from "react";
 import { useState, useEffect } from "react";
-import LogoHeader from "../logoHeader";
-import { JustLogoHeader } from "../logoHeader";
+import LogoHeader from "./logoHeader";
+import { JustLogoHeader } from "./logoHeader";
 import {
     Box,
     List,

@@ -1,7 +1,6 @@
 // src/app/api/users/route.ts
 import {NextResponse} from 'next/server';
 import {prisma} from '../../../../prisma/prisma';
-import bcrypt from 'bcryptjs';
 import jwt from "jsonwebtoken";
 
 const JWT_SECRET = process.env.JWT_SECRET;

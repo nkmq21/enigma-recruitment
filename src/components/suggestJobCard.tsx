@@ -12,12 +12,12 @@ interface SuggestedJobCardProps {
 }
 
 const SuggestedJobCard: React.FC<SuggestedJobCardProps> = ({
-    jobTitle = 'Social Media Manager (KOL Specialist)',
-    company = 'Starfluence Global',
-    location = 'Remote',
-    salary = '700 – 1,200',
-    measure = 'USD',
-}) => (
+                                                               jobTitle = 'Social Media Manager (KOL Specialist)',
+                                                               company = 'Starfluence Global',
+                                                               location = 'Remote',
+                                                               salary = '700 – 1,200',
+                                                               measure = 'USD',
+                                                           }) => (
 
     <Box
         sx={{
@@ -78,6 +78,7 @@ const SuggestedJobCard: React.FC<SuggestedJobCardProps> = ({
                                 fontSize: '14px',
                                 lineHeight: '20px',
                                 letterSpacing: 0,
+                                p: 0
                             }}
                         >
                             {location}

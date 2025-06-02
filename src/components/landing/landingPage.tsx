@@ -1,7 +1,7 @@
 "use client";
 import React from 'react';
 import { Box, ThemeProvider, Divider } from '@mui/material';
-import { SidebarNavigation } from '../home/sideBarNavigation';
+import { SidebarNavigation } from '../sideBarNavigation';
 import LandingContent from './landingContent';
 import FeaturesSection from './featureSection';
 import NewsletterCTA from './newLetter';

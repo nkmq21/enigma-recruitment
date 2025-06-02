@@ -1,10 +1,13 @@
 import * as React from "react";
 import { Box, useTheme } from "@mui/material";
-import { SidebarNavigation } from "../home/sideBarNavigation";
 import { MainContent } from "./maincontent";
+import { SidebarNavigation } from "../sideBarNavigation";
+import { auth } from "enigma/auth";
 
-export default function TaskPage() {
-    const theme = useTheme();
+
+export default async function TaskPage() {
+    // const theme = useTheme();
+    const session = null;
 
     return (
         <Box
@@ -27,7 +30,7 @@ export default function TaskPage() {
                     },
                 }}
             >
-                <SidebarNavigation />
+                <SidebarNavigation session={session} />
                 <MainContent />
             </Box>
 

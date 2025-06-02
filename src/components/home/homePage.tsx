@@ -1,7 +1,7 @@
 "use client";
 import * as React from "react";
 import { Box, useTheme } from "@mui/material";
-import { SidebarNavigation } from "./sideBarNavigation";
+import { SidebarNavigation } from "../sideBarNavigation";
 import { MainContent } from "./mainContent";
 import {Session} from "next-auth";
 

@@ -8,32 +8,34 @@ import {
     AccordionSummary,
     AccordionDetails,
 } from '@mui/material';
+import Image from 'next/image';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
+// TODO: Replace the placeholder answers with actual content
 const faqItems = [
     {
         question: "How do I create a resume?",
-        answer: "xxx"
+        answer: "YOU BLIND OR WHAT? JUST CLICK THE BUTTON THAT SAYS 'CREATE RESUME' AND FOLLOW THE PROMPTS. IT'S NOT ROCKET SCIENCE."
     },
     {
         question: "Can I apply to multiple jobs at once?",
-        answer: ""
+        answer: "NO STOP HOARDING JOBS YOU GREEDY BASTARD"
     },
     {
         question: "How will employers contact me?",
-        answer: ""
+        answer: "CHECK YOUR MAIL"
     },
     {
         question: "Can I edit my personal information?",
-        answer: ""
+        answer: "UH, YEAH, THAT'S KIND OF THE POINT. JUST GO TO YOUR PROFILE AND CHANGE IT."
     },
     {
         question: "How do I track my application status?",
-        answer: ""
+        answer: "CHECK YOUR DASHBOARD, YOU DINGUS. IT'S ALL THERE."
     },
     {
         question: "Is this platform free to use?",
-        answer: ""
+        answer: "NO YOU HAVE TO SUBSCRIBE TO MY ONLYFANS TO GET ACCESS TO THE GOOD STUFF. JUST KIDDING, IT'S FREE. BUT YOU CAN DONATE IF YOU WANT."
     }
 ];
 
