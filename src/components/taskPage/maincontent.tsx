@@ -60,14 +60,13 @@ export const MainContent = () => {
         <Box component="main" sx={{
             flexGrow: 1,
             p: { xs: 0.5, sm: 3 },
-            width: '100vh',
+            width: '100%',
             ml: 0.5,
             '@media (max-width: 991px)': {
                 maxWidth: '100%',
             },
         }}>
             <Box sx={{ display: { lg: 'none', sm: 'block' } }}>
-                <LogoHeader />
                 <Divider sx={{ mt: 1, mb: 3, width: '100%' }} />
             </Box>
 

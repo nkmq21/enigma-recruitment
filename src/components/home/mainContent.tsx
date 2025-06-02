@@ -2,7 +2,6 @@ import * as React from "react";
 import SuggestedJobCard from "../suggestJobCard";
 import SectionTitle from "../font/sectionTitle";
 import Image from 'next/image';
-import SearchIcon from '@mui/icons-material/Search';
 import LogoHeader from "../logoHeader";
 import { JobCard } from "./JobCard";
 
@@ -15,7 +14,6 @@ import {
     CardContent,
     IconButton,
     useTheme,
-    TextField, InputAdornment,
     Divider,
 } from "@mui/material";
 import SearchBar from "enigma/components/searchBar";
@@ -36,14 +34,13 @@ export const MainContent = () => {
         <Box component="main" sx={{
             flexGrow: 1,
             p: { xs: 0.5, sm: 3 },
-            width: '100vh',
+            width: '100%',
             ml: 0.5,
             '@media (max-width: 991px)': {
                 maxWidth: '100%',
             },
         }}>
             <Box sx={{ display: { lg: 'none', sm: 'block' } }}>
-                <LogoHeader />
                 <Divider sx={{ mt: 1, mb: 3, width: '100%' }} />
             </Box>
 

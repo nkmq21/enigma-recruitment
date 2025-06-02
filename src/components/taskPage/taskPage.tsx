@@ -1,14 +1,14 @@
+"use client";
 import * as React from "react";
-import { Box, useTheme } from "@mui/material";
-import { MainContent } from "./maincontent";
-import { SidebarNavigation } from "../sideBarNavigation";
-import { auth } from "enigma/auth";
+import {Box} from "@mui/material";
+import {MainContent} from "./maincontent";
+import {SidebarNavigation} from "../sideBarNavigation";
+import {Session} from "next-auth";
 
-
-export default async function TaskPage() {
-    // const theme = useTheme();
-    const session = null;
-
+export default function TaskPage({session}: { session: Session | null }) {
+    // 19% for expanded sidebar, 6% for collapsed sidebar
+    const [isCollapsed, setIsCollapsed] = React.useState(false);
+    const sidebarWidth = isCollapsed ? '6%' : '19%';
     return (
         <Box
             sx={{
@@ -18,22 +18,21 @@ export default async function TaskPage() {
                 marginBottom: "134px",
             }}
         >
+            <SidebarNavigation session={session} isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed}/>
             <Box
                 sx={{
-                    display: 'flex',
                     flex: 1,
                     width: '100%',
-                    flexWrap: 'wrap',
                     bgcolor: '#FFF',
+                    marginLeft: {sm: sidebarWidth},
                     '@media (max-width: 991px)': {
-                        maxWidth: '100%',
+                        marginLeft: '0',
+                        width: '100%',
                     },
                 }}
             >
-                <SidebarNavigation session={session} />
-                <MainContent />
+                <MainContent/>
             </Box>
-
         </Box>
     );
 }

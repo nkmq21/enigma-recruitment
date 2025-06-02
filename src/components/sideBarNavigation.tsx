@@ -23,10 +23,9 @@ import { Search } from "@mui/icons-material";
 import {signOut} from "next-auth/react";
 import {Session} from "next-auth";
 
-export const SidebarNavigation = ({session}: {session?: Session | null}) => {
+export const SidebarNavigation = ({session, isCollapsed, setIsCollapsed}: {session: Session | null, isCollapsed: boolean, setIsCollapsed: React.Dispatch<React.SetStateAction<boolean>>}) => {
     const theme = useTheme();
     const [isSessionValid, setIsSessionValid] = useState(false); // State to track if a session is valid
-    const [isCollapsed, setIsCollapsed] = useState(false); // State for collapsed mode
     const [name, setName] = useState<string | null>(null);
     const [email, setEmail] = useState<string | null>(null);
     const [image, setImage] = useState<string | undefined>("/Avatar.png");
@@ -96,6 +95,11 @@ export const SidebarNavigation = ({session}: {session?: Session | null}) => {
     return (
         <Box
             sx={{
+                position: 'fixed', // Fixes the sidebar to the viewport
+                top: 0,
+                left: 0,
+                height: '100vh',
+                zIndex: 1200,
                 flexShrink: 0,
                 borderRight: `1px solid ${theme.palette.divider}`,
                 display: { xs: "none", sm: "flex" },
@@ -118,13 +122,13 @@ export const SidebarNavigation = ({session}: {session?: Session | null}) => {
                     transition: "padding 0.7s ease",
                 }}
             >
-                {isCollapsed ? <JustLogoHeader /> : <LogoHeader />}
+                {isCollapsed ? <JustLogoHeader session={session}/> : <LogoHeader session={session}/>}
                 {!isCollapsed && (
                     <IconButton
                         onClick={toggleSidebar}
                         sx={{
                             position: "absolute",
-                            left: "17.5%",
+                            left: "85%",
                             border: "1px solid #D0D5DD",
                             borderRadius: "50%",
                             p: 1,
@@ -146,7 +150,7 @@ export const SidebarNavigation = ({session}: {session?: Session | null}) => {
                         onClick={toggleSidebar}
                         sx={{
                             position: "absolute",
-                            left: "4.5%",
+                            left: "72%",
                             border: "1px solid #D0D5DD",
                             p: 1,
                             minWidth: 40,

@@ -1,13 +1,14 @@
 "use client";
 import * as React from "react";
-import { Box, useTheme } from "@mui/material";
+import {Box} from "@mui/material";
 import { SidebarNavigation } from "../sideBarNavigation";
 import { MainContent } from "./mainContent";
 import {Session} from "next-auth";
 
 export default function HomePage({session}: {session: Session | null}) {
-    const theme = useTheme();
-
+    // 19% for expanded sidebar, 6% for collapsed sidebar
+    const [isCollapsed, setIsCollapsed] = React.useState(false);
+    const sidebarWidth = isCollapsed ? '6%' : '19%';
     return (
         <Box
             sx={{
@@ -17,19 +18,21 @@ export default function HomePage({session}: {session: Session | null}) {
                 marginBottom: "134px",
             }}
         >
+            <SidebarNavigation session={session} isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed}/>
             <Box
                 sx={{
-                    display: 'flex',
                     flex: 1,
                     width: '100%',
-                    flexWrap: 'wrap',
                     bgcolor: '#FFF',
+                    marginLeft: {sm: sidebarWidth},
                     '@media (max-width: 991px)': {
-                        maxWidth: '100%',
-                    },
+                        marginLeft: '0',
+                        width: '100%',
+                        pt: 0, // Reset padding for smaller screens
+                        maxWidth: '100%'
+                    }
                 }}
             >
-                <SidebarNavigation session={session}/>
                 <MainContent />
             </Box>
 

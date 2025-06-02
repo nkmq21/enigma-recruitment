@@ -30,7 +30,7 @@ export default function SearchBar() {
             params.delete("query");
         }
         console.log(pathName);
-        router.replace(`${pathName}?${params.toString()}`);
+        router.replace(`/jobs?${params.toString()}`);
     }
 
     return (
@@ -57,7 +57,7 @@ export default function SearchBar() {
                     variant="outlined"
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
-                    placeholder="Job positions/ Company name"
+                    placeholder="Job title, description, or industry name"
                     InputProps={{
                         startAdornment: (
                             <InputAdornment position="start">
