@@ -229,7 +229,7 @@ This project aims to enhance the recruitment experience by providing a comprehen
 							<td style='padding: 8px;'>- CheckRegister serves as a user interface component that visually communicates essential password requirements to users<br>- By presenting criteria such as minimum character length and the necessity for special characters, it enhances user experience and guides them in creating secure passwords<br>- This component integrates seamlessly within the broader architecture, contributing to the overall functionality and usability of the application.</td>
 						</tr>
 						<tr style='border-bottom: 1px solid #eee;'>
-							<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/components/email-template.tsx'>email-template.tsx</a></b></td>
+							<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/components/email-template.tsx'>emailTemplates.tsx</a></b></td>
 							<td style='padding: 8px;'>- Provides a reusable email template component designed for user account confirmation within the application<br>- It generates a personalized greeting and a confirmation link, enhancing user engagement and streamlining the onboarding process<br>- The component supports both React and HTML formats, ensuring versatility in rendering across different contexts within the codebase architecture.</td>
 						</tr>
 						<tr style='border-bottom: 1px solid #eee;'>
