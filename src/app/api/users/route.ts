@@ -1,7 +1,7 @@
 // src/app/api/users/route.ts
 import {NextResponse} from 'next/server';
 import {prisma} from '../../../../prisma/prisma';
-import jwt from "jsonwebtoken";
+import {auth} from 'enigma/auth';
 
 const JWT_SECRET = process.env.JWT_SECRET;
 if (!JWT_SECRET) {
@@ -10,21 +10,10 @@ if (!JWT_SECRET) {
 
 export async function GET(request: Request) {
     try {
-        const authHeader = request.headers.get('authorization');
-        if (!authHeader || !authHeader.startsWith("Bearer ")) {
+        const session = await auth();
+        if (!session || session.user?.role !== 'admin') {
             return NextResponse.json(
-                {error: 'Authorization header is missing or invalid.'},
-                {status: 401}
-            );
-        }
-
-        const token = authHeader.split(' ')[1];
-        let decodedToken;
-        try {
-            decodedToken = jwt.verify(token, JWT_SECRET);
-        } catch (err) {
-            return NextResponse.json(
-                {error: 'Invalid token.'},
+                {error: 'Unauthorized access! You must be an admin to view this page.'},
                 {status: 401}
             );
         }

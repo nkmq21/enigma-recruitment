@@ -5,7 +5,7 @@ import Image from "next/image";
 import {Box} from "@mui/material";
 import {Session} from "next-auth";
 
-const LogoHeader = ({session}: {session: Session | null}) => {
+const LogoHeader = ({session}: {session?: Session | null}) => {
     const href = session ? '/home' : '/';
     return (
         <Link href={href}>

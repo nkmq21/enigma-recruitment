@@ -1,5 +1,6 @@
 import {Resend} from 'resend';
 import {VerifyEmail} from "enigma/components/emailTemplates/verifyEmail";
+import {EmailTemplateHTML} from "enigma/components/emailTemplates/email-template";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 

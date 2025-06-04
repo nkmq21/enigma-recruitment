@@ -1,5 +1,4 @@
-"use client";
-import React, { useState } from 'react';
+import React from 'react';
 import {
     Box,
     Typography,
@@ -21,8 +20,6 @@ import { Email as EmailIcon, ContentCopy as CopyIcon } from '@mui/icons-material
 import theme from '../font/theme'; // Import the custom theme
 
 export function VerifyEmail(name: string, confirmLink: string) {
-    const [openSnackbar, setOpenSnackbar] = useState(false);
-
     const shortenUrl = (url: string, maxLength = 50) => {
         if (url.length <= maxLength) return url;
         return `${url.substring(0, maxLength - 3)}...`; // Truncate and add ellipsis
@@ -30,12 +27,6 @@ export function VerifyEmail(name: string, confirmLink: string) {
     // Function to handle copy to clipboard
     const handleCopyLink = () => {
         navigator.clipboard.writeText(confirmLink);
-        setOpenSnackbar(true);
-    };
-
-    // Function to handle snackbar close
-    const handleSnackbarClose = () => {
-        setOpenSnackbar(false);
     };
     return (
         <ThemeProvider theme={theme}>
@@ -158,13 +149,10 @@ export function VerifyEmail(name: string, confirmLink: string) {
 
                 {/* Snackbar for copy confirmation */}
                 <Snackbar
-                    open={openSnackbar}
                     autoHideDuration={3000}
-                    onClose={handleSnackbarClose}
                     anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
                 >
                     <Alert
-                        onClose={handleSnackbarClose}
                         severity="success"
                         sx={{
                             width: '100%',

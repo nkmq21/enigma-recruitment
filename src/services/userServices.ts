@@ -11,14 +11,13 @@ import {signIn} from "enigma/auth";
 import {AuthError} from "next-auth";
 import * as vts from "./verificationTokenServices"
 import {sendVerificationEmail} from "enigma/services/mailServices";
+import {auth} from "enigma/auth";
 
 export async function getUsers(): Promise<User[]> {
-    const token = Cookies.get('token');
     const response = await fetch('/api/users', {
         method: 'GET',
         headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
+            'Content-Type': 'application/json'
         }
     });
     const data = await response.json();

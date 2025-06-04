@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
     Box,
     Typography,
@@ -19,25 +19,14 @@ import LogoHeader from '../logoHeader';
 import { Email as EmailIcon, ContentCopy as CopyIcon, Lock } from '@mui/icons-material';
 import theme from '../font/theme'; // Import the custom theme
 
-export function ForgotEmail() {
-    const [openSnackbar, setOpenSnackbar] = useState(false);
-
-    // Verification URL
-    const verificationUrl = 'https://secure.gameboost.com/verify/user/abc123xyz789xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx';
-
+export function ForgotEmail(resetLink: string) {
     const shortenUrl = (url: string, maxLength = 50) => {
         if (url.length <= maxLength) return url;
         return `${url.substring(0, maxLength - 3)}...`; // Truncate and add ellipsis
     };
     // Function to handle copy to clipboard
     const handleCopyLink = () => {
-        navigator.clipboard.writeText(verificationUrl);
-        setOpenSnackbar(true);
-    };
-
-    // Function to handle snackbar close
-    const handleSnackbarClose = () => {
-        setOpenSnackbar(false);
+        navigator.clipboard.writeText(resetLink);
     };
     return (
         <ThemeProvider theme={theme}>
@@ -100,7 +89,7 @@ export function ForgotEmail() {
                         <Button
                             variant="contained"
                             color="primary" // Use theme's primary color (#2494B6)
-                            href={verificationUrl}
+                            href={resetLink}
                             target="_blank"
                             fullWidth
                             sx={{ py: 1.5, fontSize: '1rem', borderRadius: 3 }} // Theme's button styles will apply (borderRadius: '8px', etc.)
@@ -112,7 +101,7 @@ export function ForgotEmail() {
                             variant="body1"
                             sx={{ color: 'text.secondary', mt: 3 }} // Use theme's secondary text color
                         >
-                            If you did not forgot your password you can safely ignore this email.
+                            If you did not forget your password you can safely ignore this email.
                         </Typography>
                     </CardContent>
 
@@ -122,7 +111,7 @@ export function ForgotEmail() {
                             variant="body2"
                             sx={{ color: 'text.secondary', mb: 1, justifySelf: 'center' }} // Use theme's secondary text color
                         >
-                            Can't click the button above? Copy it below:
+                            Can&#39;t click the button above? Copy it below:
                         </Typography>
                         <Stack direction="row" spacing={1} justifyContent="center" alignItems="center">
                             <Typography
@@ -133,7 +122,7 @@ export function ForgotEmail() {
                                     maxWidth: '80%'
                                 }}
                             >
-                                {shortenUrl(verificationUrl)}
+                                {shortenUrl(resetLink)}
                             </Typography>
                             <Button
                                 size="small"
@@ -167,13 +156,10 @@ export function ForgotEmail() {
 
                 {/* Snackbar for copy confirmation */}
                 <Snackbar
-                    open={openSnackbar}
                     autoHideDuration={3000}
-                    onClose={handleSnackbarClose}
                     anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
                 >
                     <Alert
-                        onClose={handleSnackbarClose}
                         severity="success"
                         sx={{
                             width: '100%',
