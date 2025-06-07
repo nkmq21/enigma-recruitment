@@ -52,7 +52,7 @@ export function VerifyEmail(name: string, verificationUrl: string) {
                 <tr>
                     <td style={{padding: '15px'}}>
                         <img
-                            src="../../../public/Logo2.svg"
+                            src="https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/d1d456e827ae4fc0a39d211ba32bbbabc0583f8f/public/Logo2.svg"
                             alt="Career Logo"
                             style={{width: '135px', height: '28px', display: 'block'}}
                         />
@@ -76,7 +76,7 @@ export function VerifyEmail(name: string, verificationUrl: string) {
                         <div style={{marginBottom: '16px'}}>
                             {/* Todo Thay icon */}
                             <img
-                                src="../../../public/email-icon.svg"
+                                src="https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/d1d456e827ae4fc0a39d211ba32bbbabc0583f8f/public/email-icon.svg"
                                 alt="Email Icon"
                                 style={{
                                     width: '50px', height: '50px', display: 'block', margin: '0 auto'
@@ -281,7 +281,7 @@ export function ForgotEmail(verificationUrl: string) {
                 <tr>
                     <td style={{ padding: '15px' }}>
                         <img
-                            src="../../../public/Logo2.svg"
+                            src="https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/d1d456e827ae4fc0a39d211ba32bbbabc0583f8f/public/Logo2.svg"
                             alt="Career Logo"
                             style={{ width: '135px', height: '28px', display: 'block' }}
                         />
@@ -305,7 +305,7 @@ export function ForgotEmail(verificationUrl: string) {
                         <div style={{ marginBottom: '16px' }}>
                             {/* Todo sua icon */}
                             <img
-                                src="../../../public/lock-icon.svg"
+                                src="https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/d1d456e827ae4fc0a39d211ba32bbbabc0583f8f/public/lock-icon.svg"
                                 alt="Lock Icon"
                                 style={{ width: '50px', height: '50px', display: 'block', margin: '0 auto' }}
                             />
@@ -359,8 +359,8 @@ export function ForgotEmail(verificationUrl: string) {
                             rel="noopener noreferrer"
                             style={{
                                 display: 'block',
-                                width: '100%',
-                                padding: '12px 16px',
+                                width: '95%',
+                                padding: '12px 12px',
                                 fontSize: '16px',
                                 lineHeight: '24px',
                                 fontWeight: '600',

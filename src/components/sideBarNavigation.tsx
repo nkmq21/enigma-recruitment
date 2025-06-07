@@ -1,8 +1,8 @@
 "use client";
 import * as React from "react";
-import { useState, useEffect } from "react";
+import {useState, useEffect} from "react";
 import LogoHeader from "./logoHeader";
-import { JustLogoHeader } from "./logoHeader";
+import {JustLogoHeader} from "./logoHeader";
 import {
     Box,
     List,
@@ -19,16 +19,21 @@ import {
     Typography,
 } from "@mui/material";
 import Image from "next/image";
-import { Search } from "@mui/icons-material";
+import {Search} from "@mui/icons-material";
 import {signOut} from "next-auth/react";
 import {Session} from "next-auth";
 
-export const SidebarNavigation = ({session, isCollapsed, setIsCollapsed}: {session: Session | null, isCollapsed: boolean, setIsCollapsed: React.Dispatch<React.SetStateAction<boolean>>}) => {
+export const SidebarNavigation = ({session, isCollapsed, setIsCollapsed}: {
+    session: Session | null,
+    isCollapsed: boolean,
+    setIsCollapsed: React.Dispatch<React.SetStateAction<boolean>>
+}) => {
     const theme = useTheme();
     const [isSessionValid, setIsSessionValid] = useState(false); // State to track if a session is valid
     const [name, setName] = useState<string | null>(null);
     const [email, setEmail] = useState<string | null>(null);
     const [image, setImage] = useState<string | undefined>("/Avatar.png");
+    const currentUrl = window.location.pathname;
 
     // Check if the session is valid and set the state accordingly
     useEffect(() => {
@@ -65,31 +70,58 @@ export const SidebarNavigation = ({session, isCollapsed, setIsCollapsed}: {sessi
         setIsCollapsed((prev) => !prev); // Toggle collapsed state
     };
 
-    const menuItems = [
-        { text: "Home", icon: <Image src="/homeIcon.svg" alt="home" width={24} height={24} /> },
-        { text: "Saved Job", icon: <Image src="/bagicon.svg" alt="saved job" width={24} height={24} /> },
-        { text: "Resume", icon: <Image src="/mail.svg" alt="resume" width={24} height={24} /> },
+    const publicItems = [
+        {text: "Home", icon: <Image src="/homeIcon.svg" alt="home" width={24} height={24}/>, href: "/home"},
+        {text: "Saved Job", icon: <Image src="/bagicon.svg" alt="saved job" width={24} height={24}/>},
+        {text: "Resume", icon: <Image src="/mail.svg" alt="resume" width={24} height={24}/>, href: "/profile/cv"},
         {
             text: "Career Tool",
-            icon: <Image src="/tool.svg" alt="career tool" width={24} height={24} />,
-            icon1: <Image src="/arrowSlide.svg" alt="arrow" width={24} height={24} />,
+            icon: <Image src="/tool.svg" alt="career tool" width={24} height={24}/>,
+            icon1: <Image src="/arrowSlide.svg" alt="arrow" width={24} height={24}/>,
         },
         {
             text: "Development",
-            icon: <Image src="/development.svg" alt="development" width={24} height={24} />,
-            icon1: <Image src="/arrowSlide.svg" alt="arrow" width={24} height={24} />,
+            icon: <Image src="/development.svg" alt="development" width={24} height={24}/>,
+            icon1: <Image src="/arrowSlide.svg" alt="arrow" width={24} height={24}/>,
         },
         {
             text: "Profile",
-            icon: <Image src="/profile.svg" alt="profile" width={24} height={24} />,
-            icon1: <Image src="/arrowSlide.svg" alt="arrow" width={24} height={24} />,
+            icon: <Image src="/profile.svg" alt="profile" width={24} height={24}/>,
+            icon1: <Image src="/arrowSlide.svg" alt="arrow" width={24} height={24}/>,
+            href: "/profile"
         },
+        ...(session?.user?.role === "admin"
+            ? [{text: "Admin Panel", icon: <Image src="/homeIcon.svg" alt="admin panel" width={24} height={24}/>, href: "/admin"}]
+            : [])
     ];
 
+    const adminItems = [
+        { text: "Dashboard", icon: <Image src="/homeIcon.svg" alt="home" width={24} height={24}/>, href: "/admin" },
+        {
+            text: "User Management",
+            icon: <Image src="/homeIcon.svg" alt="user managelemt" width={24} height={24}/>,
+            icon1: <Image src="/arrowSlide.svg" alt="arrow" width={24} height={24}/>,
+            href: "/admin/users"
+        },
+        {
+            text: "Job Management",
+            icon: <Image src="/bagicon.svg" alt="job management" width={24} height={24}/>,
+            icon1: <Image src="/arrowSlide.svg" alt="arrow" width={24} height={24}/>,
+            href: "/admin/jobs"
+        },
+        {
+            text: "Website Settings",
+            icon: <Image src="/settings.svg" alt="settings" width={24} height={24}/>,
+            href: "/admin/web-settings"
+        },
+        { text: "Media", icon: <Image src="/homeIcon.svg" alt="home" width={24} height={24}/>, href: "/admin/media" },
+        { text: "Home", icon: <Image src="/homeIcon.svg" alt="home" width={24} height={24}/>, href: "/home" }
+    ]
+
     const footerItems = [
-        { text: "About us", icon: <Image src="/infor.svg" alt="about us" width={24} height={24} /> },
-        { text: "Support", icon: <Image src="/support.svg" alt="support" width={24} height={24} /> },
-        { text: "Setting", icon: <Image src="/setting.svg" alt="setting" width={24} height={24} /> },
+        {text: "About us", icon: <Image src="/infor.svg" alt="about us" width={24} height={24}/>},
+        {text: "Support", icon: <Image src="/support.svg" alt="support" width={24} height={24}/>},
+        {text: "Setting", icon: <Image src="/setting.svg" alt="setting" width={24} height={24}/>},
     ];
 
     return (
@@ -102,7 +134,7 @@ export const SidebarNavigation = ({session, isCollapsed, setIsCollapsed}: {sessi
                 zIndex: 1200,
                 flexShrink: 0,
                 borderRight: `1px solid ${theme.palette.divider}`,
-                display: { xs: "none", sm: "flex" },
+                display: {xs: "none", sm: "flex"},
                 flexDirection: "column",
                 backgroundColor: theme.palette.background.paper,
                 width: isCollapsed ? '6%' : '19%', // Narrow width when collapsed
@@ -142,7 +174,7 @@ export const SidebarNavigation = ({session, isCollapsed, setIsCollapsed}: {sessi
                         }}
                         aria-label="Toggle sidebar"
                     >
-                        <Image src="/showbar.svg" alt="collapse" width={24} height={24} />
+                        <Image src="/showbar.svg" alt="collapse" width={24} height={24}/>
                     </IconButton>
                 )}
                 {isCollapsed && (
@@ -163,13 +195,13 @@ export const SidebarNavigation = ({session, isCollapsed, setIsCollapsed}: {sessi
                         }}
                         aria-label="Toggle sidebar"
                     >
-                        <Image src="/showbar1.svg" alt="expand" width={24} height={24} />
+                        <Image src="/showbar1.svg" alt="expand" width={24} height={24}/>
                     </IconButton>
                 )}
             </Box>
 
             {!isCollapsed && (
-                <Box sx={{ px: 2, mt: 2 }}>
+                <Box sx={{px: 2, mt: 2}}>
                     <Paper
                         component="form"
                         sx={{
@@ -179,46 +211,73 @@ export const SidebarNavigation = ({session, isCollapsed, setIsCollapsed}: {sessi
                             borderRadius: 2,
                         }}
                     >
-                        <InputBase sx={{ ml: 1, flex: 1 }} placeholder="Search" />
-                        <IconButton sx={{ bgcolor: "#2494B6", color: "white", p: 0.7, m: 0.5 }}>
-                            <Search />
+                        <InputBase sx={{ml: 1, flex: 1}} placeholder="Search"/>
+                        <IconButton sx={{bgcolor: "#2494B6", color: "white", p: 0.7, m: 0.5}}>
+                            <Search/>
                         </IconButton>
                     </Paper>
                 </Box>
             )}
             {isCollapsed && (
-                <Box sx={{ px: 2 }}>
-                    <IconButton sx={{ bgcolor: "#2494B6", color: "white", p: 1.5, m: 0.5 }}>
-                        <Search />
+                <Box sx={{px: 2}}>
+                    <IconButton sx={{bgcolor: "#2494B6", color: "white", p: 1.5, m: 0.5}}>
+                        <Search/>
                     </IconButton>
                 </Box>
             )}
 
-            <List sx={{ mt: isCollapsed ? 1 : 2 }}>
-                {menuItems.map((item, index) => (
-                    <ListItemButton
-                        key={index}
-                        sx={{
-                            borderRadius: 2,
-                            my: 1,
-                            mx: isCollapsed ? 0 : 1,
-                            justifyContent: isCollapsed ? "center" : "flex-start",
-                        }}
-                    >
-                        <ListItemIcon sx={{ color: "#344054", minWidth: isCollapsed ? 0 : 40 }}>
-                            {item.icon}
-                        </ListItemIcon>
-                        {!isCollapsed && (
-                            <>
-                                <ListItemText primary={item.text} sx={{ color: "#344054" }} />
-                                <ListItemIcon sx={{ color: "#344054", minWidth: 0 }}>{item.icon1}</ListItemIcon>
-                            </>
-                        )}
-                    </ListItemButton>
-                ))}
+            <List sx={{mt: isCollapsed ? 1 : 2}}>
+                {currentUrl.split('/')[1] !== 'admin' ? (
+                    publicItems.map((item, index) => (
+                        <ListItemButton
+                            key={index}
+                            sx={{
+                                borderRadius: 2,
+                                my: 1,
+                                mx: isCollapsed ? 0 : 1,
+                                justifyContent: isCollapsed ? "center" : "flex-start",
+                            }}
+                            href={item.href as string}
+                        >
+                            <ListItemIcon sx={{color: "#344054", minWidth: isCollapsed ? 0 : 40}}>
+                                {item.icon}
+                            </ListItemIcon>
+                            {!isCollapsed && (
+                                <>
+                                    <ListItemText primary={item.text} sx={{color: "#344054"}}/>
+                                    <ListItemIcon sx={{color: "#344054", minWidth: 0}}>{item.icon1}</ListItemIcon>
+                                </>
+                            )}
+                        </ListItemButton>
+                    ))
+                ) : (
+                    adminItems.map((item, index) => (
+                        <ListItemButton
+                            key={index}
+                            sx={{
+                                borderRadius: 2,
+                                my: 1,
+                                mx: isCollapsed ? 0 : 1,
+                                justifyContent: isCollapsed ? "center" : "flex-start",
+                            }}
+                            href={item.href as string}
+                        >
+                            <ListItemIcon sx={{color: "#344054", minWidth: isCollapsed ? 0 : 40}}>
+                                {item.icon}
+                            </ListItemIcon>
+                            {!isCollapsed && (
+                                <>
+                                    <ListItemText primary={item.text} sx={{color: "#344054"}}/>
+                                    <ListItemIcon sx={{color: "#344054", minWidth: 0}}>{item.icon1}</ListItemIcon>
+                                </>
+                            )}
+                        </ListItemButton>
+                    ))
+                )}
+
             </List>
 
-            <Box sx={{ mt: isCollapsed ? 7 : 7, flexGrow: 2 }}>
+            <Box sx={{mt: isCollapsed ? 7 : 7, flexGrow: 2}}>
                 <List>
                     {footerItems.map((item, index) => (
                         <ListItemButton
@@ -231,23 +290,24 @@ export const SidebarNavigation = ({session, isCollapsed, setIsCollapsed}: {sessi
                             }}
                         >
 
-                            <ListItemIcon sx={{ color: "#344054", minWidth: isCollapsed ? 0 : 40, }}>{item.icon}</ListItemIcon>
+                            <ListItemIcon
+                                sx={{color: "#344054", minWidth: isCollapsed ? 0 : 40,}}>{item.icon}</ListItemIcon>
                             {!isCollapsed && (
-                                <ListItemText primary={item.text} sx={{ color: "#344054" }} />
+                                <ListItemText primary={item.text} sx={{color: "#344054"}}/>
                             )}
                         </ListItemButton>
                     ))}
                 </List>
 
-                {!isCollapsed && <Divider sx={{ m: 3 }} />}
+                {!isCollapsed && <Divider sx={{m: 3}}/>}
 
                 {!isCollapsed ? (
                     !isSessionValid ? (
-                        <Box sx={{ mt: 2, m: 2 }}>
+                        <Box sx={{mt: 2, m: 2}}>
                             <Button
                                 variant="contained"
                                 fullWidth
-                                sx={{ mb: 1, bgcolor: "#2494B6" }}
+                                sx={{mb: 1, bgcolor: "#2494B6"}}
                                 href="/register"
                             >
                                 Sign up
@@ -266,23 +326,24 @@ export const SidebarNavigation = ({session, isCollapsed, setIsCollapsed}: {sessi
                                 borderRadius: 1,
                             }}
                         >
-                            <Avatar alt={`Profile picture of ${name}`} src={image} sx={{ width: 40, height: 40 }} />
-                            <Box sx={{ flexGrow: 1 }}>
-                                <Typography variant="subtitle1" color="#101828" sx={{ fontWeight: 600 }}>
+                            <Avatar alt={`Profile picture of ${name}`} src={image} sx={{width: 40, height: 40}}/>
+                            <Box sx={{flexGrow: 1}}>
+                                <Typography variant="subtitle1" color="#101828" sx={{fontWeight: 600}}>
                                     {name}
                                 </Typography>
                                 <Typography variant="body2" color="#475467">
                                     {email}
                                 </Typography>
                             </Box>
-                            <IconButton type="submit" onClick={handleSignOut} style={{ background: "none", border: "none", padding: 0 }}>
-                                <Image src="/exit.svg" alt="exit" width={24} height={24} />
+                            <IconButton type="submit" onClick={handleSignOut}
+                                        style={{background: "none", border: "none", padding: 0}}>
+                                <Image src="/exit.svg" alt="exit" width={24} height={24}/>
                             </IconButton>
                         </Box>
                     )
                 ) : (
-                    <Box sx={{ display: "flex", justifyContent: "center", mt: 3 }}>
-                        <Avatar alt={`Profile picture of ${name}`} src={image} sx={{ width: 40, height: 40 }} />
+                    <Box sx={{display: "flex", justifyContent: "center", mt: 3}}>
+                        <Avatar alt={`Profile picture of ${name}`} src={image} sx={{width: 40, height: 40}}/>
                     </Box>
                 )}
             </Box>
