@@ -1,0 +1,355 @@
+import React, { useState, useEffect } from 'react';
+import {
+    Box,
+    Typography,
+    TextField,
+    Button,
+    Select,
+    MenuItem,
+    FormControl,
+    InputLabel,
+    CircularProgress,
+} from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import axios from 'axios';
+
+// Define interfaces for data structures
+interface Country {
+    iso2: string;
+    name: string;
+}
+
+interface Province {
+    iso2: string;
+    name: string;
+}
+
+const Location: React.FC = () => {
+    const [regions] = useState<string[]>(['Africa', 'Americas', 'Asia', 'Europe', 'Oceania']);
+    const [countries, setCountries] = useState<Country[]>([]);
+    const [provinces, setProvinces] = useState<Province[]>([]);
+    const [selectedRegion, setSelectedRegion] = useState<string>('');
+    const [selectedCountry, setSelectedCountry] = useState<string>('');
+    const [selectedProvince, setSelectedProvince] = useState<string>('');
+    const [newCountry, setNewCountry] = useState<string>('');
+    const [newProvince, setNewProvince] = useState<string>('');
+    const [loadingCountries, setLoadingCountries] = useState<boolean>(false);
+    const [loadingProvinces, setLoadingProvinces] = useState<boolean>(false);
+
+    // API Key from CountryStateCity (replace with your actual key)
+    const API_KEY = 'YOUR_API_KEY_HERE';
+
+    // Fetch countries on component mount
+    useEffect(() => {
+        const fetchCountries = async () => {
+            setLoadingCountries(true);
+            try {
+                const response = await axios.get<Country[]>('https://api.countrystatecity.in/v1/countries', {
+                    headers: { 'X-CSCAPI-KEY': API_KEY },
+                });
+                setCountries(response.data);
+            } catch (error) {
+                console.error('Error fetching countries:', error);
+            }
+            setLoadingCountries(false);
+        };
+        fetchCountries();
+    }, []);
+
+    // Fetch provinces when a country is selected
+    useEffect(() => {
+        if (selectedCountry) {
+            const fetchProvinces = async () => {
+                setLoadingProvinces(true);
+                try {
+                    const response = await axios.get<Province[]>(
+                        `https://api.countrystatecity.in/v1/countries/${selectedCountry}/states`,
+                        { headers: { 'X-CSCAPI-KEY': API_KEY } }
+                    );
+                    setProvinces(response.data);
+                } catch (error) {
+                    console.error('Error fetching provinces:', error);
+                }
+                setLoadingProvinces(false);
+            };
+            fetchProvinces();
+        } else {
+            setProvinces([]);
+            setSelectedProvince('');
+        }
+    }, [selectedCountry]);
+
+    // Handle adding a new country
+    const handleAddCountry = () => {
+        if (newCountry.trim() && selectedRegion) {
+            const newCountryObj: Country = {
+                iso2: newCountry.trim().toUpperCase().slice(0, 2), // Generate a simple ISO2 code (for demo)
+                name: newCountry.trim(),
+            };
+            setCountries([...countries, newCountryObj]);
+            setNewCountry('');
+        }
+    };
+
+    // Handle adding a new province
+    const handleAddProvince = () => {
+        if (newProvince.trim() && selectedCountry) {
+            const newProvinceObj: Province = {
+                iso2: newProvince.trim().toUpperCase().slice(0, 2), // Generate a simple ISO2 code (for demo)
+                name: newProvince.trim(),
+            };
+            setProvinces([...provinces, newProvinceObj]);
+            setNewProvince('');
+        }
+    };
+
+    return (
+        <Box
+            sx= {{
+        width: '100%',
+            borderRadius: '12px',
+                backgroundColor: '#fff',
+                    overflow: 'hidden',
+                        display: 'flex',
+                            flexDirection: 'column',
+                                alignItems: 'flex-start',
+                                    justifyContent: 'flex-start',
+                                        fontFamily: '"Inter", sans-serif',
+                                            fontSize: '16px',
+                                                color: '#262d34',
+            }
+}
+        >
+    <Box sx={ { display: 'flex', flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'flex-start', width: '100%' } }>
+        {/* Region Dropdown */ }
+        < Box
+sx = {{
+    borderRadius: '12px 0 0 12px',
+        backgroundColor: '#fff',
+            borderRight: '1px solid #e6e7e8',
+                height: '632px',
+                    overflow: 'auto',
+                        display: 'flex',
+                            flexDirection: 'column',
+                                alignItems: 'flex-start',
+                                    justifyContent: 'flex-start',
+                                        padding: '16px',
+                                            gap: '16px',
+                                                color: '#475467',
+                    }}
+                >
+    <Box sx={ { width: '306px', display: 'flex', flexDirection: 'column', gap: '12px' } }>
+        <Box sx={ { display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 0 } }>
+            <Box sx={ { display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '8px', flex: 1 } }>
+                <Box sx={ { width: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' } }>
+                    <ChevronLeftIcon sx={ { fontSize: '20px' } } />
+                        </Box>
+                        < Typography sx = {{ fontSize: '16px', fontWeight: 600, lineHeight: '24px', color: '#262d34' }}>
+                            Region
+                            </Typography>
+                            </Box>
+                            </Box>
+                            < FormControl fullWidth >
+                                <InputLabel sx={ { fontSize: '14px', fontFamily: '"Inter", sans-serif' } }> Select Region </InputLabel>
+                                    < Select
+value = { selectedRegion }
+onChange = {(e) => {
+    setSelectedRegion(e.target.value as string);
+    setSelectedCountry('');
+    setSelectedProvince('');
+}}
+sx = {{
+    borderRadius: '8px',
+        '& .MuiSelect-select': { padding: '10px 14px', fontSize: '14px', fontFamily: '"Inter", sans-serif' },
+}}
+                            >
+{
+    regions.map((region) => (
+        <MenuItem key= { region } value = { region } >
+        { region }
+        </MenuItem>
+    ))
+}
+    </Select>
+    </FormControl>
+    </Box>
+    </Box>
+
+{/* Country Dropdown */ }
+<Box
+                    sx={
+    {
+        backgroundColor: '#fff',
+            borderRight: '1px solid #e6e7e8',
+                height: '632px',
+                    overflow: 'auto',
+                        display: 'flex',
+                            flexDirection: 'column',
+                                alignItems: 'flex-start',
+                                    justifyContent: 'flex-start',
+                                        padding: '16px',
+                                            gap: '16px',
+                                                color: '#475467',
+                    }
+}
+                >
+    <Box sx={ { width: '306px', display: 'flex', flexDirection: 'column', gap: '12px' } }>
+        <Box sx={ { display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 0 } }>
+            <Typography sx={ { fontSize: '16px', fontWeight: 600, lineHeight: '24px', color: '#262d34' } }>
+                Country
+                </Typography>
+                < Button
+variant = "text"
+startIcon = {< AddIcon />}
+onClick = { handleAddCountry }
+sx = {{ color: '#2494b6', textTransform: 'none', fontSize: '14px', padding: '8px 0', gap: '4px' }}
+disabled = {!selectedRegion || !newCountry.trim()}
+                            >
+    Add Country
+        </Button>
+        </Box>
+        < TextField
+fullWidth
+placeholder = "Enter Country"
+variant = "outlined"
+value = { newCountry }
+onChange = {(e) => setNewCountry(e.target.value)}
+sx = {{
+    '& .MuiOutlinedInput-root': {
+        borderRadius: '8px',
+            border: '1px solid #d0d5dd',
+                boxShadow: '0px 1px 2px rgba(16, 24, 40, 0.05)',
+                    fontSize: '14px',
+                        color: '#667085',
+                            fontFamily: '"Inter", sans-serif',
+                                },
+    '& .MuiInputBase-input': { padding: '10px 14px' },
+}}
+                        />
+    < FormControl fullWidth disabled = {!selectedRegion || loadingCountries}>
+        <InputLabel sx={ { fontSize: '14px', fontFamily: '"Inter", sans-serif' } }> Select Country </InputLabel>
+            < Select
+value = { selectedCountry }
+onChange = {(e) => {
+    setSelectedCountry(e.target.value as string);
+    setSelectedProvince('');
+}}
+sx = {{
+    borderRadius: '8px',
+        '& .MuiSelect-select': { padding: '10px 14px', fontSize: '14px', fontFamily: '"Inter", sans-serif' },
+}}
+                            >
+{
+    loadingCountries?(
+                                    <MenuItem disabled>
+    <CircularProgress size={ 20 } />
+        </MenuItem>
+                                ) : (
+    countries
+        .filter((country) => {
+            // Filter countries by region (mock mapping)
+            if (!selectedRegion) return true;
+            const regionCountries: { [key: string]: string[] } = {
+                Africa: ['ZA', 'NG', 'TN'],
+                Americas: ['US', 'CA', 'TT'],
+                Asia: ['VN', 'YE'],
+                Europe: ['UA', 'TR'],
+                Oceania: ['TV'],
+            };
+            return regionCountries[selectedRegion]?.includes(country.iso2);
+        })
+        .map((country) => (
+            <MenuItem key= { country.iso2 } value = { country.iso2 } >
+            { country.name }
+            </MenuItem>
+        ))
+                                )}
+</Select>
+    </FormControl>
+    </Box>
+    </Box>
+
+{/* Province Dropdown */ }
+<Box
+                    sx={
+    {
+        backgroundColor: '#fff',
+            borderRight: '1px solid #e6e7e8',
+                height: '632px',
+                    overflow: 'auto',
+                        display: 'flex',
+                            flexDirection: 'column',
+                                alignItems: 'flex-start',
+                                    justifyContent: 'flex-start',
+                                        padding: '16px',
+                                            gap: '16px',
+                                                color: '#475467',
+                    }
+}
+                >
+    <Box sx={ { width: '306px', display: 'flex', flexDirection: 'column', gap: '12px' } }>
+        <Box sx={ { display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 0 } }>
+            <Typography sx={ { fontSize: '16px', fontWeight: 600, lineHeight: '24px', color: '#262d34' } }>
+                Province
+                </Typography>
+                < Button
+variant = "text"
+startIcon = {< AddIcon />}
+onClick = { handleAddProvince }
+sx = {{ color: '#2494b6', textTransform: 'none', fontSize: '14px', padding: '8px 0', gap: '4px' }}
+disabled = {!selectedCountry || !newProvince.trim()}
+                            >
+    Add Province
+        </Button>
+        </Box>
+        < TextField
+fullWidth
+placeholder = "Enter Province"
+variant = "outlined"
+value = { newProvince }
+onChange = {(e) => setNewProvince(e.target.value)}
+sx = {{
+    '& .MuiOutlinedInput-root': {
+        borderRadius: '8px',
+            border: '1px solid #d0d5dd',
+                boxShadow: '0px 1px 2px rgba(16, 24, 40, 0.05)',
+                    fontSize: '14px',
+                        color: '#667085',
+                            fontFamily: '"Inter", sans-serif',
+                                },
+    '& .MuiInputBase-input': { padding: '10px 14px' },
+}}
+                        />
+    < FormControl fullWidth disabled = {!selectedCountry || loadingProvinces}>
+        <InputLabel sx={ { fontSize: '14px', fontFamily: '"Inter", sans-serif' } }> Select Province </InputLabel>
+            < Select
+value = { selectedProvince }
+onChange = {(e) => setSelectedProvince(e.target.value as string)}
+sx = {{
+    borderRadius: '8px',
+        '& .MuiSelect-select': { padding: '10px 14px', fontSize: '14px', fontFamily: '"Inter", sans-serif' },
+}}
+                            >
+{
+    loadingProvinces?(
+                                    <MenuItem disabled>
+    <CircularProgress size={ 20 } />
+        </MenuItem>
+                                ) : (
+    provinces.map((province) => (
+        <MenuItem key= { province.iso2 } value = { province.iso2 } >
+        { province.name }
+        </MenuItem>
+    ))
+                                )}
+</Select>
+    </FormControl>
+    </Box>
+    </Box>
+    </Box>
+    </Box>
+    );
+};
+
+export default Location;
