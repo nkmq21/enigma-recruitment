@@ -36,7 +36,12 @@ const ResetButton: FunctionComponent<{
     </Button>
 );
 
-const SlideOutMenu: FunctionComponent = () => {
+interface SlideOutMenuProps {
+    open: boolean;
+    onClose: () => void;
+}
+
+const SlideOutMenu: FunctionComponent<SlideOutMenuProps> = ({ open, onClose }) => {
 
     // Refs for each TextField
     const postDateRangeRef = useRef<HTMLInputElement | null>(null);
@@ -45,11 +50,6 @@ const SlideOutMenu: FunctionComponent = () => {
     const industriesRef = useRef<HTMLInputElement | null>(null);
     const jobFunctionsRef = useRef<HTMLInputElement | null>(null);
     const jobSubFunctionsRef = useRef<HTMLInputElement | null>(null);
-    const [checkedTypes, setCheckedTypes] = useState({
-        experienceLevel: ['Fresher'], // Initial state
-        employmentType: ['Permanent'],
-        workArrangement: ['On-site'],
-    });
     // Reset handler for specific filter sections
     const handleReset = (filterName: string) => {
         switch (filterName) {
@@ -67,31 +67,28 @@ const SlideOutMenu: FunctionComponent = () => {
                 if (jobFunctionsRef.current) jobFunctionsRef.current.value = '';
                 if (jobSubFunctionsRef.current) jobSubFunctionsRef.current.value = '';
                 break;
-            case 'Experience Level':
-                setCheckedTypes((prev) => ({ ...prev, experienceLevel: [] }));
             default:
                 console.log(`No reset logic for ${filterName}`);
         }
     };
 
-    const [value, setValue] = React.useState([0, 2000]);
+    // const [value, setValue] = React.useState([0, 2000]);
 
-    const handleChange = (event: any, newValue: React.SetStateAction<number[]>) => {
-        setValue(newValue);
+    // const handleChange = (event: any, newValue: React.SetStateAction<number[]>) => {
+    //     setValue(newValue);
+    // };
+
+    // State for date picker dialog
+    const [datePickerOpen, setDatePickerOpen] = useState(false);
+
+    const handleDatePickerOpen = () => {
+        setDatePickerOpen(true);
     };
 
-    // State to control dialog open/close
-    const [open, setOpen] = useState(false);
-
-    // Handle opening the dialog
-    const handleOpen = () => {
-        setOpen(true);
+    const handleDatePickerClose = () => {
+        setDatePickerOpen(false);
     };
 
-    // Handle closing the dialog
-    const handleClose = () => {
-        setOpen(false);
-    };
     return (
         <ThemeProvider theme={theme} >
             <Box
@@ -126,13 +123,13 @@ const SlideOutMenu: FunctionComponent = () => {
                     <Typography variant="h6" fontWeight={600} color='#101828'>
                         Filters by
                     </Typography>
-                    <IconButton sx={{ ml: 'auto' }}>
+                    <IconButton sx={{ ml: 'auto' }} onClick={onClose}>
                         <Close />
                     </IconButton>
                 </Box>
 
                 {/* Content */}
-                <Box sx={{ p: 3, display: 'flex', flexDirection: 'column', gap: 3, flex: 1, mb: 20 }}>
+                <Box sx={{ p: 3, display: 'flex', flexDirection: 'column', gap: 3, flex: 1 }}>
                     {/* Post Date Range */}
                     <Box>
                         <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.5 }}>
@@ -144,6 +141,7 @@ const SlideOutMenu: FunctionComponent = () => {
                             variant="outlined"
                             inputRef={postDateRangeRef}
                             placeholder="From - To"
+                            aria-readonly
                             InputProps={{
                                 startAdornment: <Image src='/calendar.svg' alt='calendar' height={20} width={20} style={{ marginRight: '10px' }} />,
                                 endAdornment:
@@ -151,7 +149,7 @@ const SlideOutMenu: FunctionComponent = () => {
                                         <ArrowDropDown sx={{ color: 'grey.600' }} />
                                     </IconButton>,
                             }}
-                            onClick={handleOpen}
+                            onClick={handleDatePickerOpen}
                             sx={{
                                 "& .MuiInputLabel-asterisk": {
                                     color: "#236785"
@@ -161,8 +159,9 @@ const SlideOutMenu: FunctionComponent = () => {
                                 },
                             }}
                         />
-                        <Dialog open={open}
-                            onClose={handleClose}
+                        <Dialog
+                            open={datePickerOpen}
+                            onClose={handleDatePickerClose}
                             maxWidth="md"
                             fullWidth
                             PaperProps={{
@@ -170,7 +169,7 @@ const SlideOutMenu: FunctionComponent = () => {
                                     borderRadius: '12px', // Apply rounded corners here
                                 },
                             }}>
-                            <DatePickerMenu />
+                            <DatePickerMenu onClose={handleDatePickerClose} />
                         </Dialog>
                     </Box>
 
@@ -208,18 +207,6 @@ const SlideOutMenu: FunctionComponent = () => {
                         </Box>
                     </Box>
 
-                    {/* Experience Level */}
-                    <Box>
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-                            <Typography variant='body2' fontWeight={500} color='#31373d'>Experience Level</Typography>
-                            <ResetButton filterName="Experience Level" onReset={handleReset} />
-                        </Box>
-                        <CheckboxGroup
-                            types={['Fresher', 'Junior', 'Midle', 'Senior', 'Lead', 'Manager',]}
-                            defaultChecked={['Fresher']}
-                        />
-                    </Box>
-
                     {/* Salary Range */}
                     <Box>
                         <SalaryFilter />
@@ -237,17 +224,6 @@ const SlideOutMenu: FunctionComponent = () => {
                         />
                     </Box>
 
-                    {/* Work Arrangement */}
-                    <Box>
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-                            <Typography variant='body2' fontWeight={500} color='#31373d'>Work Arrangement</Typography>
-                            <ResetButton filterName="Work Arrangement" onReset={handleReset} />
-                        </Box>
-                        <CheckboxGroup
-                            types={['On-site', 'Remote', 'Hybrid']}
-                            defaultChecked={['On-site']}
-                        />
-                    </Box>
                 </Box>
 
                 {/* Footer */}
@@ -271,14 +247,14 @@ const SlideOutMenu: FunctionComponent = () => {
                                     borderColor: '#D0D5DD',
                                     borderRadius: '8px'
                                 }}
-                                onClick={handleClose}>
+                                onClick={onClose}>
                                 Cancel
                             </Button>
                             <Button variant="contained"
                                 sx={{
                                     borderColor: ' rgba(255, 255, 255, 0.12)'
                                 }}
-                                onClick={handleClose}>
+                                onClick={onClose}>
                                 Apply
                             </Button>
                         </Box>

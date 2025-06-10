@@ -490,6 +490,37 @@ INSERT INTO job_subfunctions VALUES
 ('WEB', 'Welders & Boilermakers', 'TRS'),
 ('OTR', 'Others', 'TRS');
 
+INSERT INTO jobs (job_id, job_title, description, salary_range_start, salary_range_end, close_date, industry_id, job_function_id, job_subfunction_id, location, status, employment_type) VALUES
+('AER_ENG_001', 'Aerospace Engineer', 'Design and test aircraft systems.', 80000.00, 120000.00, '2025-06-30', 'AER', 'ENG', 'PRJ', 'Bangkok', 'active', 'permanent'),
+('AUT_SAL_002', 'Automotive Sales Representative', 'Sell vehicles and provide customer support.', 40000.00, 70000.00, '2025-07-15', 'AUT', 'SAL', 'SRC', 'Chiang Mai', 'active', 'permanent'),
+('APF_MAC_003', 'Marketing Coordinator', 'Develop marketing campaigns for apparel.', 45000.00, 65000.00, '2025-08-01', 'APF', 'MAC', 'MAC', 'Phuket', 'prioritized', 'permanent'),
+('CHE_SCT_004', 'Chemical Analyst', 'Analyze chemical compounds for safety.', 60000.00, 85000.00, '2025-06-20', 'CHE', 'SCT', 'CHP', 'Rayong', 'active', 'contract'),
+('COS_MAC_005', 'Brand Manager', 'Manage cosmetics brand identity.', 70000.00, 100000.00, '2025-07-10', 'COS', 'MAC', 'BRM', 'Nonthaburi', 'active', 'permanent'),
+('ELC_ICT_006', 'Software Developer', 'Develop firmware for electronics.', 90000.00, 130000.00, '2025-06-25', 'ELC', 'ICT', 'DEV', 'Chon Buri', 'prioritized', 'permanent'),
+('FOB_RET_007', 'Store Manager', 'Manage retail operations for food store.', 50000.00, 75000.00, '2025-07-05', 'FOB', 'RET', 'MST', 'Khon Kaen', 'active', 'permanent'),
+('FUR_CON_008', 'Construction Supervisor', 'Oversee furniture manufacturing facility.', 65000.00, 90000.00, '2025-06-15', 'FUR', 'CON', 'FOS', 'Samut Prakan', 'active', 'contract'),
+('IME_ENG_009', 'Maintenance Engineer', 'Maintain industrial machinery.', 70000.00, 95000.00, '2025-07-20', 'IME', 'ENG', 'MAE', 'Ayutthaya', 'active', 'permanent'),
+('JRY_ADM_010', 'Creative Designer', 'Design jewelry marketing materials.', 55000.00, 80000.00, '2025-06-30', 'JRY', 'ADM', 'ARD', 'Hat Yai', 'active', 'permanent'),
+('LAP_MAC_011', 'Marketing Assistant', 'Support packaging marketing efforts.', 40000.00, 60000.00, '2025-07-01', 'LAP', 'MAC', 'MAC', 'Nakhon Ratchasima', 'active', 'temporary'),
+('MED_HEM_012', 'Registered Nurse', 'Provide patient care in hospital.', 60000.00, 90000.00, '2025-06-20', 'MED', 'HEM', 'NGM', 'Pattaya', 'prioritized', 'permanent'),
+('AER_ICT_014', 'Network Engineer', 'Maintain aerospace IT networks.', 85000.00, 110000.00, '2025-06-25', 'AER', 'ICT', 'ENN', 'Udon Thani', 'active', 'permanent'),
+('AUT_ACC_015', 'Financial Analyst', 'Analyze automotive financial data.', 65000.00, 90000.00, '2025-07-15', 'AUT', 'ACC', 'ANR', 'Surat Thani', 'active', 'permanent'),
+('APF_RET_016', 'Retail Assistant', 'Assist customers in apparel store.', 30000.00, 45000.00, '2025-06-30', 'APF', 'RET', 'REA', 'Nakhon Si Thammarat', 'active', 'temporary'),
+('CHE_ENG_017', 'Process Engineer', 'Optimize chemical production processes.', 75000.00, 100000.00, '2025-07-05', 'CHE', 'ENG', 'PRE', 'Saraburi', 'active', 'permanent'),
+('COS_SAL_018', 'Sales Consultant', 'Promote cosmetics to retailers.', 40000.00, 65000.00, '2025-06-20', 'COS', 'SAL', 'SRC', 'Krabi', 'active', 'contract'),
+('ELC_ENG_019', 'Design Engineer', 'Design electronic components.', 80000.00, 115000.00, '2025-07-10', 'ELC', 'ENG', 'DEE', 'Samut Sakhon', 'prioritized', 'permanent'),
+('FOB_HOT_020', 'Chef', 'Prepare food in restaurant.', 45000.00, 70000.00, '2025-06-15', 'FOB', 'HOT', 'CHF', 'Ubon Ratchathani', 'active', 'permanent'),
+('FUR_AOS_021', 'Administrative Assistant', 'Support furniture office operations.', 35000.00, 50000.00, '2025-07-01', 'FUR', 'AOS', 'ADA', 'Lampang', 'active', 'temporary'),
+('IME_MTL_022', 'Machine Operator', 'Operate industrial machinery.', 40000.00, 60000.00, '2025-06-25', 'IME', 'MTL', 'MAO', 'Phitsanulok', 'active', 'contract'),
+('JRY_SAL_023', 'Account Manager', 'Manage jewelry client accounts.', 60000.00, 85000.00, '2025-07-05', 'JRY', 'SAL', 'ARM', 'Songkhla', 'active', 'permanent'),
+('LAP_CON_024', 'Project Manager', 'Oversee packaging projects.', 70000.00, 95000.00, '2025-06-30', 'LAP', 'CON', 'PRM', 'Chachoengsao', 'active', 'permanent'),
+('MED_SCT_025', 'Lab Technician', 'Conduct medical lab tests.', 50000.00, 75000.00, '2025-07-15', 'MED', 'SCT', 'LAB', 'Nakhon Pathom', 'active', 'permanent'),
+('MET_TRS_026', 'Electrician', 'Install electrical systems in metalwork.', 45000.00, 65000.00, '2025-06-20', 'MET', 'TRS', 'ELC', 'Ratchaburi', 'active', 'contract'),
+('AER_ACC_027', 'Payroll Specialist', 'Manage aerospace payroll.', 50000.00, 70000.00, '2025-07-01', 'AER', 'ACC', 'PRL', 'Sukhothai', 'active', 'permanent'),
+('AUT_HRR_028', 'HR Coordinator', 'Support automotive HR processes.', 45000.00, 65000.00, '2025-06-25', 'AUT', 'HRR', 'COG', 'Trang', 'active', 'temporary'),
+('APF_DEA_029', 'Fashion Designer', 'Design apparel products.', 60000.00, 90000.00, '2025-07-10', 'APF', 'DEA', 'FTD', 'Phuket', 'prioritized', 'permanent'),
+('CHE_MRE_030', 'Environmental Specialist', 'Ensure compliance in chemical operations.', 65000.00, 85000.00, '2025-06-30', 'CHE', 'MRE', 'HSE', 'Pathum Thani', 'active', 'permanent');
+
 INSERT INTO jobs VALUES
 ('TRS_TEC_001', 'GAMING', 'GAMRT', '10000.00', '30000.00', '12-31-2069', 'IME', 'TRS', 'TEC', 'Nigeria', 'priorDitized', 'permanent');
 
