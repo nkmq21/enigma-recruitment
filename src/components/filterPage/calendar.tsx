@@ -9,7 +9,11 @@ import { format, startOfMonth, endOfMonth, eachDayOfInterval, getDay, isWithinIn
 import type { } from '@mui/x-date-pickers/themeAugmentation';
 import theme from '../font/theme';
 
-const DatePickerMenu: FunctionComponent = () => {
+interface DatePickerMenuProps {
+    onClose: () => void;
+}
+
+const DatePickerMenu: FunctionComponent<DatePickerMenuProps> = ({ onClose }) => {
     const [startDate, setStartDate] = useState<Date | null>(new Date('2024-01-12'));
     const [endDate, setEndDate] = useState<Date | null>(new Date('2024-01-18'));
     const [leftMonth, setLeftMonth] = useState<Date>(new Date('2024-01-01')); // January 2024
@@ -375,6 +379,7 @@ const DatePickerMenu: FunctionComponent = () => {
                         <Box sx={{ display: 'flex', gap: '12px' }}>
                             <Button
                                 variant="outlined"
+                                onClick={onClose}
                                 sx={{
                                     borderRadius: '8px',
                                     border: '1px solid #d0d5dd',
@@ -395,6 +400,9 @@ const DatePickerMenu: FunctionComponent = () => {
                                     textTransform: 'none',
                                     fontWeight: 600,
                                     '&:hover': { backgroundColor: '#1e7a96' },
+                                }}
+                                onClick={() => {
+                                    onClose()
                                 }}
                             >
                                 Apply
