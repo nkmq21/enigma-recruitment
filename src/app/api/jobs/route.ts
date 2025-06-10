@@ -1,6 +1,4 @@
 import {NextRequest, NextResponse} from 'next/server';
-import {prisma} from '../../../../prisma/prisma';
-import {JobLocation, JobIndustry} from 'enigma/services/jobServices';
 import {JobRepositoriy} from "enigma/repositories/jobRepositoriy";
 
 
@@ -14,9 +12,6 @@ export async function GET(request: NextRequest) {
 
     try {
         //fetch filter options
-        const allLocation = await JobLocation();
-        const allIndustries = await JobIndustry();
-
         const jobRepository = new JobRepositoriy();
         const {jobs, total} = await jobRepository.findBySearch(query, status, page, limit);
 

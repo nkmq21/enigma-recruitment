@@ -6,6 +6,7 @@ import DashboardUser from "./mainContent";
 import Image from "next/image";
 import theme from "enigma/components/font/theme";
 import {Session} from "next-auth";
+import {User} from "enigma/types/models";
 export default function UserManagement({session}: {session: Session | null}) {
     // 19% for expanded sidebar, 6% for collapsed sidebar
     const [isCollapsed, setIsCollapsed] = React.useState(false);
@@ -35,8 +36,7 @@ export default function UserManagement({session}: {session: Session | null}) {
                                zIndex: -1, // Place the image behind all other content
                                height: 'auto', // Optional: Maintain aspect ratio
                            }} />
-                    <DashboardUser />
-
+                    <DashboardUser/>
                 </Box>
             </Box>
         </ThemeProvider>

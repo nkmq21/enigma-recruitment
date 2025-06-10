@@ -2,11 +2,7 @@
 import {NextResponse} from 'next/server';
 import {prisma} from '../../../../prisma/prisma';
 import {auth} from 'enigma/auth';
-
-const JWT_SECRET = process.env.JWT_SECRET;
-if (!JWT_SECRET) {
-    throw new Error('JWT_SECRET is not defined');
-}
+import {getUsers} from "enigma/services/userServices";
 
 export async function GET(request: Request) {
     try {
@@ -17,20 +13,11 @@ export async function GET(request: Request) {
                 {status: 401}
             );
         }
-        const users = await prisma.user.findMany({
-            select: {
-                id: true,
-                email: true,
-                name: true,
-                role: true,
-                status: true,
-                image: true,
-                dob: true,
-                address: true,
-            },
-        });
-
-        return NextResponse.json(users);
+        const users = await getUsers();
+        if (!users) {
+            return NextResponse.json({error: 'No users found!'});
+        }
+        return users;
     } catch (error) {
         console.error('Error fetching users:', error);
         return NextResponse.json(

@@ -6,6 +6,6 @@ import UserManagement from "enigma/components/admin/user/userManager";
 export default async function UsersPage() {
     const session = await auth();
     return (
-        <UserManagement session={session}/>
+        <UserManagement session={session} />
     );
 }

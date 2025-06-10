@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
     Table,
     TableBody,
@@ -16,28 +16,37 @@ import {
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
-
-// Sample data
-const tableData = [
-    { name: 'Olivia Rhye', handle: '@olivia', userId: '#1425', role: 'Admin', email: 'olivia@untitledui.com', specializations: ['Design', 'Product', 'Marketing', '+4'], status: 'Active' },
-    { name: 'Phoenix Baker', handle: '@phoenix', userId: '#1425', role: 'Seeker', email: 'phoenix@untitledui.com', specializations: ['Design', 'Product', 'Marketing', '+4'], status: 'Deactivated' },
-    { name: 'Lana Steiner', handle: '@lana', userId: '#1425', role: 'Seeker', email: 'lana@untitledui.com', specializations: ['Design', 'Product', 'Marketing', '+4'], status: 'Active' },
-    { name: 'Demi Wilkinson', handle: '@demi', userId: '#1425', role: 'Seeker', email: 'demi@untitledui.com', specializations: ['Design', 'Product', 'Marketing', '+4'], status: 'Active' },
-    { name: 'Candice Wu', handle: '@candice', userId: '#1425', role: 'Admin', email: 'candice@untitledui.com', specializations: ['Design', 'Product', 'Marketing', '+4'], status: 'Active' },
-    { name: 'Natali Craig', handle: '@natali', userId: '#1425', role: 'Seeker', email: 'natali@untitledui.com', specializations: ['Design', 'Product', 'Marketing', '+4'], status: 'Deactivated' },
-    { name: 'Drew Cano', handle: '@drew', userId: '#1425', role: 'Seeker', email: 'drew@untitledui.com', specializations: ['Design', 'Product', 'Marketing', '+4'], status: 'Active' },
-    { name: 'Orlando Diggs', handle: '@orlando', userId: '#1425', role: 'Admin', email: 'orlando@untitledui.com', specializations: ['Design', 'Product', 'Marketing', '+4'], status: 'Active' },
-    { name: 'Andi Lane', handle: '@andi', userId: '#1425', role: 'Seeker', email: 'andi@untitledui.com', specializations: ['Design', 'Product', 'Marketing', '+4'], status: 'Active' },
-    { name: 'Kate Morrison', handle: '@kate', userId: '#1425', role: 'Seeker', email: 'kate@untitledui.com', specializations: ['Design', 'Product', 'Marketing', '+4'], status: 'Active' },
-];
+import {User} from "enigma/types/models";
 
 const DashboardUser = () => {
     const [page, setPage] = useState(0);
+    const [loading, setLoading] = useState(false);
+    const [users, setUsers] = useState<User[]>([]);
+    const [error, setError] = useState("");
     const rowsPerPage = 10;
 
     const handleChangePage = (direction: string) => {
         setPage((prev) => (direction === 'next' ? prev + 1 : prev - 1));
     };
+
+    useEffect(() => {
+        const fetchUsers = async () => {
+            try {
+                setLoading(true);
+                const response = await fetch('/api/users');
+                if (!response.ok) {
+                    throw new Error("Error: " + response.statusText);
+                }
+                const data = await response.json();
+                setUsers(data);
+            } catch (err) {
+                setError("[ERR] /admin/users->UserManagement->DashboardUser fetched api/users: " + err);
+            } finally {
+                setLoading(false);
+            }
+        }
+        fetchUsers();
+    }, []);
 
     return (
         <TableContainer sx={{ border: '1px solid #e4e7ec', borderRadius: '12px' }}>
@@ -53,42 +62,25 @@ const DashboardUser = () => {
                             </Box>
                         </TableCell>
                         <TableCell sx={{ bgcolor: '#f9fafb', fontSize: '12px' }}>Email address</TableCell>
-                        <TableCell sx={{ bgcolor: '#f9fafb', fontSize: '12px' }}>Specializations</TableCell>
                         <TableCell sx={{ bgcolor: '#f9fafb', fontSize: '12px' }}>Status</TableCell>
                         <TableCell sx={{ bgcolor: '#f9fafb', fontSize: '12px' }}>Action</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {tableData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => (
+                    {users.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => (
                         <TableRow key={index}>
                             <TableCell>
                                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
                                     <Avatar sx={{ width: 40, height: 40 }} />
                                     <Box>
                                         <Typography fontWeight={500}>{row.name}</Typography>
-                                        <Typography fontSize="14px" color="text.secondary">{row.handle}</Typography>
+                                        <Typography fontSize="14px" color="text.secondary">@{row.name.split(' ')[0]}</Typography>
                                     </Box>
                                 </Box>
                             </TableCell>
-                            <TableCell>{row.userId}</TableCell>
+                            <TableCell>{row.id}</TableCell>
                             <TableCell>{row.role}</TableCell>
                             <TableCell>{row.email}</TableCell>
-                            <TableCell>
-                                <Box sx={{ display: 'flex', gap: 1 }}>
-                                    {row.specializations.map((spec, i) => (
-                                        <Chip
-                                            key={i}
-                                            label={spec}
-                                            size="small"
-                                            sx={{
-                                                borderRadius: '16px',
-                                                bgcolor: spec === 'Design' ? '#f9f5ff' : spec === 'Product' ? '#eff8ff' : spec === 'Marketing' ? '#eef4ff' : '#f9fafb',
-                                                color: spec === 'Design' ? '#6941c6' : spec === 'Product' ? '#175cd3' : spec === 'Marketing' ? '#3538cd' : '#344054',
-                                            }}
-                                        />
-                                    ))}
-                                </Box>
-                            </TableCell>
                             <TableCell>
                                 <Chip
                                     label={row.status}
@@ -101,7 +93,7 @@ const DashboardUser = () => {
                                 />
                             </TableCell>
                             <TableCell>
-                                <Button sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                                <Button sx={{ display: 'flex', alignItems: 'center', gap: 1 }} href={`/admin/users/${row.id}`}>
                                     <Typography>View details</Typography>
                                     <ArrowRightIcon sx={{ fontSize: '16px' }} />
                                 </Button>
@@ -161,7 +153,7 @@ const DashboardUser = () => {
                 <Button
                     endIcon={<ArrowRightIcon />}
                     onClick={() => handleChangePage('next')}
-                    disabled={page >= Math.ceil(tableData.length / rowsPerPage) - 1}
+                    disabled={page >= Math.ceil(users.length / rowsPerPage) - 1}
                     sx={{
                         textTransform: 'none',
                         border: '1px solid #d0d5dd',

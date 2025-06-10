@@ -11,24 +11,35 @@ import {signIn} from "enigma/auth";
 import {AuthError} from "next-auth";
 import * as vts from "./verificationTokenServices"
 import {sendVerificationEmail} from "enigma/services/mailServices";
-import {auth} from "enigma/auth";
+import {NextResponse} from "next/server";
 
-export async function getUsers(): Promise<User[]> {
-    const response = await fetch('/api/users', {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json'
+export const getUsers = async () => {
+    try {
+        const users = await prisma.user.findMany({
+            select: {
+                id: true,
+                email: true,
+                name: true,
+                role: true,
+                status: true,
+                image: true,
+                dob: true,
+                address: true,
+            }
+        });
+        if (!users) {
+            console.error("userServices.getUsers: Users not found");
+            return null;
         }
-    });
-    const data = await response.json();
-    if (!response.ok) {
-        throw new Error('Failed to fetch users: ' + data.error);
+        console.log("userServices.getUsers: Users", users);
+        return NextResponse.json(users);
+    } catch (error) {
+        console.error("userServices.getUsers: Error fetching user: ", error);
+        return null;
     }
-
-    return data;
 }
 
-export const getUser = async(id: string) => {
+export const getUser = async (id: string) => {
     try {
         const user = await prisma.user.findUnique({
             where: {id: parseInt(id)}
@@ -37,14 +48,14 @@ export const getUser = async(id: string) => {
             console.error("userServices.getUser: User not found");
             return null;
         }
-        return user;
+        return NextResponse.json(user);
     } catch (error) {
         console.error("userServices.getUser: Error fetching user: ", error);
         return null;
     }
 }
 
-export const getAccount = async(userId: string)  => {
+export const getAccount = async (userId: string)  => {
     // Fetch the user account from the database if they log in with 3rd party services
     try {
         const account = await prisma.account.findFirst({

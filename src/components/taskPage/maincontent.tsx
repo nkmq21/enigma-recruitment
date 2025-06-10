@@ -1,7 +1,6 @@
 "use client";
 import * as React from "react";
 import SectionTitle from "../font/sectionTitle";
-import LogoHeader from "../logoHeader";
 import SearchBar from "../searchBar";
 import CTA from "../common/cta";
 import { JobListPage } from "../home/JobCard";
@@ -75,7 +74,7 @@ export const MainContent = () => {
             </Typography>
 
             {/* Search and Filter */}
-            <SearchBar />
+            <SearchBar placeholder="Job title, description, or industry name"/>
 
             {/* Popular Jobs */}
             <Box sx={{
@@ -138,10 +137,8 @@ export const MainContent = () => {
                             <Typography variant="body1">No jobs found matching your criteria.</Typography>
                         </Box>
                     )}
-
                 </Box>
             </Box>
-
         </Box>
     );
 };

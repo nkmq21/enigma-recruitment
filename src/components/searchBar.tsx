@@ -5,7 +5,7 @@ import {FilterSortBar} from './filterSortBar';
 import {usePathname, useSearchParams, useRouter} from "next/navigation";
 import {useState} from "react";
 
-export default function SearchBar() {
+export default function SearchBar({placeholder}: {placeholder?: string}) {
     const router = useRouter();
     const pathName = usePathname();
     const searchParams = useSearchParams();
@@ -57,7 +57,7 @@ export default function SearchBar() {
                     variant="outlined"
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
-                    placeholder="Job title, description, or industry name"
+                    placeholder={placeholder}
                     InputProps={{
                         startAdornment: (
                             <InputAdornment position="start">
@@ -92,9 +92,7 @@ export default function SearchBar() {
                     Search
                 </Button>
             </form>
-
             <FilterSortBar/>
-
         </Box>
     );
 }
