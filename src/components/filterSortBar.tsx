@@ -99,7 +99,10 @@ export function FilterSortBar() {
                     },
                 }}
             >
-                <SlideOutMenu />
+                <SlideOutMenu
+                    open={open}
+                    onClose={handleClose}
+                />
             </Dialog>
         </Box>
     );

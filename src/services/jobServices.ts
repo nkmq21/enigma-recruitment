@@ -30,16 +30,57 @@ export async function JobLocation() {
     return jobLocation.map((job) => job.location);
 }
 
-export async function JobIndustry() {
-    const jobIndustry = await prisma.industry.findMany({
-        select: {
-            industry_name: true,
-        },
-        orderBy: {
-            industry_name: 'asc',
-        }
-    });
+export class FilterService {
+    async getIndustries() {
+        const industries = await prisma.industry.findMany({
+            select: {
+                industry_name: true,
+            },
+            orderBy: {
+                industry_name: 'asc',
+            },
+            distinct: ['industry_name']
+        });
+        return industries.map((jobIndustry) => jobIndustry.industry_name);
+    }
 
-    //map to string[]
-    return jobIndustry.map((jobIndustry) => jobIndustry.industry_name);
+    async getJobFunctions() {
+        const jobFunctions = await prisma.jobFunction.findMany({
+            select: {
+                job_function_name: true,
+            },
+            orderBy: {
+                job_function_name: 'asc'
+            },
+            distinct: ['job_function_name']
+        });
+        return jobFunctions.map((jobFunction) => jobFunction.job_function_name);
+    }
+
+    async getJobSubfunctions() {
+        const jobSubfunctions = await prisma.jobSubfunction.findMany({
+            select: {
+                job_subfunction_name: true
+            },
+            orderBy: {
+                job_subfunction_name: 'asc'
+            },
+            distinct: ['job_subfunction_name']
+        });
+        return jobSubfunctions.map((jobSubfunction) => jobSubfunction.job_subfunction_name);
+    }
+
+    async getLocations() {
+        const jobLocation = await prisma.job.findMany({
+            where: {
+                status: "active",
+            },
+            select: {
+                location: true,
+            },
+            distinct: ['location'],
+        });
+        return jobLocation.map((job) => job.location);
+    }
+
 }
