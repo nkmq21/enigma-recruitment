@@ -1,0 +1,572 @@
+-- Version 3
+CREATE TABLE users (
+	user_id SERIAL PRIMARY KEY NOT NULL,
+	email VARCHAR(255) NOT NULL,
+	user_name TEXT NOT NULL,
+	password TEXT,
+	role TEXT NOT NULL CHECK (role IN ('seeker', 'moderator', 'admin')),
+	status TEXT NOT NULL CHECK (status IN ('deactivated', 'active')),
+	img_url TEXT,
+	dob DATE,
+	address TEXT
+);
+
+INSERT INTO users (email, user_name, password, role, status, img_url, dob, address) 
+VALUES ('nigga@gmail.com', 'nigga', 'nigga', 'admin', 'active', 'img_url', '2005-05-19', 'nigeria');
+
+CREATE TABLE industries (
+	industry_id VARCHAR(3) PRIMARY KEY NOT NULL,
+	industry_name TEXT NOT NULL
+);
+
+INSERT INTO industries VALUES 
+('AER', 'Aerospace'),
+('AUT', 'Automotive'),
+('APF', 'Apparel & Footwear'),
+('CHE', 'Chemicals'),
+('COS', 'Cosmetics'),
+('ELC', 'Electronics'),
+('FOB', 'Food & Beverages'),
+('FUR', 'Furniture'),
+('IME', 'Industrial Machinery & Equipment'),
+('JRY', 'Jewelry'),
+('LAP', 'Labels & Packaging'),
+('MED', 'Medical & Pharmaceuticals'),
+('MET', 'Metal Work & Fabrication');
+
+CREATE TABLE job_functions (
+	job_function_id VARCHAR(3) PRIMARY KEY NOT NULL,
+	job_function_name TEXT NOT NULL,
+);
+
+INSERT INTO job_functions VALUES
+('ACC', 'Accounting'),
+('AOS', 'Administration & Office Support'),
+('ADM', 'Advertising, Arts & Media'),
+('BAF', 'Banking & Financial Services'),
+('CCS', 'Call Center & Customer Services'),
+('CEO', 'CEO & General Management'),
+('COM', 'Community Services & Development'),
+('CON', 'Construction'),
+('COS', 'Consulting & Strategy'),
+('DEA', 'Design & Architecture'),
+('EDU', 'Education & Training'),
+('ENG', 'Engineering'),
+('FAR', 'Farming, Animals & Conservation'),
+('GOV', 'Government & Defense'),
+('HEM', 'Healthcare & Medical'),
+('HOT', 'Hospitality & Tourism'),
+('HRR', 'Human Resources & Recruitment'),
+('ICT', 'Information & Communication Technology'),
+('INS', 'Insurance & Superannuation'),
+('LEG', 'Legal'),
+('MTL', 'Manufacturing, Transport & Logistics'),
+('MAC', 'Marketing & Communications'),
+('MRE', 'Mining, Resources & Energy'),
+('RES', 'Real Estate & Property'),
+('RET', 'Retail & Consumer Products'),
+('SAL', 'Sales'),
+('SCT', 'Science & Technology'),
+('SEM', 'Self Employment'),
+('SPR', 'Sport & Recreation'),
+('TRS', 'Trades & Services');
+
+SELECT * FROM job_functions;
+
+CREATE TABLE job_subfunctions (
+	job_subfunction_id VARCHAR(3) NOT NULL,
+	job_subfunction_name TEXT NOT NULL,
+	job_function_id VARCHAR(3) NOT NULL,
+	PRIMARY KEY (job_function_id, job_subfunction_id),
+	FOREIGN KEY (job_function_id) REFERENCES job_functions (job_function_id)
+);
+
+INSERT INTO job_subfunctions VALUES
+-- Accounting
+('AOC', 'Accounts Officers/Clerks', 'ACC'),
+('ACP', 'Accounts Payable', 'ACC'),
+('ARC', 'Accounts Receivable/Credit Control', 'ACC'),
+('ANR', 'Analysis & Reporting', 'ACC'),
+('ASS', 'Assistant Accountants', 'ACC'),
+('AUE', 'Audit - External', 'ACC'),
+('AUI', 'Audit - Internal', 'ACC'),
+('BKA', 'Bookkeeping & Small Practice Accounting', 'ACC'),
+('BSA', 'Business Services & Corporate Advisory', 'ACC'),
+('COS', 'Company Secretaries', 'ACC'),
+('COR', 'Compliance & Risk', 'ACC'),
+('COA', 'Cost Accounting', 'ACC'),
+('FAR', 'Financial Accounting & Reporting', 'ACC'),
+('FMC', 'Financial Managers & Controllers', 'ACC'),
+('FOR', 'Forensic Accounting & Investigation', 'ACC'),
+('ICR', 'Insolvency & Corporate Recovery', 'ACC'),
+('INV', 'Inventory & Fixed Assets', 'ACC'),
+('MGT', 'Management', 'ACC'),
+('MAB', 'Management Accounting & Budgeting', 'ACC'),
+('PRL', 'Payroll', 'ACC'),
+('STP', 'Strategy & Planning', 'ACC'),
+('SIT', 'Systems Accounting & IT Audit', 'ACC'),
+('TAX', 'Taxation', 'ACC'),
+('TRS', 'Treasury', 'ACC'),
+('OTR', 'Others', 'ACC'),
+
+-- Administration & Office Support
+('ADA', 'Administrative Assistants', 'AOS'),
+('CSA', 'Client & Sales Administration', 'AOS'),
+('COA', 'Contracts Administration', 'AOS'),
+('DEP', 'Data Entry & Word Processing', 'AOS'),
+('OFM', 'Office Management', 'AOS'),
+('PES', 'PA, EA & Secretarial', 'AOS'),
+('RCP', 'Receptionists', 'AOS'),
+('RDC', 'Records Management & Document Control', 'AOS'),
+('OTR', 'Others', 'AOS'),
+
+-- Advertising, Arts & Media
+('AAM', 'Agency Account Management', 'ADM'),
+('ARD', 'Art Direction', 'ADM'),
+('EDP', 'Editing & Publishing', 'ADM'),
+('EVM', 'Event Management', 'ADM'),
+('JOW', 'Journalism & Writing', 'ADM'),
+('MGT', 'Management', 'ADM'),
+('MES', 'Media Strategy, Planning & Buying', 'ADM'),
+('PEA', 'Performing Arts', 'ADM'),
+('PHO', 'Photography', 'ADM'),
+('PRP', 'Programming & Production', 'ADM'),
+('PRM', 'Promotions', 'ADM'),
+('OTR', 'Others', 'ADM'),
+
+-- Banking & Financial Services
+('ARM', 'Account & Relationship Management', 'BAF'),
+('ANR', 'Analysis & Reporting', 'BAF'),
+('BAB', 'Banking - Business', 'BAF'),
+('BAC', 'Banking - Corporate & Institutional', 'BAF'),
+('BAR', 'Banking - Retail/Branch', 'BAF'),
+('CLS', 'Client Services', 'BAF'),
+('COR', 'Compliance & Risk', 'BAF'),
+('COF', 'Corporate Finance & Investment Banking', 'BAF'),
+('CRE', 'Credit', 'BAF'),
+('FIP', 'Financial Planning', 'BAF'),
+('FUM', 'Funds Management', 'BAF'),
+('MGT', 'Management', 'BAF'),
+('MRG', 'Mortgages', 'BAF'),
+('STL', 'Settlements', 'BAF'),
+('STT', 'Stockbroking & Trading', 'BAF'),
+('TRS', 'Treasury', 'BAF'),
+('OTR', 'Others', 'BAF'),
+
+-- Call Center & Customer Services
+('COL', 'Collections', 'CCS'),
+('CCC', 'Customer Service - Call Centre', 'CCS'),
+('CCF', 'Customer Service - Customer Facing', 'CCS'),
+('MGS', 'Management & Support', 'CCS'),
+('SAI', 'Sales - Inbound', 'CCS'),
+('SAO', 'Sales - Outbound', 'CCS'),
+('SUT', 'Supervisors/Team Leaders', 'CCS'),
+('OTR', 'Others', 'CCS'),
+
+-- CEO & General Management
+('BRD', 'Board Appointments', 'CEO'),
+('CEO', 'CEO', 'CEO'),
+('COO', 'COO & MD', 'CEO'),
+('GBM', 'General/Business Unit Manager', 'CEO'),
+('OTR', 'Others', 'CEO'),
+
+-- Community Services & Development
+('ADS', 'Aged & Disability Support', 'COM'),
+('CWY', 'Child Welfare, Youth & Family Services', 'COM'),
+('COD', 'Community Development', 'COM'),
+('EMS', 'Employment Services', 'COM'),
+('FND', 'Fundraising', 'COM'),
+('HOH', 'Housing & Homelessness Services', 'COM'),
+('INM', 'Indigenous & Multicultural Services', 'COM'),
+('MGT', 'Management', 'COM'),
+('VCS', 'Volunteer Coordination & Support', 'COM'),
+('PRE', 'Others', 'COM'),
+
+-- Construction
+('COM', 'Contracts Management', 'CON'),
+('EST', 'Estimating', 'CON'),
+('FOS', 'Foreperson/Supervisors', 'CON'),
+('HSE', 'Health, Safety & Environment', 'CON'),
+('MGT', 'Management', 'CON'),
+('PLS', 'Planning & Scheduling', 'CON'),
+('PMO', 'Plant & Machinery Operators', 'CON'),
+('PRM', 'Project Management', 'CON'),
+('QAC', 'Quality Assurance & Control', 'CON'),
+('SVY', 'Surveying', 'CON'),
+('OTR', 'Others', 'CON'),
+
+-- Consulting & Strategy
+('ANL', 'Analysts', 'COS'),
+('COD', 'Corporate Development', 'COS'),
+('ESC', 'Environment & Sustainability Consulting', 'COS'),
+('MCC', 'Management & Change Consulting', 'COS'),
+('PLC', 'Policy', 'COS'),
+('STP', 'Strategy & Planning', 'COS'),
+('OTR', 'Others', 'COS'),
+
+-- Design & Architecture
+('ARD', 'Architectural Drafting', 'DEA'),
+('ARC', 'Architecture', 'DEA'),
+('FTD', 'Fashion & Textile Design', 'DEA'),
+('GRD', 'Graphic Design', 'DEA'),
+('ILA', 'Illustration & Animation', 'DEA'),
+('IND', 'Industrial Design', 'DEA'),
+('ITR', 'Interior Design', 'DEA'),
+('LAA', 'Landscape Architecture', 'DEA'),
+('UDP', 'Urban Design & Planning', 'DEA'),
+('WID', 'Web & Interaction Design', 'DEA'),
+('OTR', 'Others', 'DEA'),
+
+-- Education & Training
+('COC', 'Childcare & Outside School Hours Care', 'EDU'),
+('LIB', 'Library Services & Information Management', 'EDU'),
+('MGS', 'Management - Schools', 'EDU'),
+('MGU', 'Management - Universities', 'EDU'),
+('MGV', 'Management - Vocational', 'EDU'),
+('REF', 'Research & Fellowships', 'EDU'),
+('STS', 'Student Services', 'EDU'),
+('TEC', 'Teaching - Early Childhood', 'EDU'),
+('TEP', 'Teaching - Primary', 'EDU'),
+('TES', 'Teaching - Secondary', 'EDU'),
+('TET', 'Teaching - Tertiary', 'EDU'),
+('TEV', 'Teaching - Vocational', 'EDU'),
+('TEA', 'Teaching Aides & Special Needs', 'EDU'),
+('TUT', 'Tutoring', 'EDU'),
+('WTA', 'Workplace Training & Assessment', 'EDU'),
+('OTR', 'Others', 'EDU'),
+
+-- Engineers
+('PRE', 'Process Engineering', 'ENG'),
+('MAE', 'Maintainence Engineering', 'ENG'),
+('PRJ', 'Project Engineering', 'ENG'),
+('PRO', 'Program Engineering', 'ENG'),
+('COI', 'Continuous Improvement', 'ENG'),
+('LEE', 'LEAN Engineering', 'ENG'),
+('DEE', 'Design Engineering', 'ENG'),
+('MAN', 'Manufacturing Engineering', 'ENG'),
+
+-- Farming, Animals & Conservation
+('AGF', 'Agronomy & Farm Services', 'FAR'),
+('CPW', 'Conservation, Parks & Wildlife', 'FAR'),
+('FAL', 'Farm Labour', 'FAR'),
+('FAM', 'Farm Management', 'FAR'),
+('FIA', 'Fishing & Aquaculture', 'FAR'),
+('HOR', 'Horticulture', 'FAR'),
+('VAW', 'Veterinary Services & Animal Welfare', 'FAR'),
+('WIV', 'Winery & Viticulture', 'FAR'),
+('OTR', 'Others', 'FAR'),
+
+-- Government & Defense
+('AIR', 'Air Force', 'GOV'),
+('ARM', 'Army', 'GOV'),
+('EMS', 'Emergency Services', 'GOV'),
+('GOF', 'Government - Federal', 'GOV'),
+('GOL', 'Government - Local', 'GOV'),
+('GOS', 'Government - State', 'GOV'),
+('NAV', 'Navy', 'GOV'),
+('POC', 'Police & Corrections', 'GOV'),
+('PPR', 'Policy, Planning & Regulation', 'GOV'),
+('OTR', 'Others', 'GOV'),
+
+-- Healthcare & Medical
+('AMP', 'Ambulance/Paramedics', 'HEM'),
+('CHO', 'Chiropractic & Osteopathic', 'HEM'),
+('CLR', 'Clinical/Medical Research', 'HEM'),
+('DEN', 'Dental', 'HEM'),
+('DIT', 'Dieticians', 'HEM'),
+('ENV', 'Environmental Services', 'HEM'),
+('GEP', 'General Practitioners', 'HEM'),
+('MGT', 'Management', 'HEM'),
+('MEA', 'Medical Administration', 'HEM'),
+('MEI', 'Medical Imaging', 'HEM'),
+('MES', 'Medical Specialists', 'HEM'),
+('NAM', 'Natural Therapies & Alternative Medicine', 'HEM'),
+('NAE', 'Nursing - A&E, Critical Care & ICU', 'HEM'),
+('NAC', 'Nursing - Aged Care', 'HEM'),
+('NCM', 'Nursing - Community, Maternal & Child Health', 'HEM'),
+('NEF', 'Nursing - Educators & Facilitators', 'HEM'),
+('NGM', 'Nursing - General Medical & Surgical', 'HEM'),
+('NHA', 'Nursing - High Acuity', 'HEM'),
+('NMG', 'Nursing - Management', 'HEM'),
+('NMN', 'Nursing - Midwifery, Neo-Natal, SCN & NICU', 'HEM'),
+('NPP', 'Nursing - Paediatric & PICU', 'HEM'),
+('NPF', 'Nursing - Psych, Forensic & Correctional Health', 'HEM'),
+('NTR', 'Nursing - Theatre & Recovery', 'HEM'),
+('OPT', 'Optical', 'HEM'),
+('PTH', 'Pathology', 'HEM'),
+('PMD', 'Pharmaceuticals & Medical Devices', 'HEM'),
+('PHR', 'Pharmacy', 'HEM'),
+('POR', 'Physiotherapy, OT & Rehabilitation', 'HEM'),
+('PSY', 'Psychology, Counselling & Social Work', 'HEM'),
+('RER', 'Residents & Registrars', 'HEM'),
+('SAL', 'Sales', 'HEM'),
+('SPT', 'Speech Therapy', 'HEM'),
+('OTR', 'Others', 'HEM'),
+
+-- Hospitality & Tourism
+('AIR', 'Airlines', 'HOT'),
+('BBS', 'Bar & Beverage Staff', 'HOT'),
+('CHF', 'Chefs/Cooks', 'HOT'),
+('FOG', 'Front Office & Guest Services', 'HOT'),
+('GMG', 'Gaming', 'HOT'),
+('HOU', 'Housekeeping', 'HOT'),
+('KSH', 'Kitchen & Sandwich Hands', 'HOT'),
+('MGT', 'Management', 'HOT'),
+('RSV', 'Reservations', 'HOT'),
+('TOG', 'Tour Guides', 'HOT'),
+('TAC', 'Travel Agents/Consultants', 'HOT'),
+('WAS', 'Waiting Staff', 'HOT'),
+('OTR', 'Others', 'HOT'),
+
+-- Human Resources & Recruitment
+('COG', 'Consulting & Generalist HR', 'HRR'),
+('IER', 'Industrial & Employee Relations', 'HRR'),
+('MAA', 'Management - Agency', 'HRR'),
+('MAI', 'Management - Internal', 'HRR'),
+('OHS', 'Occupational Health & Safety', 'HRR'),
+('ORD', 'Organisational Development', 'HRR'),
+('REA', 'Recruitment - Agency', 'HRR'),
+('REI', 'Recruitment - Internal', 'HRR'),
+('REB', 'Remuneration & Benefits', 'HRR'),
+('TRD', 'Training & Development', 'HRR'),
+('OTR', 'Others', 'HRR'),
+
+-- Information & Communication Technology
+('ARC', 'Architects', 'ICT'),
+('BSA', 'Business/Systems Analysts', 'ICT'),
+('COM', 'Computer Operators', 'ICT'),
+('CSL', 'Consultants', 'ICT'),
+('DBA', 'Database Development & Administration', 'ICT'),
+('DEV', 'Developers/Programmers', 'ICT'),
+('ENH', 'Engineering - Hardware', 'ICT'),
+('ENN', 'Engineering - Network', 'ICT'),
+('ENS', 'Engineering - Software', 'ICT'),
+('HDS', 'Help Desk & IT Support', 'ICT'),
+('MGT', 'Management', 'ICT'),
+('NSA', 'Networks & Systems Administration', 'ICT'),
+('PMD', 'Product Management & Development', 'ICT'),
+('PPM', 'Programme & Project Management', 'ICT'),
+('SAL', 'Sales - Pre & Post', 'ICT'),
+('SEC', 'Security', 'ICT'),
+('LDR', 'Team Leaders', 'ICT'),
+('TEW', 'Technical Writing', 'ICT'),
+('TEL', 'Telecommunications', 'ICT'),
+('TQA', 'Testing & Quality Assurance', 'ICT'),
+('WED', 'Web Development & Production', 'ICT'),
+('OTR', 'Others', 'ICT'),
+
+-- Insurance & Superannuation
+('ACT', 'Actuarial', 'INS'),
+('ASS', 'Assessment', 'INS'),
+('BRK', 'Brokerage', 'INS'),
+('CLM', 'Claims', 'INS'),
+('FUA', 'Fund Administration', 'INS'),
+('MGT', 'Management', 'INS'),
+('RIC', 'Risk Consulting', 'INS'),
+('SUA', 'Superannuation', 'INS'),
+('UNW', 'Underwriting', 'INS'),
+('WOC', 'Workers Compensation', 'INS'),
+('OTR', 'Others', 'INS'),
+
+-- Legal
+('BFL', 'Banking & Finance Law', 'LEG'),
+('CNL', 'Construction Law', 'LEG'),
+('COL', 'Corporate & Commercial Law', 'LEG'),
+('CRL', 'Criminal & Civil Law', 'LEG'),
+('EPL', 'Environment & Planning Law', 'LEG'),
+('FAL', 'Family Law', 'LEG'),
+('GEI', 'Generalists - In-house', 'LEG'),
+('GEL', 'Generalists - Law Firm', 'LEG'),
+('IRL', 'Industrial Relations & Employment Law', 'LEG'),
+('ISL', 'Insurance & Superannuation Law', 'LEG'),
+('IPL', 'Intellectual Property Law', 'LEG'),
+('LCP', 'Law Clerks & Paralegals', 'LEG'),
+('LEM', 'Legal Practice Management', 'LEG'),
+('LES', 'Legal Secretaries', 'LEG'),
+('LDR', 'Litigation & Dispute Resolution', 'LEG'),
+('PIL', 'Personal Injury Law', 'LEG'),
+('PRL', 'Property Law', 'LEG'),
+('TAL', 'Tax Law', 'LEG'),
+('OTR', 'Others', 'LEG'),
+
+-- Manufacturing, Transport & Logistics
+('ANR', 'Analysis & Reporting', 'MTL'),
+('APW', 'Assembly & Process Work', 'MTL'),
+('AVS', 'Aviation Services', 'MTL'),
+('CDP', 'Couriers, Drivers & Postal Services', 'MTL'),
+('FLM', 'Fleet Management', 'MTL'),
+('FRF', 'Freight/Cargo Forwarding', 'MTL'),
+('IEC', 'Import/Export & Customs', 'MTL'),
+('MAO', 'Machine Operators', 'MTL'),
+('MGT', 'Management', 'MTL'),
+('PGM', 'Pattern Makers & Garment Technicians', 'MTL'),
+('PIP', 'Pickers & Packers', 'MTL'),
+('PPS', 'Production, Planning & Scheduling', 'MTL'),
+('PTT', 'Public Transport & Taxi Services', 'MTL'),
+('PPI', 'Purchasing, Procurement & Inventory', 'MTL'),
+('QAC', 'Quality Assurance & Control', 'MTL'),
+('RMT', 'Rail & Maritime Transport', 'MTL'),
+('ROT', 'Road Transport', 'MTL'),
+('TLS', 'Team Leaders/Supervisors', 'MTL'),
+('WSD', 'Warehousing, Storage & Distribution', 'MTL'),
+('OTR', 'Others', 'MTL'),
+
+-- Marketing & Communications
+('BRM', 'Brand Management', 'MAC'),
+('DSM', 'Digital & Search Marketing', 'MAC'),
+('DMC', 'Direct Marketing & CRM', 'MAC'),
+('EVM', 'Event Management', 'MAC'),
+('INC', 'Internal Communications', 'MAC'),
+('MGT', 'Management', 'MAC'),
+('MRA', 'Market Research & Analysis', 'MAC'),
+('MAC', 'Marketing Assistants/Coordinators', 'MAC'),
+('MCO', 'Marketing Communications', 'MAC'),
+('PMD', 'Product Management & Development', 'MAC'),
+('PRC', 'Public Relations & Corporate Affairs', 'MAC'),
+('TRM', 'Trade Marketing', 'MAC'),
+('OTR', 'Others', 'MAC'),
+
+-- Mining, Resources & Energy
+('ANR', 'Analysis & Reporting', 'MRE'),
+('HSE', 'Health, Safety & Environment', 'MRE'),
+('MGT', 'Management', 'MRE'),
+('MDB', 'Mining - Drill & Blast', 'MRE'),
+('MEM', 'Mining - Engineering & Maintenance', 'MRE'),
+('MEG', 'Mining - Exploration & Geoscience', 'MRE'),
+('MOP', 'Mining - Operations', 'MRE'),
+('MPR', 'Mining - Processing', 'MRE'),
+('NRW', 'Natural Resources & Water', 'MRE'),
+('ODR', 'Oil & Gas - Drilling', 'MRE'),
+('OEM', 'Oil & Gas - Engineering & Maintenance', 'MRE'),
+('OEG', 'Oil & Gas - Exploration & Geoscience', 'MRE'),
+('OOP', 'Oil & Gas - Operations', 'MRE'),
+('OPR', 'Oil & Gas - Production & Refinement', 'MRE'),
+('PGD', 'Power Generation & Distribution', 'MRE'),
+('SVY', 'Surveying', 'MRE'),
+('OTR', 'Others', 'MRE'),
+
+-- Real Estate & Property
+('ADM', 'Administration', 'RES'),
+('ANL', 'Analysts', 'RES'),
+('BCF', 'Body Corporate & Facilities Management', 'RES'),
+('CSL', 'Commercial Sales, Leasing & Property Management', 'RES'),
+('REL', 'Residential Leasing & Property Management', 'RES'),
+('RES', 'Residential Sales', 'RES'),
+('RPD', 'Retail & Property Development', 'RES'),
+('VAL', 'Valuation', 'RES'),
+('OTR', 'Others', 'RES'),
+
+-- Retail & Consumer Products
+('BYN', 'Buying', 'RET'),
+('MAM', 'Management - Area/Multi-site', 'RET'),
+('MDA', 'Management - Department/Assistant', 'RET'),
+('MST', 'Management - Store', 'RET'),
+('MER', 'Merchandisers', 'RET'),
+('PLN', 'Planning', 'RET'),
+('REA', 'Retail Assistants', 'RET'),
+('OTR', 'Others', 'RET'),
+
+-- Sales
+('ARM', 'Account & Relationship Management', 'SAL'),
+('ANR', 'Analysis & Reporting', 'SAL'),
+('MGT', 'Management', 'SAL'),
+('NBD', 'New Business Development', 'SAL'),
+('SAC', 'Sales Coordinators', 'SAL'),
+('SRC', 'Sales Representatives/Consultants', 'SAL'),
+('OTR', 'Others', 'SAL'),
+
+-- Science & Technology
+('BIB', 'Biological & Biomedical Sciences', 'SCT'),
+('BIG', 'Biotechnology & Genetics', 'SCT'),
+('CHP', 'Chemistry & Physics', 'SCT'),
+('EEG', 'Environmental, Earth & Geosciences', 'SCT'),
+('FTS', 'Food Technology & Safety', 'SCT'),
+('LAB', 'Laboratory & Technical Services', 'SCT'),
+('MAS', 'Materials Sciences', 'SCT'),
+('MAI', 'Mathematics, Statistics & Information Sciences', 'SCT'),
+('MOS', 'Modelling & Simulation', 'SCT'),
+('QAC', 'Quality Assurance & Control', 'SCT'),
+('OTR', 'Others', 'SCT'),
+
+-- Self Employment
+('SEM', 'Self Employment', 'SEM'),
+
+-- Sport & Recreation
+('COI', 'Coaching & Instruction', 'SPR'),
+('FPT', 'Fitness & Personal Training', 'SPR'),
+('MGT', 'Management', 'SPR'),
+('OTR', 'Others', 'SPR'),
+
+-- Trades & Services
+('ACR', 'Air Conditioning & Refrigeration', 'TRS'),
+('AUT', 'Automotive Trades', 'TRS'),
+('BKR', 'Bakers & Pastry Chefs', 'TRS'),
+('BUT', 'Building Trades', 'TRS'),
+('BCH', 'Butchers', 'TRS'),
+('CAM', 'Carpentry & Cabinet Making', 'TRS'),
+('CLN', 'Cleaning Services', 'TRS'),
+('ELC', 'Electricians', 'TRS'),
+('FTM', 'Fitters, Turners & Machinists', 'TRS'),
+('FLR', 'Floristry', 'TRS'),
+('GAL', 'Gardening & Landscaping', 'TRS'),
+('HBS', 'Hair & Beauty Services', 'TRS'),
+('LBR', 'Labourers', 'TRS'),
+('LCK', 'Locksmiths', 'TRS'),
+('MHS', 'Maintenance & Handyperson Services', 'TRS'),
+('NAB', 'Nannies & Babysitters', 'TRS'),
+('PSW', 'Painters & Sign Writers', 'TRS'),
+('PLM', 'Plumbers', 'TRS'),
+('PPS', 'Printing & Publishing Services', 'TRS'),
+('SES', 'Security Services', 'TRS'),
+('TAD', 'Tailors & Dressmakers', 'TRS'),
+('TEC', 'Technicians', 'TRS'),
+('WEB', 'Welders & Boilermakers', 'TRS'),
+('OTR', 'Others', 'TRS');
+
+SELECT * FROM job_subfunctions;
+
+CREATE TABLE jobs (
+	job_id VARCHAR(11) PRIMARY KEY NOT NULL,
+  	job_title TEXT NOT NULL,
+  	description TEXT NOT NULL,
+  	salary_range_start NUMERIC(10, 2) NOT NULL,
+  	salary_range_end NUMERIC(10, 2) NOT NULL,
+  	close_date DATE NOT NULL,
+  	industry_id VARCHAR(3) NOT NULL REFERENCES industries(industry_id),
+  	job_function_id VARCHAR(3) NOT NULL REFERENCES job_functions(job_function_id),
+  	job_subfunction_id VARCHAR(3) NOT NULL,
+  	location TEXT NOT NULL,
+  	status TEXT NOT NULL CHECK (status IN ('deactivated', 'active', 'prioritized')),
+  	employment_type TEXT NOT NULL CHECK (employment_type IN ('permanent', 'contract', 'temporary')),
+  	CONSTRAINT job_id_format CHECK (job_id ~ '^[A-Z]{3}_[A-Z]{3}_[0-9]{3}$'),
+  	CONSTRAINT fk_jobs_subfunction FOREIGN KEY (job_function_id, job_subfunction_id) REFERENCES job_subfunctions (job_function_id, job_subfunction_id)
+);
+
+INSERT INTO jobs VALUES
+('TRS_TEC_001', 'GAMING', 'GAMRT', '10000.00', '30000.00', '12-31-2069', 'IME', 'TRS', 'TEC', 'Nigeria', 'priorDitized', 'permanent');
+
+CREATE TABLE cvs (
+	cv_id SERIAL PRIMARY KEY NOT NULL,
+	user_id INTEGER NOT NULL REFERENCES users(user_id),
+	cv_url TEXT NOT NULL,
+	uploaded_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	cv_title TEXT,
+	status TEXT CHECK (status IN ('deactivated', 'active'))
+);
+
+INSERT INTO cvs (user_id, cv_url, cv_title, status) VALUES
+(1, '/cvs/1/2', 'GAMING CV', 'active');
+
+SELECT * FROM cvs;
+
+CREATE TABLE job_applications (
+	application_id SERIAL PRIMARY KEY NOT NULL,
+	job_id VARCHAR(11) NOT NULL REFERENCES jobs(job_id),
+	user_id INTEGER NOT NULL REFERENCES users(user_id),
+	cv_id INTEGER NOT NULL REFERENCES cvs(cv_id),
+	applied_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	status TEXT CHECK (status IN ('pending', 'reviewed', 'rejected', 'hired'))
+);
+
+INSERT INTO job_applications (job_id, user_id, cv_id, status) VALUES
+('TRS_TEC_001', 1, 3, 'hired');

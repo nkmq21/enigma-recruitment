@@ -1,0 +1,53 @@
+/* src/app/(auth)/admin/users/Users.module.css */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .tableContainer {
+    overflow-x: auto;
+  }
+  
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .table th,
+  .table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  .table th {
+    background-color: #f4f4f4;
+  }
+  
+  .table tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  .table tr:hover {
+    background-color: #f5f5f5;
+  }
+  
+  .userImage {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    background-color: #ddd;
+  }
+  
+  .actionLinks a {
+    margin-right: 10px;
+    text-decoration: none;
+    color: #0066cc;
+  }
+  
+  .actionLinks a:hover {
+    text-decoration: underline;
+  }
