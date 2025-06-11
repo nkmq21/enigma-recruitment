@@ -9,6 +9,7 @@ export interface User {
     image?: string;
     dob?: Date;
     address?: string;
+    emailVerified?: Date;
 }
 
 export interface UserRegister {
@@ -89,6 +90,8 @@ export interface JobApplication {
             job_subfunction_id: string;
             job_subfunction_name: string
         };
+        location: string;
+        status: string;
     };
 }
 

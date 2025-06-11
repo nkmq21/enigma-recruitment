@@ -22,7 +22,6 @@ import Image from "next/image";
 import {Search} from "@mui/icons-material";
 import {signOut} from "next-auth/react";
 import {Session} from "next-auth";
-import {usePathname} from "next/navigation";
 
 export const SidebarNavigation = ({session, isCollapsed, setIsCollapsed}: {
     session: Session | null,
@@ -34,7 +33,7 @@ export const SidebarNavigation = ({session, isCollapsed, setIsCollapsed}: {
     const [name, setName] = useState<string | null>(null);
     const [email, setEmail] = useState<string | null>(null);
     const [image, setImage] = useState<string | undefined>("/Avatar.png");
-    const currentUrl = usePathname();
+    const currentUrl = window.location.pathname;
 
     // Check if the session is valid and set the state accordingly
     useEffect(() => {
@@ -243,7 +242,7 @@ export const SidebarNavigation = ({session, isCollapsed, setIsCollapsed}: {
                     overflowY: 'auto',
                     pr: 1
                 }}>
-                    {currentUrl.split('/')[0] !== 'admin' ? (
+                    {currentUrl.split('/')[1] !== 'admin' ? (
                         publicItems.map((item, index) => (
                             <ListItemButton
                                 key={index}
@@ -288,15 +287,15 @@ export const SidebarNavigation = ({session, isCollapsed, setIsCollapsed}: {
                                     </>
                                 )}
                             </ListItemButton>
-                        )
-                    ))}
+                        ))
+                    )}
                 </List>
             </Box>
             {/* Bottom section */}
             <Box sx={{
                 py: isCollapsed ? 1 : 2
             }}>
-                <Box sx={{mt: isCollapsed ? 7 : 7, flexGrow: 0}}>
+                <Box sx={{mt: isCollapsed ? 7 : 0, flexGrow: 0}}>
                     <List sx={{
                         borderBottom: `1px solid ${theme.palette.divider}`
                     }}>

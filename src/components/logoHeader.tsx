@@ -3,10 +3,9 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import {Box} from "@mui/material";
-import {Session} from "next-auth";
 
-const LogoHeader = ({session}: {session?: Session | null}) => {
-    const href = session ? '/home' : '/';
+const LogoHeader = () => {
+    const href = '/';
     return (
         <Link href={href}>
             <Box
@@ -56,8 +55,8 @@ const LogoHeader = ({session}: {session?: Session | null}) => {
 
 };
 
-export const JustLogoHeader = ({session}: {session: Session | null}) => {
-    const href = session ? '/home' : '/';
+export const JustLogoHeader = () => {
+    const href = '/';
     return (
         <Link href={href}>
             <Box>

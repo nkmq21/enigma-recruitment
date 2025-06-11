@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useState, useRef, useMemo } from 'react';
 import {
     Box,
     Typography,
@@ -7,78 +7,178 @@ import {
     List,
     ListItemText,
     ListItemButton,
-    Dialog
+    Dialog,
+    Checkbox,
+    Chip,
+    Stack
 } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { ThemeProvider } from '@emotion/react';
 import theme from '../font/theme';
 import Image from 'next/image';
-import { ArrowDropDown } from '@mui/icons-material';
+import { ArrowDropDown, Close } from '@mui/icons-material';
+import { FilterService } from 'enigma/services/jobServices';
 
-const Location = () => {
+interface LocationProps {
+    disabled?: boolean;
+    onDialogOpen?: () => void;
+    onDialogClose?: () => void;
+    value?: string[]; // Change to array for multiple selections
+    onChange?: (locations: string[]) => void; // Change to array
+    // style?: CSSProperties;
+}
 
-    // State to manage dialog visibility
+const Location = React.memo<LocationProps>(({
+    disabled = false,
+    onDialogOpen,
+    onDialogClose,
+    value = [],
+    onChange,
+}) => {
+    const filterService = useMemo(() => new FilterService(), []);
+    const [locationList, setLocationList] = useState<string[]>([]);
     const [open, setOpen] = useState(false);
-    // State to store selected distance
-    const [selectedIndustries, setSelectedIndustries] = useState('');
-    // Ref for TextField
-    const locationCountryRef = useRef(null);
+    const [selectedLocations, setSelectedLocations] = useState<string[]>(value); // Change to array
+    const [searchTerm, setSearchTerm] = useState('');
+    const locationProvinceRef = useRef(null);
 
-    // Handle opening dialog
-    const handleOpenIndustries = () => {
-        setOpen(true);
-    };
+    // Sync with external value
+    // useEffect(() => {
+    //     setSelectedProvinces(value);
+    // }, [value]);
 
-    // Handle closing dialog
-    const handleCloseIndustries = () => {
-        setOpen(false);
-    };
-
-    // Handle distance selection
-    const handleIndustriesSelect = (distance: string) => {
-        setSelectedIndustries(distance);
-        if (locationCountryRef.current) {
-            // industriesRef.current.value = distance; // Update TextField value
+    const fetchLocations = async () => {
+        try {
+            const locations = await filterService.getLocations();
+            console.log('Fetched locations:', locations);
+            setLocationList(locations);
+        } catch (error) {
+            console.error('Failed to fetch locations:', error);
+            setLocationList([]);
         }
-        setOpen(false); // Close dialog after selection
     };
+
+    useEffect(() => {
+        if (open) {
+            fetchLocations();
+        }
+    }, [open]);
+
+    const handleOpenLocation = () => {
+        if (disabled) return;
+        setOpen(true);
+        onDialogOpen?.();
+    };
+
+    const handleCloseLocation = () => {
+        setOpen(false);
+        onDialogClose?.();
+    };
+
+    const handleLocationToggle = (province: string) => {
+        const newSelectedLocations = selectedLocations.includes(province)
+            ? selectedLocations.filter(p => p !== province) // Remove if already selected
+            : [...selectedLocations, province]; // Add if not selected
+
+        console.log('After toggle:', { newSelectedLocations });
+
+        setSelectedLocations(newSelectedLocations);
+        onChange?.(newSelectedLocations); // Notify parent
+    };
+
+    const handleRemoveLocation = (locationToRemove: string) => {
+        const newSelectedLocations = selectedLocations.filter(p => p !== locationToRemove);
+        setSelectedLocations(newSelectedLocations);
+        onChange?.(newSelectedLocations);
+    };
+
+    const handleClearAll = () => {
+        setSelectedLocations([]);
+        onChange?.([]);
+    };
+
+    const handleApplySelection = () => {
+        onChange?.(selectedLocations);
+        setOpen(false);
+        onDialogClose?.();
+    };
+
+    // Filter locations based on search term
+    const filteredLocations = locationList.filter(location =>
+        location.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    // Location.displayName('location');
 
     return (
         <ThemeProvider theme={theme}>
-            <TextField
-                fullWidth
-                variant="outlined"
-                inputRef={locationCountryRef}
-                placeholder="Viet Nam"
-                value={selectedIndustries}
-                onClick={handleOpenIndustries}
-                InputProps={{
-                    startAdornment: <Image src='/location.svg' alt='calendar' height={20} width={20} style={{ marginRight: '10px' }} />,
-                    endAdornment: <ArrowDropDown sx={{ color: 'grey.600' }} />,
-                }}
-                sx={{
-                    "& .MuiInputLabel-asterisk": {
-                        color: "#236785"
-                    },
-                    "& .MuiOutlinedInput-root": {
-                        borderRadius: "8px",
-                    },
-                }}
-            />
+            <Box>
+                <TextField
+                    fullWidth
+                    variant="outlined"
+                    inputRef={locationProvinceRef}
+                    placeholder={selectedLocations.length > 0 ? `${selectedLocations.length} location(s) selected` : "Select Locations"}
+                    value="" // Keep empty to show placeholder
+                    onClick={handleOpenLocation}
+                    disabled={disabled}
+                    InputProps={{
+                        startAdornment: <Image src='/location.svg' alt='location' height={20} width={20} style={{ marginRight: '10px' }} />,
+                        endAdornment: <ArrowDropDown sx={{ color: disabled ? 'grey.400' : 'grey.600' }} />,
+                        readOnly: true, // Prevent typing in the field
+                    }}
+                    sx={{
+                        "& .MuiInputLabel-asterisk": { color: "#236785" },
+                        "& .MuiOutlinedInput-root": { borderRadius: "8px" },
+                        opacity: disabled ? 0.6 : 1,
+                        cursor: disabled ? 'not-allowed' : 'pointer',
+                    }}
+                />
+
+                {/* Selected Locations Chips */}
+                {selectedLocations.length > 0 && (
+                    <Stack direction="row" spacing={1} sx={{ mt: 1, flexWrap: 'wrap', gap: 1 }}>
+                        {selectedLocations.slice(0, 3).map((location) => (
+                            <Chip
+                                key={location}
+                                label={location}
+                                size="small"
+                                onDelete={() => handleRemoveLocation(location)}
+                                deleteIcon={<Close sx={{ fontSize: 16 }} />}
+                                sx={{
+                                    backgroundColor: '#e3f2fd',
+                                    color: '#1976d2',
+                                    '& .MuiChip-deleteIcon': {
+                                        color: '#1976d2',
+                                        '&:hover': {
+                                            color: '#d32f2f',
+                                        },
+                                    },
+                                }}
+                            />
+                        ))}
+                        {selectedLocations.length > 3 && (
+                            <Chip
+                                label={`+${selectedLocations.length - 3} more`}
+                                size="small"
+                                variant="outlined"
+                                sx={{ color: '#666' }}
+                            />
+                        )}
+                    </Stack>
+                )}
+            </Box>
 
             <Dialog
                 open={open}
-                onClose={handleCloseIndustries}
-                maxWidth="md"
+                onClose={handleCloseLocation}
+                maxWidth="sm"
                 PaperProps={{
                     sx: {
                         borderRadius: '12px',
                         overflow: 'hidden',
                         p: 2,
-                        maxHeight: '500px',
+                        maxHeight: '600px',
                         bgcolor: '#fff',
-                        borderRight: '1px solid #e6e7e8',
+                        zIndex: 1400,
                     },
                 }}
             >
@@ -88,407 +188,164 @@ const Location = () => {
                         backgroundColor: '#fff',
                         overflow: 'hidden',
                         display: 'flex',
-                        alignItems: 'flex-start',
-                        justifyContent: 'flex-start',
+                        flexDirection: 'column',
                         color: '#262d34',
+                        width: '400px',
                     }}
                 >
-
-                    {/* Region Dropdown */}
                     <Box
                         sx={{
-                            borderRadius: '12px 0 0 12px',
                             backgroundColor: '#fff',
-                            borderRight: '1px solid #e6e7e8',
                             overflow: 'hidden',
                             display: 'flex',
                             flexDirection: 'column',
                             padding: '16px',
                             gap: '16px',
                             color: '#475467',
-                            width: '33%',
-
                         }}
                     >
-                        <Box sx={{
-                            width: '100%',
-                            display: 'flex',
-                            flexDirection: 'column',
-                            gap: '12px'
-                        }}>
-                            <Box sx={{
-                                display: 'flex',
-                            }}>
-                                <Box sx={{
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    flex: 1
-                                }}>
-                                    <Box sx={{
-                                        display: 'flex',
-                                        flexDirection: 'column',
-                                        alignItems: 'center',
-                                        justifyContent: 'center'
-                                    }}>
-                                        <ChevronLeftIcon sx={{ fontSize: '20px' }} />
-                                    </Box>
-                                    <Typography
-                                        variant='body1'
-                                        sx={{
-                                            fontWeight: 600,
-                                            color: '#262d34'
-                                        }}>
-                                        Region
-                                    </Typography>
-                                </Box>
+                        {/* Header */}
+                        <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                            <Typography variant='body1' sx={{ fontWeight: 600, color: '#262d34' }}>
+                                Select Locations ({selectedLocations.length} selected)
+                            </Typography>
+                            {selectedLocations.length > 0 && (
                                 <Button
                                     variant="text"
-                                    startIcon={<AddIcon />}
+                                    onClick={handleClearAll}
                                     sx={{
-                                        color: '#2494b6',
+                                        color: '#d32f2f',
                                         textTransform: 'none',
-                                        padding: '8px 0',
-                                    }}
-                                >
-                                    Add Region
-                                </Button>
-                            </Box>
-                            <TextField
-                                fullWidth
-                                placeholder="Enter Region"
-                                variant="outlined"
-                                sx={{
-                                    '& .MuiOutlinedInput-root': {
-                                        borderRadius: '8px',
-                                        border: '1px solid #d0d5dd',
-                                        boxShadow: '0px 1px 2px rgba(16, 24, 40, 0.05)',
                                         fontSize: '14px',
-                                        color: '#667085',
-                                    },
-                                    '& .MuiInputBase-input': { padding: '10px 14px' },
-                                }}
-                            />
-                        </Box>
-                        <List sx={{
-                            width: '100%',
-                            display: 'flex',
-                            flexDirection: 'column',
-                            gap: '4px',
-                            maxHeight: '400px',
-                            overflow: 'auto',
-                            scrollbarColor: '#2494b6 #f1f1f1',
-                            scrollbarWidth: 'thin',
-                            '&::-webkit-scrollbar': {
-                                width: '8px',
-                            },
-                            '&::-webkit-scrollbar-track': {
-                                background: '#2494b6',
-                                borderRadius: '10px',
-                            },
-                            '&::-webkit-scrollbar-thumb': {
-                                background: '#2494b6',
-                                borderRadius: '10px',
-                            },
-                        }}>
-                            {['Africa', 'Americas', 'Asia', 'Europe', 'Oceania'].map((region, index) => (
-                                <ListItemButton
-                                    key={region}
-                                    sx={{
-                                        borderBottom: '1px solid #e4e7ec',
-                                        height: '44px',
-                                        padding: '16px 12px',
-                                        backgroundColor: index === 2 ? '#f9fafb' : 'transparent',
-                                        zIndex: 4 - index,
+                                        padding: '4px 8px',
                                     }}
                                 >
-                                    <ListItemText
-                                        primary={region}
-                                        primaryTypographyProps={{
-                                            fontSize: '14px',
-                                            lineHeight: '20px',
-                                            width: '100%',
-                                        }}
-                                    />
-                                </ListItemButton>
-                            ))}
-                        </List>
-                        {/* DropdownChild - Placeholder for the vertical bar, if needed */}
-                        <Box
+                                    Clear All
+                                </Button>
+                            )}
+                        </Box>
+
+                        {/* Search Field */}
+                        <TextField
+                            fullWidth
+                            placeholder="Search Locations"
+                            variant="outlined"
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
                             sx={{
-                                position: 'absolute',
-                                top: '130px',
-                                left: '328px',
-                                borderRadius: '4px',
-                                backgroundColor: '#f2f4f7',
-                                height: '68px',
-                                zIndex: 2,
+                                '& .MuiOutlinedInput-root': {
+                                    borderRadius: '8px',
+                                    border: '1px solid #d0d5dd',
+                                    boxShadow: '0px 1px 2px rgba(16, 24, 40, 0.05)',
+                                    fontSize: '14px',
+                                    color: '#667085',
+                                },
+                                '& .MuiInputBase-input': { padding: '10px 14px' },
                             }}
                         />
-                    </Box>
 
-                    {/* Country Dropdown */}
-                    <Box
-                        sx={{
-                            backgroundColor: '#fff',
-                            borderRight: '1px solid #e6e7e8',
-                            overflow: 'hidden',
-                            display: 'flex',
-                            flexDirection: 'column',
-                            alignItems: 'flex-start',
-                            justifyContent: 'flex-start',
-                            padding: '16px',
-                            gap: '16px',
-                            color: '#475467',
-                            width: '33%',
-
-                        }}
-                    >
-                        <Box sx={{
-                            width: '100%',
-                            display: 'flex',
-                            flexDirection: 'column',
-                            gap: '12px'
-                        }}>
-                            <Box sx={{
-                                display: 'flex',
-                                lexDirection: 'row',
-                                alignItems: 'center',
-                                justifyContent: 'space-between',
+                        {/* Location List */}
+                        <List
+                            sx={{
                                 width: '100%',
-
-                            }}>
-                                <Typography
-                                    variant='body1'
-                                    sx={{
-                                        fontWeight: 600,
-                                        color: '#262d34'
-                                    }}>
-                                    Country
-                                </Typography>
-                                <Button
-                                    variant="text"
-                                    startIcon={<AddIcon />}
-                                    sx={{
-                                        color: '#2494b6',
-                                        textTransform: 'none',
-                                        fontSize: '14px',
-                                        padding: '8px 0',
-                                    }}
-                                >
-                                    Add Country
-                                </Button>
-                            </Box>
-                            <TextField
-                                fullWidth
-                                placeholder="Enter Country"
-                                variant="outlined"
-                                sx={{
-                                    '& .MuiOutlinedInput-root': {
-                                        borderRadius: '8px',
-                                        border: '1px solid #d0d5dd',
-                                        boxShadow: '0px 1px 2px rgba(16, 24, 40, 0.05)',
-                                        fontSize: '14px',
-                                        color: '#667085',
-                                    },
-                                    '& .MuiInputBase-input': { padding: '10px 14px' },
-                                }}
-                            />
-                        </Box>
-                        <List sx={{
-                            width: '100%',
-                            display: 'flex',
-                            flexDirection: 'column',
-                            gap: '4px',
-                            maxHeight: '400px',
-                            overflow: 'auto',
-                            scrollbarColor: '#2494b6 #f1f1f1',
-                            scrollbarWidth: 'thin',
-                            '&::-webkit-scrollbar': {
-                                width: '4px',
-                            },
-                            '&::-webkit-scrollbar-track': {
-                                background: '#2494b6',
-                                borderRadius: '10px',
-                            },
-                            '&::-webkit-scrollbar-thumb': {
-                                background: '#2494b6',
-                                borderRadius: '10px',
-                            },
-                        }}>
-                            {[
-                                'Ukraine',
-                                'Uganda',
-                                'Tuvalu',
-                                'Turkmenistan',
-                                'Turkey',
-                                'Tunisia',
-                                'Trinidad and Tobago',
-                                'Vietnam',
-                                'Yemen',
-                                'Zambia',
-                            ].map((country, index) => (
-                                <ListItemButton
-                                    key={country}
-                                    sx={{
-                                        borderBottom: '1px solid #e4e7ec',
-                                        height: '44px',
-                                        padding: '16px 12px',
-                                        backgroundColor: index === 7 ? '#f9fafb' : 'transparent',
-                                    }}
-                                >
-                                    <ListItemText
-                                        primary={country}
-                                        primaryTypographyProps={{
-                                            fontSize: '14px',
-                                            lineHeight: '20px',
-                                        }}
-                                    />
-                                </ListItemButton>
-                            ))}
-                        </List>
-                        <Box
-                            sx={{
-                                position: 'absolute',
-                                top: '130px',
-                                left: '328px',
-                                borderRadius: '4px',
-                                backgroundColor: '#f2f4f7',
-                                height: '68px',
-                                zIndex: 2,
-                            }}
-                        />
-                    </Box>
-
-                    {/* Province Dropdown */}
-                    <Box
-                        sx={{
-                            backgroundColor: '#fff',
-                            overflow: 'hidden',
-                            display: 'flex',
-                            flexDirection: 'column',
-                            padding: '16px',
-                            gap: '16px',
-                            color: '#475467',
-                            width: '33%',
-                        }}
-                    >
-                        <Box sx={{
-                            width: '100%',
-                            display: 'flex',
-                            flexDirection: 'column',
-                            gap: '12px'
-                        }}>
-                            <Box sx={{
                                 display: 'flex',
-                                flexDirection: 'row',
-                                alignItems: 'center',
-                                justifyContent: 'space-between',
-                            }}>
-                                <Typography
-                                    variant='body1'
-                                    sx={{
-                                        fontWeight: 600,
-                                        color: '#262d34'
-                                    }}>
-                                    Province
-                                </Typography>
-                                <Button
-                                    variant="text"
-                                    startIcon={<AddIcon />}
-                                    sx={{
-                                        color: '#2494b6',
-                                        textTransform: 'none',
-                                        fontSize: '14px',
-                                        padding: '8px 0',
-                                    }}
-                                >
-                                    Add Province
-                                </Button>
-                            </Box>
-                            <TextField
-                                fullWidth
-                                placeholder="Enter Province"
-                                variant="outlined"
-                                sx={{
-                                    '& .MuiOutlinedInput-root': {
-                                        borderRadius: '8px',
-                                        border: '1px solid #d0d5dd',
-                                        boxShadow: '0px 1px 2px rgba(16, 24, 40, 0.05)',
-                                        fontSize: '14px',
-                                        color: '#667085',
-                                    },
-                                    '& .MuiInputBase-input': { padding: '10px 14px' },
-                                }}
-                            />
-                        </Box>
-                        <List sx={{
-                            width: '100%',
-                            display: 'flex',
-                            flexDirection: 'column',
-                            gap: '4px',
-                            maxHeight: '400px',
-                            overflow: 'auto',
-                            scrollbarColor: '#2494b6 #f1f1f1',
-                            scrollbarWidth: 'thin',
-                            '&::-webkit-scrollbar': {
-                                width: '8px',
-                            },
-                            '&::-webkit-scrollbar-track': {
-                                background: '#2494b6',
-                                borderRadius: '10px',
-                            },
-                            '&::-webkit-scrollbar-thumb': {
-                                background: '#2494b6',
-                                borderRadius: '10px',
-                            },
-                        }}>
-                            {[
-                                'Cà Mau',
-                                'Cao Bằng',
-                                'Cần Thơ',
-                                'Đà Nẵng',
-                                'Đắk Lắk',
-                                'Đắk Nông',
-                                'Điện Biên',
-                                'Đồng Nai',
-                                'Đồng Tháp',
-                                'Gia Lai',
-                            ].map((province, index) => (
-                                <ListItemButton
-                                    key={province}
-                                    sx={{
-                                        borderBottom: '1px solid #e4e7ec',
-                                        height: '44px',
-                                        padding: '16px 12px',
-                                        backgroundColor: index === 3 ? '#f9fafb' : 'transparent',
-                                    }}
-                                >
-                                    <ListItemText
-                                        primary={province}
-                                        primaryTypographyProps={{
-                                            fontSize: '14px',
-                                            lineHeight: '20px',
-                                            fontFamily: '"Inter", sans-serif'
-                                        }}
-                                    />
-                                </ListItemButton>
-                            ))}
-                        </List>
-                        <Box
-                            sx={{
-                                position: 'absolute',
-                                top: '130px',
-                                left: '328px',
-                                borderRadius: '4px',
-                                backgroundColor: '#f2f4f7',
-                                zIndex: 2,
+                                flexDirection: 'column',
+                                gap: '2px',
+                                maxHeight: '300px',
+                                overflow: 'auto',
+                                scrollbarColor: '#2494b6 #f1f1f1',
+                                scrollbarWidth: 'thin',
+                                '&::-webkit-scrollbar': { width: '8px' },
+                                '&::-webkit-scrollbar-track': { background: '#f1f1f1', borderRadius: '10px' },
+                                '&::-webkit-scrollbar-thumb': { background: '#2494b6', borderRadius: '10px' },
                             }}
-                        />
+                        >
+                            {filteredLocations.length === 0 ? (
+                                <Typography textAlign="center" color="textSecondary" sx={{ py: 2 }}>
+                                    {searchTerm ? 'No locations found' : 'Loading locations...'}
+                                </Typography>
+                            ) : (
+                                filteredLocations.map((location) => {
+                                    const isSelected = selectedLocations.includes(location);
+                                    return (
+                                        <ListItemButton
+                                            key={location}
+                                            onClick={() => handleLocationToggle(location)}
+                                            sx={{
+                                                borderRadius: '6px',
+                                                height: '44px',
+                                                padding: '8px 12px',
+                                                backgroundColor: isSelected ? '#e3f2fd' : 'transparent',
+                                                '&:hover': {
+                                                    backgroundColor: isSelected ? '#bbdefb' : '#f9fafb'
+                                                },
+                                                border: isSelected ? '1px solid #2494b6' : '1px solid transparent',
+                                            }}
+                                        >
+                                            <Checkbox
+                                                checked={isSelected}
+                                                // onChange={() => handleProvinceToggle(province)}
+                                                sx={{
+                                                    padding: '4px',
+                                                    marginRight: '8px',
+                                                    color: '#2494b6',
+                                                    '&.Mui-checked': {
+                                                        color: '#2494b6',
+                                                    },
+                                                }}
+                                            />
+                                            <ListItemText
+                                                primary={location}
+                                                primaryTypographyProps={{
+                                                    fontSize: '14px',
+                                                    lineHeight: '20px',
+                                                    fontFamily: '"Inter", sans-serif',
+                                                    fontWeight: isSelected ? 600 : 400,
+                                                    color: isSelected ? '#2494b6' : '#262d34',
+                                                }}
+                                            />
+                                        </ListItemButton>
+                                    );
+                                })
+                            )}
+                        </List>
+
+                        {/* Action Buttons */}
+                        <Box sx={{ display: 'flex', gap: 2, mt: 2 }}>
+                            <Button
+                                variant="outlined"
+                                onClick={handleCloseLocation}
+                                sx={{
+                                    flex: 1,
+                                    borderRadius: '8px',
+                                    textTransform: 'none',
+                                    borderColor: '#d0d5dd',
+                                    color: '#475467',
+                                }}
+                            >
+                                Cancel
+                            </Button>
+                            <Button
+                                variant="contained"
+                                onClick={handleApplySelection}
+                                sx={{
+                                    flex: 1,
+                                    borderRadius: '8px',
+                                    textTransform: 'none',
+                                    backgroundColor: '#2494b6',
+                                    '&:hover': {
+                                        backgroundColor: '#1e7a9a',
+                                    },
+                                }}
+                            >
+                                Apply ({selectedLocations.length})
+                            </Button>
+                        </Box>
                     </Box>
                 </Box>
             </Dialog>
         </ThemeProvider>
     );
-};
+});
 
 export default Location;

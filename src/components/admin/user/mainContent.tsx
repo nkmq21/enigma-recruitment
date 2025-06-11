@@ -93,7 +93,7 @@ const DashboardUser = () => {
                                 />
                             </TableCell>
                             <TableCell>
-                                <Button sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                                <Button sx={{ display: 'flex', alignItems: 'center', gap: 1 }} href={`/admin/users/${row.id}`}>
                                     <Typography>View details</Typography>
                                     <ArrowRightIcon sx={{ fontSize: '16px' }} />
                                 </Button>

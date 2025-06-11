@@ -9,8 +9,20 @@ import {
 } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Image from 'next/image';
+import {User} from "enigma/types/models";
+import {format} from 'date-fns';
 
-const SectionDetails = () => {
+const SectionDetails = ({user}: {user: User | null | undefined}) => {
+    const toDisplayValue = (value: string | number | Date | null | undefined) => {
+        if (value instanceof Date) {
+            return format(value, "MMMM d, yyyy");
+        }
+        if (typeof value === "string" && !isNaN(Date.parse(value))) {
+            return format(new Date(value), "MMMM d, yyyy");
+        }
+        return value ?? "None";
+    };
+
     return (
         <Box
             sx={{
@@ -135,13 +147,13 @@ const SectionDetails = () => {
                         }}
                     >
                         {[
-                            { label: 'Date of Birth', value: '30.01.1999' },
-                            { label: 'Address', value: '123 UI Street, Design City' },
-                            { label: 'User ID', value: '#1425' },
-                            { label: 'Role', value: 'Admin' },
-                            { label: 'Email', value: 'hello@amelie.com', isButton: true },
-                            { label: 'Status', value: 'Active' },
-                            { label: 'Verified user', value: 'Yes' },
+                            { label: 'Date of Birth', value: toDisplayValue(user?.dob) },
+                            { label: 'Address', value: user?.address ? user.address : "None" },
+                            { label: 'User ID', value: user?.id ? user.id : "None" },
+                            { label: 'Role', value: user?.role ? user.role : "None" },
+                            { label: 'Email', value: user?.email ? user.email : "None", isButton: true },
+                            { label: 'Status', value: user?.status ? user.status : "None" },
+                            { label: 'Verified user', value: toDisplayValue(user?.emailVerified) },
                         ].map((item, index) => (
                             <Box
                                 key={index}
@@ -201,6 +213,7 @@ const SectionDetails = () => {
                                                 color: '#344054',
                                             }}
                                         >
+                                            {/*Error at item.value below*/}
                                             {item.value}
                                         </Typography>
                                     </Box>
@@ -250,7 +263,7 @@ const SectionDetails = () => {
                                     marginBlockEnd: '16px',
                                 }}
                             >
-                                I&#39;m a Product Designer based in Melbourne, Australia. I enjoy working on product design, design systems, and Webflow projects, but I don't take myself too seriously.
+                                I&#39;m a Product Designer based in Melbourne, Australia. I enjoy working on product design, design systems, and Webflow projects, but I don&#39;t take myself too seriously.
                             </Typography>
                             <Typography
                                 variant="body2"
@@ -261,7 +274,7 @@ const SectionDetails = () => {
                                     marginBlockEnd: '16px',
                                 }}
                             >
-                                I’ve worked with some of the world’s most exciting companies, including Coinbase, Stripe, and Linear. I'm passionate about helping startups grow, improve their UX and customer experience, and to raise venture capital through good design.
+                                I’ve worked with some of the world’s most exciting companies, including Coinbase, Stripe, and Linear. I&#39;m passionate about helping startups grow, improve their UX and customer experience, and to raise venture capital through good design.
                             </Typography>
                             <Typography
                                 variant="body2"

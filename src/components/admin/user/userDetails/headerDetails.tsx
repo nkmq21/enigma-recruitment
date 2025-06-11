@@ -7,10 +7,10 @@ import {
     IconButton,
 } from '@mui/material';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import Image from 'next/image';
+import {User} from "enigma/types/models";
 
-const PageHeader = () => {
+const PageHeader = ({user}: {user: User | null | undefined}) => {
     return (
         <Box
             sx={{
@@ -67,7 +67,7 @@ const PageHeader = () => {
                             borderRadius: '50%',
                         }}
                     >
-                        <Avatar src='/avatarBig.png'
+                        <Avatar src={user?.image ? user.image : '/Avatar.png'}
                                 sx={{
                                     width: '100%',
                                     height: '100%',
@@ -131,7 +131,7 @@ const PageHeader = () => {
                                         color: '#101828',
                                     }}
                                 >
-                                    Amélie Laurent
+                                    {user?.name ? user.name : "None"}
                                 </Typography>
                                 <Typography
                                     variant="body1"
@@ -141,7 +141,7 @@ const PageHeader = () => {
                                         color: '#475467',
                                     }}
                                 >
-                                    @amélielaurent
+                                    {user?.name ? user.name.split(" ")[0] : "None"}
                                 </Typography>
                             </Box>
                             {/* Actions */}
