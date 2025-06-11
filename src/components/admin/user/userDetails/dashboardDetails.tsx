@@ -1,4 +1,5 @@
-import React from 'react';
+"use client";
+import React, {useEffect, useState} from 'react';
 import {
     Table,
     TableBody,
@@ -12,6 +13,8 @@ import {
 } from '@mui/material';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import Link from 'next/link';
+import { useParams } from 'next/navigation';
+import {JobApplication} from "enigma/types/models";
 
 // Sample data (removed company field)
 const tableData = [
@@ -28,6 +31,30 @@ const tableData = [
 ];
 
 const DashboardDetails = () => {
+    const [user, setUser] = useState();
+    const [jobApplications, setJobApplications] = useState<JobApplication[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+    const params = useParams();
+    const userid = parseInt(params.userid as string, 10);
+
+    useEffect(() => {
+        async function fetchJobApplications() {
+            try {
+                const response = await fetch(`/api/job-applications/${userid}`);
+                if (!response.ok) {
+                    throw new Error("Error: " + response.statusText);
+                }
+                const data = await response.json();
+                setJobApplications(data);
+            } catch (err) {
+                setError('Error fetching users');
+            } finally {
+                setLoading(false);
+            }
+        }
+        fetchJobApplications();
+    }, [userid]);
     return (
         <TableContainer
             sx={{
@@ -61,52 +88,57 @@ const DashboardDetails = () => {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {tableData.map((row, idx) => (
+                    {jobApplications.map((row, idx) => (
                         <TableRow key={idx}>
                             <TableCell sx={{ borderBottom: '1px solid #f2f4f7', p: '16px 24px' }}>
-                                <Typography variant='body2' color='#344054' fontWeight={500}>{row.jobTitle}</Typography>
+                                <Typography variant='body2' color='#344054' fontWeight={500}>{row.job.job_title}</Typography>
                             </TableCell>
                             <TableCell sx={{ borderBottom: '1px solid #f2f4f7', p: '16px 24px' }}>
                                 <Typography variant='body2' color='#344054' fontWeight={500} sx={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                                    {row.location}
+                                    {row.job.location}
                                 </Typography>
                             </TableCell>
                             <TableCell sx={{ borderBottom: '1px solid #f2f4f7', p: '16px 24px' }}>
-                                <Typography variant='body2' color='#344054' fontWeight={500}>{row.appliedDate}</Typography>
+                                <Typography variant='body2' color='#344054' fontWeight={500}>{String(row.applied_time)}</Typography>
                             </TableCell>
                             <TableCell sx={{ borderBottom: '1px solid #f2f4f7', p: '16px 24px' }}>
                                 <Link href={'#'} style={{ color: "#3538cd" }} >
-                                    {row.cv}
+                                    {row.cv_id}
                                 </Link>
                             </TableCell>
                             <TableCell sx={{ borderBottom: '1px solid #f2f4f7', p: '16px 24px', textAlign: 'center' }}>
                                 <Chip
-                                    label={row.jobState}
+                                    label={row.job.status}
                                     size="small"
                                     sx={{
                                         borderRadius: '16px',
-                                        bgcolor: row.jobState === 'Open' ? '#ecfdf5' : '#f3f4f6',
-                                        color: row.jobState === 'Open' ? '#087443' : '#6b7280',
-                                        border: row.jobState === 'Open' ? '1px solid #9de9ab' : '1px solid #d9d9d9',
+                                        bgcolor: row.job.status === 'active' || 'prioritized' ? '#ecfdf5' : '#f3f4f6',
+                                        color: row.job.status === 'active' || 'prioritized' ? '#087443' : '#6b7280',
+                                        border: row.job.status === 'active' || 'prioritized' ? '1px solid #9de9ab' : '1px solid #d9d9d9',
                                     }}
                                 />
                             </TableCell>
                             <TableCell sx={{ borderBottom: '1px solid #f2f4f7', p: '16px 24px', textAlign: 'center' }}>
                                 <Chip
-                                    label={row.appState}
+                                    label={row.status}
                                     size="small"
                                     sx={{
                                         borderRadius: '16px',
                                         bgcolor:
-                                            row.appState === 'Waiting' ? '#fff7ed' : row.appState === 'Current' ? '#eff6ff' : '#f9fafb',
+                                            row.status === 'pending'
+                                                ? '#FFF6E0' : row.status === 'reviewed'
+                                                    ? '#E6F4FF' : row.status === 'rejected'
+                                                        ? '#FDEAEA' : '#E8F5E9',
                                         color:
-                                            row.appState === 'Waiting' ? '#ea580c' : row.appState === 'Current' ? '#165bd3' : '#363f72',
+                                            row.status === 'pending'
+                                                ? '#B88309' : row.status === 'reviewed'
+                                                    ? '#1976D2' : row.status === 'rejected'
+                                                        ? '#D32F2F' : '#2E7D32',
                                         border:
-                                            row.appState === 'Waiting'
-                                                ? '1px solid #ffd596'
-                                                : row.appState === 'Current'
-                                                    ? '1px solid #93c5fd'
-                                                    : '1px solid #d1d5db',
+                                            row.status === 'pending'
+                                                ? '#FFD580' : row.status === 'reviewed'
+                                                    ? '#90CAF9' : row.status === 'rejected'
+                                                        ? '#FFBABA' : '#A5D6A7'
                                     }}
                                 />
                             </TableCell>

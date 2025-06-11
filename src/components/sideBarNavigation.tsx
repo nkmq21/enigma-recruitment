@@ -12,7 +12,6 @@ import {
     IconButton,
     InputBase,
     Paper,
-    Divider,
     Button,
     useTheme,
     Avatar,
@@ -22,6 +21,7 @@ import Image from "next/image";
 import {Search} from "@mui/icons-material";
 import {signOut} from "next-auth/react";
 import {Session} from "next-auth";
+import {usePathname} from "next/navigation";
 
 export const SidebarNavigation = ({session, isCollapsed, setIsCollapsed}: {
     session: Session | null,
@@ -33,7 +33,7 @@ export const SidebarNavigation = ({session, isCollapsed, setIsCollapsed}: {
     const [name, setName] = useState<string | null>(null);
     const [email, setEmail] = useState<string | null>(null);
     const [image, setImage] = useState<string | undefined>("/Avatar.png");
-    const currentUrl = window.location.pathname;
+    const currentUrl = usePathname();
 
     // Check if the session is valid and set the state accordingly
     useEffect(() => {
@@ -72,16 +72,10 @@ export const SidebarNavigation = ({session, isCollapsed, setIsCollapsed}: {
 
     const publicItems = [
         {text: "Home", icon: <Image src="/homeIcon.svg" alt="home" width={24} height={24}/>, href: "/home"},
-        {text: "Saved Job", icon: <Image src="/bagicon.svg" alt="saved job" width={24} height={24}/>},
-        {text: "Resume", icon: <Image src="/mail.svg" alt="resume" width={24} height={24}/>, href: "/profile/cv"},
+        {text: "All Job Applications", icon: <Image src="/bagicon.svg" alt="saved job" width={24} height={24}/>, href: "/profile/job-applications"},
         {
             text: "Career Tool",
             icon: <Image src="/tool.svg" alt="career tool" width={24} height={24}/>,
-            icon1: <Image src="/arrowSlide.svg" alt="arrow" width={24} height={24}/>,
-        },
-        {
-            text: "Development",
-            icon: <Image src="/development.svg" alt="development" width={24} height={24}/>,
             icon1: <Image src="/arrowSlide.svg" alt="arrow" width={24} height={24}/>,
         },
         {
@@ -108,6 +102,12 @@ export const SidebarNavigation = ({session, isCollapsed, setIsCollapsed}: {
             icon: <Image src="/bagicon.svg" alt="job management" width={24} height={24}/>,
             icon1: <Image src="/arrowSlide.svg" alt="arrow" width={24} height={24}/>,
             href: "/admin/jobs"
+        },
+        {
+            text: "Job Applications Management",
+            icon: <Image src="/bagicon.svg" alt="job management" width={24} height={24}/>,
+            icon1: <Image src="/arrowSlide.svg" alt="arrow" width={24} height={24}/>,
+            href: "/admin/job-applications"
         },
         {
             text: "Website Settings",
@@ -145,6 +145,7 @@ export const SidebarNavigation = ({session, isCollapsed, setIsCollapsed}: {
                 },
             }}
         >
+            {/* Top section (logo, search bar) */}
             <Box
                 sx={{
                     display: "flex",
@@ -154,7 +155,7 @@ export const SidebarNavigation = ({session, isCollapsed, setIsCollapsed}: {
                     transition: "padding 0.7s ease",
                 }}
             >
-                {isCollapsed ? <JustLogoHeader session={session}/> : <LogoHeader session={session}/>}
+                {isCollapsed ? <JustLogoHeader/> : <LogoHeader/>}
                 {!isCollapsed && (
                     <IconButton
                         onClick={toggleSidebar}
@@ -200,6 +201,7 @@ export const SidebarNavigation = ({session, isCollapsed, setIsCollapsed}: {
                 )}
             </Box>
 
+            {/* Search bar */}
             {!isCollapsed && (
                 <Box sx={{px: 2, mt: 2}}>
                     <Paper
@@ -225,127 +227,146 @@ export const SidebarNavigation = ({session, isCollapsed, setIsCollapsed}: {
                     </IconButton>
                 </Box>
             )}
-
-            <List sx={{mt: isCollapsed ? 1 : 2}}>
-                {currentUrl.split('/')[1] !== 'admin' ? (
-                    publicItems.map((item, index) => (
-                        <ListItemButton
-                            key={index}
-                            sx={{
-                                borderRadius: 2,
-                                my: 1,
-                                mx: isCollapsed ? 0 : 1,
-                                justifyContent: isCollapsed ? "center" : "flex-start",
-                            }}
-                            href={item.href as string}
-                        >
-                            <ListItemIcon sx={{color: "#344054", minWidth: isCollapsed ? 0 : 40}}>
-                                {item.icon}
-                            </ListItemIcon>
-                            {!isCollapsed && (
-                                <>
-                                    <ListItemText primary={item.text} sx={{color: "#344054"}}/>
-                                    <ListItemIcon sx={{color: "#344054", minWidth: 0}}>{item.icon1}</ListItemIcon>
-                                </>
-                            )}
-                        </ListItemButton>
-                    ))
-                ) : (
-                    adminItems.map((item, index) => (
-                        <ListItemButton
-                            key={index}
-                            sx={{
-                                borderRadius: 2,
-                                my: 1,
-                                mx: isCollapsed ? 0 : 1,
-                                justifyContent: isCollapsed ? "center" : "flex-start",
-                            }}
-                            href={item.href as string}
-                        >
-                            <ListItemIcon sx={{color: "#344054", minWidth: isCollapsed ? 0 : 40}}>
-                                {item.icon}
-                            </ListItemIcon>
-                            {!isCollapsed && (
-                                <>
-                                    <ListItemText primary={item.text} sx={{color: "#344054"}}/>
-                                    <ListItemIcon sx={{color: "#344054", minWidth: 0}}>{item.icon1}</ListItemIcon>
-                                </>
-                            )}
-                        </ListItemButton>
-                    ))
-                )}
-
-            </List>
-
-            <Box sx={{mt: isCollapsed ? 7 : 7, flexGrow: 2}}>
-                <List>
-                    {footerItems.map((item, index) => (
-                        <ListItemButton
-                            key={index}
-                            sx={{
-                                borderRadius: 2,
-                                my: 1,
-                                mx: isCollapsed ? 0 : 1,
-                                justifyContent: isCollapsed ? "center" : "flex-start",
-                            }}
-                        >
-
-                            <ListItemIcon
-                                sx={{color: "#344054", minWidth: isCollapsed ? 0 : 40,}}>{item.icon}</ListItemIcon>
-                            {!isCollapsed && (
-                                <ListItemText primary={item.text} sx={{color: "#344054"}}/>
-                            )}
-                        </ListItemButton>
-                    ))}
-                </List>
-
-                {!isCollapsed && <Divider sx={{m: 3}}/>}
-
-                {!isCollapsed ? (
-                    !isSessionValid ? (
-                        <Box sx={{mt: 2, m: 2}}>
-                            <Button
-                                variant="contained"
-                                fullWidth
-                                sx={{mb: 1, bgcolor: "#2494B6"}}
-                                href="/register"
+            {/* Navigation options */}
+            <Box sx={{
+                flex: 1,
+                display: "flex",
+                flexDirection: "column",
+                minHeight: 0,
+                borderBottom: `1px solid ${theme.palette.divider}`
+            }}>
+                <List sx={{
+                    mt: isCollapsed ? 1 : 2,
+                    flex: 1,
+                    minHeight: 0,
+                    overflowY: 'auto',
+                    pr: 1
+                }}>
+                    {currentUrl.split('/')[0] !== 'admin' ? (
+                        publicItems.map((item, index) => (
+                            <ListItemButton
+                                key={index}
+                                sx={{
+                                    borderRadius: 2,
+                                    my: 1,
+                                    mx: isCollapsed ? 0 : 1,
+                                    justifyContent: isCollapsed ? "center" : "flex-start",
+                                }}
+                                href={item.href as string}
                             >
-                                Sign up
-                            </Button>
-                            <Button href="/login" variant="outlined" fullWidth>
-                                Sign in
-                            </Button>
-                        </Box>
+                                <ListItemIcon sx={{color: "#344054", minWidth: isCollapsed ? 0 : 40}}>
+                                    {item.icon}
+                                </ListItemIcon>
+                                {!isCollapsed && (
+                                    <>
+                                        <ListItemText primary={item.text} sx={{color: "#344054"}}/>
+                                        <ListItemIcon sx={{color: "#344054", minWidth: 0}}>{item.icon1}</ListItemIcon>
+                                    </>
+                                )}
+                            </ListItemButton>
+                        ))
                     ) : (
-                        <Box
-                            sx={{
-                                display: "flex",
-                                alignItems: "center",
-                                gap: 2,
-                                m: 2,
-                                borderRadius: 1,
-                            }}
-                        >
-                            <Avatar alt={`Profile picture of ${name}`} src={image} sx={{width: 40, height: 40}}/>
-                            <Box sx={{flexGrow: 1}}>
-                                <Typography variant="subtitle1" color="#101828" sx={{fontWeight: 600}}>
-                                    {name}
-                                </Typography>
-                                <Typography variant="body2" color="#475467">
-                                    {email}
-                                </Typography>
+                        adminItems.map((item, index) => (
+                            <ListItemButton
+                                key={index}
+                                sx={{
+                                    borderRadius: 2,
+                                    my: 1,
+                                    mx: isCollapsed ? 0 : 1,
+                                    justifyContent: isCollapsed ? "center" : "flex-start",
+                                }}
+                                href={item.href as string}
+                            >
+                                <ListItemIcon sx={{color: "#344054", minWidth: isCollapsed ? 0 : 40}}>
+                                    {item.icon}
+                                </ListItemIcon>
+                                {!isCollapsed && (
+                                    <>
+                                        <ListItemText primary={item.text} sx={{color: "#344054"}}/>
+                                        <ListItemIcon sx={{color: "#344054", minWidth: 0}}>{item.icon1}</ListItemIcon>
+                                    </>
+                                )}
+                            </ListItemButton>
+                        ))
+                    )}
+                </List>
+            </Box>
+            {/* Bottom section */}
+            <Box sx={{
+                py: isCollapsed ? 1 : 2
+            }}>
+                <Box sx={{mt: isCollapsed ? 7 : 0, flexGrow: 0}}>
+                    <List sx={{
+                        borderBottom: `1px solid ${theme.palette.divider}`
+                    }}>
+                        {footerItems.map((item, index) => (
+                            <ListItemButton
+                                key={index}
+                                sx={{
+                                    borderRadius: 2,
+                                    my: 1,
+                                    mx: isCollapsed ? 0 : 1,
+                                    justifyContent: isCollapsed ? "center" : "flex-start",
+                                }}
+                            >
+                                <ListItemIcon
+                                    sx={{color: "#344054", minWidth: isCollapsed ? 0 : 40,}}>{item.icon}</ListItemIcon>
+                                {!isCollapsed && (
+                                    <ListItemText primary={item.text} sx={{color: "#344054"}}/>
+                                )}
+                            </ListItemButton>
+                        ))}
+                    </List>
+
+                    {/*{!isCollapsed && <Divider sx={{m: 3}}/>}*/}
+
+                    {!isCollapsed ? (
+                        !isSessionValid ? (
+                            <Box sx={{mt: 2, m: 2, pt: 2}}>
+                                <Button
+                                    variant="contained"
+                                    fullWidth
+                                    sx={{mb: 1, bgcolor: "#2494B6"}}
+                                    href="/register"
+                                >
+                                    Sign up
+                                </Button>
+                                <Button href="/login" variant="outlined" fullWidth>
+                                    Sign in
+                                </Button>
                             </Box>
-                            <IconButton type="submit" onClick={handleSignOut}
-                                        style={{background: "none", border: "none", padding: 0}}>
-                                <Image src="/exit.svg" alt="exit" width={24} height={24}/>
-                            </IconButton>
+                        ) : (
+                            <Box
+                                sx={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                    gap: 2,
+                                    mx: 2,
+                                    pt: 2,
+                                    borderRadius: 1,
+                                }}
+                            >
+                                <Avatar alt={`Profile picture of ${name}`} src={image} sx={{width: 40, height: 40}}/>
+                                <Box sx={{flexGrow: 1}}>
+                                    <Typography variant="subtitle1" color="#101828" sx={{fontWeight: 600}}>
+                                        {name}
+                                    </Typography>
+                                    <Typography variant="body2" color="#475467">
+                                        {email}
+                                    </Typography>
+                                </Box>
+                                <IconButton type="submit" onClick={handleSignOut}
+                                            style={{background: "none", border: "none", padding: 0}}>
+                                    <Image src="/exit.svg" alt="exit" width={24} height={24}/>
+                                </IconButton>
+                            </Box>
+                        )
+                    ) : (
+                        <Box sx={{display: "flex", justifyContent: "center", mt: 3}}>
+                            <Avatar alt={`Profile picture of ${name}`} src={image} sx={{width: 40, height: 40}}/>
                         </Box>
-                    )
-                ) : (
-                    <Box sx={{display: "flex", justifyContent: "center", mt: 3}}>
-                        <Avatar alt={`Profile picture of ${name}`} src={image} sx={{width: 40, height: 40}}/>
-                    </Box>
-                )}
+                    )}
+                </Box>
             </Box>
         </Box>
     );

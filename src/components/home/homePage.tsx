@@ -35,7 +35,6 @@ export default function HomePage({session}: {session: Session | null}) {
             >
                 <MainContent />
             </Box>
-
         </Box>
     );
 }

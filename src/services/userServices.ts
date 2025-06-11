@@ -1,7 +1,6 @@
 // src/services/userServices.ts
 "use server";
 
-import { User } from 'enigma/types/models';
 import Cookies from 'js-cookie'
 import {RegisterSchema, LoginSchema, CreatePasswordSchema} from "enigma/schemas";
 import bcrypt from "bcryptjs";
@@ -31,7 +30,7 @@ export const getUsers = async () => {
             console.error("userServices.getUsers: Users not found");
             return null;
         }
-        console.log("userServices.getUsers: Users", users);
+        //console.log("userServices.getUsers: Users", users);
         return NextResponse.json(users);
     } catch (error) {
         console.error("userServices.getUsers: Error fetching user: ", error);

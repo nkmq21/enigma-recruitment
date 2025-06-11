@@ -3,31 +3,18 @@ import {PrismaAdapter} from "@auth/prisma-adapter";
 import {prisma} from "../prisma/prisma";
 import authConfig from "./auth.config";
 import {getAccount, getUser} from "enigma/services/userServices";
+import {User} from "enigma/types/models";
 
 export const {handlers: {GET, POST}, signIn, signOut, auth} = NextAuth({
     adapter: PrismaAdapter(prisma),
     session: {strategy: "jwt"},
     ...authConfig,
-    // events: {
-    //     async linkAccount({user}) {
-    //         // This is called when a user links an account to their profile
-    //         // You can use this to update the user in the database
-    //         await prisma.user.update({
-    //             where: {id: parseInt(<string>user.id)},
-    //             data: {
-    //                 emailVerified: new Date(),
-    //                 image: user.image,
-    //                 name: user.name
-    //             }
-    //         });
-    //         console.log("auth.js - Link Account: " + user.id);
-    //     }
-    // },
     callbacks: {
         async jwt({token}) {
             if (!token.sub) return token;
             // Check if the user exists in the database, token sub is ID of the user
-            const existingUser = await getUser(token.sub);
+            const response = await getUser(token.sub);
+            const existingUser : User = await response?.json();
             if (!existingUser) return token;
             // Check if the user has an account in the database if they use 3rd party services
             const existingAccount = await getAccount(String(existingUser.id));
@@ -66,7 +53,8 @@ export const {handlers: {GET, POST}, signIn, signOut, auth} = NextAuth({
                 return true;
             }
             // Check if the user exists in the database
-            const existingUser = await getUser(String(user.id));
+            const response = await getUser(String(user.id));
+            const existingUser : User = await response?.json();
             // Check if the user email is verified
             if (!existingUser?.emailVerified) {
                 console.error("auth.signIn: User email not verified");

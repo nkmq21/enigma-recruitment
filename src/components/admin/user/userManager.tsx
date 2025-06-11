@@ -29,13 +29,13 @@ export default function UserManagement({session}: {session: Session | null}) {
                         width: '100%',
                     },
                 }}>
-                    <Image src="/Background.svg" alt='' width={1920} height={1440}
-                           style={{
-                               position: 'fixed',
-                               top: 0,
-                               zIndex: -1, // Place the image behind all other content
-                               height: 'auto', // Optional: Maintain aspect ratio
-                           }} />
+                    {/*<Image src="/Background.svg" alt='' width={1920} height={1440}*/}
+                    {/*       style={{*/}
+                    {/*           position: 'fixed',*/}
+                    {/*           top: 0,*/}
+                    {/*           zIndex: -1, // Place the image behind all other content*/}
+                    {/*           height: 'auto', // Optional: Maintain aspect ratio*/}
+                    {/*       }} />*/}
                     <DashboardUser/>
                 </Box>
             </Box>

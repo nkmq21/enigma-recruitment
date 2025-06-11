@@ -1,6 +1,5 @@
 // src/app/api/users/route.ts
 import {NextResponse} from 'next/server';
-import {prisma} from '../../../../prisma/prisma';
 import {auth} from 'enigma/auth';
 import {getUsers} from "enigma/services/userServices";
 
@@ -24,7 +23,5 @@ export async function GET(request: Request) {
             {error: 'Internal Server Error'},
             {status: 500}
         );
-    } finally {
-        await prisma.$disconnect();
     }
 }

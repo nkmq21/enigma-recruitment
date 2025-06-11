@@ -987,7 +987,7 @@ This project aims to enhance the recruitment experience by providing a comprehen
 									<td style='padding: 8px;'>- Defines the API routing logic for the application, facilitating communication between the client and server components<br>- It serves as a central hub for handling incoming requests, directing them to the appropriate handlers, and ensuring a seamless interaction with the underlying services<br>- This structure enhances modularity and maintainability within the overall codebase architecture, promoting efficient data exchange and user experience.</td>
 								</tr>
 							</table>
-							<!-- jobapplications Submodule -->
+							<!-- job-applications Submodule -->
 							<details>
 								<summary><b>jobapplications</b></summary>
 								<blockquote>
