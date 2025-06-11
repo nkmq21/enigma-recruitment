@@ -1,3 +1,4 @@
+"use client";
 import * as React from "react";
 import { Box, ThemeProvider } from "@mui/material";
 import { SidebarNavigation } from "../../../sideBarNavigation";
@@ -17,15 +18,15 @@ export default function UserDetails({session}: {session: Session | null}) {
             }}>
                 <SidebarNavigation session={session} isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
                 <Box sx={{
-                        pt: 10,
+                    pt: 10,
+                    width: '100%',
+                    position: 'relative',
+                    marginLeft: {sm: sidebarWidth},
+                    '@media (max-width: 991px)': {
+                        marginLeft: '0',
                         width: '100%',
-                        position: 'relative',
-                        marginLeft: {sm: sidebarWidth},
-                        '@media (max-width: 991px)': {
-                            marginLeft: '0',
-                            width: '100%',
-                        },
-                    }}
+                    },
+                }}
                 >
                     <MainContent />
                 </Box>

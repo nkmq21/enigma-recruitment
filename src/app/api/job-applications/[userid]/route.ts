@@ -1,8 +1,7 @@
-// src/app/api/users/[userid]/route.ts
+// src/app/api/job-applications/[userid]/route.ts
 import {NextResponse} from 'next/server';
-import {prisma} from '../../../../../prisma/prisma';
 import {auth} from 'enigma/auth';
-import {getUser} from "enigma/services/userServices";
+import {getJobApplicationsByUserId} from "enigma/services/jobApplicationServices";
 
 export async function GET(request: Request, context: {params: {userid: string}}) {
     try {
@@ -18,13 +17,13 @@ export async function GET(request: Request, context: {params: {userid: string}})
                 {status: 401}
             );
         }
-        const user = await getUser(String(id));
-        if (!user) {
+        const jobApplications = await getJobApplicationsByUserId(String(id));
+        if (!jobApplications) {
             return NextResponse.json({error: 'No users found!'});
         }
-        return user;
+        return jobApplications;
     } catch (error) {
-        console.error('Error fetching users:', error);
+        console.error('Error fetching job applications:', error);
         return NextResponse.json(
             {error: 'Internal Server Error'},
             {status: 500}

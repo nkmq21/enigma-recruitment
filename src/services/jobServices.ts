@@ -1,6 +1,7 @@
 // src/services/jobServices.ts
 import { Job } from 'enigma/types/models';
 import { prisma } from '../../prisma/prisma';
+import { error } from 'console';
 
 export async function getJob(jobid: string): Promise<Job> {
     const response = await fetch(`/api/jobs/${jobid}`, {
@@ -31,56 +32,51 @@ export async function JobLocation() {
 }
 
 export class FilterService {
-    async getIndustries() {
-        const industries = await prisma.industry.findMany({
-            select: {
-                industry_name: true,
-            },
-            orderBy: {
-                industry_name: 'asc',
-            },
-            distinct: ['industry_name']
-        });
-        return industries.map((jobIndustry) => jobIndustry.industry_name);
-    }
+    // async getIndustries() {
+    //     const industries = await prisma.industry.findMany({
+    //         select: {
+    //             industry_name: true,
+    //         },
+    //         orderBy: {
+    //             industry_name: 'asc',
+    //         },
+    //         distinct: ['industry_name']
+    //     });
+    //     return industries.map((jobIndustry) => jobIndustry.industry_name);
+    // }
 
-    async getJobFunctions() {
-        const jobFunctions = await prisma.jobFunction.findMany({
-            select: {
-                job_function_name: true,
-            },
-            orderBy: {
-                job_function_name: 'asc'
-            },
-            distinct: ['job_function_name']
-        });
-        return jobFunctions.map((jobFunction) => jobFunction.job_function_name);
-    }
+    // async getJobFunctions() {
+    //     const jobFunctions = await prisma.jobFunction.findMany({
+    //         select: {
+    //             job_function_name: true,
+    //         },
+    //         orderBy: {
+    //             job_function_name: 'asc'
+    //         },
+    //         distinct: ['job_function_name']
+    //     });
+    //     return jobFunctions.map((jobFunction) => jobFunction.job_function_name);
+    // }
 
-    async getJobSubfunctions() {
-        const jobSubfunctions = await prisma.jobSubfunction.findMany({
-            select: {
-                job_subfunction_name: true
-            },
-            orderBy: {
-                job_subfunction_name: 'asc'
-            },
-            distinct: ['job_subfunction_name']
-        });
-        return jobSubfunctions.map((jobSubfunction) => jobSubfunction.job_subfunction_name);
-    }
+    // async getJobSubfunctions() {
+    //     const jobSubfunctions = await prisma.jobSubfunction.findMany({
+    //         select: {
+    //             job_subfunction_name: true
+    //         },
+    //         orderBy: {
+    //             job_subfunction_name: 'asc'
+    //         },
+    //         distinct: ['job_subfunction_name']
+    //     });
+    //     return jobSubfunctions.map((jobSubfunction) => jobSubfunction.job_subfunction_name);
+    // }
 
     async getLocations() {
-        const jobLocation = await prisma.job.findMany({
-            where: {
-                status: "active",
-            },
-            select: {
-                location: true,
-            },
-            distinct: ['location'],
-        });
-        return jobLocation.map((job) => job.location);
+        const response = await fetch('/api/jobs/filters/locations');
+        if (!response.ok) {
+            throw new Error('failed to fetch locations')
+        }
+        return response.json();
     }
 
 }

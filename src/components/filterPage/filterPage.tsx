@@ -17,10 +17,12 @@ import CheckboxGroup from './checkboxGroup';
 import SalaryFilter from './salaryFilter';
 import DatePickerMenu from './calendar';
 import Location from './locationFilter';
-import DistanceFilter from './distance';
 import IndustriesFilter from './industries';
 import JobRoleFilter from './jobRole';
 import JobSubRoleFilter from './jobSubRole';
+import {usePathname, useRouter} from 'next/navigation';
+import { EmploymentType } from '@prisma/client';
+import { useParams } from 'next/navigation';
 // Reusable ResetButton component
 const ResetButton: FunctionComponent<{
     filterName: string;
@@ -42,11 +44,46 @@ interface SlideOutMenuProps {
 }
 
 const SlideOutMenu: FunctionComponent<SlideOutMenuProps> = ({ open, onClose }) => {
+    const router = useRouter();
+    const currentPath = usePathname();
+    const [childDialogOpen, setChildDialogOpen] = useState(false);
+
+    const [filterValues, setFilterValues] = useState({
+        postDateRange: '',
+        selectedLocations: [] as string[],
+        industries: [] as string[],
+        jobFunctions: [] as string[],
+        jobSubfunction: [] as string[],
+        salaryRange: { min: '', max: '' },
+        EmploymentType: [] as string[],
+    });
+
+    // Update location field display when locations change
+    const updateLocationDisplay = () => {
+        if (locationCountryRef.current && filterValues.selectedLocations.length > 0) {
+            const displayText = filterValues.selectedLocations.length === 1
+                ? filterValues.selectedLocations[0]
+                : `${filterValues.selectedLocations.length} locations selected`;
+            locationCountryRef.current.value = displayText;
+        }
+    };
+
+    // Handle location changes from Location component
+    const handleLocationChange = (locations: string[]) => {
+        setFilterValues(prev => ({
+            ...prev,
+            selectedLocations: locations
+        }));
+
+        // Update the display immediately
+        setTimeout(updateLocationDisplay, 0);
+    };
+
 
     // Refs for each TextField
     const postDateRangeRef = useRef<HTMLInputElement | null>(null);
     const locationCountryRef = useRef<HTMLInputElement | null>(null);
-    const locationDistanceRef = useRef<HTMLInputElement | null>(null);
+    // const locationDistanceRef = useRef<HTMLInputElement | null>(null);
     const industriesRef = useRef<HTMLInputElement | null>(null);
     const jobFunctionsRef = useRef<HTMLInputElement | null>(null);
     const jobSubFunctionsRef = useRef<HTMLInputElement | null>(null);
@@ -57,8 +94,9 @@ const SlideOutMenu: FunctionComponent<SlideOutMenuProps> = ({ open, onClose }) =
                 if (postDateRangeRef.current) postDateRangeRef.current.value = '';
                 break;
             case 'Location':
+                setFilterValues(prev => ({ ...prev, selectedLocations: [] }));
                 if (locationCountryRef.current) locationCountryRef.current.value = '';
-                if (locationDistanceRef.current) locationDistanceRef.current.value = '';
+                // if (locationDistanceRef.current) locationDistanceRef.current.value = '';
                 break;
             case 'Industries':
                 if (industriesRef.current) industriesRef.current.value = '';
@@ -72,11 +110,26 @@ const SlideOutMenu: FunctionComponent<SlideOutMenuProps> = ({ open, onClose }) =
         }
     };
 
-    // const [value, setValue] = React.useState([0, 2000]);
+    //apply filter and update the url
+    const handleApplyFilters = () => {
+        const queryParams = new URLSearchParams();
 
-    // const handleChange = (event: any, newValue: React.SetStateAction<number[]>) => {
-    //     setValue(newValue);
-    // };
+        if (filterValues.selectedLocations.length > 0) {
+            queryParams.set('locations', filterValues.selectedLocations.join(','));
+        }
+
+        //TODO: add other filter to URL
+
+        //navigate with query params
+        //get the path without the current query
+        // const currentPath = router.asPath.split('?')[0];
+        router.push(`${currentPath}?${queryParams.toString()}`);
+
+        console.log('applied filter: ', filterValues);
+        console.log('url query: ', queryParams);
+
+        onClose();
+    }
 
     // State for date picker dialog
     const [datePickerOpen, setDatePickerOpen] = useState(false);
@@ -88,6 +141,15 @@ const SlideOutMenu: FunctionComponent<SlideOutMenuProps> = ({ open, onClose }) =
     const handleDatePickerClose = () => {
         setDatePickerOpen(false);
     };
+
+    const handleChildDialogOpen = () => {
+        setChildDialogOpen(true);
+    };
+
+    const handleChildDialogClose = () => {
+        setChildDialogOpen(false);
+    };
+
 
     return (
         <ThemeProvider theme={theme} >
@@ -180,8 +242,40 @@ const SlideOutMenu: FunctionComponent<SlideOutMenuProps> = ({ open, onClose }) =
                             <ResetButton filterName="Location" onReset={handleReset} />
                         </Box>
                         <Box sx={{ display: 'flex', gap: 2 }}>
-                            <Location />
-                            <DistanceFilter />
+
+                            {/*<TextField*/}
+                            {/*    fullWidth*/}
+                            {/*    variant="outlined"*/}
+                            {/*    inputRef={locationCountryRef}*/}
+                            {/*    placeholder="Select locations"*/}
+                            {/*    value={*/}
+                            {/*        filterValues.selectedLocations.length === 0*/}
+                            {/*            ? ''*/}
+                            {/*            : filterValues.selectedLocations.length === 1*/}
+                            {/*                ? filterValues.selectedLocations[0]*/}
+                            {/*                : `${filterValues.selectedLocations.length} locations selected`*/}
+                            {/*    }*/}
+                            {/*    onClick={handleChildDialogOpen}*/}
+                            {/*    InputProps={{*/}
+                            {/*        startAdornment: <Image src='/location.svg' alt='location' height={20} width={20} style={{ marginRight: '10px' }} />,*/}
+                            {/*        endAdornment: <ArrowDropDown sx={{ color: 'grey.600' }} />,*/}
+                            {/*        readOnly: true,*/}
+                            {/*    }}*/}
+                            {/*    sx={{*/}
+                            {/*        "& .MuiOutlinedInput-root": { borderRadius: "8px" },*/}
+                            {/*        cursor: 'pointer',*/}
+                            {/*    }}*/}
+                            {/*/>*/}
+
+                            <Location
+                                disabled={false}
+                                onDialogOpen={handleChildDialogOpen}
+                                onDialogClose={handleChildDialogClose}
+                                value={filterValues.selectedLocations}
+                                onChange={handleLocationChange}
+                                // style={{ display: 'none' }}
+                            />
+                            {/* <DistanceFilter /> */}
                         </Box>
                     </Box>
 
@@ -254,7 +348,7 @@ const SlideOutMenu: FunctionComponent<SlideOutMenuProps> = ({ open, onClose }) =
                                 sx={{
                                     borderColor: ' rgba(255, 255, 255, 0.12)'
                                 }}
-                                onClick={onClose}>
+                                onClick={handleApplyFilters}>
                                 Apply
                             </Button>
                         </Box>
