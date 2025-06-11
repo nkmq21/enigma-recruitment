@@ -111,7 +111,7 @@ const Location = React.memo<LocationProps>(({
 
     return (
         <ThemeProvider theme={theme}>
-            <Box>
+            <Box sx={{ width: '100%' }}>
                 <TextField
                     fullWidth
                     variant="outlined"
@@ -176,9 +176,8 @@ const Location = React.memo<LocationProps>(({
                         borderRadius: '12px',
                         overflow: 'hidden',
                         p: 2,
-                        maxHeight: '600px',
+                        maxHeight: { xs: '400px', sm: '600px' },
                         bgcolor: '#fff',
-                        zIndex: 1400,
                     },
                 }}
             >
@@ -190,7 +189,7 @@ const Location = React.memo<LocationProps>(({
                         display: 'flex',
                         flexDirection: 'column',
                         color: '#262d34',
-                        width: '400px',
+                        width: { xs: '300px', sm: '400px' },
                     }}
                 >
                     <Box
@@ -206,7 +205,11 @@ const Location = React.memo<LocationProps>(({
                     >
                         {/* Header */}
                         <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                            <Typography variant='body1' sx={{ fontWeight: 600, color: '#262d34' }}>
+                            <Typography sx={{
+                                fontWeight: 600,
+                                color: '#262d34',
+                                fontSize: { xs: '13px', sm: '16px' },
+                            }}>
                                 Select Locations ({selectedLocations.length} selected)
                             </Typography>
                             {selectedLocations.length > 0 && (
@@ -216,7 +219,7 @@ const Location = React.memo<LocationProps>(({
                                     sx={{
                                         color: '#d32f2f',
                                         textTransform: 'none',
-                                        fontSize: '14px',
+                                        fontSize: { xs: '10px', sm: '14px' },
                                         padding: '4px 8px',
                                     }}
                                 >
@@ -237,7 +240,7 @@ const Location = React.memo<LocationProps>(({
                                     borderRadius: '8px',
                                     border: '1px solid #d0d5dd',
                                     boxShadow: '0px 1px 2px rgba(16, 24, 40, 0.05)',
-                                    fontSize: '14px',
+                                    fontSize: { xs: '12px', sm: '14px' },
                                     color: '#667085',
                                 },
                                 '& .MuiInputBase-input': { padding: '10px 14px' },
@@ -286,7 +289,7 @@ const Location = React.memo<LocationProps>(({
                                                 checked={isSelected}
                                                 // onChange={() => handleProvinceToggle(province)}
                                                 sx={{
-                                                    padding: '4px',
+                                                    padding: { xs: '2px', sm: '4px' },
                                                     marginRight: '8px',
                                                     color: '#2494b6',
                                                     '&.Mui-checked': {
@@ -297,7 +300,7 @@ const Location = React.memo<LocationProps>(({
                                             <ListItemText
                                                 primary={location}
                                                 primaryTypographyProps={{
-                                                    fontSize: '14px',
+                                                    fontSize: { xs: '12px', sm: '14px' },
                                                     lineHeight: '20px',
                                                     fontFamily: '"Inter", sans-serif',
                                                     fontWeight: isSelected ? 600 : 400,

@@ -178,10 +178,10 @@ export const MainContent = () => {
 };
 
 const FeatureCard = ({
-                         icon,
-                         title,
-                         subtitle,
-                     }: {
+    icon,
+    title,
+    subtitle,
+}: {
     icon: React.ReactNode;
     title: string;
     subtitle: string;

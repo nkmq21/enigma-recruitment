@@ -92,7 +92,8 @@ const JobSubRoleFilter: FunctionComponent = () => {
                     PaperProps={{
                         sx: {
                             borderRadius: '12px',
-                            width: '306px',
+                            width: { xs: '300px', sm: '400px' },
+                            maxHeight: { xs: '400px', sm: '600px' },
                             overflowX: 'hidden',
                             p: 2,
                             bgcolor: '#fff',

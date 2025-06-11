@@ -1,11 +1,11 @@
 import * as React from 'react';
-import {Box, TextField, InputAdornment, Button} from '@mui/material';
+import { Box, TextField, InputAdornment, Button } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-import {FilterSortBar} from './filterSortBar';
-import {usePathname, useSearchParams, useRouter} from "next/navigation";
-import {useState} from "react";
+import { FilterSortBar } from './filterSortBar';
+import { usePathname, useSearchParams, useRouter } from "next/navigation";
+import { useState } from "react";
 
-export default function SearchBar({placeholder}: {placeholder?: string}) {
+export default function SearchBar({ placeholder }: { placeholder?: string }) {
     const router = useRouter();
     const pathName = usePathname();
     const searchParams = useSearchParams();
@@ -44,20 +44,20 @@ export default function SearchBar({placeholder}: {placeholder?: string}) {
             maxWidth: '100vw',
             boxSizing: 'border-box',
             '@media (max-width: 991px)': {
-                flexDirection: 'row',
-                gap: 1,
+                flexDirection: 'column',
+                gap: 2,
                 maxWidth: '100vw',
             },
         }}>
             <Box
                 sx={{
                     flex: 1,
-                    minWidth: { xs: '60%', md: '300px' }, // min 60% under 991px
+                    minWidth: { xs: '100%', md: '300px' }, // min 60% under 991px
                     maxWidth: '100%',
                     display: 'flex',
                 }}
             >
-                <form onSubmit={handleSearch} style={{width: '100%', display: 'flex', gap: '16px'}}>
+                <form onSubmit={handleSearch} style={{ width: '100%', display: 'flex', gap: '16px' }}>
                     <TextField
                         fullWidth
                         name="inputSearchValue"
@@ -68,7 +68,7 @@ export default function SearchBar({placeholder}: {placeholder?: string}) {
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
-                                    <SearchIcon sx={{color: '#98A2B3', backgroundColor: '#F9FAFB'}}/>
+                                    <SearchIcon sx={{ color: '#98A2B3', backgroundColor: '#F9FAFB' }} />
                                 </InputAdornment>
                             ),
                         }}
@@ -77,11 +77,11 @@ export default function SearchBar({placeholder}: {placeholder?: string}) {
                                 borderRadius: 2,
                                 fontSize: 20,
                                 height: '64px',
-                                '& fieldset': {borderColor: '#98A2B3'},
-                                '&:hover fieldset': {borderColor: '#98A2B3'},
-                                '&.Mui-focused fieldset': {borderColor: '#98A2B3'},
+                                '& fieldset': { borderColor: '#98A2B3' },
+                                '&:hover fieldset': { borderColor: '#98A2B3' },
+                                '&.Mui-focused fieldset': { borderColor: '#98A2B3' },
                             },
-                            '& input': {color: '#98A2B3', fontSize: '20px'},
+                            '& input': { color: '#98A2B3', fontSize: '20px' },
                             boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
                         }}
                     />
@@ -89,9 +89,9 @@ export default function SearchBar({placeholder}: {placeholder?: string}) {
                         type="submit"
                         variant="contained"
                         sx={{
-                            display: {xs: 'none', sm: 'block'},
+                            display: { xs: 'none', sm: 'block' },
                             bgcolor: '#2494B6',
-                            '&:hover': {bgcolor: '#1A7A96'},
+                            '&:hover': { bgcolor: '#1A7A96' },
                             height: '64px',
                             minWidth: '120px'
                         }}
@@ -100,7 +100,7 @@ export default function SearchBar({placeholder}: {placeholder?: string}) {
                     </Button>
                 </form>
             </Box>
-            <FilterSortBar/>
+            <FilterSortBar />
         </Box>
     );
 }
