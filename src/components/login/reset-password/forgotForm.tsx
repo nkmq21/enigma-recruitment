@@ -165,9 +165,12 @@ export const ForgotForm: React.FC = () => {
                                     justifyContent: 'center',
                                 }}
                             >
-                                <Button sx={{
-                                    gap: 0.5,
-                                }}>
+                                <Button
+                                    sx={{
+                                        gap: 0.5,
+                                    }}
+                                    href="/login"
+                                >
                                     <Image src="/arrowLeft.svg" alt="" width={20} height={20}/>
                                     <Typography
                                         sx={{
