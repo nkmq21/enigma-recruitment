@@ -50,15 +50,15 @@ export default function SearchBar({ placeholder }: { placeholder?: string }) {
             maxWidth: '100vw',
             boxSizing: 'border-box',
             '@media (max-width: 991px)': {
-                flexDirection: 'row',
-                gap: 1,
+                flexDirection: 'column',
+                gap: 2,
                 maxWidth: '100vw',
             },
         }}>
             <Box
                 sx={{
                     flex: 1,
-                    minWidth: { xs: '60%', md: '300px' }, // min 60% under 991px
+                    minWidth: { xs: '100%', md: '300px' }, // min 60% under 991px
                     maxWidth: '100%',
                     display: 'flex',
                 }}

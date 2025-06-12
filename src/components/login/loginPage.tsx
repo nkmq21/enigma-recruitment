@@ -3,56 +3,13 @@ import * as React from "react";
 import { LoginForm } from "./loginForm";
 import { LoginHero } from "./loginHero";
 import { ThemeProvider, createTheme, Box, Grid } from '@mui/material';
-
-const theme = createTheme({
-    palette: {
-        primary: {
-            main: '#2494B6',
-        },
-        text: {
-            primary: '#101828',
-            secondary: '#475467',
-        },
-    },
-    typography: {
-        fontFamily: 'Inter, -apple-system, Roboto, Helvetica, sans-serif',
-        h1: {
-            fontSize: '36px',
-            fontWeight: 600,
-            lineHeight: '44px',
-            letterSpacing: '-0.72px',
-        },
-        body1: {
-            fontSize: '16px',
-            lineHeight: '24px',
-        },
-    },
-    components: {
-        MuiButton: {
-            styleOverrides: {
-                root: {
-                    textTransform: 'none',
-                    borderRadius: '8px',
-                },
-            },
-        },
-        MuiTextField: {
-            styleOverrides: {
-                root: {
-                    '& .MuiOutlinedInput-root': {
-                        borderRadius: '8px',
-                    },
-                },
-            },
-        },
-    },
-});
+import theme from "../font/theme";
 
 export default function LoginPage() {
     return (
         <ThemeProvider theme={theme}>
             <Box
-                component="main"
+                component="section"
                 sx={{
                     display: 'flex',
                     alignItems: 'flex-start',
@@ -84,7 +41,7 @@ export default function LoginPage() {
                             bgcolor: '#FFF',
                         }}
                     >
-                        <LoginForm onSwitch={LoginPage} />
+                        <LoginForm />
                         <LoginHero />
                     </Grid>
                 </Grid>

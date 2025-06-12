@@ -46,7 +46,7 @@ const DatePickerMenu: FunctionComponent<DatePickerMenuProps> = ({ onClose }) => 
             new Date('2024-01-01'),
             new Date('2024-02-04'),
             new Date('2024-02-14'),
-            new Date('2024-03-08'), // Example dot in March for future months
+            new Date('2024-03-08'),
         ];
         return dotDates.some((dotDate) => isSameDay(date, dotDate));
     };
@@ -113,9 +113,7 @@ const DatePickerMenu: FunctionComponent<DatePickerMenuProps> = ({ onClose }) => 
                     <Typography
                         variant='body2'
                         sx={{
-                            lineHeight: '20px',
                             fontWeight: 500,
-                            width: 24,
                             textAlign: 'center',
                         }}
                     >
@@ -202,7 +200,7 @@ const DatePickerMenu: FunctionComponent<DatePickerMenuProps> = ({ onClose }) => 
                     >
                         <ChevronLeft />
                     </IconButton>
-                    <Typography sx={{ fontWeight: 600, lineHeight: '24px' }}>
+                    <Typography variant='body2' sx={{ fontWeight: 600, fontSize: { xs: 'body2', md: 'body1' } }}>
                         {format(month, 'MMMM yyyy')}
                     </Typography>
                     <IconButton
@@ -221,7 +219,7 @@ const DatePickerMenu: FunctionComponent<DatePickerMenuProps> = ({ onClose }) => 
                         alignItems: 'flex-start',
                         justifyContent: 'flex-start',
                         gap: '4px 0px',
-                        fontSize: '14px',
+                        fontSize: { xs: '12px', md: '14px' },
                     }}
                 >
                     {/* Weekday Headers */}
@@ -231,7 +229,7 @@ const DatePickerMenu: FunctionComponent<DatePickerMenuProps> = ({ onClose }) => 
                             sx={{
                                 width: 40,
                                 height: 40,
-                                borderRadius: '9999px',
+                                borderRadius: '50%',
                                 display: 'flex',
                                 alignItems: 'center',
                                 justifyContent: 'center',
@@ -270,13 +268,13 @@ const DatePickerMenu: FunctionComponent<DatePickerMenuProps> = ({ onClose }) => 
                 {/* Leading Content */}
                 <Box
                     sx={{
-                        width: "20%",
                         borderRight: '1px solid #e4e7ec',
+                        width: '30%',
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'flex-start',
-                        justifyContent: 'flex-start',
-                        p: '12px 16px',
+                        justifyContent: 'center',
+                        p: '12px 0px',
                         gap: '4px',
                     }}
                 >
@@ -316,66 +314,22 @@ const DatePickerMenu: FunctionComponent<DatePickerMenuProps> = ({ onClose }) => 
                 </Box>
 
                 {/* Trailing Content */}
-                <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-start', flex: 1 }}>
+                <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
                     {/* Date Pickers */}
-                    <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+                    <Box sx={{ display: 'flex', flexDirection: 'row', borderBottom: '1px solid #e4e7ec', }}>
                         {/* Left Picker (January 2024) */}
-                        <Box sx={{ width: '50%', borderRight: '1px solid #e4e7ec', p: '20px 24px' }}>
+                        <Box sx={{ p: '20px 24px' }}>
                             {renderCalendar(leftMonth, setLeftMonth, true)}
                         </Box>
-
-                        {/* Right Picker (February 2024) */}
-                        <Box sx={{ width: '50%', p: '20px 24px' }}>
-                            {renderCalendar(rightMonth, setRightMonth, false)}
-                        </Box>
                     </Box>
-
                     {/* Bottom Panel */}
                     <Box
                         sx={{
-                            width: '100%',
                             borderTop: '1px solid #e4e7ec',
                             display: 'flex',
-                            flexDirection: 'row',
-                            alignItems: 'flex-start',
-                            justifyContent: 'space-between',
                             p: '16px',
-                            gap: '12px',
                         }}
                     >
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                            <Box sx={{ width: 136 }}>
-                                <TextField
-                                    value={startDate ? format(startDate, 'MMM d, yyyy') : ''}
-                                    size="small"
-                                    fullWidth
-                                    InputProps={{ readOnly: true }}
-                                    sx={{
-                                        '& .MuiOutlinedInput-root': {
-                                            borderRadius: '8px',
-                                            border: '1px solid #d0d5dd',
-                                            boxShadow: '0px 1px 2px rgba(16, 24, 40, 0.05)',
-                                        },
-                                    }}
-                                />
-                            </Box>
-                            <Typography sx={{ color: '#667085', lineHeight: '24px' }}>–</Typography>
-                            <Box sx={{ width: 136 }}>
-                                <TextField
-                                    value={endDate ? format(endDate, 'MMM d, yyyy') : ''}
-                                    size="small"
-                                    fullWidth
-                                    InputProps={{ readOnly: true }}
-                                    sx={{
-                                        '& .MuiOutlinedInput-root': {
-                                            borderRadius: '8px',
-                                            border: '1px solid #d0d5dd',
-                                            boxShadow: '0px 1px 2px rgba(16, 24, 40, 0.05)',
-                                        },
-                                    }}
-                                />
-                            </Box>
-                        </Box>
                         <Box sx={{ display: 'flex', gap: '12px' }}>
                             <Button
                                 variant="outlined"
@@ -411,7 +365,7 @@ const DatePickerMenu: FunctionComponent<DatePickerMenuProps> = ({ onClose }) => 
                     </Box>
                 </Box>
             </Box>
-        </LocalizationProvider>
+        </LocalizationProvider >
     );
 };
 

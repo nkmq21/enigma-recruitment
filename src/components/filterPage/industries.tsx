@@ -76,11 +76,11 @@ const IndustriesFilter: FunctionComponent = () => {
                     open={open}
                     onClose={handleCloseIndustries}
                     maxWidth="sm"
-                    fullWidth
                     PaperProps={{
                         sx: {
                             borderRadius: '12px',
-                            width: '306px',
+                            width: { xs: '300px', sm: '400px' },
+                            maxHeight: { xs: '400px', sm: '600px' },
                             overflowX: 'hidden',
                             p: 2,
                             bgcolor: '#fff',
@@ -181,20 +181,6 @@ const IndustriesFilter: FunctionComponent = () => {
                             </ListItemButton>
                         ))}
                     </List>
-
-                    {/* Optional: Visual element like DropdownChild */}
-                    <Box
-                        sx={{
-                            width: '4px',
-                            height: '68px',
-                            borderRadius: '4px',
-                            bgcolor: '#f2f4f7',
-                            position: 'absolute',
-                            top: '130px',
-                            left: '328px',
-                            zIndex: 2,
-                        }}
-                    />
                 </Dialog>
             </>
         </ThemeProvider>

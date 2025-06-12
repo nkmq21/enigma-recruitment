@@ -42,7 +42,7 @@ const CheckboxGroup: FunctionComponent<CheckboxGroupProps> = ({
                         borderColor: checkedTypes.includes(type) ? 'primary.main' : '#d0d5dd',
                         boxShadow: '0px 1px 2px rgba(16, 24, 40, 0.05)',
                         fontSize: '14px',
-                        width: '32%',
+                        width: { xs: '100%', sm: '32%' },
                     }}
                 >
                     <FormControlLabel
