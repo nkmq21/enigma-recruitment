@@ -17,6 +17,8 @@ import theme from '../font/theme';
 import Image from 'next/image';
 import { ArrowDropDown, Close } from '@mui/icons-material';
 import { FilterService } from 'enigma/services/jobServices';
+import { useSearchParams } from 'next/navigation';
+import { setSeconds } from 'date-fns';
 
 interface LocationProps {
     disabled?: boolean;
@@ -37,14 +39,33 @@ const Location = React.memo<LocationProps>(({
     const filterService = useMemo(() => new FilterService(), []);
     const [locationList, setLocationList] = useState<string[]>([]);
     const [open, setOpen] = useState(false);
-    const [selectedLocations, setSelectedLocations] = useState<string[]>(value); // Change to array
     const [searchTerm, setSearchTerm] = useState('');
+    const searchParams = useSearchParams();
     const locationProvinceRef = useRef(null);
+    const [selectedLocations, setSelectedLocations] = useState<string[]>(() => {
+        const urlLocations = searchParams.get('locations')?.split(',').filter(Boolean) || [];
+        return urlLocations.length > 0 ? urlLocations : value;
+    });
 
-    // Sync with external value
-    // useEffect(() => {
-    //     setSelectedProvinces(value);
-    // }, [value]);
+    //sync with URL params when they change
+    useEffect(() => {
+        const urlLocations = searchParams.get('locations')?.split(',').filter(Boolean) || [];
+        if (urlLocations.length > 0) {
+            setSelectedLocations(urlLocations);
+        } else if (value.length > 0) {
+            setSelectedLocations(value);
+        } else {
+            setSelectedLocations([]);
+        }
+    }, [searchParams, value]);
+
+    //notify parent when selectedLocations change
+    useEffect(() => {
+        if (onChange && selectedLocations.length > 0) {
+            onChange(selectedLocations);
+        }
+    }, [selectedLocations, onChange])
+
 
     const fetchLocations = async () => {
         try {
@@ -82,13 +103,11 @@ const Location = React.memo<LocationProps>(({
         console.log('After toggle:', { newSelectedLocations });
 
         setSelectedLocations(newSelectedLocations);
-        onChange?.(newSelectedLocations); // Notify parent
     };
 
     const handleRemoveLocation = (locationToRemove: string) => {
         const newSelectedLocations = selectedLocations.filter(p => p !== locationToRemove);
         setSelectedLocations(newSelectedLocations);
-        onChange?.(newSelectedLocations);
     };
 
     const handleClearAll = () => {
