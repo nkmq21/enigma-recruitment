@@ -3,6 +3,23 @@ import * as React from "react";
 import { Box, Typography, IconButton, Stack } from '@mui/material';
 
 export function LoginHero() {
+
+    const images = [
+        'https://cdn.builder.io/api/v1/image/assets/8ef08a3c60b44d4ba008c3e63d84c943/6f20382ab67e61a198aff83ce7a85cea38a0370c?placeholderIfAbsent=true',
+        'https://cdn.builder.io/api/v1/image/assets/8ef08a3c60b44d4ba008c3e63d84c943/6f20382ab67e61a198aff83ce7a85cea38a0370c?placeholderIfAbsent=true',
+        'https://cdn.builder.io/api/v1/image/assets/8ef08a3c60b44d4ba008c3e63d84c943/6f20382ab67e61a198aff83ce7a85cea38a0370c?placeholderIfAbsent=true',
+        // Thêm các URL hình ảnh khác
+    ];
+    const [currentImage, setCurrentImage] = React.useState(0);
+
+    React.useEffect(() => {
+        const interval = setInterval(() => {
+            setCurrentImage((prev) => (prev + 1) % images.length);
+        }, 5000); // Chuyển đổi sau 3 giây
+
+        return () => clearInterval(interval); // Dọn dẹp interval khi component unmount
+    }, [images.length]);
+
     return (
         <Box
             component="section"
@@ -46,17 +63,32 @@ export function LoginHero() {
                     }}
                 >
                     <Box
-                        component="img"
-                        src="https://cdn.builder.io/api/v1/image/assets/8ef08a3c60b44d4ba008c3e63d84c943/6f20382ab67e61a198aff83ce7a85cea38a0370c?placeholderIfAbsent=true"
                         sx={{
-                            position: 'absolute',
+                            position: 'absolute', // Đặt carousel ở vị trí absolute để phủ toàn bộ
                             inset: 0,
                             height: '100%',
                             width: '100%',
-                            objectFit: 'cover',
-                            borderBottomLeftRadius: '8%',
+                            zIndex: 1, // Đảm bảo carousel hiển thị phía trước
                         }}
-                    />
+                    >
+                        {images.map((src, index) => (
+                            <Box
+                                key={index}
+                                component="img"
+                                src={src}
+                                sx={{
+                                    position: 'absolute',
+                                    inset: 0,
+                                    height: '100%',
+                                    width: '100%',
+                                    objectFit: 'cover',
+                                    borderBottomLeftRadius: '8%',
+                                    opacity: index === currentImage ? 1 : 0,
+                                    transition: 'opacity 1s ease-in-out',
+                                }}
+                            />
+                        ))}
+                    </Box>
                     <Box
                         sx={{
                             position: 'relative',
@@ -67,6 +99,7 @@ export function LoginHero() {
                             pt: { xs: '100px', md: '478px' },
                             px: 2.5,
                             pb: 2.5,
+                            zIndex: 2, // Đảm bảo carousel hiển thị phía trước
                         }}
                     >
                         <Box

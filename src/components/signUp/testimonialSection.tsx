@@ -4,6 +4,23 @@ import { Box, Typography } from '@mui/material';
 import { ReviewStars } from './reviewStar';
 
 export const TestimonialSection: React.FC = () => {
+
+    const images = [
+        'https://cdn.builder.io/api/v1/image/assets/8ef08a3c60b44d4ba008c3e63d84c943/6f20382ab67e61a198aff83ce7a85cea38a0370c?placeholderIfAbsent=true',
+        'https://cdn.builder.io/api/v1/image/assets/8ef08a3c60b44d4ba008c3e63d84c943/6f20382ab67e61a198aff83ce7a85cea38a0370c?placeholderIfAbsent=true',
+        'https://cdn.builder.io/api/v1/image/assets/8ef08a3c60b44d4ba008c3e63d84c943/6f20382ab67e61a198aff83ce7a85cea38a0370c?placeholderIfAbsent=true',
+        // Thêm các URL hình ảnh khác
+    ];
+    const [currentImage, setCurrentImage] = React.useState(0);
+
+    React.useEffect(() => {
+        const interval = setInterval(() => {
+            setCurrentImage((prev) => (prev + 1) % images.length);
+        }, 5000); // Chuyển đổi sau 3 giây
+
+        return () => clearInterval(interval); // Dọn dẹp interval khi component unmount
+    }, [images.length]);
+
     return (
         <Box
             component="section"
@@ -54,19 +71,32 @@ export const TestimonialSection: React.FC = () => {
                     }}
                 >
                     <Box
-                        component="img"
-                        src="https://cdn.builder.io/api/v1/image/assets/TEMP/6f20382ab67e61a198aff83ce7a85cea38a0370c?placeholderIfAbsent=true&apiKey=8ef08a3c60b44d4ba008c3e63d84c943"
-                        alt="Overlay"
                         sx={{
-                            position: 'absolute',
+                            position: 'absolute', // Đặt carousel ở vị trí absolute để phủ toàn bộ
                             inset: 0,
                             height: '100%',
                             width: '100%',
-                            objectFit: 'cover',
-                            borderBottomLeftRadius: '8%',
+                            zIndex: 1, // Đảm bảo carousel hiển thị phía trước
                         }}
-                    />
-
+                    >
+                        {images.map((src, index) => (
+                            <Box
+                                key={index}
+                                component="img"
+                                src={src}
+                                sx={{
+                                    position: 'absolute',
+                                    inset: 0,
+                                    height: '100%',
+                                    width: '100%',
+                                    objectFit: 'cover',
+                                    borderBottomLeftRadius: '8%',
+                                    opacity: index === currentImage ? 1 : 0,
+                                    transition: 'opacity 1s ease-in-out',
+                                }}
+                            />
+                        ))}
+                    </Box>
                     <Box
                         sx={{
                             position: 'relative',
@@ -81,6 +111,8 @@ export const TestimonialSection: React.FC = () => {
                                 md: '438px 20px 20px',
                             },
                             flexDirection: 'column',
+                            zIndex: 2,
+
                         }}
                     >
                         <Box

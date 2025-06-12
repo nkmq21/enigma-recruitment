@@ -5,7 +5,7 @@ import { TestimonialSection } from './testimonialSection';
 
 export const SignUpPage: React.FC = () => {
     return (
-        <Box component="main"
+        <Box component="section"
             sx={{
                 overflow: 'hidden',
                 bgcolor: '#FFF',
