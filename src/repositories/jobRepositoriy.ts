@@ -1,19 +1,30 @@
+import { Job, Prisma } from '@prisma/client';
 import { prisma } from '../../prisma/prisma';
 
 
 //DO NOT FUCKING FORMAT THIS FILE
 
 export class JobRepositoriy {
-    async findBySearch(query: string, status: string[], page = 1, limit = 19) {
+    async findBySearch(
+        query: string,
+        status: string[],
+        locations: string[],
+        page = 1,
+        limit = 19,
+        // industries: string[],
+        // job_function: string[],
+        // job_subfunction: string[],
+        // employment_type: string[],
+    ) {
         const skip = (page - 1) * limit;
 
         if (!query) {
-            return this.findJobs(status, skip, limit);
+            return this.findJobs(status, locations, skip, limit);
         }
 
         const lowercasedQuery = query.toLowerCase();
 
-        const jobs = await prisma.$queryRaw`
+        const jobs: Job[] = await prisma.$queryRaw`
             SELECT j.job_id,
                    j.job_title,
                    j.description,
@@ -32,6 +43,7 @@ export class JobRepositoriy {
                      LEFT JOIN job_subfunctions js ON j.job_function_id = js.job_function_id AND
                                                       j.job_subfunction_id = js.job_subfunction_id
             WHERE j.status = ANY(${status})
+                ${locations.length > 0 ? Prisma.sql`AND j.location = ANY(${locations})` : Prisma.empty}
               AND(
                 to_tsvector('english',
                                 coalesce(j.job_title, '') || ' ' ||
@@ -54,6 +66,7 @@ export class JobRepositoriy {
             select count(*) as count
             from jobs j
             where j.status = ANY(${status})
+                ${locations.length > 0 ? Prisma.sql`AND j.location = ANY(${locations})` : Prisma.empty}
               and to_tsvector('english'
                 , coalesce (j.job_title
                 , '') || '' ||
@@ -71,9 +84,20 @@ export class JobRepositoriy {
 
     }
 
-    async findJobs(status: string[], skip: number, limit: number) {
+    async findJobs(status: string[], locations: string[] = [], skip: number, limit: number) {
+        const whereConditions: any = {
+            status: { in: status }
+        }
+
+        if (locations.length > 0) {
+            whereConditions.location = { in: locations }
+        }
+
+        console.log('Repository: findJobs with conditions:', whereConditions);
+
+
         const jobs = await prisma.job.findMany({
-            where: { status: {in: status} },
+            where: whereConditions,
             orderBy: { close_date: "desc" },
             select: {
                 job_id: true,
@@ -93,7 +117,7 @@ export class JobRepositoriy {
             take: limit
         });
 
-        const total = await prisma.job.count({ where: { status: {in: status} } });
+        const total = await prisma.job.count({ where: { status: { in: status } } });
 
         return { jobs, total };
     }
