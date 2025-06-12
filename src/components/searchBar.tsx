@@ -14,6 +14,10 @@ export default function SearchBar({ placeholder }: { placeholder?: string }) {
 
     const clearQuery = () => {
         setQuery('');
+
+        const params = new URLSearchParams(searchParams.toString());
+        params.delete('query');
+        // params.set('page', '1');
         router.replace(`${pathName}`);
     }
 
@@ -23,12 +27,14 @@ export default function SearchBar({ placeholder }: { placeholder?: string }) {
         const formData = new FormData(event.currentTarget);
         const inputSearchValue = formData.get('inputSearchValue') as string;
 
-        const params = new URLSearchParams();
+        const params = new URLSearchParams(searchParams.toString());
         if (inputSearchValue) {
             params.set("query", inputSearchValue);
         } else {
             params.delete("query");
         }
+
+        // params.set('page', "1");
         console.log(pathName);
         router.replace(`/jobs?${params.toString()}`);
     }

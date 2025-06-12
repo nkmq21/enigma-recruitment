@@ -13,8 +13,11 @@ import {
 } from "@mui/material";
 import { Job } from "enigma/types/models";
 import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export const MainContent = () => {
+    const router = useRouter();
+    const searchParams = useSearchParams();
     const popularJobs = [
         "Digital Marketer",
         "Software Developer",
@@ -25,14 +28,33 @@ export const MainContent = () => {
 
     const [jobs, setJobs] = React.useState<Job[]>([]);
     const [loading, setLoading] = React.useState(true);
-    const searchParams = useSearchParams();
 
     React.useEffect(() => {
         const fetchJobs = async () => {
+            setLoading(true)
             try {
-                setLoading(true);
-                const query = searchParams.toString();
-                const response = await fetch(`/api/jobs?status=active,prioritized${query ? '&' + query : ''}`);
+                const queryParams = new URLSearchParams();
+
+                queryParams.set('status', 'active,prioritized');
+
+                const query = searchParams.get('query');
+                if (query) {
+                    queryParams.set('query', query);
+                }
+
+                const locations = searchParams.get('locations');
+                if (locations) {
+                    queryParams.set('locations', locations);
+                }
+
+                const page = searchParams.get('page') || '1';
+                queryParams.set('page', page);
+
+                const params = queryParams.toString();
+
+                console.log('query params', params);
+
+                const response = await fetch(`/api/jobs?status=active,prioritized${params}`);
 
                 if (!response.ok) {
                     throw new Error('failed to fetch jobs');
@@ -76,6 +98,42 @@ export const MainContent = () => {
 
             {/* Search and Filter */}
             <SearchBar />
+
+
+            {/* ADDED TO CHECK THE ACTIVATED FILTER */}
+            {/* Active Filters */}
+            {(searchParams.get('locations') || searchParams.get('industries') || searchParams.get('query')) && (
+                <Box sx={{ mb: 2, p: 2, bgcolor: '#f5f5f5', borderRadius: 1 }}>
+                    <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+                        Active Filters:
+                    </Typography>
+                    <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
+                        {searchParams.get('query') && (
+                            <Chip
+                                label={`Search: ${searchParams.get('query')}`}
+                                size="small"
+                                onDelete={() => {
+                                    const newParams = new URLSearchParams(searchParams.toString());
+                                    newParams.delete('query');
+                                    router.push(`/jobs?${newParams.toString()}`);
+                                }}
+                            />
+                        )}
+                        {searchParams.get('locations') && (
+                            <Chip
+                                label={`Locations: ${searchParams.get('locations')?.replace(/,/g, ', ')}`}
+                                size="small"
+                                onDelete={() => {
+                                    const newParams = new URLSearchParams(searchParams.toString());
+                                    newParams.delete('locations');
+                                    router.push(`/jobs?${newParams.toString()}`);
+                                }}
+                            />
+                        )}
+                        {/* Add other filter chips... */}
+                    </Box>
+                </Box>
+            )}
 
             {/* Popular Jobs */}
             <Box sx={{
