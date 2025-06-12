@@ -1,36 +1,40 @@
 "use client";
 import * as React from "react";
 import {useState} from "react";
-import LogoHeader from "../../logoHeader"
+import LogoHeader from "../../../logoHeader"
 import Image from "next/image";
-import {Box, Button, Checkbox, Container, FormControlLabel, Stack, TextField, Typography, Divider} from '@mui/material';
-import {useRouter} from "next/navigation";
-import {ResetPasswordSchema} from "enigma/schemas";
+import {Box, Button, Container, Stack, TextField, Typography, Divider} from '@mui/material';
+import {ChangePasswordSchema} from "enigma/schemas";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import { z } from "zod";
-import {resetPass} from "enigma/services/userServices";
+import {changePass} from "enigma/services/userServices";
+import {useRouter, useSearchParams} from "next/navigation";
 
-export const ForgotForm: React.FC = () => {
+export const ChangePasswordForm: React.FC = () => {
+    const router = useRouter();
+    const searchParams = useSearchParams();
+    const token = searchParams.get("token");
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState("");
 
     // Initialize the form with react-hook-form and zod
-    const form = useForm<z.infer<typeof ResetPasswordSchema>>({
-        resolver: zodResolver(ResetPasswordSchema),
+    const form = useForm<z.infer<typeof ChangePasswordSchema>>({
+        resolver: zodResolver(ChangePasswordSchema),
         defaultValues: {
-            email: ''
+            password: '',
+            confirmPassword: ''
         }
     });
 
     // Handle form submission
-    const onSubmit = async (data: z.infer<typeof ResetPasswordSchema>) => {
+    const onSubmit = async (data: z.infer<typeof ChangePasswordSchema>) => {
         setLoading(true);
         setError(null);
         setSuccess("");
         try {
-            const res = await resetPass(data);
+            const res = await changePass(data, token);
             if (res.error) {
                 setError(res.error);
                 setLoading(false);
@@ -40,9 +44,12 @@ export const ForgotForm: React.FC = () => {
                 setSuccess(res.success);
                 setLoading(false);
                 setError("");
+                setTimeout(() => {
+                    router.push("/login")
+                }, 2000);
             }
         } catch (err) {
-            console.error("Error during resetting password: ", err);
+            console.error("Error during changing password: ", err);
             setError("An error occurred: " + err);
         } finally {
             setLoading(false);
@@ -94,23 +101,21 @@ export const ForgotForm: React.FC = () => {
                                 <Typography variant="h2" color="text.primary" sx={{
                                     fontSize: {lg: 'h2', xs: '30px'}
                                 }}>
-                                    Forgot your password?
+                                    Reset Password
                                 </Typography>
                                 <Typography variant="body1" color="text.secondary">
-                                    Enter your email address and we’ll send you a link to reset your password.
+                                    We have verified it is really you. Change your password here.
                                 </Typography>
                             </Stack>
-                            {/*Credentials login section*/}
-
                             <Stack spacing={3}>
-                                {/* input mail and password and login */}
+                                {/* input password */}
                                 <Box>
                                     <Stack spacing={2.5}>
                                         <TextField
                                             fullWidth
-                                            type="email"
-                                            label="Email"
-                                            placeholder="Enter your email"
+                                            type="password"
+                                            label="Password"
+                                            placeholder="Enter your new password"
                                             variant="outlined"
                                             sx={{
                                                 '& .MuiOutlinedInput-root': {
@@ -124,9 +129,33 @@ export const ForgotForm: React.FC = () => {
                                                     fontWeight: 500,
                                                 },
                                             }}
-                                            {...form.register("email")}
-                                            error={!!form.formState.errors.email}
-                                            helperText={form.formState.errors.email?.message}
+                                            {...form.register("password")}
+                                            error={!!form.formState.errors.password}
+                                            helperText={form.formState.errors.password?.message}
+                                            required
+                                        />
+
+                                        <TextField
+                                            fullWidth
+                                            type="password"
+                                            label="Confirm Password"
+                                            placeholder="Confirm your new password"
+                                            variant="outlined"
+                                            sx={{
+                                                '& .MuiOutlinedInput-root': {
+                                                    '& fieldset': {
+                                                        borderColor: '#D0D5DD',
+                                                    },
+                                                },
+                                                '& .MuiInputLabel-root': {
+                                                    color: '#344054',
+                                                    fontSize: '14px',
+                                                    fontWeight: 500,
+                                                },
+                                            }}
+                                            {...form.register("confirmPassword")}
+                                            error={!!form.formState.errors.confirmPassword}
+                                            helperText={form.formState.errors.confirmPassword?.message}
                                             required
                                         />
 
@@ -157,7 +186,9 @@ export const ForgotForm: React.FC = () => {
                                         )}
                                     </Stack>
                                 </Box>
+
                             </Stack>
+
                             <Box
                                 sx={{
                                     display: 'flex',
@@ -167,7 +198,8 @@ export const ForgotForm: React.FC = () => {
                             >
                                 <Button sx={{
                                     gap: 0.5,
-                                }}>
+                                }}
+                                href="/login">
                                     <Image src="/arrowLeft.svg" alt="" width={20} height={20}/>
                                     <Typography
                                         sx={{
@@ -179,6 +211,7 @@ export const ForgotForm: React.FC = () => {
                                     </Typography>
                                 </Button>
                             </Box>
+
                         </Stack>
                     </Box>
                 </Container>
@@ -229,4 +262,4 @@ export const ForgotForm: React.FC = () => {
             </Box>
         </>
     );
-}   
+}

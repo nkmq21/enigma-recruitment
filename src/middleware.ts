@@ -7,8 +7,8 @@ import {getUsers} from "enigma/services/userServices";
 
 const privateRoutes = ["/admin"];
 const loggedInRoutes = ["/home", "/profile"];
-const credentialRoutes = ["/login"];
-const publicRoutes = ["/", "/about", "/contact-us", "/login/new-verification", "/register"];
+const credentialRoutes = ["/login", "/login/reset-password"];
+const publicRoutes = ["/", "/about", "/contact-us", "/register", "/login/new-verification"];
 
 export async function middleware(req: NextRequest) {
     // TODO: Change ${url} to enigma-recruitment.com when in production

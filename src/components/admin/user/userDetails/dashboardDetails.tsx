@@ -1,5 +1,4 @@
-"use client";
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {
     Table,
     TableBody,
@@ -13,48 +12,9 @@ import {
 } from '@mui/material';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import Link from 'next/link';
-import { useParams } from 'next/navigation';
-import {JobApplication} from "enigma/types/models";
+import {JobApplicationWithFlatJob} from "enigma/services/jobApplicationServices";
 
-// Sample data (removed company field)
-const tableData = [
-    { jobTitle: 'Project Manager', location: 'Pasadena, Oklahoma', appliedDate: 'March 13, 2014', cv: 'CV.pdf', jobState: 'Closed', appState: 'Waiting' },
-    { jobTitle: 'Software Engineer', location: 'Lansing, Illinois', appliedDate: 'October 24, 2018', cv: 'CV.pdf', jobState: 'Closed', appState: 'Waiting' },
-    { jobTitle: 'Accountant', location: 'Portland, Illinois', appliedDate: 'October 31, 2017', cv: 'CV.pdf', jobState: 'Closed', appState: 'Current' },
-    { jobTitle: 'Marketing Specialist', location: 'Great Falls, Maryland', appliedDate: 'August 7, 2017', cv: 'CV.pdf', jobState: 'Closed', appState: 'Waiting' },
-    { jobTitle: 'Project Manager', location: 'Syracuse, Connecticut', appliedDate: 'July 14, 2015', cv: 'CV.pdf', jobState: 'Closed', appState: 'Waiting' },
-    { jobTitle: 'Sales Representative', location: 'Corona, Michigan', appliedDate: 'December 29, 2012', cv: 'CV.pdf', jobState: 'Open', appState: 'Waiting' },
-    { jobTitle: 'Medical Assistant', location: 'Lafayette, California', appliedDate: 'September 9, 2013', cv: 'CV.pdf', jobState: 'Closed', appState: 'Expired' },
-    { jobTitle: 'Dog Trainer', location: 'Coppell, Virginia', appliedDate: 'March 6, 2018', cv: 'CV.pdf', jobState: 'Closed', appState: 'Waiting' },
-    { jobTitle: 'Nursing Assistant', location: 'Stockton, New Hampshire', appliedDate: 'May 31, 2015', cv: 'CV.pdf', jobState: 'Closed', appState: 'Current' },
-    { jobTitle: 'Marketing Coordinator', location: 'Kent, Utah', appliedDate: 'October 25, 2019', cv: 'CV.pdf', jobState: 'Open', appState: 'Waiting' },
-];
-
-const DashboardDetails = () => {
-    const [user, setUser] = useState();
-    const [jobApplications, setJobApplications] = useState<JobApplication[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
-    const params = useParams();
-    const userid = parseInt(params.userid as string, 10);
-
-    useEffect(() => {
-        async function fetchJobApplications() {
-            try {
-                const response = await fetch(`/api/job-applications/${userid}`);
-                if (!response.ok) {
-                    throw new Error("Error: " + response.statusText);
-                }
-                const data = await response.json();
-                setJobApplications(data);
-            } catch (err) {
-                setError('Error fetching users');
-            } finally {
-                setLoading(false);
-            }
-        }
-        fetchJobApplications();
-    }, [userid]);
+const DashboardDetails = ({applications}: {applications: JobApplicationWithFlatJob[] | null}) => {
     return (
         <TableContainer
             sx={{
@@ -88,7 +48,7 @@ const DashboardDetails = () => {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {jobApplications.map((row, idx) => (
+                    {applications?.map((row, idx) => (
                         <TableRow key={idx}>
                             <TableCell sx={{ borderBottom: '1px solid #f2f4f7', p: '16px 24px' }}>
                                 <Typography variant='body2' color='#344054' fontWeight={500}>{row.job.job_title}</Typography>

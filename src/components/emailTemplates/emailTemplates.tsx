@@ -248,7 +248,7 @@ export function VerifyEmail(name: string, verificationUrl: string) {
     );
 }
 
-export function ForgotEmail(verificationUrl: string) {
+export function ForgotEmail(name: string, verificationUrl: string) {
     // Function to shorten URL
     const shortenUrl = (url: string, maxLength = 50) => {
         if (url.length <= maxLength) return url;

@@ -5,7 +5,14 @@ import { SidebarNavigation } from "../../../sideBarNavigation";
 import { MainContent } from "./mainContent";
 import theme from "enigma/components/font/theme";
 import {Session} from "next-auth";
-export default function UserDetails({session}: {session: Session | null}) {
+import {User} from "enigma/types/models";
+import {JobApplicationWithFlatJob} from "enigma/services/jobApplicationServices";
+
+export default function UserDetails({session, user, applications}: {
+    session: Session | null,
+    user: User | null,
+    applications: JobApplicationWithFlatJob[] | null
+}) {
     // 19% for expanded sidebar, 6% for collapsed sidebar
     const [isCollapsed, setIsCollapsed] = React.useState(false);
     const sidebarWidth = isCollapsed ? '6%' : '19%';
@@ -28,7 +35,7 @@ export default function UserDetails({session}: {session: Session | null}) {
                     },
                 }}
                 >
-                    <MainContent />
+                    <MainContent user={user} applications={applications}/>
                 </Box>
             </Box>
         </ThemeProvider>

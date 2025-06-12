@@ -13,3 +13,14 @@ export const sendVerificationEmail = async (email: string, name: string, token: 
         react: VerifyEmail(name, confirmLink)
     })
 }
+
+export const sendResetPasswordEmail = async (email: string, name: string, token: string) => {
+    // TODO: Check FRONTEND_URL in production, change sender email after setting up DNS records
+    const confirmLink = `${process.env.FRONTEND_URL}/login/reset-password/change-password?token=${token}`;
+    await resend.emails.send({
+        from: "noreply@help.enigma-recruitment.com",
+        to: email,
+        subject: "Enigma Recruitment - Reset your password",
+        react: ForgotEmail(name, confirmLink)
+    })
+}

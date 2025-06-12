@@ -242,7 +242,7 @@ export const SidebarNavigation = ({session, isCollapsed, setIsCollapsed}: {
                     overflowY: 'auto',
                     pr: 1
                 }}>
-                    {currentUrl.split('/')[0] !== 'admin' ? (
+                    {currentUrl.split('/')[1] !== 'admin' ? (
                         publicItems.map((item, index) => (
                             <ListItemButton
                                 key={index}
