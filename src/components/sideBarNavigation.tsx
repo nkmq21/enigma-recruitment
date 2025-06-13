@@ -143,53 +143,19 @@ export const SidebarNavigation = ({
         {
             text: 'User Management',
             icon: <Image src='/homeIcon.svg' alt='user management' width={24} height={24} />,
-            icon1: <Image src='/arrowSlide.svg' alt='arrow' width={24} height={24} />,
-            subItems: [
-                {
-                    text: 'All Users',
-                    href: '/admin/users',
-                    icon: <Image src='/users.svg' alt='users' width={20} height={20} />,
-                },
-                {
-                    text: 'Roles',
-                    href: '/admin/roles',
-                    icon: <Image src='/roles.svg' alt='roles' width={20} height={20} />,
-                },
-            ],
+            href: '/admin/users',
+
         },
         {
             text: 'Job Management',
             icon: <Image src='/bagicon.svg' alt='job management' width={24} height={24} />,
-            icon1: <Image src='/arrowSlide.svg' alt='arrow' width={24} height={24} />,
-            subItems: [
-                {
-                    text: 'All Jobs',
-                    href: '/admin/jobs',
-                    icon: <Image src='/jobs.svg' alt='jobs' width={20} height={20} />,
-                },
-                {
-                    text: 'Categories',
-                    href: '/admin/job-categories',
-                    icon: <Image src='/categories.svg' alt='categories' width={20} height={20} />,
-                },
-            ],
+            href: '/admin/jobs',
+
         },
         {
             text: 'Job Applications Management',
             icon: <Image src='/bagicon.svg' alt='job applications' width={24} height={24} />,
-            icon1: <Image src='/arrowSlide.svg' alt='arrow' width={24} height={24} />,
-            subItems: [
-                {
-                    text: 'All Applications',
-                    href: '/admin/job-applications',
-                    icon: <Image src='/applications.svg' alt='applications' width={20} height={20} />,
-                },
-                {
-                    text: 'Reviews',
-                    href: '/admin/job-reviews',
-                    icon: <Image src='/reviews.svg' alt='reviews' width={20} height={20} />,
-                },
-            ],
+            href: '/admin/job-applications',
         },
         {
             text: 'Website Settings',
@@ -358,7 +324,7 @@ export const SidebarNavigation = ({
                             overflowY: 'auto',
                         }}
                     >
-                        {currentUrl.split('/')[0] !== 'admin' ? (
+                        {currentUrl.split('/')[1] !== 'admin' ? (
                             publicItems.map((item, index) => (
                                 <React.Fragment key={index}>
                                     {item.icon1 && item.subItems ? (
@@ -395,7 +361,6 @@ export const SidebarNavigation = ({
                                                                 primary={item.text}
                                                                 sx={{
                                                                     color: openDropdown === item.text ? '#2494b6' : '#344054', // Change text color when dropdown is open
-
                                                                 }}
                                                             />
                                                             <ListItemIcon

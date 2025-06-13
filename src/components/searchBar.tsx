@@ -64,7 +64,7 @@ export default function SearchBar({ placeholder }: { placeholder?: string }) {
             <Box
                 sx={{
                     flex: 1,
-                    minWidth: { sm: '100%', md: '60%' }, // min 60% under 991px
+                    minWidth: { xs: '100%', md: '60%' }, // min 60% under 991px
                     maxWidth: '100%',
                     display: 'flex',
                 }}
