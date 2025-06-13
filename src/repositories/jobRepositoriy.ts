@@ -9,18 +9,18 @@ export class JobRepositoriy {
         query: string,
         status: string[],
         locations: string[],
+        jobFunctions: string[],
         page = 1,
         limit = 19,
         // industries: string[],
-        // job_function: string[],
         // job_subfunction: string[],
         // employment_type: string[],
     ) {
         const skip = (page - 1) * limit;
 
-        if (!query) {
-            return this.findJobs(status, locations, skip, limit);
-        }
+        // if (!query) {
+        //     return this.findJobs(status, locations, jobFunctions, skip, limit);
+        // }
 
         const lowercasedQuery = query.toLowerCase();
 
@@ -40,33 +40,58 @@ export class JobRepositoriy {
             FROM jobs j
                      LEFT JOIN industries i ON j.industry_id = i.industry_id
                      LEFT JOIN job_functions jf ON j.job_function_id = jf.job_function_id
-                     LEFT JOIN job_subfunctions js ON j.job_function_id = js.job_function_id AND
-                                                      j.job_subfunction_id = js.job_subfunction_id
-            WHERE j.status = ANY(${status})
-                ${locations.length > 0 ? Prisma.sql`AND j.location = ANY(${locations})` : Prisma.empty}
-              AND(
-                to_tsvector('english',
-                                coalesce(j.job_title, '') || ' ' ||
-                                coalesce(j.description, '') || ' ' ||
-                                coalesce(j.location, '') || ' ' ||
-                                coalesce(i.industry_name, '') || ' ' ||
-                                coalesce(jf.job_function_name, '')
-                  ) @@ plainto_tsquery('english', ${lowercasedQuery})
-                OR j.job_title ILIKE ${`%${lowercasedQuery}%`}
-                OR j.description ILIKE ${`%${lowercasedQuery}%`}
-                OR j.location ILIKE ${`%${lowercasedQuery}%`}
-                OR i.industry_name ILIKE ${`%${lowercasedQuery}%`}
-                OR jf.job_function_name ILIKE ${`%${lowercasedQuery}%`}
-              ) 
+                     LEFT JOIN job_subfunctions js ON j.job_function_id = js.job_function_id
+                AND j.job_subfunction_id = js.job_subfunction_id
+            WHERE j.status = ANY (${status})
+                ${locations.length > 0 ? Prisma.sql`AND j.location = ANY(${locations})` : Prisma.empty} ${jobFunctions.length > 0
+                    ? Prisma.sql`AND (${Prisma.join(
+                            jobFunctions.map(jf => Prisma.sql`jf.job_function_name ILIKE ${`%${jf.toLowerCase()}%`}`),
+                            ' OR '
+                    )})`
+                    : Prisma.empty}
+            -- TODO: add other filter criteria continue from here
+
+              AND (
+                to_tsvector('english'
+                , coalesce (j.job_title
+                , '') || ' ' ||
+                coalesce (j.description
+                , '') || ' ' ||
+                coalesce (j.location
+                , '') || ' ' ||
+                coalesce (i.industry_name
+                , '') || ' ' ||
+                coalesce (jf.job_function_name
+                , '')
+                ) @@ plainto_tsquery('english'
+                , ${lowercasedQuery})
+               OR j.job_title ILIKE ${`%${lowercasedQuery}%`}
+               OR j.description ILIKE ${`%${lowercasedQuery}%`}
+               OR j.location ILIKE ${`%${lowercasedQuery}%`}
+               OR i.industry_name ILIKE ${`%${lowercasedQuery}%`}
+               OR jf.job_function_name ILIKE ${`%${lowercasedQuery}%`}
+                )
             ORDER BY j.close_date DESC
-            LIMIT ${limit} OFFSET ${skip}
+                LIMIT ${limit}
+            OFFSET ${skip}
         `;
 
         const totalCount: any = await prisma.$queryRaw`
             select count(*) as count
-            from jobs j
-            where j.status = ANY(${status})
-                ${locations.length > 0 ? Prisma.sql`AND j.location = ANY(${locations})` : Prisma.empty}
+            FROM jobs j
+                LEFT JOIN industries i
+            ON j.industry_id = i.industry_id
+                LEFT JOIN job_functions jf ON j.job_function_id = jf.job_function_id
+                LEFT JOIN job_subfunctions js ON j.job_function_id = js.job_function_id AND
+                j.job_subfunction_id = js.job_subfunction_id
+            WHERE j.status = ANY (${status}) ${locations.length > 0 ? Prisma.sql`AND j.location = ANY(${locations})` : Prisma.empty} ${jobFunctions.length > 0
+                    ? Prisma.sql`AND (${Prisma.join(
+                            jobFunctions.map(jf => Prisma.sql`jf.job_function_name ILIKE ${`%${jf.toLowerCase()}%`}`),
+                            ' OR '
+                    )})`
+                    : Prisma.empty}
+            -- TODO: add other filter criteria from here
+
               and to_tsvector('english'
                 , coalesce (j.job_title
                 , '') || '' ||
@@ -74,7 +99,8 @@ export class JobRepositoriy {
                 , '') || '' ||
                 coalesce (j.location
                 , '')
-                ) @@ plainto_tsquery('english', ${lowercasedQuery})
+                ) @@ plainto_tsquery('english'
+                , ${lowercasedQuery})
         `;
 
         return {
@@ -84,13 +110,23 @@ export class JobRepositoriy {
 
     }
 
-    async findJobs(status: string[], locations: string[] = [], skip: number, limit: number) {
+    async findJobs(
+        status: string[],
+        locations: string[] = [],
+        jobFunctions: string[] = [],
+        skip: number,
+        limit: number
+    ) {
         const whereConditions: any = {
             status: { in: status }
         }
 
         if (locations.length > 0) {
             whereConditions.location = { in: locations }
+        }
+
+        if (jobFunctions.length > 0) {
+            whereConditions.job_function_name = { in: jobFunctions }
         }
 
         console.log('Repository: findJobs with conditions:', whereConditions);
@@ -130,7 +166,7 @@ export class JobRepositoriy {
             WHERE j.status = 'active'
             GROUP BY j.job_title
             ORDER BY frequency DESC
-            LIMIT ${limit}
+                LIMIT ${limit}
         `;
         return jobs;
     }

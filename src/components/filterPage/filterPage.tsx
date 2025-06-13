@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { FunctionComponent, useRef, useState } from 'react';
+import React, {useEffect, useCallback} from 'react';
+import {FunctionComponent, useRef, useState} from 'react';
 import {
     Box,
     Typography,
@@ -12,29 +12,30 @@ import {
 } from '@mui/material';
 import theme from '../font/theme';
 import Image from 'next/image';
-import { Close, ArrowDropDown } from '@mui/icons-material';
+import {Close, ArrowDropDown} from '@mui/icons-material';
 import CheckboxGroup from './checkboxGroup';
 import SalaryFilter from './salaryFilter';
 import DatePickerMenu from './calendar';
 import Location from './locationFilter';
 import IndustriesFilter from './industries';
-import JobRoleFilter from './jobRole';
-import JobSubRoleFilter from './jobSubRole';
+import JobRoleFilter from './jobFunction';
+import JobSubRoleFilter from './jobSubfunction';
 
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import {usePathname, useRouter, useSearchParams} from 'next/navigation';
 
-import { EmploymentType } from '@prisma/client';
-import { useParams } from 'next/navigation';
+import {EmploymentType} from '@prisma/client';
+import {useParams} from 'next/navigation';
+
 // Reusable ResetButton component
 const ResetButton: FunctionComponent<{
     filterName: string;
     onReset: (filterName: string) => void;
-}> = ({ filterName, onReset }) => (
+}> = ({filterName, onReset}) => (
     <Button
         variant="text"
         size="small"
         onClick={() => onReset(filterName)}
-        sx={{ p: 0, justifyContent: 'end', mb: 0.5 }}
+        sx={{p: 0, justifyContent: 'end', mb: 0.5}}
     >
         Reset
     </Button>
@@ -45,7 +46,7 @@ interface SlideOutMenuProps {
     onClose: () => void;
 }
 
-const SlideOutMenu: FunctionComponent<SlideOutMenuProps> = ({ open, onClose }) => {
+const SlideOutMenu: FunctionComponent<SlideOutMenuProps> = ({open, onClose}) => {
     const router = useRouter();
     const currentPath = usePathname();
     const searchParams = useSearchParams();
@@ -55,9 +56,9 @@ const SlideOutMenu: FunctionComponent<SlideOutMenuProps> = ({ open, onClose }) =
         postDateRange: '',
         selectedLocations: searchParams.get('locations')?.split(',').filter(Boolean) || [] as string[],
         industries: [] as string[],
-        jobFunctions: [] as string[],
+        selectedJobFunctions: searchParams.get('jobFunctions')?.split(',').filter(Boolean) || [] as string[],
         jobSubfunctions: [] as string[],
-        salaryRange: { min: '', max: '' },
+        salaryRange: {min: '', max: ''},
         EmploymentType: [] as string[],
     });
 
@@ -67,9 +68,9 @@ const SlideOutMenu: FunctionComponent<SlideOutMenuProps> = ({ open, onClose }) =
             postDateRange: searchParams.get('postDateRange') || '',
             selectedLocations: searchParams.get('locations')?.split(',').filter(Boolean) || [],
             industries: searchParams.get('industries')?.split(',').filter(Boolean) || [],
-            jobFunctions: searchParams.get('jobFunctions')?.split(',').filter(Boolean) || [],
+            selectedJobFunctions: searchParams.get('jobFunctions')?.split(',').filter(Boolean) || [],
             jobSubfunctions: searchParams.get('jobSubfunctions')?.split(',').filter(Boolean) || [],
-            salaryRange: { min: '', max: '' },
+            salaryRange: {min: '', max: ''},
             EmploymentType: searchParams.get('EmploymentType')?.split(',').filter(Boolean) || [],
         })
     }, [searchParams])
@@ -85,16 +86,21 @@ const SlideOutMenu: FunctionComponent<SlideOutMenuProps> = ({ open, onClose }) =
     };
 
     // Handle location changes from Location component
-    const handleLocationChange = (locations: string[]) => {
+    const handleLocationChange = useCallback((locations: string[]) => {
+        console.log('📥 Location updated:', locations);
         setFilterValues(prev => ({
             ...prev,
             selectedLocations: locations
         }));
+    }, []); // No dependencies - stable reference
 
-        // Update the display immediately
-        setTimeout(updateLocationDisplay, 0);
-    };
-
+    const handleJobFunctionChange = useCallback((jobFunctions: string[]) => {
+        console.log('📥 Job Functions updated:', jobFunctions);
+        setFilterValues(prev => ({
+            ...prev,
+            selectedJobFunctions: jobFunctions
+        }));
+    }, []); // No dependencies - stable reference
 
     // Refs for each TextField
     const postDateRangeRef = useRef<HTMLInputElement | null>(null);
@@ -111,7 +117,7 @@ const SlideOutMenu: FunctionComponent<SlideOutMenuProps> = ({ open, onClose }) =
                 if (postDateRangeRef.current) postDateRangeRef.current.value = '';
                 break;
             case 'Location':
-                setFilterValues(prev => ({ ...prev, selectedLocations: [] }));
+                setFilterValues(prev => ({...prev, selectedLocations: []}));
                 params.delete('locations');
                 if (locationCountryRef.current) locationCountryRef.current.value = '';
                 break;
@@ -125,6 +131,7 @@ const SlideOutMenu: FunctionComponent<SlideOutMenuProps> = ({ open, onClose }) =
             default:
                 console.log(`No reset logic for ${filterName}`);
         }
+        router.push(`/jobs?${params.toString()}`);
     };
 
     //apply filter and update the url
@@ -134,10 +141,16 @@ const SlideOutMenu: FunctionComponent<SlideOutMenuProps> = ({ open, onClose }) =
         if (filterValues.selectedLocations.length > 0) {
             queryParams.set('locations', filterValues.selectedLocations.join(','));
         } else {
-            queryParams.delete('loacations');
+            queryParams.delete('locations');
         }
 
-        //TODO: add other filter to URL
+        if (filterValues.selectedJobFunctions.length > 0) {
+            queryParams.set('jobFunctions', filterValues.selectedJobFunctions.join(','));
+        } else {
+            queryParams.delete('jobFunctions');
+        }
+
+        //TODO: add other filters to URL
 
         //navigate with query params
         // queryParams.set('page', '1');
@@ -171,7 +184,7 @@ const SlideOutMenu: FunctionComponent<SlideOutMenuProps> = ({ open, onClose }) =
 
 
     return (
-        <ThemeProvider theme={theme} >
+        <ThemeProvider theme={theme}>
             <Box
                 sx={{
                     width: '100%',
@@ -200,22 +213,22 @@ const SlideOutMenu: FunctionComponent<SlideOutMenuProps> = ({ open, onClose }) =
                 }}
             >
                 {/* Header */}
-                <Box sx={{ p: 3, display: 'flex', alignItems: 'center', gap: 2, }}>
+                <Box sx={{p: 3, display: 'flex', alignItems: 'center', gap: 2,}}>
                     <Typography variant="h6" fontWeight={600} color='#101828'>
                         Filters by
                     </Typography>
-                    <IconButton sx={{ ml: 'auto' }} onClick={onClose}>
-                        <Close />
+                    <IconButton sx={{ml: 'auto'}} onClick={onClose}>
+                        <Close/>
                     </IconButton>
                 </Box>
 
                 {/* Content */}
-                <Box sx={{ p: 3, display: 'flex', flexDirection: 'column', gap: 3, flex: 1 }}>
+                <Box sx={{p: 3, display: 'flex', flexDirection: 'column', gap: 3, flex: 1}}>
                     {/* Post Date Range */}
                     <Box>
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.5 }}>
+                        <Box sx={{display: 'flex', justifyContent: 'space-between', mb: 0.5}}>
                             <Typography variant='body2' fontWeight={500} color='#31373d'>Post Date Range</Typography>
-                            <ResetButton onReset={handleReset} filterName="Post Date Range" />
+                            <ResetButton onReset={handleReset} filterName="Post Date Range"/>
                         </Box>
                         <TextField
                             fullWidth
@@ -224,10 +237,11 @@ const SlideOutMenu: FunctionComponent<SlideOutMenuProps> = ({ open, onClose }) =
                             placeholder="From - To"
                             aria-readonly
                             InputProps={{
-                                startAdornment: <Image src='/calendar.svg' alt='calendar' height={20} width={20} style={{ marginRight: '10px' }} />,
+                                startAdornment: <Image src='/calendar.svg' alt='calendar' height={20} width={20}
+                                                       style={{marginRight: '10px'}}/>,
                                 endAdornment:
-                                    <IconButton >
-                                        <ArrowDropDown sx={{ color: 'grey.600' }} />
+                                    <IconButton>
+                                        <ArrowDropDown sx={{color: 'grey.600'}}/>
                                     </IconButton>,
                             }}
                             onClick={handleDatePickerOpen}
@@ -250,17 +264,17 @@ const SlideOutMenu: FunctionComponent<SlideOutMenuProps> = ({ open, onClose }) =
                                     borderRadius: '12px', // Apply rounded corners here
                                 },
                             }}>
-                            <DatePickerMenu onClose={handleDatePickerClose} />
+                            <DatePickerMenu onClose={handleDatePickerClose}/>
                         </Dialog>
                     </Box>
 
                     {/* Location */}
-                    <Box >
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
+                    <Box>
+                        <Box sx={{display: 'flex', justifyContent: 'space-between', mb: 1}}>
                             <Typography variant='body2' fontWeight={500} color='#31373d'>Location</Typography>
-                            <ResetButton filterName="Location" onReset={handleReset} />
+                            <ResetButton filterName="Location" onReset={handleReset}/>
                         </Box>
-                        <Box sx={{ display: 'flex', gap: 2 }}>
+                        <Box sx={{display: 'flex', gap: 2}}>
                             {/*<TextField*/}
                             {/*    fullWidth*/}
                             {/*    variant="outlined"*/}
@@ -297,36 +311,40 @@ const SlideOutMenu: FunctionComponent<SlideOutMenuProps> = ({ open, onClose }) =
 
                     {/* Industries */}
                     <Box>
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
+                        <Box sx={{display: 'flex', justifyContent: 'space-between', mb: 1}}>
                             <Typography variant='body2' fontWeight={500} color='#31373d'>Industries</Typography>
-                            <ResetButton filterName="Industries" onReset={handleReset} />
+                            <ResetButton filterName="Industries" onReset={handleReset}/>
                         </Box>
-                        <IndustriesFilter />
+                        <IndustriesFilter/>
                     </Box>
 
                     {/* Job Role */}
                     <Box>
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
+                        <Box sx={{display: 'flex', justifyContent: 'space-between', mb: 1}}>
                             <Typography variant='body2' fontWeight={500} color='#31373d'>Job Role</Typography>
-                            <ResetButton filterName="Job Role" onReset={handleReset} />
+                            <ResetButton filterName="Job Role" onReset={handleReset}/>
                         </Box>
-                        <Box sx={{ display: 'flex', gap: 2 }}>
-                            <JobRoleFilter />
+                        <Box sx={{display: 'flex', gap: 2}}>
+                            <JobRoleFilter
+                                value={filterValues.selectedJobFunctions}
+                                onChange={handleJobFunctionChange}
+                                disabled={false}
+                            />
 
-                            <JobSubRoleFilter />
+                            <JobSubRoleFilter/>
                         </Box>
                     </Box>
 
                     {/* Salary Range */}
                     <Box>
-                        <SalaryFilter />
+                        <SalaryFilter/>
                     </Box>
 
                     {/* Employment Type */}
                     <Box>
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
+                        <Box sx={{display: 'flex', justifyContent: 'space-between', mb: 1}}>
                             <Typography variant='body2' fontWeight={500} color='#31373d'>Employment Type</Typography>
-                            <ResetButton filterName="Employment Type" onReset={handleReset} />
+                            <ResetButton filterName="Employment Type" onReset={handleReset}/>
                         </Box>
                         <CheckboxGroup
                             types={['Permanent', 'Contract', 'Temporary']}
@@ -350,28 +368,28 @@ const SlideOutMenu: FunctionComponent<SlideOutMenuProps> = ({ open, onClose }) =
                         Save filter
                     </Button>
                     <DialogActions>
-                        <Box sx={{ display: 'flex', gap: 2 }}>
+                        <Box sx={{display: 'flex', gap: 2}}>
                             <Button variant="outlined"
-                                sx={{
-                                    color: "#344054",
-                                    borderColor: '#D0D5DD',
-                                    borderRadius: '8px'
-                                }}
-                                onClick={onClose}>
+                                    sx={{
+                                        color: "#344054",
+                                        borderColor: '#D0D5DD',
+                                        borderRadius: '8px'
+                                    }}
+                                    onClick={onClose}>
                                 Cancel
                             </Button>
                             <Button variant="contained"
-                                sx={{
-                                    borderColor: ' rgba(255, 255, 255, 0.12)'
-                                }}
-                                onClick={handleApplyFilters}>
+                                    sx={{
+                                        borderColor: ' rgba(255, 255, 255, 0.12)'
+                                    }}
+                                    onClick={handleApplyFilters}>
                                 Apply
                             </Button>
                         </Box>
                     </DialogActions>
                 </Box>
             </Box>
-        </ThemeProvider >
+        </ThemeProvider>
     );
 };
 
