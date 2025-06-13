@@ -1,8 +1,8 @@
 "use client";
 import Link from 'next/link';
-import React, {useCallback, useEffect, useState} from 'react';
-import {useSearchParams} from "next/navigation";
-import {newVerification} from "enigma/services/userServices";
+import React, { useCallback, useEffect, useState } from 'react';
+import { useSearchParams } from "next/navigation";
+import { newVerification } from "enigma/services/userServices";
 
 const VerificationForm = () => {
     const [error, setError] = useState<string>("");

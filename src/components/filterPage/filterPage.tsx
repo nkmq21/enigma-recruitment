@@ -20,7 +20,9 @@ import Location from './locationFilter';
 import IndustriesFilter from './industries';
 import JobRoleFilter from './jobRole';
 import JobSubRoleFilter from './jobSubRole';
+
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+
 import { EmploymentType } from '@prisma/client';
 import { useParams } from 'next/navigation';
 // Reusable ResetButton component
@@ -241,7 +243,7 @@ const SlideOutMenu: FunctionComponent<SlideOutMenuProps> = ({ open, onClose }) =
                         <Dialog
                             open={datePickerOpen}
                             onClose={handleDatePickerClose}
-                            maxWidth="md"
+                            maxWidth="xs"
                             fullWidth
                             PaperProps={{
                                 sx: {
@@ -253,13 +255,12 @@ const SlideOutMenu: FunctionComponent<SlideOutMenuProps> = ({ open, onClose }) =
                     </Box>
 
                     {/* Location */}
-                    <Box>
+                    <Box >
                         <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
                             <Typography variant='body2' fontWeight={500} color='#31373d'>Location</Typography>
                             <ResetButton filterName="Location" onReset={handleReset} />
                         </Box>
                         <Box sx={{ display: 'flex', gap: 2 }}>
-
                             {/*<TextField*/}
                             {/*    fullWidth*/}
                             {/*    variant="outlined"*/}
