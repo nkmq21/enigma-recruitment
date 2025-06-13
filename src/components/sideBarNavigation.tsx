@@ -105,15 +105,15 @@ export const SidebarNavigation = ({
             href: '/#',
             subItems: [
                 {
-                    text: 'Salary Estimate',
+                    text: 'Resume',
                     href: '/#',
                 },
                 {
-                    text: 'Career Advice',
+                    text: 'Industry News',
                     href: '/#',
                 },
                 {
-                    text: 'Skill Assessment',
+                    text: 'Development',
                     href: '/#',
                 },
             ],
@@ -123,20 +123,6 @@ export const SidebarNavigation = ({
             icon: <Image src='/profile.svg' alt='profile' width={24} height={24} />,
             icon1: <Image src='/arrowSlide.svg' alt='arrow' width={24} height={24} />,
             href: '/profile',
-            subItems: [
-                {
-                    text: 'Online Courses',
-                    href: '/#',
-                },
-                {
-                    text: 'Tutorial Articles',
-                    href: '/#',
-                },
-                {
-                    text: 'Job Guide',
-                    href: '/#',
-                },
-            ],
         },
         ...(session?.user?.role === 'admin'
             ? [
