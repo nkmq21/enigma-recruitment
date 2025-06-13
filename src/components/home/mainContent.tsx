@@ -150,7 +150,7 @@ export const MainContent = () => {
                                     }}
                                 >
                                     {jobData.slice(rowIndex * 2, rowIndex * 2 + 2).map((job) => (
-                                        <JobCard key={job} />
+                                        <JobCard key={job} width="100%" />
                                     ))}
                                 </Box>
                             ))}
