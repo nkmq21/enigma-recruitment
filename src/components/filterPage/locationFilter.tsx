@@ -18,7 +18,6 @@ import Image from 'next/image';
 import { ArrowDropDown, Close } from '@mui/icons-material';
 import { FilterService } from 'enigma/services/jobServices';
 import { useSearchParams } from 'next/navigation';
-import { setSeconds } from 'date-fns';
 
 interface LocationProps {
     disabled?: boolean;
@@ -126,7 +125,7 @@ const Location = React.memo<LocationProps>(({
         location.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
-    // Location.displayName('location');
+    Location.displayName = 'locations';
 
     return (
         <ThemeProvider theme={theme}>
