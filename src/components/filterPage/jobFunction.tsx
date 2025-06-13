@@ -1,129 +1,136 @@
-import React, {useEffect, useState, useRef, useMemo} from 'react';
+"use client";
+import {FunctionComponent, useState, useRef, useEffect} from 'react';
 import {
     Box,
-    Typography,
     TextField,
-    Button,
-    List,
-    ListItemText,
-    ListItemButton,
     Dialog,
-    Checkbox,
+    List,
+    ListItemButton,
+    ListItemText,
+    Typography,
+    Button,
     Chip,
-    Stack
+    Stack,
+    Checkbox,
 } from '@mui/material';
 import {ThemeProvider} from '@emotion/react';
 import theme from '../font/theme';
 import Image from 'next/image';
 import {ArrowDropDown, Close} from '@mui/icons-material';
-import {FilterService} from 'enigma/services/jobServices';
+import {getJobFunctions, jobFunctionSearch} from "enigma/data/jobFunctionData";
 import {useSearchParams} from 'next/navigation';
 
-interface LocationProps {
+interface JobRoleFilterProps {
     disabled?: boolean;
     onDialogOpen?: () => void;
     onDialogClose?: () => void;
-    value?: string[]; // Change to array for multiple selections
-    onChange?: (locations: string[]) => void; // Change to array
-    // style?: CSSProperties;
+    value?: string[];
+    onChange?: (jobFunctions: string[]) => void;
 }
 
-const Location = React.memo<LocationProps>(({
-                                                disabled = false,
-                                                onDialogOpen,
-                                                onDialogClose,
-                                                value = [],
-                                                onChange,
-                                            }) => {
-    const filterService = useMemo(() => new FilterService(), []);
-    const [locationList, setLocationList] = useState<string[]>([]);
+const JobRoleFilter: FunctionComponent<JobRoleFilterProps> = ({
+                                                                  disabled = false,
+                                                                  onDialogOpen,
+                                                                  onDialogClose,
+                                                                  value = [],
+                                                                  onChange,
+                                                              }) => {
     const [open, setOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
+    const jobFunctionsRef = useRef(null);
     const searchParams = useSearchParams();
-    const locationProvinceRef = useRef(null);
-    const [selectedLocations, setSelectedLocations] = useState<string[]>(() => {
-        const urlLocations = searchParams.get('locations')?.split(',').filter(Boolean) || [];
-        return urlLocations.length > 0 ? urlLocations : value;
+
+    // State to store selected job functions
+    const [selectedJobFunctions, setSelectedJobFunctions] = useState<string[]>(() => {
+        const urlJobFunctions = searchParams.get('jobFunctions')?.split(',').filter(Boolean) || [];
+        return urlJobFunctions.length > 0 ? urlJobFunctions : value;
     });
 
-    //sync with URL params when they change
+    // All job functions data
+    const [jobFunctionList, setJobFunctionList] = useState<string[]>([]);
+
+    // Sync with URL params when they change
+    // useEffect(() => {
+    //     const urlJobFunctions = searchParams.get('jobFunctions')?.split(',').filter(Boolean) || [];
+    //     // Only update from URL on an initial load or empty selection
+    //     if (urlJobFunctions.length > 0 && selectedJobFunctions.length === 0) {
+    //         setSelectedJobFunctions(urlJobFunctions);
+    //     } else if (value.length > 0 && selectedJobFunctions.length === 0) {
+    //         setSelectedJobFunctions(value);
+    //     }
+    // }, [searchParams, value, selectedJobFunctions.length]);
+
+    // Sync with URL params ONLY when dialog opens
     useEffect(() => {
-
         if (open) {
-            const urlLocations = searchParams.get('locations')?.split(',').filter(Boolean) || [];
-            setSelectedLocations(urlLocations.length > 0 ? urlLocations : value);
+            const urlJobFunctions = searchParams.get('jobFunctions')?.split(',').filter(Boolean) || [];
+            setSelectedJobFunctions(urlJobFunctions.length > 0 ? urlJobFunctions : value);
         }
-
     }, [open]);
 
-    //notify parent when selectedLocations change
+    // Notify parent when selectedJobFunctions change
     useEffect(() => {
-        if (onChange && JSON.stringify(selectedLocations) !== JSON.stringify(value)) {
-            onChange(selectedLocations);
+        // Only call onChange when the values are different from what was passed in props
+        if (onChange && JSON.stringify(selectedJobFunctions) !== JSON.stringify(value)) {
+            onChange(selectedJobFunctions);
         }
-    }, [selectedLocations, onChange, value]);
+    }, [selectedJobFunctions, onChange, value]);
 
-
-    const fetchLocations = async () => {
+    // Fetch job functions
+    const fetchJobFunctions = () => {
         try {
-            const locations = await filterService.getLocations();
-            console.log('Fetched locations:', locations);
-            setLocationList(locations);
+            const functions = getJobFunctions();
+            setJobFunctionList(functions);
         } catch (error) {
-            console.error('Failed to fetch locations:', error);
-            setLocationList([]);
+            console.error('Failed to fetch job functions:', error);
+            setJobFunctionList([]);
         }
     };
 
     useEffect(() => {
         if (open) {
-            fetchLocations();
+            fetchJobFunctions();
         }
     }, [open]);
 
-    const handleOpenLocation = () => {
+    const handleOpenJobFunctions = () => {
         if (disabled) return;
         setOpen(true);
         onDialogOpen?.();
     };
 
-    const handleCloseLocation = () => {
+    const handleCloseJobFunctions = () => {
         setOpen(false);
         onDialogClose?.();
     };
 
-    const handleLocationToggle = (province: string) => {
-        const newSelectedLocations = selectedLocations.includes(province)
-            ? selectedLocations.filter(p => p !== province) // Remove if already selected
-            : [...selectedLocations, province]; // Add if not selected
-
-        console.log('After toggle:', {newSelectedLocations});
-
-        setSelectedLocations(newSelectedLocations);
+    const handleJobFunctionToggle = (jobFunction: string) => {
+        const newSelectedJobFunctions = selectedJobFunctions.includes(jobFunction)
+            ? selectedJobFunctions.filter(j => j !== jobFunction) // Remove if already selected
+            : [...selectedJobFunctions, jobFunction]; // Add if not selected
+        setSelectedJobFunctions(newSelectedJobFunctions);
     };
 
-    const handleRemoveLocation = (locationToRemove: string) => {
-        const newSelectedLocations = selectedLocations.filter(p => p !== locationToRemove);
-        setSelectedLocations(newSelectedLocations);
+    const handleRemoveJobFunction = (jobFunctionToRemove: string) => {
+        const newSelectedJobFunctions = selectedJobFunctions.filter(j => j !== jobFunctionToRemove);
+        setSelectedJobFunctions(newSelectedJobFunctions);
     };
 
     const handleClearAll = () => {
-        setSelectedLocations([]);
+        setSelectedJobFunctions([]);
         onChange?.([]);
     };
 
     const handleApplySelection = () => {
-        onChange?.(selectedLocations);
+        onChange?.(selectedJobFunctions);
         setOpen(false);
         onDialogClose?.();
     };
 
-    // Filter locations based on search term
-    const filteredLocations = locationList.filter(location =>
-        location.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-
-    Location.displayName = 'locations';
+    // Filter job functions based on search term
+    const filteredJobFunctions = searchTerm
+        ? jobFunctionSearch(searchTerm.toLowerCase())
+        : jobFunctionList;
 
     return (
         <ThemeProvider theme={theme}>
@@ -131,13 +138,13 @@ const Location = React.memo<LocationProps>(({
                 <TextField
                     fullWidth
                     variant="outlined"
-                    inputRef={locationProvinceRef}
-                    placeholder={selectedLocations.length > 0 ? `${selectedLocations.length} location(s) selected` : "Select Locations"}
+                    inputRef={jobFunctionsRef}
+                    placeholder={selectedJobFunctions.length > 0 ? `${selectedJobFunctions.length} function(s) selected` : "Job Functions"}
                     value="" // Keep empty to show placeholder
-                    onClick={handleOpenLocation}
+                    onClick={handleOpenJobFunctions}
                     disabled={disabled}
                     InputProps={{
-                        startAdornment: <Image src='/location.svg' alt='location' height={20} width={20}
+                        startAdornment: <Image src='/job.svg' alt='job function' height={20} width={20}
                                                style={{marginRight: '10px'}}/>,
                         endAdornment: <ArrowDropDown sx={{color: disabled ? 'grey.400' : 'grey.600'}}/>,
                         readOnly: true, // Prevent typing in the field
@@ -150,15 +157,15 @@ const Location = React.memo<LocationProps>(({
                     }}
                 />
 
-                {/* Selected Locations Chips */}
-                {selectedLocations.length > 0 && (
+                {/* Selected Job Functions Chips */}
+                {selectedJobFunctions.length > 0 && (
                     <Stack direction="row" spacing={1} sx={{mt: 1, flexWrap: 'wrap', gap: 1}}>
-                        {selectedLocations.slice(0, 3).map((location) => (
+                        {selectedJobFunctions.slice(0, 3).map((jobFunction) => (
                             <Chip
-                                key={location}
-                                label={location}
+                                key={jobFunction}
+                                label={jobFunction}
                                 size="small"
-                                onDelete={() => handleRemoveLocation(location)}
+                                onDelete={() => handleRemoveJobFunction(jobFunction)}
                                 deleteIcon={<Close sx={{fontSize: 16}}/>}
                                 sx={{
                                     backgroundColor: '#e3f2fd',
@@ -172,9 +179,9 @@ const Location = React.memo<LocationProps>(({
                                 }}
                             />
                         ))}
-                        {selectedLocations.length > 3 && (
+                        {selectedJobFunctions.length > 3 && (
                             <Chip
-                                label={`+${selectedLocations.length - 3} more`}
+                                label={`+${selectedJobFunctions.length - 3} more`}
                                 size="small"
                                 variant="outlined"
                                 sx={{color: '#666'}}
@@ -184,9 +191,10 @@ const Location = React.memo<LocationProps>(({
                 )}
             </Box>
 
+            {/* Dialog for job functions selection */}
             <Dialog
                 open={open}
-                onClose={handleCloseLocation}
+                onClose={handleCloseJobFunctions}
                 maxWidth="sm"
                 PaperProps={{
                     sx: {
@@ -232,9 +240,9 @@ const Location = React.memo<LocationProps>(({
                                 color: '#262d34',
                                 fontSize: {xs: '13px', sm: '16px'},
                             }}>
-                                Select Locations ({selectedLocations.length} selected)
+                                Select Job Functions ({selectedJobFunctions.length} selected)
                             </Typography>
-                            {selectedLocations.length > 0 && (
+                            {selectedJobFunctions.length > 0 && (
                                 <Button
                                     variant="text"
                                     onClick={handleClearAll}
@@ -253,7 +261,7 @@ const Location = React.memo<LocationProps>(({
                         {/* Search Field */}
                         <TextField
                             fullWidth
-                            placeholder="Search Locations"
+                            placeholder="Search Job Functions"
                             variant="outlined"
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
@@ -269,7 +277,7 @@ const Location = React.memo<LocationProps>(({
                             }}
                         />
 
-                        {/* Location List */}
+                        {/* Job Function List */}
                         <List
                             sx={{
                                 width: '100%',
@@ -285,17 +293,17 @@ const Location = React.memo<LocationProps>(({
                                 '&::-webkit-scrollbar-thumb': {background: '#2494b6', borderRadius: '10px'},
                             }}
                         >
-                            {filteredLocations.length === 0 ? (
+                            {filteredJobFunctions.length === 0 ? (
                                 <Typography textAlign="center" color="textSecondary" sx={{py: 2}}>
-                                    {searchTerm ? 'No locations found' : 'Loading locations...'}
+                                    {searchTerm ? 'No job functions found' : 'Loading job functions...'}
                                 </Typography>
                             ) : (
-                                filteredLocations.map((location) => {
-                                    const isSelected = selectedLocations.includes(location);
+                                filteredJobFunctions.map((jobFunction) => {
+                                    const isSelected = selectedJobFunctions.includes(jobFunction);
                                     return (
                                         <ListItemButton
-                                            key={location}
-                                            onClick={() => handleLocationToggle(location)}
+                                            key={jobFunction}
+                                            onClick={() => handleJobFunctionToggle(jobFunction)}
                                             sx={{
                                                 borderRadius: '6px',
                                                 height: '44px',
@@ -309,7 +317,6 @@ const Location = React.memo<LocationProps>(({
                                         >
                                             <Checkbox
                                                 checked={isSelected}
-                                                // onChange={() => handleProvinceToggle(province)}
                                                 sx={{
                                                     padding: {xs: '2px', sm: '4px'},
                                                     marginRight: '8px',
@@ -320,7 +327,7 @@ const Location = React.memo<LocationProps>(({
                                                 }}
                                             />
                                             <ListItemText
-                                                primary={location}
+                                                primary={jobFunction}
                                                 primaryTypographyProps={{
                                                     fontSize: {xs: '12px', sm: '14px'},
                                                     lineHeight: '20px',
@@ -339,7 +346,7 @@ const Location = React.memo<LocationProps>(({
                         <Box sx={{display: 'flex', gap: 2, mt: 2}}>
                             <Button
                                 variant="outlined"
-                                onClick={handleCloseLocation}
+                                onClick={handleCloseJobFunctions}
                                 sx={{
                                     flex: 1,
                                     borderRadius: '8px',
@@ -363,7 +370,7 @@ const Location = React.memo<LocationProps>(({
                                     },
                                 }}
                             >
-                                Apply ({selectedLocations.length})
+                                Apply ({selectedJobFunctions.length})
                             </Button>
                         </Box>
                     </Box>
@@ -371,6 +378,6 @@ const Location = React.memo<LocationProps>(({
             </Dialog>
         </ThemeProvider>
     );
-});
+};
 
-export default Location;
+export default JobRoleFilter;

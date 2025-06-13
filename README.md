@@ -459,11 +459,11 @@ This project aims to enhance the recruitment experience by providing a comprehen
 									<td style='padding: 8px;'>- SalaryFilter component enables users to set and adjust a salary range through an interactive slider and input fields<br>- It provides a user-friendly interface for filtering data based on salary criteria, allowing for easy input and modification<br>- Additionally, it includes a reset functionality to revert to default values, enhancing the overall user experience within the filter page of the application.</td>
 								</tr>
 								<tr style='border-bottom: 1px solid #eee;'>
-									<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/components/filterPage/jobRole.tsx'>jobRole.tsx</a></b></td>
+									<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/components/filterPage/jobRole.tsx'>jobFunction.tsx</a></b></td>
 									<td style='padding: 8px;'>- JobRoleFilter component enhances user experience by providing an interactive dialog for selecting job functions within the application<br>- It allows users to easily browse and select from a list of industries, updating the input field accordingly<br>- This functionality integrates seamlessly into the overall architecture, facilitating efficient job role filtering and improving the applications usability for users seeking specific job categories.</td>
 								</tr>
 								<tr style='border-bottom: 1px solid #eee;'>
-									<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/components/filterPage/jobSubRole.tsx'>jobSubRole.tsx</a></b></td>
+									<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/components/filterPage/jobSubRole.tsx'>jobSubfunction.tsx</a></b></td>
 									<td style='padding: 8px;'>- JobSubRoleFilter component facilitates the selection of job sub-functions within a user-friendly dialog interface<br>- It enhances the user experience by allowing users to easily browse and select from a predefined list of job roles<br>- This component integrates seamlessly into the overall project architecture, contributing to a dynamic filtering system that improves job search functionality and enhances user engagement.</td>
 								</tr>
 								<tr style='border-bottom: 1px solid #eee;'>

@@ -150,6 +150,12 @@ export const getJobFunctions = () => {
     return JOB_FUNCTION.map(jobFunction => jobFunction.jobFunctions).sort((a, b) => a.localeCompare(b))
 }
 
-export const getJobSubfunctions = () => {
-    return JOB_FUNCTION.map(jobFunction => jobFunction.jobSubfunctions).sort();
+export const getJobSubfunctionsByJobFunction = (jobFunction: string): string[] => {
+    const jobFunctions = JOB_FUNCTION.find(jobFunc => jobFunc.jobFunctions === jobFunction);
+    return jobFunctions ? jobFunctions.jobSubfunctions : [];
+}
+
+export const jobFunctionSearch = (keyword: string): string[] => {
+    return JOB_FUNCTION.map(jobFunction => jobFunction.jobFunctions)
+        .filter(jobFunction => jobFunction.toLowerCase().includes(keyword));
 }

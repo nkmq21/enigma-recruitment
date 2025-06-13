@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { JobRepositoriy } from "enigma/repositories/jobRepositoriy";
 
-
 export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const statusParam = searchParams.get('status');
@@ -10,17 +9,19 @@ export async function GET(request: NextRequest) {
     const limit = parseInt(searchParams.get('limit') || '20', 10);
     const query = searchParams.get('query') || '';
 
-
     const locationsParam = searchParams.get('locations') || '' as string;
     const locations = locationsParam ? locationsParam.split(',').map(loc => loc.trim()) : [];
 
-    console.log(`LOCATION PARAMS:`, locations);
+    const jobFunctionParam = searchParams.get('jobFunctions') || '' as string;
+    const jobFunctions = jobFunctionParam ? jobFunctionParam.split(',').map(jobFunc => jobFunc.trim()) : [];
 
+    //TODO: other filter params will continue from here
 
     try {
         //fetch filter options
         const jobRepository = new JobRepositoriy();
-        const { jobs, total } = await jobRepository.findBySearch(query, status, locations, page, limit);
+        //TODO: add other filter params to the search method below
+        const { jobs, total } = await jobRepository.findBySearch(query, status, locations, jobFunctions, page, limit);
 
         return NextResponse.json({
             jobs,

@@ -1,7 +1,6 @@
 "use client";
 import * as React from "react";
 import SectionTitle from "../font/sectionTitle";
-import LogoHeader from "../logoHeader";
 import SearchBar from "../searchBar";
 import CTA from "../common/cta";
 import { JobListPage } from "../home/JobCard";
@@ -34,9 +33,7 @@ export const MainContent = () => {
             setLoading(true)
             try {
                 const queryParams = new URLSearchParams();
-
                 queryParams.set('status', 'active,prioritized');
-
                 const query = searchParams.get('query');
                 if (query) {
                     queryParams.set('query', query);
@@ -47,25 +44,28 @@ export const MainContent = () => {
                     queryParams.set('locations', locations);
                 }
 
+                const jobFunctions = searchParams.get('jobFunctions');
+                if (jobFunctions) {
+                    queryParams.set('jobFunctions', jobFunctions);
+                }
+
+                //TODO: other filter criteria will continue from here
+
                 const page = searchParams.get('page') || '1';
                 queryParams.set('page', page);
 
-                const params = queryParams.toString();
+                console.log('query params', queryParams.toString());
 
-                console.log('query params', params);
-
-                const response = await fetch(`/api/jobs?status=active,prioritized${params}`);
-
+                const response = await fetch(`/api/jobs?status=active,prioritized${queryParams.toString()}`);
                 if (!response.ok) {
                     throw new Error('failed to fetch jobs');
                 }
 
                 const data = await response.json();
-
                 if (data.jobs) {
                     setJobs(data.jobs);
                 } else {
-                    console.error('the reponse have unexpected data', data);
+                    console.error('the response have unexpected data', data);
                     setJobs([]);
                 }
             } catch (error) {
@@ -102,7 +102,7 @@ export const MainContent = () => {
 
             {/* ADDED TO CHECK THE ACTIVATED FILTER */}
             {/* Active Filters */}
-            {(searchParams.get('locations') || searchParams.get('industries') || searchParams.get('query')) && (
+            {(searchParams.get('locations') || searchParams.get('jobFunctions') || searchParams.get('query')) && (
                 <Box sx={{ mb: 2, p: 2, bgcolor: '#f5f5f5', borderRadius: 1 }}>
                     <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
                         Active Filters:
@@ -131,6 +131,17 @@ export const MainContent = () => {
                             />
                         )}
                         {/* Add other filter chips... */}
+                        {searchParams.get('jobFunctions') && (
+                            <Chip
+                                label={`Job Functions: ${searchParams.get('jobFunctions')?.replace(/,/g, ', ')}`}
+                                size="small"
+                                onDelete={() => {
+                                    const newParams = new URLSearchParams(searchParams.toString());
+                                    newParams.delete('jobFunctions');
+                                    router.push(`/jobs?${newParams.toString()}`);
+                                }}
+                            />
+                        )}
                     </Box>
                 </Box>
             )}
