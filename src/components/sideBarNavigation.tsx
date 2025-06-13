@@ -121,7 +121,6 @@ export const SidebarNavigation = ({
         {
             text: 'Profile',
             icon: <Image src='/profile.svg' alt='profile' width={24} height={24} />,
-            icon1: <Image src='/arrowSlide.svg' alt='arrow' width={24} height={24} />,
             href: '/profile',
         },
         ...(session?.user?.role === 'admin'
