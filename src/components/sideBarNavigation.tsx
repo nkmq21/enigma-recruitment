@@ -399,6 +399,7 @@ export const SidebarNavigation = ({
                                                         sx={{
                                                             color: openDropdown === item.text ? '#2494b6' : '#344054', // Change icon color when dropdown is open
                                                             minWidth: isCollapsed ? 0 : 40,
+
                                                         }}
                                                     >
                                                         {item.icon}
@@ -409,6 +410,7 @@ export const SidebarNavigation = ({
                                                                 primary={item.text}
                                                                 sx={{
                                                                     color: openDropdown === item.text ? '#2494b6' : '#344054', // Change text color when dropdown is open
+
                                                                 }}
                                                             />
                                                             <ListItemIcon
