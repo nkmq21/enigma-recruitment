@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FunctionComponent, useRef, useState } from 'react';
 import {
     Box,
@@ -20,7 +20,9 @@ import Location from './locationFilter';
 import IndustriesFilter from './industries';
 import JobRoleFilter from './jobRole';
 import JobSubRoleFilter from './jobSubRole';
-import { usePathname, useRouter } from 'next/navigation';
+
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+
 import { EmploymentType } from '@prisma/client';
 import { useParams } from 'next/navigation';
 // Reusable ResetButton component
@@ -46,17 +48,31 @@ interface SlideOutMenuProps {
 const SlideOutMenu: FunctionComponent<SlideOutMenuProps> = ({ open, onClose }) => {
     const router = useRouter();
     const currentPath = usePathname();
+    const searchParams = useSearchParams();
     const [childDialogOpen, setChildDialogOpen] = useState(false);
 
     const [filterValues, setFilterValues] = useState({
         postDateRange: '',
-        selectedLocations: [] as string[],
+        selectedLocations: searchParams.get('locations')?.split(',').filter(Boolean) || [] as string[],
         industries: [] as string[],
         jobFunctions: [] as string[],
-        jobSubfunction: [] as string[],
+        jobSubfunctions: [] as string[],
         salaryRange: { min: '', max: '' },
         EmploymentType: [] as string[],
     });
+
+    //update filter state when the url change
+    useEffect(() => {
+        setFilterValues({
+            postDateRange: searchParams.get('postDateRange') || '',
+            selectedLocations: searchParams.get('locations')?.split(',').filter(Boolean) || [],
+            industries: searchParams.get('industries')?.split(',').filter(Boolean) || [],
+            jobFunctions: searchParams.get('jobFunctions')?.split(',').filter(Boolean) || [],
+            jobSubfunctions: searchParams.get('jobSubfunctions')?.split(',').filter(Boolean) || [],
+            salaryRange: { min: '', max: '' },
+            EmploymentType: searchParams.get('EmploymentType')?.split(',').filter(Boolean) || [],
+        })
+    }, [searchParams])
 
     // Update location field display when locations change
     const updateLocationDisplay = () => {
@@ -89,14 +105,15 @@ const SlideOutMenu: FunctionComponent<SlideOutMenuProps> = ({ open, onClose }) =
     const jobSubFunctionsRef = useRef<HTMLInputElement | null>(null);
     // Reset handler for specific filter sections
     const handleReset = (filterName: string) => {
+        const params = new URLSearchParams(searchParams.toString());
         switch (filterName) {
             case 'Post Date Range':
                 if (postDateRangeRef.current) postDateRangeRef.current.value = '';
                 break;
             case 'Location':
                 setFilterValues(prev => ({ ...prev, selectedLocations: [] }));
+                params.delete('locations');
                 if (locationCountryRef.current) locationCountryRef.current.value = '';
-                // if (locationDistanceRef.current) locationDistanceRef.current.value = '';
                 break;
             case 'Industries':
                 if (industriesRef.current) industriesRef.current.value = '';
@@ -112,18 +129,20 @@ const SlideOutMenu: FunctionComponent<SlideOutMenuProps> = ({ open, onClose }) =
 
     //apply filter and update the url
     const handleApplyFilters = () => {
-        const queryParams = new URLSearchParams();
+        const queryParams = new URLSearchParams(searchParams.toString());
 
         if (filterValues.selectedLocations.length > 0) {
             queryParams.set('locations', filterValues.selectedLocations.join(','));
+        } else {
+            queryParams.delete('loacations');
         }
 
         //TODO: add other filter to URL
 
         //navigate with query params
-        //get the path without the current query
-        // const currentPath = router.asPath.split('?')[0];
-        router.push(`${currentPath}?${queryParams.toString()}`);
+        // queryParams.set('page', '1');
+        router.push(`/jobs?${queryParams.toString()}`);
+        console.log(`CURRENT PATH (FROM FILTER PAGE): `, currentPath);
 
         console.log('applied filter: ', filterValues);
         console.log('url query: ', queryParams);
@@ -272,7 +291,6 @@ const SlideOutMenu: FunctionComponent<SlideOutMenuProps> = ({ open, onClose }) =
                                 onDialogClose={handleChildDialogClose}
                                 value={filterValues.selectedLocations}
                                 onChange={handleLocationChange}
-                            // style={{ display: 'none' }}
                             />
                         </Box>
                     </Box>
