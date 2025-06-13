@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Box, TextField, InputAdornment, Button } from '@mui/material';
+import { Box, TextField, InputAdornment, Button, IconButton } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { FilterSortBar } from './filterSortBar';
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
@@ -11,6 +11,7 @@ export default function SearchBar({ placeholder }: { placeholder?: string }) {
     const searchParams = useSearchParams();
 
     const [query, setQuery] = useState(searchParams.get('query')?.toString() || "");
+    const formRef = React.useRef<HTMLFormElement>(null);
 
     const clearQuery = () => {
         setQuery('');
@@ -33,11 +34,16 @@ export default function SearchBar({ placeholder }: { placeholder?: string }) {
         router.replace(`/jobs?${params.toString()}`);
     }
 
+    const handleIconClick = () => {
+        if (formRef.current) {
+            formRef.current.submit(); // Submit form khi nhấn IconButton
+        }
+    };
     return (
         <Box sx={{
             display: 'flex',
             gap: 2,
-            p: 3,
+            p: 0.5,
             mb: 3,
             width: '100%',
             alignItems: 'center',
@@ -52,12 +58,16 @@ export default function SearchBar({ placeholder }: { placeholder?: string }) {
             <Box
                 sx={{
                     flex: 1,
-                    minWidth: { xs: '100%', md: '300px' }, // min 60% under 991px
+                    minWidth: { sm: '100%', md: '60%' }, // min 60% under 991px
                     maxWidth: '100%',
                     display: 'flex',
                 }}
             >
-                <form onSubmit={handleSearch} style={{ width: '100%', display: 'flex', gap: '16px' }}>
+                <form
+                    ref={formRef}
+                    onSubmit={handleSearch}
+                    style={{ width: '100%', display: 'flex', gap: '16px' }}
+                >
                     <TextField
                         fullWidth
                         name="inputSearchValue"
@@ -68,7 +78,9 @@ export default function SearchBar({ placeholder }: { placeholder?: string }) {
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
-                                    <SearchIcon sx={{ color: '#98A2B3', backgroundColor: '#F9FAFB' }} />
+                                    <IconButton onClick={handleIconClick} aria-label='search' disabled={!query}>
+                                        <SearchIcon sx={{ color: '#98A2B3' }} />
+                                    </IconButton>
                                 </InputAdornment>
                             ),
                         }}
@@ -85,19 +97,6 @@ export default function SearchBar({ placeholder }: { placeholder?: string }) {
                             boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
                         }}
                     />
-                    <Button
-                        type="submit"
-                        variant="contained"
-                        sx={{
-                            display: { xs: 'none', sm: 'block' },
-                            bgcolor: '#2494B6',
-                            '&:hover': { bgcolor: '#1A7A96' },
-                            height: '64px',
-                            minWidth: '120px'
-                        }}
-                    >
-                        Search
-                    </Button>
                 </form>
             </Box>
             <FilterSortBar />

@@ -33,7 +33,7 @@ export const MainContent = () => {
     return (
         <Box component="main" sx={{
             flexGrow: 1,
-            p: { xs: 0.5, sm: 3 },
+            p: { xs: 0.5, sm: 2 },
             width: '100%',
             ml: 0.5,
             '@media (max-width: 991px)': {
@@ -41,14 +41,14 @@ export const MainContent = () => {
             },
         }}>
             <Box sx={{ display: { lg: 'none', sm: 'block' } }}>
+                <LogoHeader />
                 <Divider sx={{ mt: 1, mb: 3, width: '100%' }} />
             </Box>
 
             <Typography variant="h4" component="h1" gutterBottom color="#101828">
                 Dashboard
             </Typography>
-
-            <SearchBar />
+            <SearchBar placeholder="Job positions/ Company name" />
 
             {/* Popular Jobs */}
             <Box sx={{
