@@ -143,14 +143,158 @@ export const JOB_FUNCTION: JobFunctionData[] = [
             'Physiotherapy, OT & Rehabilitation', 'Psychology, Counselling & Social Work',
             'Residents & Registrars', 'Sales', 'Speech Therapy', 'Others'
         ]
+    },
+    {
+        jobFunctions: 'Hospitality & Tourism',
+        jobSubfunctions: [
+            'Airlines', 'Bar & Beverage Staff', 'Chefs/Cooks',
+            'Front Office & Guest Services', 'Gaming', 'Housekeeping',
+            'Kitchen & Sandwich Hands', 'Management', 'Reservations',
+            'Tour Guides', 'Travel Agents/Consultants', 'Waiting Staff', 'Others'
+        ]
+    },
+    {
+        jobFunctions: 'Human Resources & Recruitment',
+        jobSubfunctions: [
+            'Consulting & Generalist HR', 'Industrial & Employee Relations',
+            'Management - Agency', 'Management - Internal', 'Occupational Health & Safety',
+            'Organisational Development', 'Recruitment - Agency', 'Recruitment - Internal',
+            'Remuneration & Benefits', 'Training & Development', 'Others'
+        ]
+    },
+    {
+        jobFunctions: 'Information & Communication Technology',
+        jobSubfunctions: [
+            'Architects', 'Business/Systems Analysts', 'Computer Operators',
+            'Consultants', 'Database Development & Administration', 'Developers/Programmers',
+            'Engineering - Hardware', 'Engineering - Network', 'Engineering - Software',
+            'Help Desk & IT Support', 'Management', 'Networks & Systems Administration',
+            'Product Management & Development', 'Programme & Project Management',
+            'Sales - Pre & Post', 'Security', 'Team Leaders', 'Technical Writing',
+            'Telecommunications', 'Testing & Quality Assurance', 'Web Development & Production',
+            'Others'
+        ]
+    },
+    {
+        jobFunctions: 'Insurance & Superannuation',
+        jobSubfunctions: [
+            'Actuarial', 'Assessment', 'Brokerage', 'Claims', 'Fund Administration',
+            'Management', 'Risk Consulting', 'Superannuation', 'Underwriting',
+            'Workers Compensation', 'Others'
+        ]
+    },
+    {
+        jobFunctions: 'Legal',
+        jobSubfunctions: [
+            'Banking & Finance Law', 'Construction Law', 'Corporate & Commercial Law',
+            'Criminal & Civil Law', 'Environment & Planning Law', 'Family Law',
+            'Generalists - In-house', 'Generalists - Law Firm', 'Industrial Relations & Employment Law',
+            'Insurance & Superannuation Law', 'Intellectual Property Law', 'Law Clerks & Paralegals',
+            'Legal Practice Management', 'Legal Secretaries', 'Litigation & Dispute Resolution',
+            'Personal Injury Law', 'Property Law', 'Tax Law', 'Others'
+        ]
+    },
+    {
+        jobFunctions: 'Manufacturing, Transport & Logistics',
+        jobSubfunctions: [
+            'Analysis & Reporting', 'Assembly & Process Work', 'Aviation Services',
+            'Couriers, Drivers & Postal Services', 'Fleet Management', 'Freight/Cargo Forwarding',
+            'Import/Export & Customs', 'Machine Operators', 'Management',
+            'Pattern Makers & Garment Technicians', 'Pickers & Packers',
+            'Production, Planning & Scheduling', 'Public Transport & Taxi Services',
+            'Purchasing, Procurement & Inventory', 'Quality Assurance & Control',
+            'Rail & Maritime Transport', 'Road Transport', 'Team Leaders/Supervisors',
+            'Warehousing, Storage & Distribution', 'Others'
+        ]
+    },
+    {
+        jobFunctions: 'Marketing & Communications',
+        jobSubfunctions: [
+            'Brand Management', 'Digital & Search Marketing', 'Direct Marketing & CRM',
+            'Event Management', 'Internal Communications', 'Management',
+            'Market Research & Analysis', 'Marketing Assistants/Coordinators',
+            'Marketing Communications', 'Product Management & Development',
+            'Public Relations & Corporate Affairs', 'Trade Marketing', 'Others'
+        ]
+    },
+    {
+        jobFunctions: 'Mining, Resources & Energy',
+        jobSubfunctions: [
+            'Analysis & Reporting', 'Health, Safety & Environment', 'Management',
+            'Mining - Drill & Blast', 'Mining - Engineering & Maintenance',
+            'Mining - Exploration & Geoscience', 'Mining - Operations', 'Mining - Processing',
+            'Natural Resources & Water', 'Oil & Gas - Drilling', 'Oil & Gas - Engineering & Maintenance',
+            'Oil & Gas - Exploration & Geoscience', 'Oil & Gas - Operations',
+            'Oil & Gas - Production & Refinement', 'Power Generation & Distribution',
+            'Surveying', 'Others'
+        ]
+    },
+    {
+        jobFunctions: 'Real Estate & Property',
+        jobSubfunctions: [
+            'Administration', 'Analysts', 'Body Corporate & Facilities Management',
+            'Commercial Sales, Leasing & Property Management', 'Residential Leasing & Property Management',
+            'Residential Sales', 'Retail & Property Development', 'Valuation', 'Others'
+        ]
+    },
+    {
+        jobFunctions: 'Retail & Consumer Products',
+        jobSubfunctions: [
+            'Buying', 'Management - Area/Multi-site', 'Management - Department/Assistant',
+            'Management - Store', 'Merchandisers', 'Planning', 'Retail Assistants', 'Others'
+        ]
+    },
+    {
+        jobFunctions: 'Sales',
+        jobSubfunctions: [
+            'Account & Relationship Management', 'Analysis & Reporting', 'Management',
+            'New Business Development', 'Sales Coordinators', 'Sales Representatives/Consultants',
+            'Others'
+        ]
+    },
+    {
+        jobFunctions: 'Science & Technology',
+        jobSubfunctions: [
+            'Biological & Biomedical Sciences', 'Biotechnology & Genetics',
+            'Chemistry & Physics', 'Environmental, Earth & Geosciences',
+            'Food Technology & Safety', 'Laboratory & Technical Services',
+            'Materials Sciences', 'Mathematics, Statistics & Information Sciences',
+            'Modelling & Simulation', 'Quality Assurance & Control', 'Others'
+        ]
+    },
+    {
+        jobFunctions: 'Self Employment',
+        jobSubfunctions: [
+            'Self Employment'
+        ]
+    },
+    {
+        jobFunctions: 'Sport & Recreation',
+        jobSubfunctions: [
+            'Coaching & Instruction', 'Fitness & Personal Training', 'Management', 'Others'
+        ]
+    },
+    {
+        jobFunctions: 'Trades & Services',
+        jobSubfunctions: [
+            'Air Conditioning & Refrigeration', 'Automotive Trades', 'Bakers & Pastry Chefs',
+            'Building Trades', 'Butchers', 'Carpentry & Cabinet Making', 'Cleaning Services',
+            'Electricians', 'Fitters, Turners & Machinists', 'Floristry',
+            'Gardening & Landscaping', 'Hair & Beauty Services', 'Labourers',
+            'Locksmiths', 'Maintenance & Handyperson Services', 'Nannies & Babysitters',
+            'Painters & Sign Writers', 'Plumbers', 'Printing & Publishing Services',
+            'Security Services', 'Tailors & Dressmakers', 'Technicians',
+            'Welders & Boilermakers', 'Others'
+        ]
     }
+
 ];
 
-export const getJobFunctions = () => {
+export const getJobFunctionNames = () => {
     return JOB_FUNCTION.map(jobFunction => jobFunction.jobFunctions).sort((a, b) => a.localeCompare(b))
 }
 
-export const getJobSubfunctionsByJobFunction = (jobFunction: string): string[] => {
+export const getJobSubfunctionNamesByJobFunction = (jobFunction: string): string[] => {
     const jobFunctions = JOB_FUNCTION.find(jobFunc => jobFunc.jobFunctions === jobFunction);
     return jobFunctions ? jobFunctions.jobSubfunctions : [];
 }

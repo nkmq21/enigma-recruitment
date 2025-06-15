@@ -10,7 +10,7 @@ import {
     Chip,
 } from '@mui/material';
 import ArrowOutwardIcon from '@mui/icons-material/ArrowOutward';
-import { JobTitleTypography, CompanyTypography, SalaryTypography } from '../font/typography';
+import { JobTitleTypography } from '../font/typography';
 
 // Define the props interface for better type safety
 interface JobCardProps {
@@ -169,7 +169,7 @@ const JobCard: React.FC<JobCardProps> = ({
 }
 
 interface JobListPageProps {
-    jobs?: any[];
+    jobs?: any;
 }
 
 
@@ -233,7 +233,7 @@ const JobListPage: React.FC<JobListPageProps> = ({ jobs }) => {
                                 key={index}
                                 width={{ xs: '100%', sm: '32%' }}
                                 job={job}
-                                onBookmarkClick={() => handleBookmarkClick(job.title!)}
+                                onBookmarkClick={() => handleBookmarkClick(job.job_title)}
                             />
                         ))}
                     </Box>
