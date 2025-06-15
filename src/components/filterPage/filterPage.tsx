@@ -59,7 +59,7 @@ const SlideOutMenu: FunctionComponent<SlideOutMenuProps> = ({open, onClose}) => 
         selectedJobFunctions: searchParams.get('jobFunctions')?.split(',').filter(Boolean) || [] as string[],
         jobSubfunctions: searchParams.get('jobSubfunctions')?.split(',').filter(Boolean) || [] as string[],
         salaryRange: {min: '', max: ''},
-        EmploymentType: [] as string[],
+        EmploymentType: searchParams.get('employment_type')?.split(',').filter(Boolean) || [] as string[],
     });
 
     //update filter state when the url change
@@ -71,7 +71,7 @@ const SlideOutMenu: FunctionComponent<SlideOutMenuProps> = ({open, onClose}) => 
             selectedJobFunctions: searchParams.get('jobFunctions')?.split(',').filter(Boolean) || [],
             jobSubfunctions: searchParams.get('jobSubfunctions')?.split(',').filter(Boolean) || [],
             salaryRange: {min: '', max: ''},
-            EmploymentType: searchParams.get('EmploymentType')?.split(',').filter(Boolean) || [],
+            EmploymentType: searchParams.get('employment_type')?.split(',').filter(Boolean) || [],
         })
     }, [searchParams])
 
@@ -105,6 +105,14 @@ const SlideOutMenu: FunctionComponent<SlideOutMenuProps> = ({open, onClose}) => 
         setFilterValues(prev => ({
             ...prev,
             industries: industry
+        }));
+    }, []);
+
+    const handleEmploymentTypeChange = useCallback((employmentType: string[]) => {
+        console.log('Employment Type updated: ', employmentType);
+        setFilterValues(prev => ({
+            ...prev,
+            EmploymentType: employmentType
         }));
     }, []);
 
@@ -170,6 +178,12 @@ const SlideOutMenu: FunctionComponent<SlideOutMenuProps> = ({open, onClose}) => 
             queryParams.set('industries', filterValues.industries.join(','));
         } else {
             queryParams.delete('industries');
+        }
+
+        if (filterValues.EmploymentType.length > 0) {
+            queryParams.set('employment_type', filterValues.EmploymentType.join(','));
+        } else {
+            queryParams.delete('employment_type');
         }
 
         //TODO: add other filters to URL
@@ -297,30 +311,6 @@ const SlideOutMenu: FunctionComponent<SlideOutMenuProps> = ({open, onClose}) => 
                             <ResetButton filterName="Location" onReset={handleReset}/>
                         </Box>
                         <Box sx={{display: 'flex', gap: 2}}>
-                            {/*<TextField*/}
-                            {/*    fullWidth*/}
-                            {/*    variant="outlined"*/}
-                            {/*    inputRef={locationCountryRef}*/}
-                            {/*    placeholder="Select locations"*/}
-                            {/*    value={*/}
-                            {/*        filterValues.selectedLocations.length === 0*/}
-                            {/*            ? ''*/}
-                            {/*            : filterValues.selectedLocations.length === 1*/}
-                            {/*                ? filterValues.selectedLocations[0]*/}
-                            {/*                : `${filterValues.selectedLocations.length} locations selected`*/}
-                            {/*    }*/}
-                            {/*    onClick={handleChildDialogOpen}*/}
-                            {/*    InputProps={{*/}
-                            {/*        startAdornment: <Image src='/location.svg' alt='location' height={20} width={20} style={{ marginRight: '10px' }} />,*/}
-                            {/*        endAdornment: <ArrowDropDown sx={{ color: 'grey.600' }} />,*/}
-                            {/*        readOnly: true,*/}
-                            {/*    }}*/}
-                            {/*    sx={{*/}
-                            {/*        "& .MuiOutlinedInput-root": { borderRadius: "8px" },*/}
-                            {/*        cursor: 'pointer',*/}
-                            {/*    }}*/}
-                            {/*/>*/}
-
                             <Location
                                 disabled={false}
                                 onDialogOpen={handleChildDialogOpen}
@@ -341,6 +331,8 @@ const SlideOutMenu: FunctionComponent<SlideOutMenuProps> = ({open, onClose}) => 
                             value={filterValues.industries}
                             onChange={handleIndustryChange}
                             disabled={false}
+                            onDialogOpen={handleChildDialogOpen}
+                            onDialogClose={handleChildDialogClose}
                         />
                     </Box>
 
@@ -378,8 +370,9 @@ const SlideOutMenu: FunctionComponent<SlideOutMenuProps> = ({open, onClose}) => 
                             <ResetButton filterName="Employment Type" onReset={handleReset}/>
                         </Box>
                         <CheckboxGroup
+                            onChange={handleEmploymentTypeChange}
+                            value={filterValues.EmploymentType}
                             types={['Permanent', 'Contract', 'Temporary']}
-                            defaultChecked={['Permanent']}
                         />
                     </Box>
 

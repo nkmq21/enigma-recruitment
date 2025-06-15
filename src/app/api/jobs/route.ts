@@ -21,13 +21,16 @@ export async function GET(request: NextRequest) {
     const industryParam = searchParams.get('industries') || '' as string;
     const industries = industryParam ? industryParam.split(',').map(industry => industry.trim()) : [];
 
+    const employmentTypeParam = searchParams.get('employment_type') || '' as string;
+    const employment_type = employmentTypeParam ? employmentTypeParam.split(',').map(empType => empType.trim()) : [];
+
     //TODO: other filter params will continue from here
 
     try {
         //fetch filter options
         const jobRepository = new JobRepository();
         //TODO: add other filter params to the search method below
-        const { jobs, total } = await jobRepository.findBySearch(query, status, locations, jobFunctions, jobSubfunctions, industries, page, limit);
+        const { jobs, total } = await jobRepository.findBySearch(query, status, locations, jobFunctions, jobSubfunctions, industries, employment_type, page, limit);
 
         return NextResponse.json({
             jobs,
