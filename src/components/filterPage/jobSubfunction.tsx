@@ -15,85 +15,114 @@ import {
 import {ThemeProvider} from '@emotion/react';
 import theme from '../font/theme';
 import {ArrowDropDown, Close} from '@mui/icons-material';
-import Image from 'next/image';
-import {INDUSTRIES} from 'enigma/data/industryData';
+import {getJobSubfunctionNamesByJobFunction} from "enigma/data/jobFunctionData";
 import {useSearchParams} from "next/navigation";
 
-interface IndustriesFilterProps {
+interface JobSubRoleFilterProps {
     disabled?: boolean;
-    value?: string[];
-    onChange?: (industries: string[]) => void;
     onDialogOpen?: () => void;
     onDialogClose?: () => void;
+    selectedJobFunction: string[];
+    value?: string[];
+    onChange?: (jobSubfunction: string[]) => void;
 }
 
-const IndustriesFilter: FunctionComponent<IndustriesFilterProps> = ({
+const JobSubRoleFilter: FunctionComponent<JobSubRoleFilterProps> = ({
                                                                         disabled = false,
-                                                                        value = [],
-                                                                        onChange,
                                                                         onDialogOpen,
                                                                         onDialogClose,
+                                                                        value = [],
+                                                                        selectedJobFunction = [],
+                                                                        onChange,
                                                                     }) => {
     const searchParams = useSearchParams();
+    // State to manage dialog visibility
     const [open, setOpen] = useState(false);
-    const [selectedIndustries, setSelectedIndustries] = useState<string[]>(() => {
-        const urlIndustries = searchParams.get('industries')?.split(',').filter(Boolean) || [];
-        return urlIndustries.length > 0 ? urlIndustries : value;
+    // State to store selected job subfunctions
+    const [selectedJobSubfunctions, setSelectedJobSubfunctions] = useState<string[]>(() => {
+        const urlJobSubfunctions = searchParams.get('jobSubfunctions')?.split(',').filter(Boolean) || [];
+        return urlJobSubfunctions.length > 0 ? urlJobSubfunctions : value;
     });
     const [searchTerm, setSearchTerm] = useState('');
-    const industriesRef = useRef(null);
-
-    useEffect(() => {
-        if (open) {
-            const urlIndustries = searchParams.get('industries')?.split(',').filter(Boolean) || [];
-            setSelectedIndustries(urlIndustries.length > 0 ? urlIndustries : value);
-        }
-    }, [open]);
-
-    useEffect(() => {
-        if (onChange && JSON.stringify(selectedIndustries) !== JSON.stringify(value)) {
-            onChange(selectedIndustries);
-        }
-    }, [selectedIndustries, onChange, value]);
-
-    const handleOpenIndustries = () => {
+    // all job subfunctions data
+    const [jobSubfunctionList, setJobSubfunctionList] = useState<string[]>([]);
+    // Ref for TextField
+    const jobSubFunctionsRef = useRef(null);
+    // Handle opening dialog
+    const handleOpenJobSubfunction = () => {
         if (disabled) return;
         setOpen(true);
         onDialogOpen?.();
     };
 
-    const handleCloseIndustries = () => {
+    // Handle closing dialog
+    const handleCloseJobSubfunction = () => {
         setOpen(false);
         onDialogClose?.();
     };
 
-    const handleIndustryToggle = (industry: string) => {
-        const newSelectedIndustries = selectedIndustries.includes(industry)
-            ? selectedIndustries.filter(i => i !== industry)
-            : [...selectedIndustries, industry];
-        setSelectedIndustries(newSelectedIndustries);
+    // Handle subfunction selection
+    const handleJobSubfunctionToggle = (jobSubfunction: string) => {
+        const newSelectedJobSubfunctions = selectedJobSubfunctions.includes(jobSubfunction)
+            ? selectedJobSubfunctions.filter(j => j !== jobSubfunction)
+            : [...selectedJobSubfunctions, jobSubfunction];
+        setSelectedJobSubfunctions(newSelectedJobSubfunctions);
     };
 
-    const handleRemoveIndustry = (industry: string) => {
-        setSelectedIndustries(selectedIndustries.filter(i => i !== industry));
+    //sync with url params only when the dialog opens
+    useEffect(() => {
+        if (open) {
+            const urlJobSubfunctions = searchParams.get('jobSubfunctions')?.split(',').filter(Boolean) || [];
+            setSelectedJobSubfunctions(urlJobSubfunctions.length > 0 ? urlJobSubfunctions : value);
+        }
+    }, [open]);
+
+    //notify parent when selected job subfunctions change
+    useEffect(() => {
+        if (onChange && JSON.stringify(selectedJobSubfunctions) !== JSON.stringify(value)) {
+            onChange(selectedJobSubfunctions);
+        }
+    }, [selectedJobSubfunctions, onChange, value]);
+
+    //fetch job subfunctions
+    const fetchJobSubfunctions = () => {
+        try {
+            const jobSub = selectedJobFunction
+                .flatMap((jobFunc) => getJobSubfunctionNamesByJobFunction(jobFunc))
+                .filter((v, i, a) => a.indexOf(v) === i);
+            setJobSubfunctionList(jobSub);
+        } catch (error) {
+            console.error('failed to fetch job functions: ', error);
+            setJobSubfunctionList([]);
+        }
+    }
+
+    //fetch job subfunctions when dialog opens or selected job subfunction change
+    useEffect(() => {
+        if (open) {
+            fetchJobSubfunctions();
+        }
+    }, [open]);
+
+    const handleRemoveJobSubfunction = (jobSubfunctionToRemove: string) => {
+        setSelectedJobSubfunctions(selectedJobSubfunctions.filter(j => j !== jobSubfunctionToRemove));
     };
 
     const handleClearAll = () => {
-        setSelectedIndustries([]);
+        setSelectedJobSubfunctions([]);
         onChange?.([]);
     };
 
     const handleApplySelection = () => {
-        onChange?.(selectedIndustries);
+        onChange?.(selectedJobSubfunctions);
         setOpen(false);
         onDialogClose?.();
     };
 
-    const filteredIndustries = searchTerm
-        ? INDUSTRIES.filter(ind =>
-            ind.industryName.toLowerCase().includes(searchTerm.toLowerCase())
-        )
-        : INDUSTRIES;
+    const filteredJobSubfunctions = searchTerm
+        ? jobSubfunctionList.filter(sub =>
+            sub.toLowerCase().includes(searchTerm.toLowerCase())
+        ) : jobSubfunctionList;
 
     return (
         <ThemeProvider theme={theme}>
@@ -101,14 +130,12 @@ const IndustriesFilter: FunctionComponent<IndustriesFilterProps> = ({
                 <TextField
                     fullWidth
                     variant="outlined"
-                    inputRef={industriesRef}
-                    placeholder={selectedIndustries.length > 0 ? `${selectedIndustries.length} industry(ies) selected` : "Industries"}
-                    value="" // Always show placeholder
-                    onClick={handleOpenIndustries}
+                    inputRef={jobSubFunctionsRef}
+                    placeholder={selectedJobSubfunctions.length > 0 ? `${selectedJobSubfunctions.length} subfunction(s) selected` : "Job Sub Functions"}
+                    value="" // Keep empty to show placeholder
+                    onClick={handleOpenJobSubfunction}
                     disabled={disabled}
                     InputProps={{
-                        startAdornment: <Image src='/industries.svg' alt='industries' height={20} width={20}
-                                               style={{marginRight: '10px'}}/>,
                         endAdornment: <ArrowDropDown sx={{color: disabled ? 'grey.400' : 'grey.600'}}/>,
                         readOnly: true,
                     }}
@@ -120,28 +147,31 @@ const IndustriesFilter: FunctionComponent<IndustriesFilterProps> = ({
                     }}
                 />
 
-                {selectedIndustries.length > 0 && (
+                {/* Selected Job Subfunctions Chips */}
+                {selectedJobSubfunctions.length > 0 && (
                     <Stack direction="row" spacing={1} sx={{mt: 1, flexWrap: 'wrap', gap: 1}}>
-                        {selectedIndustries.slice(0, 3).map((industry) => (
+                        {selectedJobSubfunctions.slice(0, 3).map((jobSubfunction) => (
                             <Chip
-                                key={industry}
-                                label={industry}
+                                key={jobSubfunction}
+                                label={jobSubfunction}
                                 size="small"
-                                onDelete={() => handleRemoveIndustry(industry)}
+                                onDelete={() => handleRemoveJobSubfunction(jobSubfunction)}
                                 deleteIcon={<Close sx={{fontSize: 16}}/>}
                                 sx={{
                                     backgroundColor: '#e3f2fd',
                                     color: '#1976d2',
                                     '& .MuiChip-deleteIcon': {
                                         color: '#1976d2',
-                                        '&:hover': {color: '#d32f2f'},
+                                        '&:hover': {
+                                            color: '#d32f2f',
+                                        },
                                     },
                                 }}
                             />
                         ))}
-                        {selectedIndustries.length > 3 && (
+                        {selectedJobSubfunctions.length > 3 && (
                             <Chip
-                                label={`+${selectedIndustries.length - 3} more`}
+                                label={`+${selectedJobSubfunctions.length - 3} more`}
                                 size="small"
                                 variant="outlined"
                                 sx={{color: '#666'}}
@@ -151,9 +181,10 @@ const IndustriesFilter: FunctionComponent<IndustriesFilterProps> = ({
                 )}
             </Box>
 
+            {/* Dialog for job subfunctions selection */}
             <Dialog
                 open={open}
-                onClose={handleCloseIndustries}
+                onClose={handleCloseJobSubfunction}
                 maxWidth="sm"
                 PaperProps={{
                     sx: {
@@ -187,6 +218,7 @@ const IndustriesFilter: FunctionComponent<IndustriesFilterProps> = ({
                             color: '#475467',
                         }}
                     >
+                        {/* Header */}
                         <Box sx={{
                             display: 'flex',
                             flexDirection: 'row',
@@ -198,9 +230,9 @@ const IndustriesFilter: FunctionComponent<IndustriesFilterProps> = ({
                                 color: '#262d34',
                                 fontSize: {xs: '13px', sm: '16px'},
                             }}>
-                                Select Industries ({selectedIndustries.length} selected)
+                                Select Job Sub Functions ({selectedJobSubfunctions.length} selected)
                             </Typography>
-                            {selectedIndustries.length > 0 && (
+                            {selectedJobSubfunctions.length > 0 && (
                                 <Button
                                     variant="text"
                                     onClick={handleClearAll}
@@ -216,9 +248,10 @@ const IndustriesFilter: FunctionComponent<IndustriesFilterProps> = ({
                             )}
                         </Box>
 
+                        {/* Search Field */}
                         <TextField
                             fullWidth
-                            placeholder="Search Industries"
+                            placeholder="Search Job Sub Functions"
                             variant="outlined"
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
@@ -234,6 +267,7 @@ const IndustriesFilter: FunctionComponent<IndustriesFilterProps> = ({
                             }}
                         />
 
+                        {/* Job Subfunction List */}
                         <List
                             sx={{
                                 width: '100%',
@@ -249,17 +283,17 @@ const IndustriesFilter: FunctionComponent<IndustriesFilterProps> = ({
                                 '&::-webkit-scrollbar-thumb': {background: '#2494b6', borderRadius: '10px'},
                             }}
                         >
-                            {filteredIndustries.length === 0 ? (
+                            {filteredJobSubfunctions.length === 0 ? (
                                 <Typography textAlign="center" color="textSecondary" sx={{py: 2}}>
-                                    {searchTerm ? 'No industries found' : 'Loading industries...'}
+                                    {searchTerm ? 'No job subfunctions found' : 'Please choose a Job Function first'}
                                 </Typography>
                             ) : (
-                                filteredIndustries.map((industry) => {
-                                    const isSelected = selectedIndustries.includes(industry.industryName);
+                                filteredJobSubfunctions.map((jobSubfunction) => {
+                                    const isSelected = selectedJobSubfunctions.includes(jobSubfunction);
                                     return (
                                         <ListItemButton
-                                            key={industry.industryId}
-                                            onClick={() => handleIndustryToggle(industry.industryName)}
+                                            key={jobSubfunction}
+                                            onClick={() => handleJobSubfunctionToggle(jobSubfunction)}
                                             sx={{
                                                 borderRadius: '6px',
                                                 height: '44px',
@@ -283,7 +317,7 @@ const IndustriesFilter: FunctionComponent<IndustriesFilterProps> = ({
                                                 }}
                                             />
                                             <ListItemText
-                                                primary={industry.industryName}
+                                                primary={jobSubfunction}
                                                 primaryTypographyProps={{
                                                     fontSize: {xs: '12px', sm: '14px'},
                                                     lineHeight: '20px',
@@ -298,10 +332,11 @@ const IndustriesFilter: FunctionComponent<IndustriesFilterProps> = ({
                             )}
                         </List>
 
+                        {/* Action Buttons */}
                         <Box sx={{display: 'flex', gap: 2, mt: 2}}>
                             <Button
                                 variant="outlined"
-                                onClick={handleCloseIndustries}
+                                onClick={handleCloseJobSubfunction}
                                 sx={{
                                     flex: 1,
                                     borderRadius: '8px',
@@ -325,7 +360,7 @@ const IndustriesFilter: FunctionComponent<IndustriesFilterProps> = ({
                                     },
                                 }}
                             >
-                                Apply ({selectedIndustries.length})
+                                Apply ({selectedJobSubfunctions.length})
                             </Button>
                         </Box>
                     </Box>
@@ -335,4 +370,4 @@ const IndustriesFilter: FunctionComponent<IndustriesFilterProps> = ({
     );
 };
 
-export default IndustriesFilter;
+export default JobSubRoleFilter;

@@ -1,15 +1,14 @@
-"use client";
 import * as React from "react";
-import { LoginForm } from "./loginForm";
-import { LoginHero } from "./loginHero";
-import { ThemeProvider, createTheme, Box, Grid } from '@mui/material';
-import theme from "../font/theme";
+import { PassConfirm } from "./passConfirm";
+import { LoginHero } from "./forgotHero";
+import { ThemeProvider, Box, Grid } from '@mui/material';
+import theme from '../../font/theme';
 
-export default function LoginPage() {
+export function ConfirmPasss() {
     return (
         <ThemeProvider theme={theme}>
             <Box
-                component="section"
+                component="main"
                 sx={{
                     display: 'flex',
                     alignItems: 'flex-start',
@@ -41,7 +40,7 @@ export default function LoginPage() {
                             bgcolor: '#FFF',
                         }}
                     >
-                        <LoginForm />
+                        <PassConfirm />
                         <LoginHero />
                     </Grid>
                 </Grid>

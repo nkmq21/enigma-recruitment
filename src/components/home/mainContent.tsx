@@ -2,6 +2,7 @@ import * as React from "react";
 import SuggestedJobCard from "../suggestJobCard";
 import SectionTitle from "../font/sectionTitle";
 import Image from 'next/image';
+import LogoHeader from "../logoHeader";
 import { JobCard } from "./JobCard";
 import {
     Box,
@@ -17,6 +18,7 @@ import {
 import SearchBar from "enigma/components/searchBar";
 
 export const MainContent = () => {
+    const theme = useTheme();
     const jobData = [1, 2, 3, 4];
     const popularJobs = [
         "Digital Marketer",
@@ -29,7 +31,7 @@ export const MainContent = () => {
     return (
         <Box component="main" sx={{
             flexGrow: 1,
-            p: { xs: 0.5, sm: 3 },
+            p: { xs: 0.5, sm: 2 },
             width: '100%',
             ml: 0.5,
             '@media (max-width: 991px)': {
@@ -37,6 +39,7 @@ export const MainContent = () => {
             },
         }}>
             <Box sx={{ display: { lg: 'none', sm: 'block' } }}>
+                <LogoHeader />
                 <Divider sx={{ mt: 1, mb: 3, width: '100%' }} />
             </Box>
 
@@ -146,7 +149,7 @@ export const MainContent = () => {
                                     }}
                                 >
                                     {jobData.slice(rowIndex * 2, rowIndex * 2 + 2).map((job) => (
-                                        <JobCard key={job} />
+                                        <JobCard key={job} width="100%" />
                                     ))}
                                 </Box>
                             ))}
@@ -174,10 +177,10 @@ export const MainContent = () => {
 };
 
 const FeatureCard = ({
-                         icon,
-                         title,
-                         subtitle,
-                     }: {
+    icon,
+    title,
+    subtitle,
+}: {
     icon: React.ReactNode;
     title: string;
     subtitle: string;

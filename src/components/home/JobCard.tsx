@@ -26,8 +26,8 @@ interface JobCardProps {
         location: string;
         employment_type: string;
     };
-
     image?: string;
+    width?: string | { [key: string]: string };
     onBookmarkClick?: () => void;
     /*    company?: string;
         date?: string;
@@ -57,10 +57,11 @@ const toDisplayValue = (value: string | number | Date | null | undefined) => {
 };
 
 const JobCard: React.FC<JobCardProps> = ({
-                                             job,
-                                             image = 'https://cdn.builder.io/api/v1/image/assets/8ef08a3c60b44d4ba008c3e63d84c943/e0f19983d1fc96223a6c8b683cd1f6149e05cb54?placeholderIfAbsent=true',
-                                             onBookmarkClick,
-                                         }) => {
+    job,
+    width = '32%',
+    image = 'https://cdn.builder.io/api/v1/image/assets/8ef08a3c60b44d4ba008c3e63d84c943/e0f19983d1fc96223a6c8b683cd1f6149e05cb54?placeholderIfAbsent=true',
+    onBookmarkClick,
+}) => {
 
     //use provided job data
     const title = job?.job_title || '';
@@ -75,7 +76,7 @@ const JobCard: React.FC<JobCardProps> = ({
     ]
 
     return (
-        <Card sx={{ width: '100%', borderRadius: 4, border: '1px solid #D0D5DD', }}>
+        <Card sx={{ width: width, borderRadius: 4, border: '1px solid #D0D5DD', transition: 'all 0.3s ease', }}>
             <CardMedia
                 component="img"
                 image={image}
@@ -177,7 +178,7 @@ const JobCard: React.FC<JobCardProps> = ({
 }
 
 interface JobListPageProps {
-    jobs?: any[];
+    jobs?: any;
 }
 
 
@@ -239,8 +240,9 @@ const JobListPage: React.FC<JobListPageProps> = ({ jobs }) => {
                         {jobData.slice(rowIndex * 3, rowIndex * 3 + 3).map((job, index) => (
                             <JobCard
                                 key={index}
+                                width={{ xs: '100%', sm: '32%' }}
                                 job={job}
-                                onBookmarkClick={() => handleBookmarkClick(job.title!)}
+                                onBookmarkClick={() => handleBookmarkClick(job.job_title)}
                             />
                         ))}
                     </Box>

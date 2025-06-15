@@ -1,15 +1,14 @@
-"use client";
 import * as React from "react";
-import { LoginForm } from "./loginForm";
-import { LoginHero } from "./loginHero";
-import { ThemeProvider, createTheme, Box, Grid } from '@mui/material';
-import theme from "../font/theme";
+import { SuccesForm } from "./verifyForm";
+import { LoginHero } from "enigma/components/login/loginHero";
+import { ThemeProvider, Box, Grid } from '@mui/material';
+import theme from "enigma/components/font/theme";
 
-export default function LoginPage() {
+export function VerifySucces() {
     return (
         <ThemeProvider theme={theme}>
             <Box
-                component="section"
+                component="main"
                 sx={{
                     display: 'flex',
                     alignItems: 'flex-start',
@@ -41,7 +40,7 @@ export default function LoginPage() {
                             bgcolor: '#FFF',
                         }}
                     >
-                        <LoginForm />
+                        <SuccesForm />
                         <LoginHero />
                     </Grid>
                 </Grid>

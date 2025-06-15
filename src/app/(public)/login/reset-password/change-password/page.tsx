@@ -1,10 +1,7 @@
+"use client";
 import React from 'react';
-import {ChangePasswordForm} from "enigma/components/login/reset-password/change-password/changePasswordForm";
+import { ConfirmPasss } from 'enigma/components/login/reset-password/confirmPass';
 
-const ChangePasswordPage = () => {
-    return (
-        <ChangePasswordForm/>
-    );
-};
-
-export default ChangePasswordPage;
+export default function ChangePasswordPage() {
+    return <ConfirmPasss />;
+}

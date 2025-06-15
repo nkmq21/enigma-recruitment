@@ -21,7 +21,7 @@ export function FilterSortBar() {
     return (
         <Box
             sx={{
-                width: '40%',
+                width: '38%',
                 display: 'flex',
                 height: '64px',
                 boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
