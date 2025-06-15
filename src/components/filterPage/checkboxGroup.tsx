@@ -1,35 +1,50 @@
-import { FunctionComponent, useState, useEffect } from 'react';
-import { FormGroup, FormControlLabel, Checkbox, Box } from '@mui/material';
+import {FunctionComponent, useEffect, useState} from 'react';
+import {FormGroup, FormControlLabel, Checkbox, Box} from '@mui/material';
+import {useSearchParams} from "next/navigation";
 
 interface CheckboxGroupProps {
-    types: string[]; // Dynamic types passed as props
-    defaultChecked?: string[]; // Optional default checked types
+    types: string[];
+    value?: string[];
+    onChange?: (selected: string[]) => void;
+    defaultChecked?: string[];
 }
 
 const CheckboxGroup: FunctionComponent<CheckboxGroupProps> = ({
-    types,
-    defaultChecked = [], // Default to empty array if not provided
-}) => {
-    const [checkedTypes, setCheckedTypes] = useState<string[]>(defaultChecked);
+                                                                  types,
+                                                                  value = [],
+                                                                  onChange,
+                                                              }) => {
+    const searchParams = useSearchParams();
+    const [internalValue, setInternalValue] = useState<string[]>(() => {
+        const urlValue = searchParams.get('employment_type')?.split(',').filter(Boolean) || [];
+        return urlValue.length > 0 ? urlValue : value;
+    });
 
-    // Reset checkedTypes when types change to ensure no invalid selections
+    // Update internal state when dialog opens/searchParams change
     useEffect(() => {
-        // Only keep checkedTypes that are still valid in the new types array
-        setCheckedTypes((prev) => prev.filter((item) => types.includes(item)));
-        // If you want to set a default checked type for the new page, you can do:
-        // setCheckedTypes(defaultChecked.filter((item) => types.includes(item)));
-    }, [types, defaultChecked]);
+        const urlValues = searchParams.get('employment_type')?.split(',').filter(Boolean) || [];
+        setInternalValue(urlValues.length > 0 ? urlValues : value);
+    }, []);
+
+    // Notify parent component when internal state changes
+    useEffect(() => {
+        if (onChange && JSON.stringify(internalValue) !== JSON.stringify(value)) {
+            onChange(internalValue);
+        }
+    }, [internalValue, onChange, value]);
 
     const handleChange = (type: string) => {
-        setCheckedTypes((prev) =>
-            prev.includes(type)
-                ? prev.filter((item) => item !== type)
-                : [...prev, type]
-        );
+        let newChecked: string[];
+        if (internalValue.includes(type)) {
+            newChecked = internalValue.filter((item) => item !== type);
+        } else {
+            newChecked = [...internalValue, type];
+        }
+        setInternalValue(newChecked);
     };
 
     return (
-        <FormGroup row sx={{ gap: 2, width: '100%' }}>
+        <FormGroup row sx={{gap: 2, width: '100%'}}>
             {types.map((type) => (
                 <Box
                     key={type}
@@ -39,19 +54,19 @@ const CheckboxGroup: FunctionComponent<CheckboxGroupProps> = ({
                         borderRadius: '8px',
                         border: '1px solid ',
                         backgroundColor: '#fff',
-                        borderColor: checkedTypes.includes(type) ? 'primary.main' : '#d0d5dd',
+                        borderColor: internalValue.includes(type) ? 'primary.main' : '#d0d5dd',
                         boxShadow: '0px 1px 2px rgba(16, 24, 40, 0.05)',
                         fontSize: '14px',
-                        width: { xs: '100%', sm: '32%' },
+                        width: {xs: '100%', sm: '32%'},
                     }}
                 >
                     <FormControlLabel
                         control={
                             <Checkbox
-                                checked={checkedTypes.includes(type)}
+                                checked={internalValue.includes(type)}
                                 onChange={() => handleChange(type)}
                                 sx={{
-                                    '&.Mui-checked': { color: 'primary.main' }, // #1976d2
+                                    '&.Mui-checked': {color: 'primary.main'},
                                     padding: '0',
                                     textAlign: 'start',
                                 }}
@@ -74,4 +89,5 @@ const CheckboxGroup: FunctionComponent<CheckboxGroupProps> = ({
         </FormGroup>
     );
 };
+
 export default CheckboxGroup;

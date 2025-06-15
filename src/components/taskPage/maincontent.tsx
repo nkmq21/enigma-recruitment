@@ -59,6 +59,11 @@ export const MainContent = () => {
                     queryParams.set('industries', industries);
                 }
 
+                const employmentType = searchParams.get('employment_type');
+                if (employmentType) {
+                    queryParams.set('employment_type', employmentType);
+                }
+
                 //TODO: other filter criteria will continue from here
 
                 const page = searchParams.get('page') || '1';
@@ -125,7 +130,9 @@ export const MainContent = () => {
             {(searchParams.get('locations') ||
                 searchParams.get('jobFunctions') ||
                 searchParams.get('query') ||
-                searchParams.get('industries')) && (
+                searchParams.get('industries') ||
+                searchParams.get('employment_type')
+            ) && (
                 <Box sx={{mb: 2, p: 2, bgcolor: '#f5f5f5', borderRadius: 1}}>
                     <Typography variant="body2" color="text.secondary" sx={{mb: 1}}>
                         Active Filters:
@@ -185,6 +192,18 @@ export const MainContent = () => {
                                 onDelete={() => {
                                     const newParams = new URLSearchParams(searchParams.toString());
                                     newParams.delete('industries');
+                                    router.push(`/jobs?${newParams.toString()}`);
+                                }}
+                            />
+                        )}
+
+                        {searchParams.get('employment_type') && (
+                            <Chip
+                                label={`Employment Type: ${searchParams.get('employment_type')?.replace(/,/g, ', ')}`}
+                                size="small"
+                                onDelete={() => {
+                                    const newParams = new URLSearchParams(searchParams.toString());
+                                    newParams.delete('employment_type');
                                     router.push(`/jobs?${newParams.toString()}`);
                                 }}
                             />

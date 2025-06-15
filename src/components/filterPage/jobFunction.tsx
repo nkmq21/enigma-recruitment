@@ -49,17 +49,6 @@ const JobRoleFilter: FunctionComponent<JobRoleFilterProps> = ({
     // All job functions data
     const [jobFunctionList, setJobFunctionList] = useState<string[]>([]);
 
-    // Sync with URL params when they change
-    // useEffect(() => {
-    //     const urlJobFunctions = searchParams.get('jobFunctions')?.split(',').filter(Boolean) || [];
-    //     // Only update from URL on an initial load or empty selection
-    //     if (urlJobFunctions.length > 0 && selectedJobFunctions.length === 0) {
-    //         setSelectedJobFunctions(urlJobFunctions);
-    //     } else if (value.length > 0 && selectedJobFunctions.length === 0) {
-    //         setSelectedJobFunctions(value);
-    //     }
-    // }, [searchParams, value, selectedJobFunctions.length]);
-
     // Sync with URL params ONLY when dialog opens
     useEffect(() => {
         if (open) {

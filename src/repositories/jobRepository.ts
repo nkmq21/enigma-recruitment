@@ -12,14 +12,13 @@ export class JobRepository {
         jobFunctions: string[],
         jobSubfunctions: string[],
         industries: string[],
+        employment_type: string[],
         page = 1,
         limit = 19,
-        // industries: string[],
-        // employment_type: string[],
     ) {
         const skip = (page - 1) * limit;
 
-        if (!query && locations.length == 0 && jobFunctions.length == 0 && jobSubfunctions.length == 0 && industries.length == 0) {
+        if (!query && locations.length == 0 && jobFunctions.length == 0 && jobSubfunctions.length == 0 && industries.length == 0 && employment_type.length == 0) {
             return this.findJobs(status, skip, limit);
         }
 
@@ -35,7 +34,7 @@ export class JobRepository {
                      LEFT JOIN job_functions jf ON j.job_function_id = jf.job_function_id
                      LEFT JOIN job_subfunctions js ON j.job_function_id = js.job_function_id
             WHERE j.status = ANY (${status})
-                ${locations.length > 0 ? Prisma.sql`AND j.location = ANY(${locations})` : Prisma.empty} 
+                ${locations.length > 0 ? Prisma.sql`AND j.location = ANY(${locations})` : Prisma.empty}
                 ${jobFunctions.length > 0
                     ? Prisma.sql`AND (${Prisma.join(
                             jobFunctions.map(jf => Prisma.sql`jf.job_function_name ILIKE ${`%${jf.toLowerCase()}%`}`),
@@ -54,6 +53,10 @@ export class JobRepository {
                                 ' OR '
                         )})`
                         : Prisma.empty}
+                ${employment_type.length > 0
+                        ? Prisma.sql`AND j.employment_type ILIKE ANY(${employment_type})`
+                        : Prisma.empty}
+            
             -- TODO: add other filter criteria continue from here
 
               AND (
