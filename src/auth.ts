@@ -13,8 +13,7 @@ export const {handlers: {GET, POST}, signIn, signOut, auth} = NextAuth({
         async jwt({token}) {
             if (!token.sub) return token;
             // Check if the user exists in the database, token sub is ID of the user
-            const response = await getUser(token.sub);
-            const existingUser : User = await response?.json();
+            const existingUser = await getUser(token.sub);
             if (!existingUser) return token;
             // Check if the user has an account in the database if they use 3rd party services
             const existingAccount = await getAccount(String(existingUser.id));
@@ -53,8 +52,7 @@ export const {handlers: {GET, POST}, signIn, signOut, auth} = NextAuth({
                 return true;
             }
             // Check if the user exists in the database
-            const response = await getUser(String(user.id));
-            const existingUser : User = await response?.json();
+            const existingUser = await getUser(String(user.id));
             // Check if the user email is verified
             if (!existingUser?.emailVerified) {
                 console.error("auth.signIn: User email not verified");

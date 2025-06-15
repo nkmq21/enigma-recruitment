@@ -1,6 +1,7 @@
 "use client";
 import * as React from "react";
 import SectionTitle from "../font/sectionTitle";
+import LogoHeader from "../logoHeader";
 import SearchBar from "../searchBar";
 import CTA from "../common/cta";
 import {JobListPage} from "../home/JobCard";
@@ -122,7 +123,7 @@ export const MainContent = () => {
             </Typography>
 
             {/* Search and Filter */}
-            <SearchBar/>
+            <SearchBar placeholder="Job title, description, or industry name"/>
 
 
             {/* ADDED TO CHECK THE ACTIVATED FILTER */}

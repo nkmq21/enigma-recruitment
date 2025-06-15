@@ -4,7 +4,6 @@ import SectionTitle from "../font/sectionTitle";
 import Image from 'next/image';
 import LogoHeader from "../logoHeader";
 import { JobCard } from "./JobCard";
-
 import {
     Box,
     Typography,
@@ -21,7 +20,6 @@ import SearchBar from "enigma/components/searchBar";
 export const MainContent = () => {
     const theme = useTheme();
     const jobData = [1, 2, 3, 4];
-
     const popularJobs = [
         "Digital Marketer",
         "Software Developer",
@@ -48,7 +46,8 @@ export const MainContent = () => {
             <Typography variant="h4" component="h1" gutterBottom color="#101828">
                 Dashboard
             </Typography>
-            <SearchBar placeholder="Job positions/ Company name" />
+
+            <SearchBar placeholder="Job title, description, or industry name"/>
 
             {/* Popular Jobs */}
             <Box sx={{

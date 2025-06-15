@@ -1,8 +1,8 @@
-'use client';
-import * as React from 'react';
-import { useState, useEffect } from 'react';
-import LogoHeader from './logoHeader';
-import { JustLogoHeader } from './logoHeader';
+"use client";
+import * as React from "react";
+import {useState, useEffect} from "react";
+import LogoHeader from "./logoHeader";
+import {JustLogoHeader} from "./logoHeader";
 import {
     Box,
     List,
@@ -22,7 +22,7 @@ import {
 } from '@mui/material';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Search, ExpandMore, ExpandLess } from '@mui/icons-material';
+import { Search, ExpandLess } from '@mui/icons-material';
 import { signOut } from 'next-auth/react';
 import { Session } from 'next-auth';
 import { usePathname } from 'next/navigation';
