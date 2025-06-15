@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Box, TextField, InputAdornment, Button, IconButton } from '@mui/material';
+import { Box, TextField, InputAdornment, IconButton } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { FilterSortBar } from './filterSortBar';
 import { usePathname, useSearchParams, useRouter } from "next/navigation";

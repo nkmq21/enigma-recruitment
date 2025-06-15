@@ -17,7 +17,7 @@ import {ThemeProvider} from '@emotion/react';
 import theme from '../font/theme';
 import Image from 'next/image';
 import {ArrowDropDown, Close} from '@mui/icons-material';
-import {getJobFunctions, jobFunctionSearch} from "enigma/data/jobFunctionData";
+import {getJobFunctionNames, jobFunctionSearch} from "enigma/data/jobFunctionData";
 import {useSearchParams} from 'next/navigation';
 
 interface JobRoleFilterProps {
@@ -79,7 +79,7 @@ const JobRoleFilter: FunctionComponent<JobRoleFilterProps> = ({
     // Fetch job functions
     const fetchJobFunctions = () => {
         try {
-            const functions = getJobFunctions();
+            const functions = getJobFunctionNames();
             setJobFunctionList(functions);
         } catch (error) {
             console.error('Failed to fetch job functions:', error);

@@ -1,4 +1,4 @@
-import { FunctionComponent, useState, useRef } from 'react';
+import { FunctionComponent, useState, useRef, useEffect } from 'react';
 import {
     Box,
     TextField,
@@ -7,195 +7,363 @@ import {
     ListItemButton,
     ListItemText,
     Typography,
-    IconButton,
+    Button,
+    Checkbox,
+    Chip,
+    Stack,
 } from '@mui/material';
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { ThemeProvider } from '@emotion/react';
 import theme from '../font/theme';
-import { ArrowDropDown } from '@mui/icons-material';
+import { ArrowDropDown, Close } from '@mui/icons-material';
+import { getJobSubfunctionNamesByJobFunction } from "enigma/data/jobFunctionData";
+import { useSearchParams } from "next/navigation";
 
-const JobSubRoleFilter: FunctionComponent = () => {
+interface JobSubRoleFilterProps {
+    disabled?: boolean;
+    onDialogOpen?: () => void;
+    onDialogClose?: () => void;
+    selectedJobFunction: string[];
+    value?: string[];
+    onChange?: (jobSubfunction: string[]) => void;
+}
+
+const JobSubRoleFilter: FunctionComponent<JobSubRoleFilterProps> = ({
+    disabled = false,
+    onDialogOpen,
+    onDialogClose,
+    value = [],
+    selectedJobFunction = [],
+    onChange,
+}) => {
     // State to manage dialog visibility
     const [open, setOpen] = useState(false);
-    // State to store selected distance
-    const [selectedIndustries, setSelectedIndustries] = useState('');
+    // State to store selected job subfunctions
+    const [selectedJobSubfunctions, setSelectedJobSubfunctions] = useState<string[]>([]);
+    const [searchTerm, setSearchTerm] = useState('');
+    // all job subfunctions data
+    const [jobSubfunctionList, setJobSubfunctionList] = useState<string[]>([]);
     // Ref for TextField
     const jobSubFunctionsRef = useRef(null);
+    const searchParams = useSearchParams();
 
     // Handle opening dialog
-    const handleOpenIndustries = () => {
+    const handleOpenJobSubfunction = () => {
+        if (disabled) return;
         setOpen(true);
+        onDialogOpen?.();
     };
 
     // Handle closing dialog
-    const handleCloseIndustries = () => {
+    const handleCloseJobSubfunction = () => {
         setOpen(false);
+        onDialogClose?.();
     };
 
-    // Handle distance selection
-    const handleIndustriesSelect = (distance: string) => {
-        setSelectedIndustries(distance);
-        if (jobSubFunctionsRef.current) {
-            // industriesRef.current.value = distance; // Update TextField value
+    // Handle subfunction selection
+    const handleJobSubfunctionToggle = (jobSubfunction: string) => {
+        const newSelectedJobSubfunctions = selectedJobSubfunctions.includes(jobSubfunction)
+            ? selectedJobSubfunctions.filter(j => j !== jobSubfunction)
+            : [...selectedJobSubfunctions, jobSubfunction];
+        setSelectedJobSubfunctions(newSelectedJobSubfunctions);
+    };
+
+    //sync with url params only when the dialog opens
+    useEffect(() => {
+        if (open) {
+            const urlJobSubfunctions = searchParams.get('jobSubfunctions')?.split(',').filter(Boolean) || [];
+            setSelectedJobSubfunctions(urlJobSubfunctions.length > 0 ? urlJobSubfunctions : value);
         }
-        setOpen(false); // Close dialog after selection
+    }, [open]);
+
+    //notify parent when selected job subfunctions change
+    useEffect(() => {
+        if (onChange && JSON.stringify(selectedJobSubfunctions) !== JSON.stringify(value)) {
+            onChange(selectedJobSubfunctions);
+        }
+    }, [selectedJobSubfunctions, onChange, value]);
+
+    //fetch job subfunctions
+    const fetchJobSubfunctions = () => {
+        try {
+            const jobSub = selectedJobFunction
+                .flatMap((jobFunc) => getJobSubfunctionNamesByJobFunction(jobFunc))
+                .filter((v, i, a) => a.indexOf(v) === i);
+            setJobSubfunctionList(jobSub);
+        } catch (error) {
+            console.error('failed to fetch job functions: ', error);
+            setJobSubfunctionList([]);
+        }
+    }
+
+    //fetch job subfunctions when dialog opens or selected job subfunction change
+    useEffect(() => {
+        if (open) {
+            fetchJobSubfunctions();
+        }
+    }, [open]);
+
+    const handleRemoveJobSubfunction = (jobSubfunctionToRemove: string) => {
+        setSelectedJobSubfunctions(selectedJobSubfunctions.filter(j => j !== jobSubfunctionToRemove));
     };
 
-    // Distance options
-    const jobSub = [
-        'Accounts Officers/Clerks',
-        'Accounts Payable',
-        'Accounts Receivable/Credit Control',
-        'Analysis & Reporting',
-        'Assistant Accountants',
-        'Audit - External',
-        'Audit - Internal',
-        'Bookkeeping & Small Practice Accounting',
-        'Business Services & Corporate Advisory',
-        'Company Secretaries',
-        'Compliance & Risk',
-        'Cost Accounting'
-    ];
+    const handleClearAll = () => {
+        setSelectedJobSubfunctions([]);
+        onChange?.([]);
+    };
+
+    const handleApplySelection = () => {
+        onChange?.(selectedJobSubfunctions);
+        setOpen(false);
+        onDialogClose?.();
+    };
+
+    const filteredJobSubfunctions = searchTerm
+        ? jobSubfunctionList.filter(sub =>
+            sub.toLowerCase().includes(searchTerm.toLowerCase())
+        ) : jobSubfunctionList;
+
     return (
         <ThemeProvider theme={theme}>
-            <>
+            <Box sx={{ width: '100%' }}>
                 <TextField
                     fullWidth
                     variant="outlined"
                     inputRef={jobSubFunctionsRef}
-                    placeholder="Job Sub Functions"
-                    value={selectedIndustries}
-                    onClick={handleOpenIndustries}
+                    placeholder={selectedJobSubfunctions.length > 0 ? `${selectedJobSubfunctions.length} subfunction(s) selected` : "Job Sub Functions"}
+                    value="" // Keep empty to show placeholder
+                    onClick={handleOpenJobSubfunction}
+                    disabled={disabled}
                     InputProps={{
-                        endAdornment:
-                            <IconButton>
-                                <ArrowDropDown sx={{ color: 'grey.600' }} />
-                            </IconButton>,
+                        endAdornment: <ArrowDropDown sx={{ color: disabled ? 'grey.400' : 'grey.600' }} />,
+                        readOnly: true,
                     }}
                     sx={{
-                        "& .MuiInputLabel-asterisk": {
-                            color: "#236785"
-                        },
-                        "& .MuiOutlinedInput-root": {
-                            borderRadius: "8px",
-                        },
+                        "& .MuiInputLabel-asterisk": { color: "#236785" },
+                        "& .MuiOutlinedInput-root": { borderRadius: "8px" },
+                        opacity: disabled ? 0.6 : 1,
+                        cursor: disabled ? 'not-allowed' : 'pointer',
                     }}
                 />
-                {/* TextField to trigger dropdown */}
 
-                {/* Dialog for distance dropdown */}
-                <Dialog
-                    open={open}
-                    onClose={handleCloseIndustries}
-                    maxWidth="sm"
-                    fullWidth
-                    PaperProps={{
-                        sx: {
-                            borderRadius: '12px',
-                            width: { xs: '300px', sm: '400px' },
-                            maxHeight: { xs: '400px', sm: '600px' },
-                            overflowX: 'hidden',
-                            p: 2,
-                            bgcolor: '#fff',
-                            borderRight: '1px solid #e6e7e8',
-                        },
+                {/* Selected Job Subfunctions Chips */}
+                {selectedJobSubfunctions.length > 0 && (
+                    <Stack direction="row" spacing={1} sx={{ mt: 1, flexWrap: 'wrap', gap: 1 }}>
+                        {selectedJobSubfunctions.slice(0, 3).map((jobSubfunction) => (
+                            <Chip
+                                key={jobSubfunction}
+                                label={jobSubfunction}
+                                size="small"
+                                onDelete={() => handleRemoveJobSubfunction(jobSubfunction)}
+                                deleteIcon={<Close sx={{ fontSize: 16 }} />}
+                                sx={{
+                                    backgroundColor: '#e3f2fd',
+                                    color: '#1976d2',
+                                    '& .MuiChip-deleteIcon': {
+                                        color: '#1976d2',
+                                        '&:hover': {
+                                            color: '#d32f2f',
+                                        },
+                                    },
+                                }}
+                            />
+                        ))}
+                        {selectedJobSubfunctions.length > 3 && (
+                            <Chip
+                                label={`+${selectedJobSubfunctions.length - 3} more`}
+                                size="small"
+                                variant="outlined"
+                                sx={{ color: '#666' }}
+                            />
+                        )}
+                    </Stack>
+                )}
+            </Box>
+
+            {/* Dialog for job subfunctions selection */}
+            <Dialog
+                open={open}
+                onClose={handleCloseJobSubfunction}
+                maxWidth="sm"
+                PaperProps={{
+                    sx: {
+                        borderRadius: '12px',
+                        overflow: 'hidden',
+                        p: 2,
+                        maxHeight: { xs: '400px', sm: '600px' },
+                        bgcolor: '#fff',
+                    },
+                }}
+            >
+                <Box
+                    sx={{
+                        borderRadius: '12px',
+                        backgroundColor: '#fff',
+                        overflow: 'hidden',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        color: '#262d34',
+                        width: { xs: '300px', sm: '400px' },
                     }}
                 >
-
-                    {/* Title */}
                     <Box
                         sx={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'flex-start',
-                            mb: 2,
-                        }}
-                    >
-                        <IconButton>
-                            <ArrowBackIosIcon
-                                sx={{ fontSize: 16, color: '#475467' }}
-                            />
-                        </IconButton>
-                        <Typography
-                            variant="body1"
-                            sx={{
-                                fontFamily: 'Inter, sans-serif',
-                                fontWeight: 600,
-                                color: '#262d34',
-                                fontSize: '16px',
-                                lineHeight: '24px',
-                            }}
-                        >
-                            Job Sub Functions
-                        </Typography>
-                    </Box>
-                    <TextField
-                        fullWidth
-                        variant="outlined"
-                        inputRef={jobSubFunctionsRef}
-                        placeholder="Enter Job Sub Functions"
-                        sx={{
-                            '& .MuiOutlinedInput-root': {
-                                borderRadius: '8px',
-                                boxShadow: '0px 1px 2px rgba(16, 24, 40, 0.05)',
-                                border: '1px solid #d0d5dd',
-                                fontSize: '14px',
-                                color: '#667085',
-                            },
-                        }}
-                    />
-                    {/* Distance List */}
-                    <List
-                        sx={{
-                            width: '100%',
+                            backgroundColor: '#fff',
+                            overflow: 'hidden',
                             display: 'flex',
                             flexDirection: 'column',
-                            gap: '4px',
-                            maxHeight: '400px',
-                            overflow: 'auto',
-                            scrollbarColor: '#2494b6 #f1f1f1',
-                            scrollbarWidth: 'thin',
-                            '&::-webkit-scrollbar': {
-                                width: '8px',
-                            },
-                            '&::-webkit-scrollbar-track': {
-                                background: '#2494b6',
-                                borderRadius: '10px',
-                            },
-                            '&::-webkit-scrollbar-thumb': {
-                                background: '#2494b6',
-                                borderRadius: '10px',
-                            },
+                            padding: '16px',
+                            gap: '16px',
+                            color: '#475467',
                         }}
                     >
-                        {jobSub.map((jobSub, index) => (
-                            <ListItemButton
-                                key={jobSub}
-                                onClick={() => handleIndustriesSelect(jobSub)}
+                        {/* Header */}
+                        <Box sx={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            justifyContent: 'space-between'
+                        }}>
+                            <Typography sx={{
+                                fontWeight: 600,
+                                color: '#262d34',
+                                fontSize: { xs: '13px', sm: '16px' },
+                            }}>
+                                Select Job Sub Functions ({selectedJobSubfunctions.length} selected)
+                            </Typography>
+                            {selectedJobSubfunctions.length > 0 && (
+                                <Button
+                                    variant="text"
+                                    onClick={handleClearAll}
+                                    sx={{
+                                        color: '#d32f2f',
+                                        textTransform: 'none',
+                                        fontSize: { xs: '10px', sm: '14px' },
+                                        padding: '4px 8px',
+                                    }}
+                                >
+                                    Clear All
+                                </Button>
+                            )}
+                        </Box>
+
+                        {/* Search Field */}
+                        <TextField
+                            fullWidth
+                            placeholder="Search Job Sub Functions"
+                            variant="outlined"
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            sx={{
+                                '& .MuiOutlinedInput-root': {
+                                    borderRadius: '8px',
+                                    border: '1px solid #d0d5dd',
+                                    boxShadow: '0px 1px 2px rgba(16, 24, 40, 0.05)',
+                                    fontSize: { xs: '12px', sm: '14px' },
+                                    color: '#667085',
+                                },
+                                '& .MuiInputBase-input': { padding: '10px 14px' },
+                            }}
+                        />
+
+                        {/* Job Subfunction List */}
+                        <List
+                            sx={{
+                                width: '100%',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                gap: '2px',
+                                maxHeight: '300px',
+                                overflow: 'auto',
+                                scrollbarColor: '#2494b6 #f1f1f1',
+                                scrollbarWidth: 'thin',
+                                '&::-webkit-scrollbar': { width: '8px' },
+                                '&::-webkit-scrollbar-track': { background: '#f1f1f1', borderRadius: '10px' },
+                                '&::-webkit-scrollbar-thumb': { background: '#2494b6', borderRadius: '10px' },
+                            }}
+                        >
+                            {filteredJobSubfunctions.length === 0 ? (
+                                <Typography textAlign="center" color="textSecondary" sx={{ py: 2 }}>
+                                    {searchTerm ? 'No job subfunctions found' : 'Please choose a Job Function first'}
+                                </Typography>
+                            ) : (
+                                filteredJobSubfunctions.map((jobSubfunction) => {
+                                    const isSelected = selectedJobSubfunctions.includes(jobSubfunction);
+                                    return (
+                                        <ListItemButton
+                                            key={jobSubfunction}
+                                            onClick={() => handleJobSubfunctionToggle(jobSubfunction)}
+                                            sx={{
+                                                borderRadius: '6px',
+                                                height: '44px',
+                                                padding: '8px 12px',
+                                                backgroundColor: isSelected ? '#e3f2fd' : 'transparent',
+                                                '&:hover': {
+                                                    backgroundColor: isSelected ? '#bbdefb' : '#f9fafb'
+                                                },
+                                                border: isSelected ? '1px solid #2494b6' : '1px solid transparent',
+                                            }}
+                                        >
+                                            <Checkbox
+                                                checked={isSelected}
+                                                sx={{
+                                                    padding: { xs: '2px', sm: '4px' },
+                                                    marginRight: '8px',
+                                                    color: '#2494b6',
+                                                    '&.Mui-checked': {
+                                                        color: '#2494b6',
+                                                    },
+                                                }}
+                                            />
+                                            <ListItemText
+                                                primary={jobSubfunction}
+                                                primaryTypographyProps={{
+                                                    fontSize: { xs: '12px', sm: '14px' },
+                                                    lineHeight: '20px',
+                                                    fontFamily: '"Inter", sans-serif',
+                                                    fontWeight: isSelected ? 600 : 400,
+                                                    color: isSelected ? '#2494b6' : '#262d34',
+                                                }}
+                                            />
+                                        </ListItemButton>
+                                    );
+                                })
+                            )}
+                        </List>
+
+                        {/* Action Buttons */}
+                        <Box sx={{ display: 'flex', gap: 2, mt: 2 }}>
+                            <Button
+                                variant="outlined"
+                                onClick={handleCloseJobSubfunction}
                                 sx={{
-                                    borderBottom: '1px solid #e4e7ec',
-                                    height: '44px',
-                                    padding: '16px 12px',
-                                    backgroundColor: index === 1 ? '#f9fafb' : 'transparent',
+                                    flex: 1,
+                                    borderRadius: '8px',
+                                    textTransform: 'none',
+                                    borderColor: '#d0d5dd',
+                                    color: '#475467',
+                                }}
+                            >
+                                Cancel
+                            </Button>
+                            <Button
+                                variant="contained"
+                                onClick={handleApplySelection}
+                                sx={{
+                                    flex: 1,
+                                    borderRadius: '8px',
+                                    textTransform: 'none',
+                                    backgroundColor: '#2494b6',
                                     '&:hover': {
-                                        backgroundColor: '#f0f0f0',
+                                        backgroundColor: '#1e7a9a',
                                     },
                                 }}
                             >
-                                <ListItemText
-                                    primary={jobSub}
-                                    primaryTypographyProps={{
-                                        fontSize: '14px',
-                                        lineHeight: '20px',
-                                        fontFamily: 'Inter, sans-serif',
-                                        color: '#667085',
-                                    }}
-                                />
-                            </ListItemButton>
-                        ))}
-                    </List>
-                </Dialog>
-            </>
+                                Apply ({selectedJobSubfunctions.length})
+                            </Button>
+                        </Box>
+                    </Box>
+                </Box>
+            </Dialog>
         </ThemeProvider>
     );
 };

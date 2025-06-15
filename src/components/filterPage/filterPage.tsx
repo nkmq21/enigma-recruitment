@@ -55,9 +55,9 @@ const SlideOutMenu: FunctionComponent<SlideOutMenuProps> = ({open, onClose}) => 
     const [filterValues, setFilterValues] = useState({
         postDateRange: '',
         selectedLocations: searchParams.get('locations')?.split(',').filter(Boolean) || [] as string[],
-        industries: [] as string[],
+        industries: searchParams.get('industries')?.split(',').filter(Boolean) || [] as string[],
         selectedJobFunctions: searchParams.get('jobFunctions')?.split(',').filter(Boolean) || [] as string[],
-        jobSubfunctions: [] as string[],
+        jobSubfunctions: searchParams.get('jobSubfunctions')?.split(',').filter(Boolean) || [] as string[],
         salaryRange: {min: '', max: ''},
         EmploymentType: [] as string[],
     });
@@ -75,16 +75,6 @@ const SlideOutMenu: FunctionComponent<SlideOutMenuProps> = ({open, onClose}) => 
         })
     }, [searchParams])
 
-    // Update location field display when locations change
-    const updateLocationDisplay = () => {
-        if (locationCountryRef.current && filterValues.selectedLocations.length > 0) {
-            const displayText = filterValues.selectedLocations.length === 1
-                ? filterValues.selectedLocations[0]
-                : `${filterValues.selectedLocations.length} locations selected`;
-            locationCountryRef.current.value = displayText;
-        }
-    };
-
     // Handle location changes from Location component
     const handleLocationChange = useCallback((locations: string[]) => {
         console.log('📥 Location updated:', locations);
@@ -101,6 +91,24 @@ const SlideOutMenu: FunctionComponent<SlideOutMenuProps> = ({open, onClose}) => 
             selectedJobFunctions: jobFunctions
         }));
     }, []); // No dependencies - stable reference
+
+    const handleJobSubfunctionChange = useCallback((jobSubfunctions: string[]) => {
+        console.log('Job subfunctions updated: ', jobSubfunctions);
+        setFilterValues(prev => ({
+            ...prev,
+            jobSubfunctions: jobSubfunctions
+        }));
+    }, []);
+
+    const handleIndustryChange = useCallback((industry: string[]) => {
+        console.log('Industries updated: ', industry);
+        setFilterValues(prev => ({
+            ...prev,
+            industries: industry
+        }));
+    }, []);
+
+    //TODO: other handle filter change will continue from here
 
     // Refs for each TextField
     const postDateRangeRef = useRef<HTMLInputElement | null>(null);
@@ -122,6 +130,8 @@ const SlideOutMenu: FunctionComponent<SlideOutMenuProps> = ({open, onClose}) => 
                 if (locationCountryRef.current) locationCountryRef.current.value = '';
                 break;
             case 'Industries':
+                setFilterValues(prev => ({...prev, industries: []}));
+                params.delete('industries');
                 if (industriesRef.current) industriesRef.current.value = '';
                 break;
             case 'Job Role':
@@ -148,6 +158,18 @@ const SlideOutMenu: FunctionComponent<SlideOutMenuProps> = ({open, onClose}) => 
             queryParams.set('jobFunctions', filterValues.selectedJobFunctions.join(','));
         } else {
             queryParams.delete('jobFunctions');
+        }
+
+        if (filterValues.jobSubfunctions.length > 0) {
+            queryParams.set('jobSubfunctions', filterValues.jobSubfunctions.join(','));
+        } else {
+            queryParams.delete('jobSubfunctions');
+        }
+
+        if (filterValues.industries.length > 0) {
+            queryParams.set('industries', filterValues.industries.join(','));
+        } else {
+            queryParams.delete('industries');
         }
 
         //TODO: add other filters to URL
@@ -315,7 +337,11 @@ const SlideOutMenu: FunctionComponent<SlideOutMenuProps> = ({open, onClose}) => 
                             <Typography variant='body2' fontWeight={500} color='#31373d'>Industries</Typography>
                             <ResetButton filterName="Industries" onReset={handleReset}/>
                         </Box>
-                        <IndustriesFilter/>
+                        <IndustriesFilter
+                            value={filterValues.industries}
+                            onChange={handleIndustryChange}
+                            disabled={false}
+                        />
                     </Box>
 
                     {/* Job Role */}
@@ -331,7 +357,12 @@ const SlideOutMenu: FunctionComponent<SlideOutMenuProps> = ({open, onClose}) => 
                                 disabled={false}
                             />
 
-                            <JobSubRoleFilter/>
+                            <JobSubRoleFilter
+                                selectedJobFunction={filterValues.selectedJobFunctions}
+                                value={filterValues.jobSubfunctions}
+                                onChange={handleJobSubfunctionChange}
+                                disabled={false}
+                            />
                         </Box>
                     </Box>
 

@@ -3,16 +3,16 @@ import * as React from "react";
 import SectionTitle from "../font/sectionTitle";
 import SearchBar from "../searchBar";
 import CTA from "../common/cta";
-import { JobListPage } from "../home/JobCard";
+import {JobListPage} from "../home/JobCard";
 import {
     Box,
     Typography,
     Chip,
     Divider,
 } from "@mui/material";
-import { Job } from "enigma/types/models";
-import { useSearchParams } from "next/navigation";
-import { useRouter } from "next/navigation";
+import {Job} from "enigma/types/models";
+import {useSearchParams} from "next/navigation";
+import {useRouter} from "next/navigation";
 
 export const MainContent = () => {
     const router = useRouter();
@@ -49,6 +49,16 @@ export const MainContent = () => {
                     queryParams.set('jobFunctions', jobFunctions);
                 }
 
+                const jobSubfunctions = searchParams.get('jobSubfunctions');
+                if (jobSubfunctions) {
+                    queryParams.set('jobSubfunctions', jobSubfunctions);
+                }
+
+                const industries = searchParams.get('industries');
+                if (industries) {
+                    queryParams.set('industries', industries);
+                }
+
                 //TODO: other filter criteria will continue from here
 
                 const page = searchParams.get('page') || '1';
@@ -56,14 +66,22 @@ export const MainContent = () => {
 
                 console.log('query params', queryParams.toString());
 
-                const response = await fetch(`/api/jobs?status=active,prioritized${queryParams.toString()}`);
+                const response = await fetch(`/api/jobs?${queryParams.toString()}`);
                 if (!response.ok) {
                     throw new Error('failed to fetch jobs');
                 }
 
                 const data = await response.json();
                 if (data.jobs) {
-                    setJobs(data.jobs);
+                    // Make sure each job has the required properties
+                    const transformedJobs = data.jobs.map((job: Job) => ({
+                        ...job,
+                        // Ensure the job has industry object with industry_name
+                        industry: job.industry || {industry_name: ""},
+                        // Convert any string dates to Date objects if needed
+                        close_date: job.close_date ? new Date(job.close_date) : new Date()
+                    }));
+                    setJobs(transformedJobs);
                 } else {
                     console.error('the response have unexpected data', data);
                     setJobs([]);
@@ -78,18 +96,20 @@ export const MainContent = () => {
         fetchJobs();
     }, [searchParams]);
 
+    console.log(`FETCHED JOBS: `, jobs);
+
     return (
         <Box component="main" sx={{
             flexGrow: 1,
-            p: { xs: 0.5, sm: 3 },
+            p: {xs: 0.5, sm: 3},
             width: '100%',
             ml: 0.5,
             '@media (max-width: 991px)': {
                 maxWidth: '100%',
             },
         }}>
-            <Box sx={{ display: { lg: 'none', sm: 'block' } }}>
-                <Divider sx={{ mt: 1, mb: 3, width: '100%' }} />
+            <Box sx={{display: {lg: 'none', sm: 'block'}}}>
+                <Divider sx={{mt: 1, mb: 3, width: '100%'}}/>
             </Box>
 
             <Typography variant="h4" component="h1" gutterBottom color="#101828">
@@ -97,17 +117,20 @@ export const MainContent = () => {
             </Typography>
 
             {/* Search and Filter */}
-            <SearchBar />
+            <SearchBar/>
 
 
             {/* ADDED TO CHECK THE ACTIVATED FILTER */}
             {/* Active Filters */}
-            {(searchParams.get('locations') || searchParams.get('jobFunctions') || searchParams.get('query')) && (
-                <Box sx={{ mb: 2, p: 2, bgcolor: '#f5f5f5', borderRadius: 1 }}>
-                    <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+            {(searchParams.get('locations') ||
+                searchParams.get('jobFunctions') ||
+                searchParams.get('query') ||
+                searchParams.get('industries')) && (
+                <Box sx={{mb: 2, p: 2, bgcolor: '#f5f5f5', borderRadius: 1}}>
+                    <Typography variant="body2" color="text.secondary" sx={{mb: 1}}>
                         Active Filters:
                     </Typography>
-                    <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
+                    <Box sx={{display: 'flex', gap: 1, flexWrap: 'wrap'}}>
                         {searchParams.get('query') && (
                             <Chip
                                 label={`Search: ${searchParams.get('query')}`}
@@ -142,6 +165,31 @@ export const MainContent = () => {
                                 }}
                             />
                         )}
+
+                        {searchParams.get('jobSubfunctions') && (
+                            <Chip
+                                label={`Job Subfunctions: ${searchParams.get('jobSubfunctions')?.replace(/,/g, ', ')}`}
+                                size="small"
+                                onDelete={() => {
+                                    const newParams = new URLSearchParams(searchParams.toString());
+                                    newParams.delete('jobSubfunctions');
+                                    router.push(`/jobs?${newParams.toString()}`);
+                                }}
+                            />
+                        )}
+
+                        {searchParams.get('industries') && (
+                            <Chip
+                                label={`Industries: ${searchParams.get('industries')?.replace(/,/g, ', ')}`}
+                                size="small"
+                                onDelete={() => {
+                                    const newParams = new URLSearchParams(searchParams.toString());
+                                    newParams.delete('industries');
+                                    router.push(`/jobs?${newParams.toString()}`);
+                                }}
+                            />
+                        )}
+
                     </Box>
                 </Box>
             )}
@@ -157,10 +205,10 @@ export const MainContent = () => {
                 },
 
             }}>
-                <Typography variant="h6" color="text.secondary" sx={{ mb: 1 }}>
+                <Typography variant="h6" color="text.secondary" sx={{mb: 1}}>
                     Popular Jobs:
                 </Typography>
-                <Box sx={{ display: "flex", gap: 1.5, flexWrap: "wrap" }}>
+                <Box sx={{display: "flex", gap: 1.5, flexWrap: "wrap"}}>
                     {popularJobs.map((job, index) => (
                         <Chip
                             key={index}
@@ -173,13 +221,13 @@ export const MainContent = () => {
                                 '&:hover': {
                                     backgroundColor: '#2494B620' // 20% opacity
                                 }
-                            }} />
+                            }}/>
                     ))}
                 </Box>
             </Box>
 
             <Box sx={{
-                display: "flex", flexDirection: { xs: "column", lg: "row" }, gap: 4, width: '100%'
+                display: "flex", flexDirection: {xs: "column", lg: "row"}, gap: 4, width: '100%'
             }}>
                 {/* Left Column */}
                 <Box sx={{
@@ -190,20 +238,20 @@ export const MainContent = () => {
                     },
                 }}>
                     {/* Step Section */}
-                    <SectionTitle title="Step Into Your Future" showOptions />
-                    <CTA />
+                    <SectionTitle title="Step Into Your Future" showOptions/>
+                    <CTA/>
 
                     {/* Trending Jobs */}
-                    <SectionTitle title="Trending Jobs This Week" showOptions1 showOptions />
+                    <SectionTitle title="Trending Jobs This Week" showOptions1 showOptions/>
 
                     {loading ? (
-                        <Box sx={{ textAlign: 'center', py: 4 }}>
+                        <Box sx={{textAlign: 'center', py: 4}}>
                             <Typography variant="body1">Loading jobs...</Typography>
                         </Box>
                     ) : jobs.length > 0 ? (
-                        <JobListPage jobs={jobs} />
+                        <JobListPage jobs={jobs}/>
                     ) : (
-                        <Box sx={{ textAlign: 'center', py: 4 }}>
+                        <Box sx={{textAlign: 'center', py: 4}}>
                             <Typography variant="body1">No jobs found matching your criteria.</Typography>
                         </Box>
                     )}
