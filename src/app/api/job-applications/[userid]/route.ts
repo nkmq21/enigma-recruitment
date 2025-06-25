@@ -5,7 +5,7 @@ import {getJobApplicationsByUserId} from "enigma/services/jobApplicationServices
 
 type Params = Promise<{ userid: string }>;
 
-export async function GET(request: Request, params: Params) {
+export async function GET(request: Request, {params}: {params: Params}) {
     try {
         const {userid} = await params;
         const id = parseInt(userid, 10);
