@@ -4,9 +4,11 @@ import {PrismaClient} from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-export async function GET(request: Request, {params}: {params: {jobid: string}}) {
+type Params = Promise<{ jobid: string }>;
+
+export async function GET(request: Request, {params}: {params: Params}) {
     try {
-        const jobid = params.jobid;
+        const {jobid} = await params;
         if (!jobid) {
             return NextResponse.json({error: "Invalid job id"}, {status: 400});
         }
