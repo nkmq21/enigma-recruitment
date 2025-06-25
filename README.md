@@ -595,7 +595,7 @@ This project aims to enhance the recruitment experience by providing a comprehen
 									<td style='padding: 8px;'>- JobCard component serves as a visually appealing and informative representation of job listings within the application<br>- It encapsulates essential job details such as title, company, date, description, tags, and salary, while providing interactive features like bookmarking<br>- By integrating Material-UI elements, it enhances user experience and engagement, making it a vital part of the overall job search functionality in the project.</td>
 								</tr>
 								<tr style='border-bottom: 1px solid #eee;'>
-									<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/components/home/mainContent.tsx'>mainContent.tsx</a></b></td>
+									<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/components/home/mainContent.tsx'>dashboardUser.tsx</a></b></td>
 									<td style='padding: 8px;'>- MainContent serves as a central component of the application, providing users with an interactive dashboard for job searching and application management<br>- It features a search and filter interface, displays popular and trending job listings, and encourages user engagement through options to upload CVs and create profiles<br>- This component enhances the overall user experience by facilitating easy navigation and access to job opportunities within the platform.</td>
 								</tr>
 								<tr style='border-bottom: 1px solid #eee;'>
