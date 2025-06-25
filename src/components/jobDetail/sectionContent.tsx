@@ -23,6 +23,7 @@ import {
     Schedule,
     Business,
 } from "@mui/icons-material";
+import ApplyNowDialog from "../admin/jobDetail/buttonAdmin";
 
 const SectionContent: FunctionComponent = () => {
     return (
@@ -71,23 +72,10 @@ const SectionContent: FunctionComponent = () => {
                                 </IconButton>
                             </Box>
                         </Box>
+
                         {/* Job Title and Apply Button */}
-                        <Box sx={{ display: "flex", alignItems: "center", justifyContent: 'space-between', gap: 2, mt: 2, }}>
-                            <Typography variant="h5" fontWeight={600}>
-                                Senior Business Analyst (Blockchain)
-                            </Typography>
-                            <Button
-                                variant="contained"
-                                startIcon={<Share />}
-                                sx={{
-                                    borderRadius: 2,
-                                    background: "linear-gradient(94.87deg, #81cce3, #0675a1 76.92%)",
-                                    textTransform: "none",
-                                }}
-                            >
-                                Apply Now
-                            </Button>
-                        </Box>
+                        <ApplyNowDialog role="seeker" />
+
                         <Typography variant="body2" color="#6941c6" mt={1}>
                             Submission deadline May 31, 2025 • 21 applicants
                         </Typography>
