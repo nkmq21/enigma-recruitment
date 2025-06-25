@@ -139,18 +139,11 @@ export const SidebarNavigation = ({
             text: 'User Management',
             icon: <Image src='/homeIcon.svg' alt='user management' width={24} height={24} />,
             href: '/admin/users',
-
         },
         {
             text: 'Job Management',
             icon: <Image src='/bagicon.svg' alt='job management' width={24} height={24} />,
             href: '/admin/jobs',
-
-        },
-        {
-            text: 'Job Applications Management',
-            icon: <Image src='/bagicon.svg' alt='job applications' width={24} height={24} />,
-            href: '/admin/job-applications',
         },
         {
             text: 'Website Settings',
