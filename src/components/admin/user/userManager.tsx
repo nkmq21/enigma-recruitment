@@ -7,7 +7,24 @@ import Image from "next/image";
 import theme from "enigma/components/font/theme";
 import {Session} from "next-auth";
 import {User} from "enigma/types/models";
-export default function UserManagement({session}: {session: Session | null}) {
+import {useRouter} from "next/navigation";
+
+export default function UserManagement({session, users, totalUsers, currentPage, pageSize}: {
+    session: Session | null,
+    users: Array<{
+        id: number;
+        email: string;
+        name: string;
+        role: string;
+        status: string;
+        image: string | null;
+        dob: Date | null;
+        address: string | null;
+    }>,
+    totalUsers: number,
+    currentPage: number,
+    pageSize: number
+}) {
     // 19% for expanded sidebar, 6% for collapsed sidebar
     const [isCollapsed, setIsCollapsed] = React.useState(false);
     const sidebarWidth = isCollapsed ? '6%' : '19%';
@@ -29,14 +46,7 @@ export default function UserManagement({session}: {session: Session | null}) {
                         width: '100%',
                     },
                 }}>
-                    {/*<Image src="/Background.svg" alt='' width={1920} height={1440}*/}
-                    {/*       style={{*/}
-                    {/*           position: 'fixed',*/}
-                    {/*           top: 0,*/}
-                    {/*           zIndex: -1, // Place the image behind all other content*/}
-                    {/*           height: 'auto', // Optional: Maintain aspect ratio*/}
-                    {/*       }} />*/}
-                    <DashboardUser/>
+                    <DashboardUser users={users} totalUsers={totalUsers} currentPage={currentPage} pageSize={pageSize}/>
                 </Box>
             </Box>
         </ThemeProvider>

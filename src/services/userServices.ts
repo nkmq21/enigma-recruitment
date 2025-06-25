@@ -2,15 +2,62 @@
 "use server";
 
 import Cookies from 'js-cookie'
-import {RegisterSchema, LoginSchema, CreatePasswordSchema} from "enigma/schemas";
+import {
+    RegisterSchema,
+    LoginSchema,
+    CreatePasswordSchema,
+    ResetPasswordSchema,
+    ChangePasswordSchema
+} from "enigma/schemas";
 import bcrypt from "bcryptjs";
 import {prisma} from "../../prisma/prisma";
 import * as z from "zod";
 import {signIn} from "enigma/auth";
 import {AuthError} from "next-auth";
-import * as vts from "./verificationTokenServices"
-import {sendVerificationEmail} from "enigma/services/mailServices";
-import {NextResponse} from "next/server";
+import * as vts from "./verificationTokenServices";
+import * as rpts from "./resetPasswordTokenServices";
+import {sendResetPasswordEmail, sendVerificationEmail} from "enigma/services/mailServices";
+import {User} from "enigma/types/models";
+import {getResetPasswordTokenByToken} from "./resetPasswordTokenServices";
+
+export interface UserProps {
+    id: number;
+    email: string;
+    name: string;
+    role: string;
+    status: string;
+    image: string | null;
+    dob: Date | null;
+    address: string | null;
+}
+
+export interface PaginatedUsers {
+    users: Array<UserProps>;
+    total: number;
+}
+
+export async function getPaginatedUsers(page: number = 1, pageSize: number = 10): Promise<PaginatedUsers> {
+    const skip = (page - 1) * pageSize;
+    const users = await prisma.user.findMany({
+        skip,
+        take: pageSize,
+        select: {
+            id: true,
+            email: true,
+            name: true,
+            role: true,
+            status: true,
+            image: true,
+            dob: true,
+            address: true,
+        }
+    });
+    if (!users) {
+        console.error("userServices.getPaginatedUsers: Users not found");
+    }
+    const total = await prisma.user.count();
+    return {users, total};
+}
 
 export const getUsers = async () => {
     try {
@@ -24,14 +71,13 @@ export const getUsers = async () => {
                 image: true,
                 dob: true,
                 address: true,
-            }
+            },
         });
         if (!users) {
             console.error("userServices.getUsers: Users not found");
             return null;
         }
-        //console.log("userServices.getUsers: Users", users);
-        return NextResponse.json(users);
+        return users as User[];
     } catch (error) {
         console.error("userServices.getUsers: Error fetching user: ", error);
         return null;
@@ -47,7 +93,7 @@ export const getUser = async (id: string) => {
             console.error("userServices.getUser: User not found");
             return null;
         }
-        return NextResponse.json(user);
+        return user;
     } catch (error) {
         console.error("userServices.getUser: Error fetching user: ", error);
         return null;
@@ -178,19 +224,72 @@ export async function newVerification(token: string) {
     return {success: "Email verified successfully!"};
 }
 
-export async function resetPass(email: string, oldPassword: string, newPassword: string) {
-    const response = await fetch('/api/login/reset-password', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({ email, oldPassword, newPassword })
+export const resetPass = async (data: z.infer<typeof ResetPasswordSchema>) => {
+    // Validate the data using the LoginSchema
+    const validatedData = ResetPasswordSchema.parse(data);
+    if (!validatedData) {
+        console.error("userServices.resetPass: Invalid data");
+        return {error: "Invalid data"};
+    }
+    // Destructure the validated data
+    const {email} = validatedData;
+    // Check if the user exists
+    const existingUser = await prisma.user.findFirst({
+        where: {email: email.toLowerCase()}
     });
-
-    const data = await response.json();
-    if (!response.ok) {
-        throw new Error('Failed to reset password: ' + data.error || "Reset failed");
+    if (!existingUser) {
+        return {success: "Success! If your email exists in our system, you should receive a reset password link in your inbox soon!"};
     }
 
-    return data;
+    // Send reset password email
+    const resetPasswordToken = await rpts.createResetPasswordToken(email);
+    if (resetPasswordToken) {
+        await sendResetPasswordEmail(resetPasswordToken?.email, existingUser.name, resetPasswordToken?.token);
+        return {success: "Success! If your email exists in our system, you should receive a reset password link in your inbox soon!"};
+    } else {
+        console.error("userServices.resetPass: Error creating verification token");
+        return {error: "Error creating reset password token"};
+    }
+}
+
+export const changePass = async (data: z.infer<typeof ChangePasswordSchema>, token?: string | null) => {
+    if (!token) return {error: "Missing token."}
+    const validatedData = ChangePasswordSchema.parse(data);
+    if (!validatedData) {
+        console.error("userServices.changePass: Invalid data.");
+        return {error: "Invalid data."};
+    }
+    const {password, confirmPassword} = validatedData;
+    if (password !== confirmPassword) {
+        console.error("userServices.changePass: Passwords don't match.");
+        return {error: "Confirm password does not match! Please enter again."}
+    }
+    const existingToken = await getResetPasswordTokenByToken(token);
+    if (!existingToken) {
+        console.error("userServices.changePass: Invalid token.");
+        return {error: "Invalid token. You have already changed your password with this token."};
+    }
+    const isExpired = new Date(existingToken.expires) < new Date();
+    if (isExpired) {
+        console.error("userServices.changePass: Token expired.");
+        return {error: "Token expired."};
+    }
+    const existingUser = await prisma.user.findUnique({
+        where: {email: existingToken.email}
+    })
+    if (!existingUser) {
+        console.error("userServices.changePass: Email does not exist.");
+        return {error: "Email does not exist."};
+    }
+    const hashedPassword = await bcrypt.hash(password, 10);
+    await prisma.user.update({
+        where: {id: existingUser.id},
+        data: {password: hashedPassword}
+    });
+    await prisma.resetPasswordToken.delete({
+        where: {identifier: existingToken.identifier}
+    });
+    return {success: "Success! Password reset successfully! Redirecting you back to login..."};
 }
 
 export async function createPass(email: string, data: z.infer<typeof CreatePasswordSchema>) {

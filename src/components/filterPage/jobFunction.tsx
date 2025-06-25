@@ -1,3 +1,4 @@
+"use client";
 import {FunctionComponent, useState, useRef, useEffect} from 'react';
 import {
     Box,
@@ -8,92 +9,117 @@ import {
     ListItemText,
     Typography,
     Button,
-    Checkbox,
     Chip,
     Stack,
+    Checkbox,
 } from '@mui/material';
 import {ThemeProvider} from '@emotion/react';
 import theme from '../font/theme';
-import {ArrowDropDown, Close} from '@mui/icons-material';
 import Image from 'next/image';
-import {INDUSTRIES} from 'enigma/data/industryData';
-import {useSearchParams} from "next/navigation";
+import {ArrowDropDown, Close} from '@mui/icons-material';
+import {getJobFunctionNames, jobFunctionSearch} from "enigma/data/jobFunctionData";
+import {useSearchParams} from 'next/navigation';
 
-interface IndustriesFilterProps {
+interface JobRoleFilterProps {
     disabled?: boolean;
-    value?: string[];
-    onChange?: (industries: string[]) => void;
     onDialogOpen?: () => void;
     onDialogClose?: () => void;
+    value?: string[];
+    onChange?: (jobFunctions: string[]) => void;
 }
 
-const IndustriesFilter: FunctionComponent<IndustriesFilterProps> = ({
-                                                                        disabled = false,
-                                                                        value = [],
-                                                                        onChange,
-                                                                        onDialogOpen,
-                                                                        onDialogClose,
-                                                                    }) => {
-    const searchParams = useSearchParams();
+const JobRoleFilter: FunctionComponent<JobRoleFilterProps> = ({
+                                                                  disabled = false,
+                                                                  onDialogOpen,
+                                                                  onDialogClose,
+                                                                  value = [],
+                                                                  onChange,
+                                                              }) => {
     const [open, setOpen] = useState(false);
-    const [selectedIndustries, setSelectedIndustries] = useState<string[]>(() => {
-        const urlIndustries = searchParams.get('industries')?.split(',').filter(Boolean) || [];
-        return urlIndustries.length > 0 ? urlIndustries : value;
-    });
     const [searchTerm, setSearchTerm] = useState('');
-    const industriesRef = useRef(null);
+    const jobFunctionsRef = useRef(null);
+    const searchParams = useSearchParams();
 
+    // State to store selected job functions
+    const [selectedJobFunctions, setSelectedJobFunctions] = useState<string[]>(() => {
+        const urlJobFunctions = searchParams.get('jobFunctions')?.split(',').filter(Boolean) || [];
+        return urlJobFunctions.length > 0 ? urlJobFunctions : value;
+    });
+
+    // All job functions data
+    const [jobFunctionList, setJobFunctionList] = useState<string[]>([]);
+
+    // Sync with URL params ONLY when dialog opens
     useEffect(() => {
         if (open) {
-            const urlIndustries = searchParams.get('industries')?.split(',').filter(Boolean) || [];
-            setSelectedIndustries(urlIndustries.length > 0 ? urlIndustries : value);
+            const urlJobFunctions = searchParams.get('jobFunctions')?.split(',').filter(Boolean) || [];
+            setSelectedJobFunctions(urlJobFunctions.length > 0 ? urlJobFunctions : value);
         }
     }, [open]);
 
+    // Notify parent when selectedJobFunctions change
     useEffect(() => {
-        if (onChange && JSON.stringify(selectedIndustries) !== JSON.stringify(value)) {
-            onChange(selectedIndustries);
+        // Only call onChange when the values are different from what was passed in props
+        if (onChange && JSON.stringify(selectedJobFunctions) !== JSON.stringify(value)) {
+            onChange(selectedJobFunctions);
         }
-    }, [selectedIndustries, onChange, value]);
+    }, [selectedJobFunctions, onChange, value]);
 
-    const handleOpenIndustries = () => {
+    // Fetch job functions
+    const fetchJobFunctions = () => {
+        try {
+            const functions = getJobFunctionNames();
+            setJobFunctionList(functions);
+        } catch (error) {
+            console.error('Failed to fetch job functions:', error);
+            setJobFunctionList([]);
+        }
+    };
+
+    useEffect(() => {
+        if (open) {
+            fetchJobFunctions();
+        }
+    }, [open]);
+
+    const handleOpenJobFunctions = () => {
         if (disabled) return;
         setOpen(true);
         onDialogOpen?.();
     };
 
-    const handleCloseIndustries = () => {
+    const handleCloseJobFunctions = () => {
         setOpen(false);
         onDialogClose?.();
     };
 
-    const handleIndustryToggle = (industry: string) => {
-        const newSelectedIndustries = selectedIndustries.includes(industry)
-            ? selectedIndustries.filter(i => i !== industry)
-            : [...selectedIndustries, industry];
-        setSelectedIndustries(newSelectedIndustries);
+    const handleJobFunctionToggle = (jobFunction: string) => {
+        const newSelectedJobFunctions = selectedJobFunctions.includes(jobFunction)
+            ? selectedJobFunctions.filter(j => j !== jobFunction) // Remove if already selected
+            : [...selectedJobFunctions, jobFunction]; // Add if not selected
+        setSelectedJobFunctions(newSelectedJobFunctions);
     };
 
-    const handleRemoveIndustry = (industry: string) => {
-        setSelectedIndustries(selectedIndustries.filter(i => i !== industry));
+    const handleRemoveJobFunction = (jobFunctionToRemove: string) => {
+        const newSelectedJobFunctions = selectedJobFunctions.filter(j => j !== jobFunctionToRemove);
+        setSelectedJobFunctions(newSelectedJobFunctions);
     };
 
     const handleClearAll = () => {
-        setSelectedIndustries([]);
+        setSelectedJobFunctions([]);
         onChange?.([]);
     };
 
     const handleApplySelection = () => {
-        onChange?.(selectedIndustries);
+        onChange?.(selectedJobFunctions);
         setOpen(false);
         onDialogClose?.();
     };
 
-    const filteredIndustries = searchTerm
-        ? INDUSTRIES.filter(ind =>
-            ind.industryName.toLowerCase().includes(searchTerm.toLowerCase())
-        )
-        : INDUSTRIES;
+    // Filter job functions based on search term
+    const filteredJobFunctions = searchTerm
+        ? jobFunctionSearch(searchTerm.toLowerCase())
+        : jobFunctionList;
 
     return (
         <ThemeProvider theme={theme}>
@@ -101,16 +127,16 @@ const IndustriesFilter: FunctionComponent<IndustriesFilterProps> = ({
                 <TextField
                     fullWidth
                     variant="outlined"
-                    inputRef={industriesRef}
-                    placeholder={selectedIndustries.length > 0 ? `${selectedIndustries.length} industry(ies) selected` : "Industries"}
-                    value="" // Always show placeholder
-                    onClick={handleOpenIndustries}
+                    inputRef={jobFunctionsRef}
+                    placeholder={selectedJobFunctions.length > 0 ? `${selectedJobFunctions.length} function(s) selected` : "Job Functions"}
+                    value="" // Keep empty to show placeholder
+                    onClick={handleOpenJobFunctions}
                     disabled={disabled}
                     InputProps={{
-                        startAdornment: <Image src='/industries.svg' alt='industries' height={20} width={20}
+                        startAdornment: <Image src='/job.svg' alt='job function' height={20} width={20}
                                                style={{marginRight: '10px'}}/>,
                         endAdornment: <ArrowDropDown sx={{color: disabled ? 'grey.400' : 'grey.600'}}/>,
-                        readOnly: true,
+                        readOnly: true, // Prevent typing in the field
                     }}
                     sx={{
                         "& .MuiInputLabel-asterisk": {color: "#236785"},
@@ -120,28 +146,31 @@ const IndustriesFilter: FunctionComponent<IndustriesFilterProps> = ({
                     }}
                 />
 
-                {selectedIndustries.length > 0 && (
+                {/* Selected Job Functions Chips */}
+                {selectedJobFunctions.length > 0 && (
                     <Stack direction="row" spacing={1} sx={{mt: 1, flexWrap: 'wrap', gap: 1}}>
-                        {selectedIndustries.slice(0, 3).map((industry) => (
+                        {selectedJobFunctions.slice(0, 3).map((jobFunction) => (
                             <Chip
-                                key={industry}
-                                label={industry}
+                                key={jobFunction}
+                                label={jobFunction}
                                 size="small"
-                                onDelete={() => handleRemoveIndustry(industry)}
+                                onDelete={() => handleRemoveJobFunction(jobFunction)}
                                 deleteIcon={<Close sx={{fontSize: 16}}/>}
                                 sx={{
                                     backgroundColor: '#e3f2fd',
                                     color: '#1976d2',
                                     '& .MuiChip-deleteIcon': {
                                         color: '#1976d2',
-                                        '&:hover': {color: '#d32f2f'},
+                                        '&:hover': {
+                                            color: '#d32f2f',
+                                        },
                                     },
                                 }}
                             />
                         ))}
-                        {selectedIndustries.length > 3 && (
+                        {selectedJobFunctions.length > 3 && (
                             <Chip
-                                label={`+${selectedIndustries.length - 3} more`}
+                                label={`+${selectedJobFunctions.length - 3} more`}
                                 size="small"
                                 variant="outlined"
                                 sx={{color: '#666'}}
@@ -151,9 +180,10 @@ const IndustriesFilter: FunctionComponent<IndustriesFilterProps> = ({
                 )}
             </Box>
 
+            {/* Dialog for job functions selection */}
             <Dialog
                 open={open}
-                onClose={handleCloseIndustries}
+                onClose={handleCloseJobFunctions}
                 maxWidth="sm"
                 PaperProps={{
                     sx: {
@@ -187,6 +217,7 @@ const IndustriesFilter: FunctionComponent<IndustriesFilterProps> = ({
                             color: '#475467',
                         }}
                     >
+                        {/* Header */}
                         <Box sx={{
                             display: 'flex',
                             flexDirection: 'row',
@@ -198,9 +229,9 @@ const IndustriesFilter: FunctionComponent<IndustriesFilterProps> = ({
                                 color: '#262d34',
                                 fontSize: {xs: '13px', sm: '16px'},
                             }}>
-                                Select Industries ({selectedIndustries.length} selected)
+                                Select Job Functions ({selectedJobFunctions.length} selected)
                             </Typography>
-                            {selectedIndustries.length > 0 && (
+                            {selectedJobFunctions.length > 0 && (
                                 <Button
                                     variant="text"
                                     onClick={handleClearAll}
@@ -216,9 +247,10 @@ const IndustriesFilter: FunctionComponent<IndustriesFilterProps> = ({
                             )}
                         </Box>
 
+                        {/* Search Field */}
                         <TextField
                             fullWidth
-                            placeholder="Search Industries"
+                            placeholder="Search Job Functions"
                             variant="outlined"
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
@@ -234,6 +266,7 @@ const IndustriesFilter: FunctionComponent<IndustriesFilterProps> = ({
                             }}
                         />
 
+                        {/* Job Function List */}
                         <List
                             sx={{
                                 width: '100%',
@@ -249,17 +282,17 @@ const IndustriesFilter: FunctionComponent<IndustriesFilterProps> = ({
                                 '&::-webkit-scrollbar-thumb': {background: '#2494b6', borderRadius: '10px'},
                             }}
                         >
-                            {filteredIndustries.length === 0 ? (
+                            {filteredJobFunctions.length === 0 ? (
                                 <Typography textAlign="center" color="textSecondary" sx={{py: 2}}>
-                                    {searchTerm ? 'No industries found' : 'Loading industries...'}
+                                    {searchTerm ? 'No job functions found' : 'Loading job functions...'}
                                 </Typography>
                             ) : (
-                                filteredIndustries.map((industry) => {
-                                    const isSelected = selectedIndustries.includes(industry.industryName);
+                                filteredJobFunctions.map((jobFunction) => {
+                                    const isSelected = selectedJobFunctions.includes(jobFunction);
                                     return (
                                         <ListItemButton
-                                            key={industry.industryId}
-                                            onClick={() => handleIndustryToggle(industry.industryName)}
+                                            key={jobFunction}
+                                            onClick={() => handleJobFunctionToggle(jobFunction)}
                                             sx={{
                                                 borderRadius: '6px',
                                                 height: '44px',
@@ -283,7 +316,7 @@ const IndustriesFilter: FunctionComponent<IndustriesFilterProps> = ({
                                                 }}
                                             />
                                             <ListItemText
-                                                primary={industry.industryName}
+                                                primary={jobFunction}
                                                 primaryTypographyProps={{
                                                     fontSize: {xs: '12px', sm: '14px'},
                                                     lineHeight: '20px',
@@ -298,10 +331,11 @@ const IndustriesFilter: FunctionComponent<IndustriesFilterProps> = ({
                             )}
                         </List>
 
+                        {/* Action Buttons */}
                         <Box sx={{display: 'flex', gap: 2, mt: 2}}>
                             <Button
                                 variant="outlined"
-                                onClick={handleCloseIndustries}
+                                onClick={handleCloseJobFunctions}
                                 sx={{
                                     flex: 1,
                                     borderRadius: '8px',
@@ -325,7 +359,7 @@ const IndustriesFilter: FunctionComponent<IndustriesFilterProps> = ({
                                     },
                                 }}
                             >
-                                Apply ({selectedIndustries.length})
+                                Apply ({selectedJobFunctions.length})
                             </Button>
                         </Box>
                     </Box>
@@ -335,4 +369,4 @@ const IndustriesFilter: FunctionComponent<IndustriesFilterProps> = ({
     );
 };
 
-export default IndustriesFilter;
+export default JobRoleFilter;

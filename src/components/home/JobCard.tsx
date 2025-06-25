@@ -10,7 +10,8 @@ import {
     Chip,
 } from '@mui/material';
 import ArrowOutwardIcon from '@mui/icons-material/ArrowOutward';
-import { JobTitleTypography, CompanyTypography, SalaryTypography } from '../font/typography';
+import { JobTitleTypography } from '../font/typography';
+import {format} from "date-fns";
 
 // Define the props interface for better type safety
 interface JobCardProps {
@@ -45,6 +46,16 @@ const getRandomColor = () => {
     return colors[Math.floor(Math.random() * colors.length)];
 };
 
+const toDisplayValue = (value: string | number | Date | null | undefined) => {
+    if (value instanceof Date) {
+        return format(value, "MMMM d, yyyy");
+    }
+    if (typeof value === "string" && !isNaN(Date.parse(value))) {
+        return format(new Date(value), "MMMM d, yyyy");
+    }
+    return value ?? "None";
+};
+
 const JobCard: React.FC<JobCardProps> = ({
     job,
     width = '32%',
@@ -57,8 +68,6 @@ const JobCard: React.FC<JobCardProps> = ({
     const date = job?.close_date || '';
     const description = job?.description || '';
     const salary = job?.salary_range_end || "";
-
-    const company = "nigga";
 
     const tags = [
         job?.industry?.industry_name,
@@ -81,7 +90,7 @@ const JobCard: React.FC<JobCardProps> = ({
                     fontWeight="bold"
                     sx={{ mb: 1 }}
                 >
-                    {company} • {date.toString()}
+                    {toDisplayValue(date)}
                 </Typography>
                 <Box
                     sx={{
@@ -160,8 +169,8 @@ const JobCard: React.FC<JobCardProps> = ({
                             />
                             {salary}
                         </Box>}
-                        size="small"
-                        sx={{ paddingLeft: 0.5, backgroundColor: '#FFFFFF', border: '1px solid #D0D5DD', borderRadius: 2 }} />
+                          size="small"
+                          sx={{ paddingLeft: 0.5, backgroundColor: '#FFFFFF', border: '1px solid #D0D5DD', borderRadius: 2 }} />
                 </Box>
             </CardContent>
         </Card>
@@ -169,7 +178,7 @@ const JobCard: React.FC<JobCardProps> = ({
 }
 
 interface JobListPageProps {
-    jobs?: any[];
+    jobs?: any;
 }
 
 
@@ -233,7 +242,7 @@ const JobListPage: React.FC<JobListPageProps> = ({ jobs }) => {
                                 key={index}
                                 width={{ xs: '100%', sm: '32%' }}
                                 job={job}
-                                onBookmarkClick={() => handleBookmarkClick(job.title!)}
+                                onBookmarkClick={() => handleBookmarkClick(job.job_title)}
                             />
                         ))}
                     </Box>

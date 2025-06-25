@@ -128,11 +128,13 @@ export default function LandingContent() {
                         fullWidth
                         sx={{
                             color: '#344054',
+                            backgroundColor: '#fafafa',
                             borderColor: '#d0d5dd',
                             '&:hover': {
                                 borderColor: '#b0b7c3',
                             }
                         }}
+                        href="/register"
                     >
                         Sign up
                     </Button>
