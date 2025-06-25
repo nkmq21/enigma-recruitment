@@ -521,11 +521,10 @@ INSERT INTO jobs (job_id, job_title, description, salary_range_start, salary_ran
 ('APF_DEA_029', 'Fashion Designer', 'Design apparel products.', 60000.00, 90000.00, '2025-07-10', 'APF', 'DEA', 'FTD', 'Phuket', 'prioritized', 'permanent'),
 ('CHE_MRE_030', 'Environmental Specialist', 'Ensure compliance in chemical operations.', 65000.00, 85000.00, '2025-06-30', 'CHE', 'MRE', 'HSE', 'Pathum Thani', 'active', 'permanent');
 
-INSERT INTO jobs VALUES
-('TRS_TEC_001', 'GAMING', 'GAMRT', '10000.00', '30000.00', '12-31-2069', 'IME', 'TRS', 'TEC', 'Nigeria', 'priorDitized', 'permanent');
+SELECT * FROM job_subfunctions;
 
 INSERT INTO cvs (user_id, cv_url, cv_title, status) VALUES
 (1, '/cvs/1/2', 'GAMING CV', 'active');
 
 INSERT INTO job_applications (job_id, user_id, cv_id, status) VALUES
-('TRS_TEC_001', 1, 3, 'hired');
+('AER_ENG_001', 1, 3, 'hired');
