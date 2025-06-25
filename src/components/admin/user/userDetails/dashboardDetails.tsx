@@ -1,5 +1,5 @@
 "use client";
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     Table,
     TableBody,
@@ -14,7 +14,7 @@ import {
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
-import {JobApplication} from "enigma/types/models";
+import { JobApplication } from "enigma/types/models";
 
 // Sample data (removed company field)
 const tableData = [

@@ -5,6 +5,8 @@ import theme from '../font/theme';
 import { DetailContent } from './detailContent';
 
 const JobDetailPage: React.FC = () => {
+    const [isCollapsed, setIsCollapsed] = React.useState(false);
+    const sidebarWidth = isCollapsed ? '6%' : '19%';
     return (
         <ThemeProvider theme={theme}>
             <Box component="main" sx={{
@@ -24,7 +26,7 @@ const JobDetailPage: React.FC = () => {
                         },
                     }}
                 >
-                    <SidebarNavigation />
+                    <SidebarNavigation session={null} isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
                     <DetailContent />
                 </Box>
             </Box>
