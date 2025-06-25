@@ -1,18 +1,10 @@
 "use client";
 import * as React from "react";
 import { useActionState, useState } from "react";
-import LogoHeader from "../../../../FE/src/component/logoHeader"
+import LogoHeader from "../logoHeader"
 import Image from "next/image";
 import { Box, Button, Checkbox, Container, FormControlLabel, Stack, TextField, Typography, Divider } from '@mui/material';
 import { useRouter } from "next/navigation";
-import CheckRegister from "../../../../FE/src/component/checkRegister";
-// import { login, loginGoogle } from "enigma/services/userServices";
-// import { z } from "zod";
-// import { useForm } from "react-hook-form";
-// import { LoginSchema } from "enigma/schemas";
-// import { zodResolver } from "@hookform/resolvers/zod";
-// import { signIn } from "enigma/auth";
-import { Just_Me_Again_Down_Here } from "next/dist/compiled/@next/font/dist/google";
 
 export const CheckForm: React.FC = () => {
     const [error, setError] = useState<string | null>(null);

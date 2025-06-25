@@ -23,7 +23,7 @@ export async function GET(request: Request, {params}: {params: Params}) {
         if (!jobApplications) {
             return NextResponse.json({error: 'No users found!'});
         }
-        return jobApplications;
+        return NextResponse.json(jobApplications);
     } catch (error) {
         console.error('Error fetching job applications:', error);
         return NextResponse.json(

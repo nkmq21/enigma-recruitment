@@ -23,8 +23,14 @@ export async function POST(request: Request) {
         const user = await prisma.user.findUnique({
             where: {email: email}
         });
+        if (!user || !user.password) {
+            return NextResponse.json(
+                {error: 'User is null.'},
+                {status: 401}
+            );
+        }
         // Check if the old password matches
-        const isOldPasswordValid = await bcrypt.compare(oldPassword, user.password);
+        const isOldPasswordValid = await bcrypt.compare(oldPassword, user?.password);
         if (!user || !isOldPasswordValid) {
             return NextResponse.json(
                 {error: 'Invalid email or old password.'},
@@ -51,7 +57,7 @@ export async function POST(request: Request) {
             where: {email: email},
             data: {password: newPasswordHashed}
         });
-        return NextResponse.json({messageL: 'Password reset successful.'}, {status: 200});
+        return NextResponse.json({message: 'Password reset successful.'}, {status: 200});
     } catch (err) {
         return NextResponse.json(
             {error: 'Internal server error.'},

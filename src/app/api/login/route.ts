@@ -35,7 +35,7 @@ export async function POST(request: Request) {
             }
         });
 
-        if (!user || user.status !== 'active') {
+        if (!user || user.status !== 'active' || !user.password) {
             return NextResponse.json(
                 {error: 'Invalid email or password.'},
                 {status: 401}
@@ -43,7 +43,7 @@ export async function POST(request: Request) {
         }
 
         // Check password using bcrypt
-        const isPasswordValid = await bcrypt.compare(password, user.password);
+        const isPasswordValid = await bcrypt.compare(password, user?.password);
         if (!isPasswordValid) {
             return NextResponse.json(
                 {error: 'Invalid email or password.'},
