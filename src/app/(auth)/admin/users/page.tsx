@@ -4,12 +4,15 @@ import {auth} from "enigma/auth";
 import UserManagement from "enigma/components/admin/user/userManager";
 import {getPaginatedUsers} from "enigma/services/userServices";
 
-export default async function UsersPage({searchParams}: {searchParams: {page?: string}}) {
+type Params = Promise<{ page?: string }>;
+
+export default async function UsersPage({searchParams}: {searchParams: Params}) {
     const session = await auth();
-    const page = Number(searchParams.page ?? '1');
+    const {page} = await searchParams;
+    const actualPage = Number(page ?? '1');
     const pageSize = 10;
-    const {users, total} = await getPaginatedUsers(page, pageSize);
+    const {users, total} = await getPaginatedUsers(actualPage, pageSize);
     return (
-        <UserManagement session={session} users={users} totalUsers={total} currentPage={page} pageSize={pageSize}/>
+        <UserManagement session={session} users={users} totalUsers={total} currentPage={actualPage} pageSize={pageSize}/>
     );
 }
