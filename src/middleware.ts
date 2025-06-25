@@ -12,7 +12,7 @@ const publicRoutes = ["/", "/about", "/contact-us", "/register", "/login/new-ver
 
 export async function middleware(req: NextRequest) {
     // TODO: Change ${url} to enigma-recruitment.com when in production
-    const url = "http://localhost:3000";
+    const url = `${process.env.FRONTEND_URL}`;
     const { pathname } = req.nextUrl;
 
     // Get the token (includes custom fields like role)
