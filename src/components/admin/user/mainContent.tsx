@@ -1,64 +1,84 @@
-"use client";
-import React, {useEffect, useState} from 'react';
+// src/components/admin/user/mainContent.tsx
+'use client';
+import React, { useEffect, useState } from 'react';
 import {
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-    Avatar,
-    Chip,
-    Box,
-    Typography,
-    Button,
+    Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
+    Avatar, Chip, Box, Typography, Button, CircularProgress
 } from '@mui/material';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
-import {User} from "enigma/types/models";
+import { useRouter } from 'next/navigation';
+import {UserProps} from "enigma/services/userServices";
 
-const DashboardUser = () => {
-    const [page, setPage] = useState(0);
+interface DashboardUserProps {
+    users: UserProps[];       // initial data
+    totalUsers: number;       // initial total
+    currentPage: number;      // initial page
+    pageSize: number;
+}
+
+const DashboardUser: React.FC<DashboardUserProps> = ({
+                                                         users: initialUsers,
+                                                         totalUsers: initialTotalUsers,
+                                                         currentPage: initialPage,
+                                                         pageSize
+                                                     }) => {
+    const router = useRouter();
+
+    // Local state
+    const [users, setUsers] = useState<UserProps[]>(initialUsers);
+    const [totalUsers, setTotalUsers] = useState(initialTotalUsers);
+    const [currentPage, setCurrentPage] = useState(initialPage);
     const [loading, setLoading] = useState(false);
-    const [users, setUsers] = useState<User[]>([]);
-    const [error, setError] = useState("");
-    const rowsPerPage = 10;
 
-    const handleChangePage = (direction: string) => {
-        setPage((prev) => (direction === 'next' ? prev + 1 : prev - 1));
-    };
+    const totalPages = Math.ceil(totalUsers / pageSize);
 
+    // Fetch page whenever `currentPage` changes
     useEffect(() => {
-        const fetchUsers = async () => {
+        async function fetchPage() {
+            setLoading(true);
             try {
-                setLoading(true);
-                const response = await fetch('/api/users');
-                if (!response.ok) {
-                    throw new Error("Error: " + response.statusText);
+                const res = await fetch(
+                    `/api/users?page=${currentPage}&limit=${pageSize}`
+                );
+                const json = await res.json();
+                if (json.users) {
+                    setUsers(json.users);
+                    setTotalUsers(json.total);
                 }
-                const data = await response.json();
-                setUsers(data);
             } catch (err) {
-                setError("[ERR] /admin/users->UserManagement->DashboardUser fetched api/users: " + err);
+                console.error('Failed to fetch users page:', err);
             } finally {
                 setLoading(false);
             }
         }
-        fetchUsers();
-    }, []);
+
+        // Avoid refetching on mount if page/size didn’t really change
+        if (currentPage !== initialPage) {
+            fetchPage();
+        }
+    }, [currentPage, pageSize, initialPage]);
+
+    const handlePageChange = (_: unknown, page: number) => {
+        setCurrentPage(page);
+        // URL sync:
+        router.push(`/admin/users?page=${page}`);
+    };
 
     return (
-        <TableContainer sx={{ border: '1px solid #e4e7ec', borderRadius: '12px' }}>
-            <Table>
+        <TableContainer sx={{ border: '1px solid #e4e7ec', borderRadius: '12px', maxWidth: '99%'}}>
+            {loading && (
+                <Box sx={{ textAlign: 'center', p: 2 }}><CircularProgress/></Box>
+            )}
+            <Table sx={{}}>
                 <TableHead>
                     <TableRow>
                         <TableCell sx={{ bgcolor: '#f9fafb', fontSize: '12px' }}>Name</TableCell>
                         <TableCell sx={{ bgcolor: '#f9fafb', fontSize: '12px' }}>User ID</TableCell>
                         <TableCell sx={{ bgcolor: '#f9fafb', fontSize: '12px' }}>
                             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                Role
-                                <HelpOutlineIcon sx={{ fontSize: '16px' }} />
+                                Role<HelpOutlineIcon sx={{ fontSize: '16px' }}/>
                             </Box>
                         </TableCell>
                         <TableCell sx={{ bgcolor: '#f9fafb', fontSize: '12px' }}>Email address</TableCell>
@@ -67,14 +87,16 @@ const DashboardUser = () => {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {users.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => (
-                        <TableRow key={index}>
+                    {users.map((row) => (
+                        <TableRow key={row.id}>
                             <TableCell>
                                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                                    <Avatar sx={{ width: 40, height: 40 }} />
+                                    <Avatar src={row.image || undefined} sx={{ width: 40, height: 40 }} />
                                     <Box>
                                         <Typography fontWeight={500}>{row.name}</Typography>
-                                        <Typography fontSize="14px" color="text.secondary">@{row.name.split(' ')[0]}</Typography>
+                                        <Typography fontSize="14px" color="text.secondary">
+                                            @{row.name.split(' ')[0]}
+                                        </Typography>
                                     </Box>
                                 </Box>
                             </TableCell>
@@ -88,14 +110,16 @@ const DashboardUser = () => {
                                     sx={{
                                         borderRadius: '16px',
                                         bgcolor: row.status === 'Active' ? '#f0faea' : '#f3f4f6',
-                                        color: row.status === 'Active' ? '#77a851' : '#6b7280',
+                                        color:   row.status === 'Active' ? '#77a851' : '#6b7280',
                                     }}
                                 />
                             </TableCell>
                             <TableCell>
-                                <Button sx={{ display: 'flex', alignItems: 'center', gap: 1 }} href={`/admin/users/${row.id}`}>
-                                    <Typography>View details</Typography>
-                                    <ArrowRightIcon sx={{ fontSize: '16px' }} />
+                                <Button
+                                    sx={{ display: 'flex', alignItems: 'flex-start', gap: 1, justifyContent: 'flex-start', p: 1 }}
+                                    href={`/admin/users/${row.id}`}
+                                >
+                                    View details<ArrowRightIcon sx={{ fontSize: '24px' }}/>
                                 </Button>
                             </TableCell>
                         </TableRow>
@@ -103,61 +127,45 @@ const DashboardUser = () => {
                 </TableBody>
             </Table>
 
-            <Box sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                p: 2,
-                borderTop: '1px solid #e4e7ec'
-            }}>
-
+            {/* pagination controls */}
+            <Box
+                sx={{
+                    display:        'flex',
+                    justifyContent: 'space-between',
+                    alignItems:     'center',
+                    p:              2,
+                    borderTop:      '1px solid #e4e7ec',
+                }}
+            >
                 <Button
                     startIcon={<ArrowLeftIcon />}
-                    onClick={() => handleChangePage('prev')}
-                    disabled={page === 0}
+                    onClick={() => handlePageChange(null, currentPage - 1)}
+                    disabled={currentPage <= 1}
                     sx={{
                         textTransform: 'none',
-                        border: '1px solid #d0d5dd',
-                        color: '#344054',
-                        '&:hover': {
-                            border: '1px solid #a0a8b3', // Slightly darker border on hover (optional)
-                            backgroundColor: '#f9fafb', // Light background on hover, matching your theme
-                        },
+                        border:        '1px solid #d0d5dd',
+                        color:         '#344054',
                         '&[disabled]': {
-                            border: '1px solid #e4e7ec', // Lighter border when disabled
-                            color: '#a0a8b3', // Faded text and icon color when disabled
-                        },
+                            border: '1px solid #e4e7ec',
+                            color:  '#a0a8b3',
+                        }
                     }}
                 >
                     Previous
                 </Button>
-                <Box sx={{ display: 'flex', gap: 1 }}>
-                    {[1, 2, 3, '...', 8, 9, 10].map((num, index) => (
-                        <Typography
-                            key={index}
-                            sx={{
-                                width: 40,
-                                height: 40,
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                bgcolor: num === 1 ? '#f9fafb' : 'transparent',
-                                color: num === 1 ? '#182230' : '#475467',
-                                borderRadius: '8px',
-                            }}
-                        >
-                            {num}
-                        </Typography>
-                    ))}
-                </Box>
+
+                <Typography>
+                    Page {currentPage} of {totalPages}
+                </Typography>
+
                 <Button
                     endIcon={<ArrowRightIcon />}
-                    onClick={() => handleChangePage('next')}
-                    disabled={page >= Math.ceil(users.length / rowsPerPage) - 1}
+                    onClick={() => handlePageChange(null, currentPage + 1)}
+                    disabled={currentPage >= totalPages}
                     sx={{
                         textTransform: 'none',
-                        border: '1px solid #d0d5dd',
-                        color: '#344054'
+                        border:        '1px solid #d0d5dd',
+                        color:         '#344054',
                     }}
                 >
                     Next

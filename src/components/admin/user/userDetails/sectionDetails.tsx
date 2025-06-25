@@ -12,17 +12,17 @@ import Image from 'next/image';
 import {User} from "enigma/types/models";
 import {format} from 'date-fns';
 
-const SectionDetails = ({user}: {user: User | null | undefined}) => {
-    const toDisplayValue = (value: string | number | Date | null | undefined) => {
-        if (value instanceof Date) {
-            return format(value, "MMMM d, yyyy");
-        }
-        if (typeof value === "string" && !isNaN(Date.parse(value))) {
-            return format(new Date(value), "MMMM d, yyyy");
-        }
-        return value ?? "None";
-    };
+export const toDisplayValue = (value: string | number | Date | null | undefined) => {
+    if (value instanceof Date) {
+        return format(value, "MMMM d, yyyy");
+    }
+    if (typeof value === "string" && !isNaN(Date.parse(value))) {
+        return format(new Date(value), "MMMM d, yyyy");
+    }
+    return value ?? "None";
+};
 
+const SectionDetails = ({user}: {user: User | null | undefined}) => {
     return (
         <Box
             sx={{
@@ -191,6 +191,7 @@ const SectionDetails = ({user}: {user: User | null | undefined}) => {
                                             p: 0
                                         }}
                                         endIcon={<Image src={'/arrowsSlant.svg'} alt='' width={15} height={15} />}
+                                        href={`mailto:${item.value}`}
                                     >
                                         {item.value}
                                     </Button>

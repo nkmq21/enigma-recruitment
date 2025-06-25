@@ -50,6 +50,7 @@ const LandingPage: React.FC<Props> = ({session}: Props) => {
                             zIndex: -1, // Place the image behind all other content
                             width: '100%',
                             height: 'auto', // Optional: Maintain aspect ratio
+                            opacity: 0.69
                         }} />
                     <Box sx={{
                         display: {

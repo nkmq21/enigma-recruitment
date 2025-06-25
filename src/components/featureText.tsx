@@ -8,7 +8,7 @@ import {
 } from '@mui/material';
 const features = [
     {
-        icon: "https://cdn.builder.io/api/v1/image/assets/TEMP/bf891ef41bca0e8aba070376107c9b9db8862d19?placeholderIfAbsent=true&apiKey=8ef08a3c60b44d4ba008c3e63d84c943",
+        icon: "/icon1.svg",
         title: "General and Factory Management",
         description: "We recruit factory leaders who manage end-to-end plant operations, drive business strategy, and lead large production teams."
     },

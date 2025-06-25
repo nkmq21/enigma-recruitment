@@ -1,8 +1,8 @@
-'use client';
-import * as React from 'react';
-import { useState, useEffect } from 'react';
-import LogoHeader from './logoHeader';
-import { JustLogoHeader } from './logoHeader';
+"use client";
+import * as React from "react";
+import {useState, useEffect} from "react";
+import LogoHeader from "./logoHeader";
+import {JustLogoHeader} from "./logoHeader";
 import {
     Box,
     List,
@@ -22,7 +22,7 @@ import {
 } from '@mui/material';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Search, ExpandMore, ExpandLess } from '@mui/icons-material';
+import { Search, ExpandLess } from '@mui/icons-material';
 import { signOut } from 'next-auth/react';
 import { Session } from 'next-auth';
 import { usePathname } from 'next/navigation';
@@ -94,12 +94,7 @@ export const SidebarNavigation = ({
             href: "/home",
         },
         {
-            text: 'All Job Applications',
-            icon: <Image src='/bagicon.svg' alt='saved job' width={24} height={24} />,
-            href: '/profile/job-applications',
-        },
-        {
-            text: 'Career Tool',
+            text: 'Career Tools',
             icon: <Image src='/tool.svg' alt='career tool' width={24} height={24} />,
             icon1: <Image src='/arrowSlide.svg' alt='arrow' width={24} height={24} />,
             href: '/#',
