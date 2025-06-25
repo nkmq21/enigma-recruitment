@@ -94,12 +94,7 @@ export const SidebarNavigation = ({
             href: "/home",
         },
         {
-            text: 'All Job Applications',
-            icon: <Image src='/bagicon.svg' alt='saved job' width={24} height={24} />,
-            href: '/profile/job-applications',
-        },
-        {
-            text: 'Career Tool',
+            text: 'Career Tools',
             icon: <Image src='/tool.svg' alt='career tool' width={24} height={24} />,
             icon1: <Image src='/arrowSlide.svg' alt='arrow' width={24} height={24} />,
             href: '/#',

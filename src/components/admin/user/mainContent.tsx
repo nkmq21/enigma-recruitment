@@ -67,11 +67,11 @@ const DashboardUser: React.FC<DashboardUserProps> = ({
     };
 
     return (
-        <TableContainer sx={{ border: '1px solid #e4e7ec', borderRadius: '12px' }}>
+        <TableContainer sx={{ border: '1px solid #e4e7ec', borderRadius: '12px', maxWidth: '99%'}}>
             {loading && (
                 <Box sx={{ textAlign: 'center', p: 2 }}><CircularProgress/></Box>
             )}
-            <Table>
+            <Table sx={{}}>
                 <TableHead>
                     <TableRow>
                         <TableCell sx={{ bgcolor: '#f9fafb', fontSize: '12px' }}>Name</TableCell>
@@ -116,10 +116,10 @@ const DashboardUser: React.FC<DashboardUserProps> = ({
                             </TableCell>
                             <TableCell>
                                 <Button
-                                    sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
+                                    sx={{ display: 'flex', alignItems: 'flex-start', gap: 1, justifyContent: 'flex-start', p: 1 }}
                                     href={`/admin/users/${row.id}`}
                                 >
-                                    View details<ArrowRightIcon sx={{ fontSize: '16px' }}/>
+                                    View details<ArrowRightIcon sx={{ fontSize: '24px' }}/>
                                 </Button>
                             </TableCell>
                         </TableRow>
