@@ -8,9 +8,15 @@ import {
 } from '@mui/material';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import Image from 'next/image';
-import {User} from "enigma/types/models";
+import { User } from "enigma/types/models";
+import DeleteButton from './buttonDialog';
 
-const PageHeader = ({user}: {user: User | null | undefined}) => {
+const PageHeader = ({ user }: { user: User | null | undefined }) => {
+
+    const handleDelete = (itemId: string | number) => {
+        console.log(`Deleting item with ID: ${itemId}`);
+        // Add your delete logic here (e.g., API call)
+    };
     return (
         <Box
             sx={{
@@ -68,14 +74,14 @@ const PageHeader = ({user}: {user: User | null | undefined}) => {
                         }}
                     >
                         <Avatar src={user?.image ? user.image : '/Avatar.png'}
-                                sx={{
-                                    width: '100%',
-                                    height: '100%',
-                                    borderRadius: '50%',
-                                    backgroundSize: 'cover',
-                                    backgroundRepeat: 'no-repeat',
-                                    backgroundPosition: 'top',
-                                }}
+                            sx={{
+                                width: '100%',
+                                height: '100%',
+                                borderRadius: '50%',
+                                backgroundSize: 'cover',
+                                backgroundRepeat: 'no-repeat',
+                                backgroundPosition: 'top',
+                            }}
                         />
                         <Box
                             sx={{
@@ -181,24 +187,11 @@ const PageHeader = ({user}: {user: User | null | undefined}) => {
                                 >
                                     Edit
                                 </Button>
-                                <Button
-                                    sx={{
-                                        boxShadow: '0px 0px 0px 1px rgba(16, 24, 40, 0.18) inset, 0px -2px 0px rgba(16, 24, 40, 0.05) inset, 0px 1px 2px rgba(16, 24, 40, 0.05)',
-                                        borderRadius: '8px',
-                                        backgroundColor: '#2494b6',
-                                        border: '2px solid rgba(255, 255, 255, 0.12)',
-                                        color: '#fff',
-                                        padding: '10px 14px',
-                                        textTransform: 'none',
-                                        fontWeight: 600,
-                                        fontSize: '14px',
-                                        '&:hover': {
-                                            backgroundColor: '#1e7a96', // Darker shade for hover
-                                        },
-                                    }}
-                                >
-                                    Delete
-                                </Button>
+                                <DeleteButton itemId={1} onDelete={handleDelete}
+                                    buttonText="Delete"
+                                    dialogMessage="Do you want to delete this account permanently?"
+                                />
+
                             </Box>
                         </Box>
                     </Box>
