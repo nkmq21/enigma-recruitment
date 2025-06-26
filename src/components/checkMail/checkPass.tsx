@@ -2,7 +2,7 @@ import * as React from "react";
 import { CheckForm } from "./checkForm";
 import { CheckHero } from "./checkHero";
 import { ThemeProvider, Box, Grid } from '@mui/material';
-import theme from '../../../../FE/src/component/font/theme';
+import theme from '../font/theme';
 
 export function CheckPass() {
     return (

@@ -177,8 +177,20 @@ const JobCard: React.FC<JobCardProps> = ({
     );
 }
 
+type Job = {
+    job_id: string;
+    job_title: string;
+    description: string;
+    salary_range_start: number;
+    salary_range_end: number;
+    close_date: string | Date;
+    industry?: { industry_name: string };
+    location: string;
+    employment_type: string;
+};
+
 interface JobListPageProps {
-    jobs?: any;
+    jobs?: Job[];
 }
 
 
@@ -237,7 +249,7 @@ const JobListPage: React.FC<JobListPageProps> = ({ jobs }) => {
                             gap: 3,
                         }}
                     >
-                        {jobData.slice(rowIndex * 3, rowIndex * 3 + 3).map((job, index) => (
+                        {jobData.slice(rowIndex * 3, rowIndex * 3 + 3).map((job, index: React.Key | null | undefined) => (
                             <JobCard
                                 key={index}
                                 width={{ xs: '100%', sm: '32%' }}

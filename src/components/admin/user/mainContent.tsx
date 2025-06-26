@@ -1,14 +1,17 @@
-// src/components/admin/user/mainContent.tsx
-'use client';
-import React, { useEffect, useState } from 'react';
+import * as React from "react";
 import {
-    Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
-    Avatar, Chip, Box, Typography, Button, CircularProgress
-} from '@mui/material';
-import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
-import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
-import ArrowRightIcon from '@mui/icons-material/ArrowRight';
-import { useRouter } from 'next/navigation';
+    Box,
+    Typography,
+    Card,
+    Divider,
+    IconButton,
+} from "@mui/material";
+import MoreVertIcon from '@mui/icons-material/MoreVert'; // Thay cho dots-vertical.svg
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward'; // Thay cho arrow-up.svg
+import LogoHeader from "enigma/components/logoHeader";
+import SectionTitle from "enigma/components/font/sectionTitle";
+import Image from "next/image";
+import DashboardUser from "./dashboardUser";
 import {UserProps} from "enigma/services/userServices";
 
 interface DashboardUserProps {
@@ -18,161 +21,415 @@ interface DashboardUserProps {
     pageSize: number;
 }
 
-const DashboardUser: React.FC<DashboardUserProps> = ({
-                                                         users: initialUsers,
-                                                         totalUsers: initialTotalUsers,
-                                                         currentPage: initialPage,
-                                                         pageSize
-                                                     }) => {
-    const router = useRouter();
-
-    // Local state
-    const [users, setUsers] = useState<UserProps[]>(initialUsers);
-    const [totalUsers, setTotalUsers] = useState(initialTotalUsers);
-    const [currentPage, setCurrentPage] = useState(initialPage);
-    const [loading, setLoading] = useState(false);
-
-    const totalPages = Math.ceil(totalUsers / pageSize);
-
-    // Fetch page whenever `currentPage` changes
-    useEffect(() => {
-        async function fetchPage() {
-            setLoading(true);
-            try {
-                const res = await fetch(
-                    `/api/users?page=${currentPage}&limit=${pageSize}`
-                );
-                const json = await res.json();
-                if (json.users) {
-                    setUsers(json.users);
-                    setTotalUsers(json.total);
-                }
-            } catch (err) {
-                console.error('Failed to fetch users page:', err);
-            } finally {
-                setLoading(false);
-            }
-        }
-
-        // Avoid refetching on mount if page/size didn’t really change
-        if (currentPage !== initialPage) {
-            fetchPage();
-        }
-    }, [currentPage, pageSize, initialPage]);
-
-    const handlePageChange = (_: unknown, page: number) => {
-        setCurrentPage(page);
-        // URL sync:
-        router.push(`/admin/users?page=${page}`);
-    };
+export const MainContent: React.FC<DashboardUserProps> = ({
+                                users,
+                                totalUsers,
+                                currentPage,
+                                pageSize
+                            }) => {
 
     return (
-        <TableContainer sx={{ border: '1px solid #e4e7ec', borderRadius: '12px', maxWidth: '99%'}}>
-            {loading && (
-                <Box sx={{ textAlign: 'center', p: 2 }}><CircularProgress/></Box>
-            )}
-            <Table sx={{}}>
-                <TableHead>
-                    <TableRow>
-                        <TableCell sx={{ bgcolor: '#f9fafb', fontSize: '12px' }}>Name</TableCell>
-                        <TableCell sx={{ bgcolor: '#f9fafb', fontSize: '12px' }}>User ID</TableCell>
-                        <TableCell sx={{ bgcolor: '#f9fafb', fontSize: '12px' }}>
-                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                Role<HelpOutlineIcon sx={{ fontSize: '16px' }}/>
-                            </Box>
-                        </TableCell>
-                        <TableCell sx={{ bgcolor: '#f9fafb', fontSize: '12px' }}>Email address</TableCell>
-                        <TableCell sx={{ bgcolor: '#f9fafb', fontSize: '12px' }}>Status</TableCell>
-                        <TableCell sx={{ bgcolor: '#f9fafb', fontSize: '12px' }}>Action</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {users.map((row) => (
-                        <TableRow key={row.id}>
-                            <TableCell>
-                                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                                    <Avatar src={row.image || undefined} sx={{ width: 40, height: 40 }} />
-                                    <Box>
-                                        <Typography fontWeight={500}>{row.name}</Typography>
-                                        <Typography fontSize="14px" color="text.secondary">
-                                            @{row.name.split(' ')[0]}
-                                        </Typography>
-                                    </Box>
-                                </Box>
-                            </TableCell>
-                            <TableCell>{row.id}</TableCell>
-                            <TableCell>{row.role}</TableCell>
-                            <TableCell>{row.email}</TableCell>
-                            <TableCell>
-                                <Chip
-                                    label={row.status}
-                                    size="small"
-                                    sx={{
-                                        borderRadius: '16px',
-                                        bgcolor: row.status === 'Active' ? '#f0faea' : '#f3f4f6',
-                                        color:   row.status === 'Active' ? '#77a851' : '#6b7280',
-                                    }}
-                                />
-                            </TableCell>
-                            <TableCell>
-                                <Button
-                                    sx={{ display: 'flex', alignItems: 'flex-start', gap: 1, justifyContent: 'flex-start', p: 1 }}
-                                    href={`/admin/users/${row.id}`}
-                                >
-                                    View details<ArrowRightIcon sx={{ fontSize: '24px' }}/>
-                                </Button>
-                            </TableCell>
-                        </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
-
-            {/* pagination controls */}
-            <Box
-                sx={{
-                    display:        'flex',
-                    justifyContent: 'space-between',
-                    alignItems:     'center',
-                    p:              2,
-                    borderTop:      '1px solid #e4e7ec',
-                }}
-            >
-                <Button
-                    startIcon={<ArrowLeftIcon />}
-                    onClick={() => handlePageChange(null, currentPage - 1)}
-                    disabled={currentPage <= 1}
-                    sx={{
-                        textTransform: 'none',
-                        border:        '1px solid #d0d5dd',
-                        color:         '#344054',
-                        '&[disabled]': {
-                            border: '1px solid #e4e7ec',
-                            color:  '#a0a8b3',
-                        }
-                    }}
-                >
-                    Previous
-                </Button>
-
-                <Typography>
-                    Page {currentPage} of {totalPages}
-                </Typography>
-
-                <Button
-                    endIcon={<ArrowRightIcon />}
-                    onClick={() => handlePageChange(null, currentPage + 1)}
-                    disabled={currentPage >= totalPages}
-                    sx={{
-                        textTransform: 'none',
-                        border:        '1px solid #d0d5dd',
-                        color:         '#344054',
-                    }}
-                >
-                    Next
-                </Button>
+        <Box component="main" sx={{
+            flexGrow: 1,
+            p: { xs: 0.5, sm: 3 },
+            ml: 0.5,
+            '@media (max-width: 991px)': {
+                maxWidth: '100%',
+            },
+        }}>
+            <Box sx={{ display: { lg: 'none', sm: 'block' } }}>
+                <LogoHeader />
+                <Divider sx={{ mt: 1, mb: 3, width: '100%' }} />
             </Box>
-        </TableContainer>
+
+            <Typography sx={{ fontSize: '30px', lineHeight: '38px', mb: 5 }} fontWeight={600} color="#101828">
+                User Management
+            </Typography>
+
+            {/* Popular Jobs */}
+
+            <Typography sx={{ fontSize: '20px', lineHeight: '30px', mb: 4 }} fontWeight={600} gutterBottom color="#101828">
+                Overview of User Metrics
+            </Typography>
+            <Box sx={{
+                mb: 5, display: 'flex', gap: 2,
+                width: '100%',
+                '@media (max-width: 991px)': {
+                    width: '100%',
+                    flexDirection: 'row',
+                },
+            }}>
+                {/* Card 1 */}
+                <Card
+                    sx={{
+                        width: '100%',
+                        boxShadow: '0px 1px 2px rgba(16, 24, 40, 0.05)',
+                        borderRadius: '12px',
+                        backgroundColor: '#fff',
+                        border: '1px solid #e4e7ec',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'flex-start',
+                        padding: '24px',
+                        position: 'relative',
+                        gap: '24px',
+                    }}
+                >
+                    <Box
+                        sx={{
+                            boxShadow:
+                                '0px 0px 0px 1px rgba(16, 24, 40, 0.18) inset, 0px -2px 0px rgba(16, 24, 40, 0.05) inset, 0px 1px 2px rgba(16, 24, 40, 0.05)',
+                            borderRadius: '10px',
+                            backgroundColor: '#d6f1f7',
+                            border: '1px solid #e4e7ec',
+                            display: 'flex',
+                            padding: '12px',
+                        }}
+                    >
+                        <Box
+                            sx={{
+                                width: '24px',
+                                position: 'relative',
+                                height: '24px',
+                            }}
+                        >
+                            <Box
+                                sx={{
+                                    lineHeight: '24px',
+                                    color: '#40b0d0',
+                                }}
+                            >
+                                <Image src="/user1.svg" alt="Total user" width={24} height={24} />
+                            </Box>
+                        </Box>
+                    </Box>
+                    <Box
+                        sx={{
+                            position: 'absolute',
+                            top: '20px',
+                            right: '20.3px',
+                            display: 'flex',
+                            flexDirection: 'column',
+                        }}
+                    >
+                        <IconButton>
+                            <MoreVertIcon sx={{ width: '20px', height: '20px' }} />
+                        </IconButton>
+                    </Box>
+                    <Box
+                        sx={{
+                            alignSelf: 'stretch',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: '8px',
+                        }}
+                    >
+                        <Typography
+                            variant="body2"
+                            sx={{
+                                alignSelf: 'stretch',
+                                fontWeight: 500,
+                                color: '#475467',
+                            }}
+                        >
+                            Total Users
+                        </Typography>
+                        <Box
+                            sx={{
+                                alignSelf: 'stretch',
+                                display: 'flex',
+                                alignItems: 'flex-end',
+                            }}
+                        >
+                            <Typography
+                                variant="h2"
+                                sx={{
+                                    flex: 1,
+                                    color: '#101828',
+                                }}
+                            >
+                                2,420
+                            </Typography>
+                            <Box
+                                sx={{
+                                    padding: '0px 0px 8px',
+                                    color: '#344054',
+                                }}
+                            >
+                                <Box
+                                    sx={{
+                                        boxShadow: '0px 1px 2px rgba(16, 24, 40, 0.05)',
+                                        borderRadius: '6px',
+                                        backgroundColor: '#fff',
+                                        border: '1px solid #d0d5dd',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        padding: '2px 8px 2px 6px',
+                                        gap: '4px',
+                                    }}
+                                >
+                                    <ArrowUpwardIcon sx={{ width: '12px', height: '12px', color: '#079455', fontWeight: 'bold' }} />
+                                    <Typography
+                                        variant="body2"
+                                        sx={{
+                                            fontWeight: 500,
+                                            color: '#344054',
+                                        }}
+                                    >
+                                        20%
+                                    </Typography>
+                                </Box>
+                            </Box>
+                        </Box>
+                    </Box>
+                </Card>
+
+                {/* Card 2: Active Users */}
+                <Card
+                    sx={{
+                        boxShadow: '0px 1px 2px rgba(16, 24, 40, 0.05)',
+                        borderRadius: '12px',
+                        backgroundColor: '#fff',
+                        border: '1px solid #e4e7ec',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'flex-start',
+                        padding: '24px',
+                        position: 'relative',
+                        gap: '24px',
+                        width: '100%',
+                    }}
+                >
+                    <Box
+                        sx={{
+                            position: 'absolute',
+                            top: '20px',
+                            right: '20.3px',
+                            display: 'flex',
+                        }}
+                    >
+                        <IconButton>
+                            <MoreVertIcon sx={{ width: '20px', height: '20px' }} />
+                        </IconButton>
+                    </Box>
+                    <Box
+                        sx={{
+                            boxShadow:
+                                '0px 0px 0px 1px rgba(16, 24, 40, 0.18) inset, 0px -2px 0px rgba(16, 24, 40, 0.05) inset, 0px 1px 2px rgba(16, 24, 40, 0.05)',
+                            borderRadius: '10px',
+                            backgroundColor: '#d6f1f7',
+                            border: '1px solid #e4e7ec',
+                            padding: '12px',
+                        }}
+                    >
+                        <Box
+                            sx={{
+                                width: '24px',
+                                position: 'relative',
+                                height: '24px',
+                            }}
+                        >
+                            <Box
+                                sx={{
+                                    lineHeight: '24px',
+                                    color: '#40b0d0',
+                                }}
+                            >
+                                <Image src="/userActive.svg" alt="Total user" width={24} height={24} />
+                            </Box>
+                        </Box>
+                    </Box>
+                    <Box
+                        sx={{
+                            alignSelf: 'stretch',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: '8px',
+                        }}
+                    >
+                        <Typography
+                            variant="body2"
+                            sx={{
+                                fontWeight: 500,
+                                color: '#475467',
+                            }}
+                        >
+                            Active Users
+                        </Typography>
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                alignItems: 'flex-end',
+                                gap: '16px',
+                            }}
+                        >
+                            <Typography
+                                variant="h2"
+                                sx={{
+                                    flex: 1,
+                                    color: '#101828',
+                                }}
+                            >
+                                1,292
+                            </Typography>
+                            <Box
+                                sx={{
+                                    padding: '0px 0px 8px',
+                                    color: '#344054',
+                                }}
+                            >
+                                <Box
+                                    sx={{
+                                        boxShadow: '0px 1px 2px rgba(16, 24, 40, 0.05)',
+                                        borderRadius: '6px',
+                                        backgroundColor: '#fff',
+                                        border: '1px solid #d0d5dd',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        padding: '2px 8px 2px 6px',
+                                        gap: '4px',
+                                    }}
+                                >
+                                    <ArrowUpwardIcon sx={{ width: '12px', height: '12px', color: '#079455', fontWeight: 'bold' }} />
+                                    <Typography
+                                        variant="body2"
+                                        sx={{
+                                            fontWeight: 500,
+                                            color: '#344054',
+                                        }}
+                                    >
+                                        20%
+                                    </Typography>
+                                </Box>
+                            </Box>
+                        </Box>
+                    </Box>
+                </Card>
+
+                {/* Card 3: Verified Users */}
+                <Card
+                    sx={{
+                        boxShadow: '0px 1px 2px rgba(16, 24, 40, 0.05)',
+                        borderRadius: '12px',
+                        backgroundColor: '#fff',
+                        border: '1px solid #e4e7ec',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'flex-start',
+                        padding: '24px',
+                        position: 'relative',
+                        gap: '24px',
+                        width: '100%'
+                    }}
+                >
+                    <Box
+                        sx={{
+                            position: 'absolute',
+                            top: '20px',
+                            right: '20.3px',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'flex-start',
+                            justifyContent: 'flex-start',
+                        }}
+                    >
+                        <IconButton>
+                            <MoreVertIcon sx={{ width: '20px', height: '20px' }} />
+                        </IconButton>
+                    </Box>
+                    <Box
+                        sx={{
+                            boxShadow:
+                                '0px 0px 0px 1px rgba(16, 24, 40, 0.18) inset, 0px -2px 0px rgba(16, 24, 40, 0.05) inset, 0px 1px 2px rgba(16, 24, 40, 0.05)',
+                            borderRadius: '10px',
+                            backgroundColor: '#d6f1f7',
+                            border: '1px solid #e4e7ec',
+                            overflow: 'hidden',
+                            padding: '12px',
+                        }}
+                    >
+                        <Box                    >
+                            <Box
+                                sx={{
+                                    height: '24px',
+                                    color: '#40b0d0',
+                                }}
+                            >
+                                <Image src="/userVerified.svg" alt="Total user" width={24} height={24} />
+                            </Box>
+                        </Box>
+                    </Box>
+                    <Box
+                        sx={{
+                            alignSelf: 'stretch',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: '8px',
+                        }}
+                    >
+                        <Typography
+                            variant="body2"
+                            sx={{
+                                alignSelf: 'stretch',
+                                color: '#475467',
+                            }}
+                        >
+                            Verified Users
+                        </Typography>
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                alignItems: 'flex-end',
+                                gap: '16px',
+                            }}
+                        >
+                            <Typography
+                                variant="h2"
+                                sx={{
+                                    flex: 1,
+                                    letterSpacing: '-0.02em',
+                                    color: '#101828',
+                                }}
+                            >
+                                317
+                            </Typography>
+                            <Box
+                                sx={{
+                                    padding: '0px 0px 8px',
+                                    color: '#344054',
+                                }}
+                            >
+                                <Box
+                                    sx={{
+                                        boxShadow: '0px 1px 2px rgba(16, 24, 40, 0.05)',
+                                        borderRadius: '6px',
+                                        backgroundColor: '#fff',
+                                        border: '1px solid #d0d5dd',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        padding: '2px 8px 2px 6px',
+                                        gap: '4px',
+                                    }}
+                                >
+                                    <ArrowUpwardIcon sx={{ width: '12px', height: '12px', color: '#079455', fontWeight: 'bold' }} />
+                                    <Typography
+                                        variant="body2"
+                                        sx={{
+                                            fontWeight: 500,
+                                            color: '#344054',
+                                        }}
+                                    >
+                                        20%
+                                    </Typography>
+                                </Box>
+                            </Box>
+                        </Box>
+                    </Box>
+                </Card>
+            </Box>
+            <SectionTitle title="All Users Overview" shopBage showOptions showOptions1 />
+            <DashboardUser users={users} totalUsers={totalUsers} currentPage={currentPage} pageSize={pageSize}/>
+        </Box >
     );
 };
 
-export default DashboardUser;

@@ -4,10 +4,12 @@ import {prisma} from '../../../../../prisma/prisma';
 import {auth} from 'enigma/auth';
 import {getUser} from "enigma/services/userServices";
 
-export async function GET(request: Request, context: {params: {userid: string}}) {
+type Params = Promise<{ userid: string }>;
+
+export async function GET(request: Request, {params}: {params: Params}) {
     try {
-        const {params} = await context;
-        const id = parseInt(params.userid, 10);
+        const {userid} = await params;
+        const id = parseInt(userid, 10);
         if (isNaN(id)) {
             return NextResponse.json({error: "Invalid user id"}, {status: 400});
         }
@@ -22,7 +24,7 @@ export async function GET(request: Request, context: {params: {userid: string}})
         if (!user) {
             return NextResponse.json({error: 'No users found!'});
         }
-        return user;
+        return NextResponse.json(user);
     } catch (error) {
         console.error('Error fetching users:', error);
         return NextResponse.json(

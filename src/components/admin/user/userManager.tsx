@@ -2,12 +2,13 @@
 import * as React from "react";
 import { Box, ThemeProvider } from "@mui/material";
 import { SidebarNavigation } from "../../sideBarNavigation";
-import DashboardUser from "./mainContent";
+import DashboardUser from "./dashboardUser";
 import Image from "next/image";
 import theme from "enigma/components/font/theme";
 import {Session} from "next-auth";
 import {User} from "enigma/types/models";
 import {useRouter} from "next/navigation";
+import {MainContent} from "enigma/components/admin/user/mainContent";
 
 export default function UserManagement({session, users, totalUsers, currentPage, pageSize}: {
     session: Session | null,
@@ -46,7 +47,8 @@ export default function UserManagement({session, users, totalUsers, currentPage,
                         width: '100%',
                     },
                 }}>
-                    <DashboardUser users={users} totalUsers={totalUsers} currentPage={currentPage} pageSize={pageSize}/>
+                    <MainContent users={users} totalUsers={totalUsers} currentPage={currentPage} pageSize={pageSize}/>
+
                 </Box>
             </Box>
         </ThemeProvider>

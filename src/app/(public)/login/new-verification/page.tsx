@@ -1,9 +1,11 @@
-import React from 'react';
+import React, {Suspense} from 'react';
 import VerificationForm from 'enigma/components/verification/verificationForm';
 
 const VerificationPage = () => {
     return (
-        <VerificationForm/>
+        <Suspense fallback={<div>Loading...</div>}>
+            <VerificationForm/>
+        </Suspense>
     );
 };
 
