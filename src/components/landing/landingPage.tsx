@@ -12,13 +12,14 @@ import BlogSection from './blogSection';
 import Footer from '../footer';
 import theme from '../font/theme';
 import Image from 'next/image';
-import {Session} from "next-auth";
+import { Session } from "next-auth";
+import LogoHeader from '../logoHeader';
 
 interface Props {
     session: Session | null;
 }
 
-const LandingPage: React.FC<Props> = ({session}: Props) => {
+const LandingPage: React.FC<Props> = ({ session }: Props) => {
     // 19% for expanded sidebar, 6% for collapsed sidebar
     const [isCollapsed, setIsCollapsed] = React.useState(false);
     const sidebarWidth = isCollapsed ? '6%' : '19%';
@@ -29,7 +30,7 @@ const LandingPage: React.FC<Props> = ({session}: Props) => {
                 alignItems: "flex-start",
                 justifyContent: "flex-start",
             }}>
-                <SidebarNavigation session={session} isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed}/>
+                <SidebarNavigation session={session} isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
                 <Box sx={{
                     flex: 1,
                     pt: 10,
@@ -58,12 +59,11 @@ const LandingPage: React.FC<Props> = ({session}: Props) => {
                             zIndex: 1,
                         }
                     }}>
+                        <LogoHeader />
                         <Divider sx={{ mb: 3, width: '100%' }} />
                     </Box>
                     <LandingContent />
-                    {/*<SocialProofSection />*/}
-                    <FeaturesSection />
-                    <NewsletterCTA />
+
                     <FAQSection />
                     <TestimonialSection />
                     <BlogSection />
