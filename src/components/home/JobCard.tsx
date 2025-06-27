@@ -193,7 +193,6 @@ interface JobListPageProps {
     jobs?: Job[];
 }
 
-
 const JobListPage: React.FC<JobListPageProps> = ({ jobs }) => {
     // Dữ liệu mẫu
     const jobData = jobs?.length ? jobs : [
@@ -261,7 +260,6 @@ const JobListPage: React.FC<JobListPageProps> = ({ jobs }) => {
                 ))}
             </Box>
         </Box>
-
     );
 };
 

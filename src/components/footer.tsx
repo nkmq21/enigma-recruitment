@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Image from 'next/image';
 import { Box, Container, Typography } from '@mui/material';
-import { Twitter, LinkedIn, Facebook } from '@mui/icons-material';
+import {Twitter, LinkedIn, Facebook, X} from '@mui/icons-material';
 
 const Footer = () => {
     return (
@@ -30,15 +30,15 @@ const Footer = () => {
                         <Box sx={{ display: 'flex', gap: 2 }}>
                             <Box
                                 component="a"
-                                href="https://twitter.com"
+                                href="https://x.com/EnigmaRecTH"
                                 target="_blank"
                                 sx={{ color: '#475467', '&:hover': { color: '#1976d2' }, display: 'flex', alignItems: 'center' }}
                             >
-                                <Twitter sx={{ fontSize: 24 }} />
+                                <X sx={{ fontSize: 24 }} />
                             </Box>
                             <Box
                                 component="a"
-                                href="https://linkedin.com"
+                                href="https://www.linkedin.com/company/enigma-recruitment-thailand/"
                                 target="_blank"
                                 sx={{ color: '#475467', '&:hover': { color: '#1976d2' }, display: 'flex', alignItems: 'center' }}
                             >
@@ -46,7 +46,7 @@ const Footer = () => {
                             </Box>
                             <Box
                                 component="a"
-                                href="https://facebook.com"
+                                href="https://www.facebook.com/profile.php?id=61563838651038"
                                 target="_blank"
                                 sx={{ color: '#475467', '&:hover': { color: '#1976d2' }, display: 'flex', alignItems: 'center' }}
                             >
@@ -61,7 +61,20 @@ const Footer = () => {
                                 fontFamily: 'Inter, sans-serif',
                             }}
                         >
-                            © 2077 Untitled UI. All rights reserved.
+                            © 2025 Enigma Recruitment. All rights reserved.
+                            <br/>
+                        </Typography>
+                        <Typography
+                            sx={{
+                                color: '#667085',
+                                fontSize: '16px',
+                                lineHeight: '24px',
+                                fontFamily: 'Inter, sans-serif',
+                                textAlign: 'right'
+                            }}
+                        >
+                            Number 2, Marigold Tower Suvarnabhumi Building, Room 1508, 5th Floor,
+                            Soi Lat Krabang 1, On Nut – Lat Krabang Road, Lat Krabang, Bangkok, 10520
                         </Typography>
                     </Box>
 

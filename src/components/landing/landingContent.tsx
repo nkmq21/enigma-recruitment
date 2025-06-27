@@ -63,7 +63,6 @@ const CustomBadge = styled(Chip)(({ theme }) => ({
 }));
 
 export default function LandingContent() {
-
     return (
         <StyledContainer>
             <ContentWrapper>
