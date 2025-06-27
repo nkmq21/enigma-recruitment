@@ -61,7 +61,7 @@ const LandingPage: React.FC<Props> = ({session}: Props) => {
                         <Divider sx={{ mb: 3, width: '100%' }} />
                     </Box>
                     <LandingContent />
-                    <SocialProofSection />
+                    {/*<SocialProofSection />*/}
                     <FeaturesSection />
                     <NewsletterCTA />
                     <FAQSection />
