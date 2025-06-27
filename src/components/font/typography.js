@@ -53,4 +53,3 @@ export const SalaryTypography = ({ children, ...props }) => (
         {children}
     </Typography>
 );
-

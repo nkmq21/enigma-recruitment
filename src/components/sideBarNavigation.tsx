@@ -100,8 +100,8 @@ export const SidebarNavigation = ({
             href: '/#',
             subItems: [
                 {
-                    text: 'Resume',
-                    href: '/#',
+                    text: 'Build your CV',
+                    href: `${session?.user ? '/profile/cvs' : '/login'}`,
                 },
                 {
                     text: 'Industry News',
@@ -114,10 +114,19 @@ export const SidebarNavigation = ({
             ],
         },
         {
-            text: 'Profile',
-            icon: <Image src='/profile.svg' alt='profile' width={24} height={24} />,
-            href: '/profile',
+            text: 'Open Jobs',
+            icon: <Image src='/bagIcon.svg' alt='home' width={24} height={24} />,
+            href: "/jobs",
         },
+        ...(session?.user
+            ? [
+                {
+                    text: 'Profile',
+                    icon: <Image src='/profile.svg' alt='profile' width={24} height={24} />,
+                    href: '/profile',
+                },
+            ]
+            : []),
         ...(session?.user?.role === 'admin'
             ? [
                 {
@@ -164,15 +173,11 @@ export const SidebarNavigation = ({
 
     const footerItems: NavItem[] = [
         {
-            text: 'About us',
-            icon: <Image src='/infor.svg' alt='about us' width={24} height={24} />,
-        },
-        {
-            text: 'Support',
+            text: 'Contact Us',
             icon: <Image src='/support.svg' alt='support' width={24} height={24} />,
         },
         {
-            text: 'Setting',
+            text: 'Settings',
             icon: <Image src='/setting.svg' alt='setting' width={24} height={24} />,
         },
     ];
@@ -205,7 +210,10 @@ export const SidebarNavigation = ({
                         justifyContent: isCollapsed ? 'center' : 'space-between',
                         alignItems: 'center',
                         p: isCollapsed ? 2 : 0,
+                        pt: 1,
+                        pl: 1,
                         transition: 'padding 0.7s ease',
+                        borderBottom: `1px solid ${theme.palette.divider}`
                     }}
                 >
                     {isCollapsed ? <JustLogoHeader /> : <LogoHeader />}
@@ -255,31 +263,31 @@ export const SidebarNavigation = ({
                 </Box>
 
                 {/* Search bar */}
-                {!isCollapsed && (
-                    <Box sx={{ px: 2, mt: 2 }}>
-                        <Paper
-                            component='form'
-                            sx={{
-                                p: '2px 6px',
-                                display: 'flex',
-                                alignItems: 'center',
-                                borderRadius: 2,
-                            }}
-                        >
-                            <InputBase sx={{ ml: 1, flex: 1 }} placeholder='Search' />
-                            <IconButton sx={{ bgcolor: '#2494B6', color: 'white', p: 0.7, m: 0.5 }}>
-                                <Search />
-                            </IconButton>
-                        </Paper>
-                    </Box>
-                )}
-                {isCollapsed && (
-                    <Box sx={{ px: 2.2 }}>
-                        <IconButton sx={{ bgcolor: '#2494B6', color: 'white', p: 1.5, m: 0.5 }}>
-                            <Search />
-                        </IconButton>
-                    </Box>
-                )}
+                {/*{!isCollapsed && (*/}
+                {/*    <Box sx={{ px: 2, mt: 2 }}>*/}
+                {/*        <Paper*/}
+                {/*            component='form'*/}
+                {/*            sx={{*/}
+                {/*                p: '2px 6px',*/}
+                {/*                display: 'flex',*/}
+                {/*                alignItems: 'center',*/}
+                {/*                borderRadius: 2,*/}
+                {/*            }}*/}
+                {/*        >*/}
+                {/*            <InputBase sx={{ ml: 1, flex: 1 }} placeholder='Search' />*/}
+                {/*            <IconButton sx={{ bgcolor: '#2494B6', color: 'white', p: 0.7, m: 0.5 }}>*/}
+                {/*                <Search />*/}
+                {/*            </IconButton>*/}
+                {/*        </Paper>*/}
+                {/*    </Box>*/}
+                {/*)}*/}
+                {/*{isCollapsed && (*/}
+                {/*    <Box sx={{ px: 2.2 }}>*/}
+                {/*        <IconButton sx={{ bgcolor: '#2494B6', color: 'white', p: 1.5, m: 0.5 }}>*/}
+                {/*            <Search />*/}
+                {/*        </IconButton>*/}
+                {/*    </Box>*/}
+                {/*)}*/}
 
                 {/* Navigation options */}
                 <Box
@@ -306,10 +314,11 @@ export const SidebarNavigation = ({
                 >
                     <List
                         sx={{
-                            mt: isCollapsed ? 1 : 2,
+                            mt: isCollapsed ? 1 : 0,
                             flex: 1,
                             minHeight: 0,
                             overflowY: 'auto',
+
                         }}
                     >
                         {currentUrl.split('/')[1] !== 'admin' ? (
@@ -551,7 +560,7 @@ export const SidebarNavigation = ({
 
                 {/* Bottom section */}
                 <Box sx={{ py: isCollapsed ? 1 : 1 }}>
-                    <Box sx={{ mt: isCollapsed ? 7 : 5, flexGrow: 0 }}>
+                    <Box sx={{ mt: 0, flexGrow: 0 }}>
                         <List sx={{ borderBottom: `1px solid ${theme.palette.divider}` }}>
                             {footerItems.map((item, index) => (
                                 <ListItemButton
@@ -597,6 +606,7 @@ export const SidebarNavigation = ({
                                         borderRadius: 1,
                                     }}
                                 >
+                                    {/* TODO: change the icon when they are not signed in */}
                                     <Avatar
                                         alt={`Profile picture of ${name}`}
                                         src={image}
