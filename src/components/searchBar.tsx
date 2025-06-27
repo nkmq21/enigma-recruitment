@@ -54,6 +54,8 @@ export default function SearchBar({ placeholder }: { placeholder?: string }) {
             width: '100%',
             alignItems: 'center',
             maxWidth: '100vw',
+            flexDirection: { xs: 'column', md: 'row' },
+            backgroundColor: '#FFF',
             boxSizing: 'border-box',
             '@media (max-width: 991px)': {
                 flexDirection: 'column',

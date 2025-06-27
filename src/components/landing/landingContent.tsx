@@ -3,11 +3,16 @@ import { styled } from "@mui/material/styles";
 import {
     Container,
     Typography,
-    Button,
     Box,
     Stack,
     Chip
 } from "@mui/material";
+import SearchBar from "../searchBar";
+import { JobListPage } from "../home/JobCard";
+import { Job } from "enigma/types/models";
+import { useSearchParams } from "next/navigation";
+import LoadingData from "../taskPage/loadingData";
+
 
 const StyledContainer = styled(Container)(({ theme }) => ({
     width: '100%',
@@ -69,6 +74,7 @@ const HeroImage = styled('img')({
 });
 
 export default function LandingContent() {
+
     return (
         <StyledContainer>
             <ContentWrapper>
@@ -97,72 +103,16 @@ export default function LandingContent() {
                     >
                         Find the job that best fits your skills and career goals
                     </Typography>
-
-                    <Typography
-                        variant="h6"
-                        align="center"
-                        sx={{
-                            maxWidth: '768px',
-                            color: '#475467',
-                            fontSize: '20px',
-                            fontWeight: 400,
-                            lineHeight: '30px',
-                            mt: 3
-                        }}
-                    >
-                        Quickly build your CV, apply to jobs, and track your progress — all in one platform.
-                    </Typography>
                 </Stack>
 
-                <Stack
-                    direction={{ xs: 'column', lg: 'row' }}
-                    spacing={1.5}
-                    sx={{
-                        mt: 4,
-                        width: '338px',
-                        maxWidth: '100%'
-                    }}
-                >
-                    <Button
-                        variant="outlined"
-                        fullWidth
-                        sx={{
-                            color: '#344054',
-                            backgroundColor: '#fafafa',
-                            borderColor: '#d0d5dd',
-                            '&:hover': {
-                                borderColor: '#b0b7c3',
-                            }
-                        }}
-                        href="/register"
-                    >
-                        Sign up
-                    </Button>
-                    <Button
-                        variant="contained"
-                        fullWidth
-                        sx={{
-                            backgroundColor: '#2494b6',
-                            '&:hover': {
-                                backgroundColor: '#1d7a94',
-                            }
-                        }}
-                    >
-                        Let get a job!
-                    </Button>
-                </Stack>
+
+                <SearchBar placeholder="Job title, description, or industry name" />
+
+                <LoadingData />
+
             </ContentWrapper>
 
-            <Box
-                sx={{
-                    mt: 5,
-                    mb: 5,
-                    display: 'flex',
-                    justifyContent: 'center'
-                }}
-            >
-                <HeroImage src="https://cdn.builder.io/api/v1/image/assets/8ef08a3c60b44d4ba008c3e63d84c943/3d3a3490d88c2f661ad03a262442ff20314a92c9?placeholderIfAbsent=true" alt="Hero illustration" />
-            </Box>
+
         </StyledContainer>
     );
 }

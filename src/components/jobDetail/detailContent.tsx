@@ -17,14 +17,6 @@ import { PopularJobChip } from "../popularChip";
 
 export const DetailContent = () => {
 
-    const popularJobs = [
-        "Digital Marketer",
-        "Software Developer",
-        "Tour Guide",
-        "English Teacher",
-        "Hotel Receptionist",
-    ];
-
     return (
         <Box component="main" sx={{
             flexGrow: 1,
