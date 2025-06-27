@@ -23,8 +23,6 @@ import JobSubRoleFilter from './jobSubfunction';
 
 import {usePathname, useRouter, useSearchParams} from 'next/navigation';
 
-import {EmploymentType} from '@prisma/client';
-import {useParams} from 'next/navigation';
 
 // Reusable ResetButton component
 const ResetButton: FunctionComponent<{
@@ -149,7 +147,7 @@ const SlideOutMenu: FunctionComponent<SlideOutMenuProps> = ({open, onClose}) => 
             default:
                 console.log(`No reset logic for ${filterName}`);
         }
-        router.push(`/jobs?${params.toString()}`);
+        router.push(`${currentPath}?${params.toString()}`);
     };
 
     //apply filter and update the url
@@ -190,7 +188,7 @@ const SlideOutMenu: FunctionComponent<SlideOutMenuProps> = ({open, onClose}) => 
 
         //navigate with query params
         // queryParams.set('page', '1');
-        router.push(`/jobs?${queryParams.toString()}`);
+        router.push(`${currentPath}?${queryParams.toString()}`);
         console.log(`CURRENT PATH (FROM FILTER PAGE): `, currentPath);
 
         console.log('applied filter: ', filterValues);

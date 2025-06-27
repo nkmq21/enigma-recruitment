@@ -13,6 +13,7 @@ export default function SearchBar({ placeholder }: { placeholder?: string }) {
     const [query, setQuery] = useState(searchParams.get('query')?.toString() || "");
     const formRef = React.useRef<HTMLFormElement>(null);
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const clearQuery = () => {
         setQuery('');
 
@@ -37,7 +38,7 @@ export default function SearchBar({ placeholder }: { placeholder?: string }) {
 
         // params.set('page', "1");
         console.log(pathName);
-        router.replace(`/jobs?${params.toString()}`);
+        router.replace(`${pathName}?${params.toString()}`);
     }
 
     const handleIconClick = () => {
