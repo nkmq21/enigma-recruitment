@@ -28,8 +28,8 @@ const LogoHeader = () => {
                     <Image
                         src="/Logo2.svg"
                         alt="Career Logo"
-                        width={135}
-                        height={28}
+                        width={135*1.5}
+                        height={28*1.5}
                     />
                 </Box>
                 <Box
