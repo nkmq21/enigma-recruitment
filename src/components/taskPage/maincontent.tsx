@@ -4,14 +4,12 @@ import SectionTitle from "../font/sectionTitle";
 import LogoHeader from "../logoHeader";
 import SearchBar from "../searchBar";
 import CTA from "../common/cta";
-import { JobListPage } from "../home/JobCard";
 import {
     Box,
     Typography,
     Chip,
     Divider,
 } from "@mui/material";
-import { Job } from "enigma/types/models";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import LoadingData from "./loadingData";
@@ -38,6 +36,7 @@ export const MainContent = () => {
             },
         }}>
             <Box sx={{ display: { lg: 'none', sm: 'block' } }}>
+                <LogoHeader />
                 <Divider sx={{ mt: 1, mb: 3, width: '100%' }} />
             </Box>
 

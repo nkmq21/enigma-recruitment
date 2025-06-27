@@ -8,9 +8,6 @@ import {
     Chip
 } from "@mui/material";
 import SearchBar from "../searchBar";
-import { JobListPage } from "../home/JobCard";
-import { Job } from "enigma/types/models";
-import { useSearchParams } from "next/navigation";
 import LoadingData from "../taskPage/loadingData";
 
 
@@ -64,14 +61,6 @@ const CustomBadge = styled(Chip)(({ theme }) => ({
         marginRight: theme.spacing(0.75),
     }
 }));
-
-const HeroImage = styled('img')({
-    aspectRatio: '1.31',
-    objectFit: 'contain',
-    objectPosition: 'center',
-    width: '510px',
-    maxWidth: '100%',
-});
 
 export default function LandingContent() {
 
