@@ -7,7 +7,7 @@ import LogoHeader from "../logoHeader";
 import Image from 'next/image';
 import Section from './mainContent';
 
-const AboutUsPage: React.FC = () => {
+const AboutUsPage = () => {
     return (
         <ThemeProvider theme={theme}>
             <Box component="main" sx={{
