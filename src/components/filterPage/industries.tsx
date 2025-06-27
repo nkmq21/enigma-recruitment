@@ -1,4 +1,4 @@
-import {FunctionComponent, useState, useRef, useEffect} from 'react';
+import { FunctionComponent, useState, useRef, useEffect } from 'react';
 import {
     Box,
     TextField,
@@ -12,12 +12,12 @@ import {
     Chip,
     Stack,
 } from '@mui/material';
-import {ThemeProvider} from '@emotion/react';
+import { ThemeProvider } from '@emotion/react';
 import theme from '../font/theme';
-import {ArrowDropDown, Close} from '@mui/icons-material';
+import { ArrowDropDown, Close } from '@mui/icons-material';
 import Image from 'next/image';
-import {INDUSTRIES} from 'enigma/data/industryData';
-import {useSearchParams} from "next/navigation";
+import { INDUSTRIES } from 'enigma/data/industryData';
+import { useSearchParams } from "next/navigation";
 
 interface IndustriesFilterProps {
     disabled?: boolean;
@@ -28,12 +28,12 @@ interface IndustriesFilterProps {
 }
 
 const IndustriesFilter: FunctionComponent<IndustriesFilterProps> = ({
-                                                                        disabled = false,
-                                                                        value = [],
-                                                                        onChange,
-                                                                        onDialogOpen,
-                                                                        onDialogClose,
-                                                                    }) => {
+    disabled = false,
+    value = [],
+    onChange,
+    onDialogOpen,
+    onDialogClose,
+}) => {
     const searchParams = useSearchParams();
     const [open, setOpen] = useState(false);
     const [selectedIndustries, setSelectedIndustries] = useState<string[]>(() => {
@@ -97,7 +97,7 @@ const IndustriesFilter: FunctionComponent<IndustriesFilterProps> = ({
 
     return (
         <ThemeProvider theme={theme}>
-            <Box sx={{width: '100%'}}>
+            <Box sx={{ width: '100%' }}>
                 <TextField
                     fullWidth
                     variant="outlined"
@@ -108,33 +108,33 @@ const IndustriesFilter: FunctionComponent<IndustriesFilterProps> = ({
                     disabled={disabled}
                     InputProps={{
                         startAdornment: <Image src='/industries.svg' alt='industries' height={20} width={20}
-                                               style={{marginRight: '10px'}}/>,
-                        endAdornment: <ArrowDropDown sx={{color: disabled ? 'grey.400' : 'grey.600'}}/>,
+                            style={{ marginRight: '10px' }} />,
+                        endAdornment: <ArrowDropDown sx={{ color: disabled ? 'grey.400' : 'grey.600' }} />,
                         readOnly: true,
                     }}
                     sx={{
-                        "& .MuiInputLabel-asterisk": {color: "#236785"},
-                        "& .MuiOutlinedInput-root": {borderRadius: "8px"},
+                        "& .MuiInputLabel-asterisk": { color: "#236785" },
+                        "& .MuiOutlinedInput-root": { borderRadius: "8px" },
                         opacity: disabled ? 0.6 : 1,
                         cursor: disabled ? 'not-allowed' : 'pointer',
                     }}
                 />
 
                 {selectedIndustries.length > 0 && (
-                    <Stack direction="row" spacing={1} sx={{mt: 1, flexWrap: 'wrap', gap: 1}}>
+                    <Stack direction="row" spacing={1} sx={{ mt: 1, flexWrap: 'wrap', gap: 1 }}>
                         {selectedIndustries.slice(0, 3).map((industry) => (
                             <Chip
                                 key={industry}
                                 label={industry}
                                 size="small"
                                 onDelete={() => handleRemoveIndustry(industry)}
-                                deleteIcon={<Close sx={{fontSize: 16}}/>}
+                                deleteIcon={<Close sx={{ fontSize: 16 }} />}
                                 sx={{
                                     backgroundColor: '#e3f2fd',
                                     color: '#1976d2',
                                     '& .MuiChip-deleteIcon': {
                                         color: '#1976d2',
-                                        '&:hover': {color: '#d32f2f'},
+                                        '&:hover': { color: '#d32f2f' },
                                     },
                                 }}
                             />
@@ -144,7 +144,7 @@ const IndustriesFilter: FunctionComponent<IndustriesFilterProps> = ({
                                 label={`+${selectedIndustries.length - 3} more`}
                                 size="small"
                                 variant="outlined"
-                                sx={{color: '#666'}}
+                                sx={{ color: '#666' }}
                             />
                         )}
                     </Stack>
@@ -160,7 +160,7 @@ const IndustriesFilter: FunctionComponent<IndustriesFilterProps> = ({
                         borderRadius: '12px',
                         overflow: 'hidden',
                         p: 2,
-                        maxHeight: {xs: '400px', sm: '600px'},
+                        maxHeight: { xs: '400px', sm: '600px' },
                         bgcolor: '#fff',
                     },
                 }}
@@ -173,7 +173,7 @@ const IndustriesFilter: FunctionComponent<IndustriesFilterProps> = ({
                         display: 'flex',
                         flexDirection: 'column',
                         color: '#262d34',
-                        width: {xs: '300px', sm: '400px'},
+                        width: { xs: '300px', sm: '400px' },
                     }}
                 >
                     <Box
@@ -196,7 +196,7 @@ const IndustriesFilter: FunctionComponent<IndustriesFilterProps> = ({
                             <Typography sx={{
                                 fontWeight: 600,
                                 color: '#262d34',
-                                fontSize: {xs: '13px', sm: '16px'},
+                                fontSize: { xs: '13px', sm: '16px' },
                             }}>
                                 Select Industries ({selectedIndustries.length} selected)
                             </Typography>
@@ -207,7 +207,7 @@ const IndustriesFilter: FunctionComponent<IndustriesFilterProps> = ({
                                     sx={{
                                         color: '#d32f2f',
                                         textTransform: 'none',
-                                        fontSize: {xs: '10px', sm: '14px'},
+                                        fontSize: { xs: '10px', sm: '14px' },
                                         padding: '4px 8px',
                                     }}
                                 >
@@ -227,10 +227,10 @@ const IndustriesFilter: FunctionComponent<IndustriesFilterProps> = ({
                                     borderRadius: '8px',
                                     border: '1px solid #d0d5dd',
                                     boxShadow: '0px 1px 2px rgba(16, 24, 40, 0.05)',
-                                    fontSize: {xs: '12px', sm: '14px'},
+                                    fontSize: { xs: '12px', sm: '14px' },
                                     color: '#667085',
                                 },
-                                '& .MuiInputBase-input': {padding: '10px 14px'},
+                                '& .MuiInputBase-input': { padding: '10px 14px' },
                             }}
                         />
 
@@ -244,13 +244,13 @@ const IndustriesFilter: FunctionComponent<IndustriesFilterProps> = ({
                                 overflow: 'auto',
                                 scrollbarColor: '#2494b6 #f1f1f1',
                                 scrollbarWidth: 'thin',
-                                '&::-webkit-scrollbar': {width: '8px'},
-                                '&::-webkit-scrollbar-track': {background: '#f1f1f1', borderRadius: '10px'},
-                                '&::-webkit-scrollbar-thumb': {background: '#2494b6', borderRadius: '10px'},
+                                '&::-webkit-scrollbar': { width: '8px' },
+                                '&::-webkit-scrollbar-track': { background: '#f1f1f1', borderRadius: '10px' },
+                                '&::-webkit-scrollbar-thumb': { background: '#2494b6', borderRadius: '10px' },
                             }}
                         >
                             {filteredIndustries.length === 0 ? (
-                                <Typography textAlign="center" color="textSecondary" sx={{py: 2}}>
+                                <Typography textAlign="center" color="textSecondary" sx={{ py: 2 }}>
                                     {searchTerm ? 'No industries found' : 'Loading industries...'}
                                 </Typography>
                             ) : (
@@ -274,7 +274,7 @@ const IndustriesFilter: FunctionComponent<IndustriesFilterProps> = ({
                                             <Checkbox
                                                 checked={isSelected}
                                                 sx={{
-                                                    padding: {xs: '2px', sm: '4px'},
+                                                    padding: { xs: '2px', sm: '4px' },
                                                     marginRight: '8px',
                                                     color: '#2494b6',
                                                     '&.Mui-checked': {
@@ -285,7 +285,7 @@ const IndustriesFilter: FunctionComponent<IndustriesFilterProps> = ({
                                             <ListItemText
                                                 primary={industry.industryName}
                                                 primaryTypographyProps={{
-                                                    fontSize: {xs: '12px', sm: '14px'},
+                                                    fontSize: { xs: '12px', sm: '14px' },
                                                     lineHeight: '20px',
                                                     fontFamily: '"Inter", sans-serif',
                                                     fontWeight: isSelected ? 600 : 400,
@@ -298,7 +298,7 @@ const IndustriesFilter: FunctionComponent<IndustriesFilterProps> = ({
                             )}
                         </List>
 
-                        <Box sx={{display: 'flex', gap: 2, mt: 2}}>
+                        <Box sx={{ display: 'flex', gap: 2, mt: 2 }}>
                             <Button
                                 variant="outlined"
                                 onClick={handleCloseIndustries}
