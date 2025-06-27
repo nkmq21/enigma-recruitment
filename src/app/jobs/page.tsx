@@ -4,8 +4,8 @@ import React from 'react'
 async function JobListPage() {
     const session = await auth();
     return (
-        <TaskPage session={session}/>
-    )
+        <TaskPage session={session} />
+    );
 }
 
 export default JobListPage
