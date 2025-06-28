@@ -3,9 +3,6 @@ import React from 'react';
 import { Box, ThemeProvider, Divider } from '@mui/material';
 import { SidebarNavigation } from '../sideBarNavigation';
 import LandingContent from './landingContent';
-import FeaturesSection from './featureSection';
-import NewsletterCTA from './newLetter';
-import SocialProofSection from './socialLanding';
 import TestimonialSection from './testimonialSection';
 import FAQSection from './faqSection';
 import BlogSection from './blogSection';
@@ -22,7 +19,7 @@ interface Props {
 const LandingPage = ({ session }: Props) => {
     // 19% for expanded sidebar, 6% for collapsed sidebar
     const [isCollapsed, setIsCollapsed] = React.useState(false);
-    const sidebarWidth = isCollapsed ? '6%' : '19%';
+    const sidebarWidth = isCollapsed ? '6%' : '18%';
     return (
         <ThemeProvider theme={theme}>
             <Box component="main" sx={{
@@ -63,9 +60,8 @@ const LandingPage = ({ session }: Props) => {
                         <Divider sx={{ mb: 3, width: '100%' }} />
                     </Box>
                     <LandingContent />
-
-                    <FAQSection />
                     <TestimonialSection />
+                    <FAQSection />
                     <BlogSection />
                     <Footer />
                 </Box>

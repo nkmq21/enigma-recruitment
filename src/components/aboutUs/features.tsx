@@ -1,23 +1,28 @@
-import { Box, Container, Typography, Chip, Button, Link } from '@mui/material';
-import Header from './header';
-import TeamSection from './section';
-import BlogSection from './blogSection';
-import FeaturesSection from '../landing/featureSection';
-import { styled } from "@mui/material/styles";
-import SelectionProcess from './selectionProcess';
+import {Box, Container, Typography, Button} from '@mui/material';
 
-const Feture = () => {
-
+const Features = () => {
     const features = [
-        { title: 'Seamless collaboration', description: 'Work with us like we’re part of your team.' },
-        { title: 'Clarity from day one', description: 'Full transparency for you and candidates.' },
-        { title: 'Accountability you can measure', description: 'Results-driven HR partnership.' },
+        {
+            title: 'Seamless collaboration',
+            description: 'We don\'t just send CV\'s, our role is to send you qualified candidates, with an in-depth analysis to make informed decisions.'
+        },
+        {
+            title: 'Clarity from day one',
+            description: 'We act as a business partner, giving all clients and candidates full transparency from the start.'
+        },
+        {
+            title: 'Results you can measure',
+            description: 'If you are looking for a job or an employee, you need an agency that delivers. We don\'t give up and our speciality is hard to hire jobs.'
+        },
+        {
+            title: 'Supporting your employer brand',
+            description: 'Partnering with an agency can help or harm your employer brand. We always aim to promote your business in a positive way to support the employer branding.'
+        }
     ];
 
     return (
-        <Box sx={{ width: '100%' }}>
-
-            <Box sx={{ py: 8, bgcolor: '#fff', zIndex: 4, textAlign: 'start' }}>
+        <Box sx={{width: '100%'}}>
+            <Box sx={{py: 8, bgcolor: '#fff', zIndex: 4, textAlign: 'start'}}>
                 <Container maxWidth="lg">
                     <Box
                         sx={{
@@ -41,7 +46,7 @@ const Feture = () => {
                             </Typography>
                             <Typography variant="h2" letterSpacing="-0.02em" color='#101828'
                             >
-                                Recruitment, reimagined with clarity and care
+                                Recruitment, done the right way
                             </Typography>
                         </Box>
                         <Typography
@@ -51,12 +56,13 @@ const Feture = () => {
                                 color: '#475467',
                             }}
                         >
-                            Honest, transparent hiring partnerships that grow with you. Trusted by businesses who want more than just a service.
+                            Honest, transparent hiring partnerships that grow with you. Trusted by businesses who want
+                            the best recruitment service.
                         </Typography>
                     </Box>
 
-                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 4, mt: 6 }}>
-                        <Box sx={{ flex: '1 1 320px', maxWidth: 560 }}>
+                    <Box sx={{display: 'flex', flexWrap: 'wrap', gap: 4, mt: 6}}>
+                        <Box sx={{flex: '1 1 320px', maxWidth: 560}}>
                             {features.map((feature, index) => (
                                 <Box
                                     key={index}
@@ -75,14 +81,17 @@ const Feture = () => {
                                         color: '#101828',
                                     }}>{feature.title}</Typography>
                                     <Typography variant="body1" color="#475467">{feature.description}</Typography>
-                                    <Button color="primary" endIcon={<Box component="img" src="/arrowRight.svg" alt="" />}>
-                                        Learn more
-                                    </Button>
                                 </Box>
                             ))}
+                            <Button color="primary" endIcon={<Box component="img" src="/arrowRight.svg" alt=""/>}
+                                    sx={{
+                                        backgroundColor: '#',
+                                    }}>
+                                Learn more
+                            </Button>
                         </Box>
-                        <Box sx={{ flex: '1 1 320px', maxWidth: 776 }}>
-                            <Box component="img" src="/Screen.png" alt="" sx={{ width: '100%' }} />
+                        <Box sx={{flex: '1 1 320px', maxWidth: 776}}>
+                            <Box component="img" src="/Screen.png" alt="" sx={{width: '100%'}}/>
                         </Box>
                     </Box>
                 </Container>
@@ -91,4 +100,4 @@ const Feture = () => {
     );
 };
 
-export default Feture;
+export default Features;
