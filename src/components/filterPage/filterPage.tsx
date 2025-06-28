@@ -188,7 +188,7 @@ const SlideOutMenu: FunctionComponent<SlideOutMenuProps> = ({open, onClose}) => 
 
         //navigate with query params
         // queryParams.set('page', '1');
-        router.push(`${currentPath}?${queryParams.toString()}`);
+        router.push(`/jobs?${queryParams.toString()}`);
         console.log(`CURRENT PATH (FROM FILTER PAGE): `, currentPath);
 
         console.log('applied filter: ', filterValues);
