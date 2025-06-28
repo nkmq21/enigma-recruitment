@@ -29,7 +29,7 @@ const ContentWrapper = styled(Box)(({ theme }) => ({
     }
 }));
 
-const BadgeGroup = styled(Box)(({ theme }) => ({
+export const BadgeGroup = styled(Box)(({ theme }) => ({
     display: 'flex',
     alignItems: 'center',
     gap: theme.spacing(1),
@@ -40,7 +40,7 @@ const BadgeGroup = styled(Box)(({ theme }) => ({
     boxShadow: theme.shadows[1],
 }));
 
-const CustomBadge = styled(Chip)(({ theme }) => ({
+export const CustomBadge = styled(Chip)(({ theme }) => ({
     borderRadius: '8px',
     border: '1px solid #b2e3ef',
     backgroundColor: '#effbfc',
@@ -92,15 +92,9 @@ export default function LandingContent() {
                         Find the job that best fits your skills and career goals
                     </Typography>
                 </Stack>
-
-
                 <SearchBar placeholder="Job title, description, or industry name" />
-
                 <LoadingData />
-
             </ContentWrapper>
-
-
         </StyledContainer>
     );
 }

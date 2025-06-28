@@ -52,7 +52,6 @@ const AboutUsPage = ({ session }: {session: Session | null}) => {
                     <Footer />
                 </Box>
             </Box>
-
         </ThemeProvider>
     );
 };
