@@ -38,7 +38,7 @@ export default function SearchBar({ placeholder }: { placeholder?: string }) {
 
         // params.set('page', "1");
         console.log(pathName);
-        router.replace(`${pathName}?${params.toString()}`);
+        router.replace(`/jobs?${params.toString()}`);
     }
 
     const handleIconClick = () => {
