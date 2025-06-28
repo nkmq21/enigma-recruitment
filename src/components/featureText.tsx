@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
     Box,
     Typography,
@@ -6,9 +6,10 @@ import {
     Card,
     styled,
 } from '@mui/material';
+
 const features = [
     {
-        icon: "/icon1.svg",
+        icon: "https://cdn.builder.io/api/v1/image/assets/TEMP/bf891ef41bca0e8aba070376107c9b9db8862d19?placeholderIfAbsent=true&apiKey=8ef08a3c60b44d4ba008c3e63d84c943",
         title: "General and Factory Management",
         description: "We recruit factory leaders who manage end-to-end plant operations, drive business strategy, and lead large production teams."
     },
@@ -23,7 +24,7 @@ const features = [
         description: "We source CI experts and technicians to drive lean practices, improve processes, and handle equipment maintenance proactively."
     },
     {
-        icon: "https://cdn.builder.io/api/v1/image/assets/TEMP/fdc1c50ed6af9c42bd8c909335b1c0317345324a?placeholderIfAbsent=true&apiKey=8ef08a3c60b44d4ba008c3e63d84c943",
+        icon: "/12345.png",
         title: "Supply Chain and Logistics",
         description: "Our talent pool includes professionals skilled in procurement, warehousing, distribution, and global logistics coordination."
     },
@@ -47,16 +48,37 @@ const features = [
 const FeatureCard = styled(Card)({
     boxShadow: 'none',
     textAlign: 'center',
-    height: '100%',
+    width: '100%',
+    position: 'relative', // Needed for positioning the hover overlay
 });
 
+const HoverOverlay = styled(Box)(({ theme }) => ({
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+    color: 'white',
+    padding: theme.spacing(2),
+    borderRadius: theme.shape.borderRadius,
+    zIndex: 10,
+    opacity: 0,
+    transition: 'opacity 0.3s ease, transform 0.3s ease',
+    pointerEvents: 'none', // Prevents interaction with the overlay itself
+    maxWidth: '80%', // Ensures the overlay doesn't overflow the card
+    textAlign: 'center',
+}));
+
 const FeatureText: React.FC = () => {
+    // State to track which card is being hovered
+    const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+
     return (
         <Box
             sx={{
                 display: 'flex',
                 flexWrap: 'wrap',
-                gap: 3, // Replaces spacing from Grid
+                gap: 3,
                 justifyContent: 'center',
             }}
         >
@@ -64,38 +86,56 @@ const FeatureText: React.FC = () => {
                 <Box
                     key={index}
                     sx={{
-                        flex: '1 1 calc(33.333% - 16px)', // Three columns with gap adjustment
-                        maxWidth: 'calc(33.333% - 16px)', // Ensure each card takes ~1/3 width
-                        minWidth: { xs: '360px', lg: '250px' }, // Minimum width for readability
+                        flex: '1 1 calc(33.333% - 16px)',
+                        maxWidth: 'calc(33.333% - 16px)',
+                        minWidth: { xs: '360px', lg: '250px' },
                         pr: 2,
                     }}
                 >
-                    <FeatureCard>
+                    <FeatureCard
+                        onMouseEnter={() => setHoveredIndex(index)}
+                        onMouseLeave={() => setHoveredIndex(null)}
+                    >
                         <CardContent>
                             <Box
                                 component="img"
                                 src={feature.icon}
                                 sx={{
+                                    backgroundColor: 'rgba(255, 255, 255, 0.6)',
+                                    border: '1px solid rgba(255, 255, 255, 0.8)',
                                     width: 48,
                                     height: 48,
                                     mb: 3,
+                                    cursor: 'pointer',
                                 }}
                             />
-                            <Typography variant="h3" gutterBottom>
+                            <Typography
+                                variant="h3"
+                                gutterBottom
+                                sx={{ cursor: 'pointer' }}
+                            >
                                 {feature.title}
                             </Typography>
-                            <Typography
-                                variant="body1"
-                                color="text.secondary"
+                            {/* Hover overlay */}
+                            <HoverOverlay
+                                sx={{
+                                    opacity: hoveredIndex === index ? 1 : 0,
+                                    transform:
+                                        hoveredIndex === index
+                                            ? 'translate(-50%, -50%) scale(1)'
+                                            : 'translate(-50%, -50%) scale(0.8)',
+                                }}
                             >
-                                {feature.description}
-                            </Typography>
+                                <Typography variant="body2">
+                                    {feature.description}
+                                </Typography>
+                            </HoverOverlay>
                         </CardContent>
                     </FeatureCard>
                 </Box>
-
             ))}
         </Box>
     );
 };
+
 export default FeatureText;
