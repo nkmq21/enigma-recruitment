@@ -40,5 +40,17 @@ export default {
             }
         })
     ],
+    useSecureCookies: true,
+    cookies: {
+        sessionToken: {
+            name: `__Secure-authjs.session-token`,
+            options: {
+                httpOnly: true,
+                sameSite: 'lax',
+                path: '/',
+                secure: true
+            }
+        }
+    },
     secret: process.env.AUTH_SECRET
 } satisfies NextAuthConfig;
