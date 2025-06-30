@@ -3,7 +3,6 @@ import { NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt";
 import type { NextRequest } from "next/server";
 import authConfig from "./auth.config";
-import {getUsers} from "enigma/services/userServices";
 
 const privateRoutes = ["/admin"];
 const loggedInRoutes = ["/home", "/profile"];
@@ -12,8 +11,8 @@ const publicRoutes = ["/", "/about", "/contact-us", "/register", "/login/new-ver
 
 export async function middleware(req: NextRequest) {
     // TODO: Change ${url} to enigma-recruitment.com when in production
-    const url = `${process.env.FRONTEND_URL}`;
-    const { pathname } = req.nextUrl;
+    const { pathname, origin } = req.nextUrl;
+    const baseUrl = process.env.NEXTAUTH_URL || process.env.FRONTEND_URL || origin;
 
     // Get the token (includes custom fields like role)
     const token = await getToken({ req, secret: authConfig.secret });
@@ -27,17 +26,17 @@ export async function middleware(req: NextRequest) {
 
     if (isAPIRoute || isPublicRoute) return;
     if (isLoggedIn && isCredentialRoute) {
-        return NextResponse.redirect(`${url}/home`);
+        return NextResponse.redirect(`${baseUrl}/home`);
     }
     if (!isLoggedIn && isCredentialRoute) {
         return;
     }
     if (!isLoggedIn && isLoggedInRoute) {
-        return NextResponse.redirect(`${url}/login`);
+        return NextResponse.redirect(`${baseUrl}/login`);
     }
     // Protect admin routes
     if (isPrivateRoute && token?.role !== "admin") {
-        return NextResponse.redirect(`${url}/forbidden`);
+        return NextResponse.redirect(`${baseUrl}/forbidden`);
     }
     // Allow admin through
     if (isPrivateRoute && token?.role === "admin") {
