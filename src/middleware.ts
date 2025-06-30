@@ -1,48 +1,91 @@
 // src/middleware.ts - Protect routes from unauthorized access
+import { auth } from "./auth";
 import { NextResponse } from "next/server";
-import { getToken } from "next-auth/jwt";
-import type { NextRequest } from "next/server";
-import authConfig from "./auth.config";
 
-const privateRoutes = ["/admin"];
-const loggedInRoutes = ["/home", "/profile"];
-const credentialRoutes = ["/login", "/login/reset-password"];
-const publicRoutes = ["/", "/about", "/contact-us", "/register", "/login/new-verification"];
+// Wrap your custom logic in the `auth` middleware:
+export default auth((req) => {
+    const url = req.nextUrl.clone();
+    const { pathname } = req.nextUrl;
+    const user = req.auth?.user; // populated by your session callback
 
-export async function middleware(req: NextRequest) {
-    const { pathname, origin } = req.nextUrl;
-    const baseUrl = process.env.NEXTAUTH_URL || process.env.FRONTEND_URL || origin;
-
-    // Get the token (includes custom fields like role)
-    const token = await getToken({ req, secret: authConfig.secret });
-
-    const isLoggedIn = !!token;
-    const isPrivateRoute = privateRoutes.includes(pathname);
-    const isLoggedInRoute = loggedInRoutes.includes(pathname);
-    const isCredentialRoute = credentialRoutes.includes(pathname);
-    const isAPIRoute = pathname.includes("/api");
-    const isPublicRoute = publicRoutes.includes(pathname);
-
-    if (isAPIRoute || isPublicRoute) return;
-    if (isLoggedIn && isCredentialRoute) {
-        return NextResponse.redirect(`${baseUrl}/home`);
-    }
-    if (!isLoggedIn && isCredentialRoute) {
+    // 1) Allow public and API routes through
+    if (
+        pathname.startsWith("/api") ||
+        ["/", "/about", "/contact-us", "/register", "/login/new-verification"].includes(pathname)
+    ) {
         return;
     }
-    if (!isLoggedIn && isLoggedInRoute) {
-        return NextResponse.redirect(`${baseUrl}/login`);
+
+    // 2) Redirect signed-in users away from the credential pages
+    if (user && ["/login", "/login/reset-password"].includes(pathname)) {
+        url.pathname = "/home";
+        return NextResponse.redirect(url);
     }
-    // Protect admin routes
-    if (isPrivateRoute && token?.role !== "admin") {
-        return NextResponse.redirect(`${baseUrl}/forbidden`);
+
+    // 3) Redirect guests away from protected pages
+    if (!user && ["/home", "/profile"].includes(pathname)) {
+        url.pathname = "/login";
+        return NextResponse.redirect(url);
     }
-    // Allow admin through
-    if (isPrivateRoute && token?.role === "admin") {
-        return;
+
+    // 4) Admin-only pages
+    if (pathname.startsWith("/admin")) {
+        if (!user) {
+            url.pathname = "/login";
+            return NextResponse.redirect(url);
+        }
+        if (user.role !== "admin") {
+            url.pathname = "/forbidden";
+            return NextResponse.redirect(url);
+        }
     }
-}
+
+    // Otherwise, let them through
+});
+
 
 export const config = {
     matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
 };
+// // src/middleware.ts
+// import { getToken } from "next-auth/jwt";
+// import { NextResponse } from "next/server";
+//
+// export const config = {
+//     matcher: [
+//         "/",
+//         "/login",
+//         "/login/reset-password",
+//         "/home",
+//         "/profile",
+//         "/admin/:path*",
+//     ],
+// };
+//
+// export async function middleware(req) {
+//     const { pathname } = req.nextUrl;
+//     const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET! });
+//     const isLoggedIn = Boolean(token);
+//
+//     if (
+//         pathname.startsWith("/api") ||
+//         ["/", "/about", "/contact-us", "/register", "/login/new-verification"].includes(pathname)
+//     ) {
+//         return NextResponse.next();
+//     }
+//     if (isLoggedIn && ["/login", "/login/reset-password"].includes(pathname)) {
+//         return NextResponse.redirect(new URL("/home", req.url));
+//     }
+//     if (!isLoggedIn && ["/home", "/profile"].includes(pathname)) {
+//         return NextResponse.redirect(new URL("/login", req.url));
+//     }
+//     if (pathname.startsWith("/admin")) {
+//         if (!isLoggedIn) {
+//             return NextResponse.redirect(new URL("/login", req.url));
+//         }
+//         if (token?.role !== "admin") {
+//             return NextResponse.redirect(new URL("/forbidden", req.url));
+//         }
+//     }
+//     return NextResponse.next();
+// }
