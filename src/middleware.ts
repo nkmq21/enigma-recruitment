@@ -10,7 +10,6 @@ const credentialRoutes = ["/login", "/login/reset-password"];
 const publicRoutes = ["/", "/about", "/contact-us", "/register", "/login/new-verification"];
 
 export async function middleware(req: NextRequest) {
-    // TODO: Change ${url} to enigma-recruitment.com when in production
     const { pathname, origin } = req.nextUrl;
     const baseUrl = process.env.NEXTAUTH_URL || process.env.FRONTEND_URL || origin;
 

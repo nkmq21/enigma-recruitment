@@ -49,6 +49,7 @@ export const LoginForm: React.FC = () => {
             } else {
                 console.error("Error during logging in: ", err);
                 setError("An error occurred during logging in: " + err);
+                throw err;
             }
         } finally {
             setLoading(false);
