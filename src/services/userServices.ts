@@ -19,6 +19,7 @@ import * as rpts from "./resetPasswordTokenServices";
 import {sendResetPasswordEmail, sendVerificationEmail} from "enigma/services/mailServices";
 import {User} from "enigma/types/models";
 import {getResetPasswordTokenByToken} from "./resetPasswordTokenServices";
+import {useRouter} from "next/navigation";
 
 export interface UserProps {
     id: number;
@@ -153,7 +154,7 @@ export const login = async (data: z.infer<typeof LoginSchema>) => {
         await signIn('credentials', {
             email: existingUser.email,
             password: password,
-            redirectTo: '/home'
+            // redirectTo: '/home'
         });
     } catch (error) {
         if (error instanceof AuthError) {

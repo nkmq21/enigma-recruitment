@@ -42,6 +42,7 @@ export const LoginForm: React.FC = () => {
                 setSuccess(res.success);
                 setLoading(false);
                 setError("");
+                router.push("/home");
             }
         // } catch (err) {
         //     if (err !== "NEXT_REDIRECT") {
