@@ -31,7 +31,7 @@ export const LoginForm: React.FC = () => {
         setLoading(true);
         setError(null);
         setSuccess("");
-        try {
+        // try {
             const res = await login(data);
             if (res.error) {
                 setError(res.error);
@@ -43,17 +43,17 @@ export const LoginForm: React.FC = () => {
                 setLoading(false);
                 setError("");
             }
-        } catch (err) {
-            if (err !== "NEXT_REDIRECT") {
-                console.log("Error during logging in: ", err);
-            } else {
-                console.error("Error during logging in: ", err);
-                setError("An error occurred during logging in: " + err);
-                throw err;
-            }
-        } finally {
-            setLoading(false);
-        }
+        // } catch (err) {
+        //     if (err !== "NEXT_REDIRECT") {
+        //         console.log("Error during logging in: ", err);
+        //     } else {
+        //         console.error("Error during logging in: ", err);
+        //         setError("An error occurred during logging in: " + err);
+        //         throw err;
+        //     }
+        // } finally {
+             setLoading(false);
+        // }
     };
 
     return (
