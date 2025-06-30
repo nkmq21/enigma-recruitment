@@ -119,8 +119,10 @@ export const getAccount = async (userId: string)  => {
 }
 
 export const login = async (data: z.infer<typeof LoginSchema>) => {
+    console.log("userServices.login: Attempting to log in user with data: ", data);
     // Validate the data using the LoginSchema
     const validatedData = LoginSchema.parse(data);
+    console.log("userServices.login: Validated data: ", validatedData);
     if (!validatedData) {
         console.log("userServices.login: Invalid data");
         return {error: "Invalid data"};
@@ -131,6 +133,7 @@ export const login = async (data: z.infer<typeof LoginSchema>) => {
     const existingUser = await prisma.user.findFirst({
         where: {email: email.toLowerCase()}
     });
+    console.log("userServices.login: Existing user: ", existingUser);
     if (!existingUser || !existingUser.password || !existingUser.email) {
         console.log("userServices.login: User not found");
         return {error: "Invalid credentials"};
@@ -148,12 +151,15 @@ export const login = async (data: z.infer<typeof LoginSchema>) => {
             return {error: "Error creating verification token"};
         }
     }
+    console.log("userServices.login: User email verified");
     // Attempt to sign in using signIn() from Auth.js
     try {
+        console.log("userServices.login: Attempting to sign in with credentials");
         await signIn('credentials', {
             email: existingUser.email,
             password: password,
-            // redirectTo: '/home'
+            redirect: true,
+            redirectTo: '/home'
         });
     } catch (error) {
         if (error instanceof AuthError) {

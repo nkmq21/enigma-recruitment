@@ -31,30 +31,33 @@ export const LoginForm: React.FC = () => {
         setLoading(true);
         setError(null);
         setSuccess("");
-        // try {
+        try {
+            console.log("LoginForm - Prepare to invoke login() with data: ", data);
             const res = await login(data);
             if (res.error) {
+                console.log("LoginForm - Error during login: ", res.error);
                 setError(res.error);
                 setLoading(false);
                 setSuccess("");
             }
             if (res.success) {
+                console.log("LoginForm - Successfully logged in: ", res.success);
                 setSuccess(res.success);
                 setLoading(false);
                 setError("");
                 router.push("/home");
             }
-        // } catch (err) {
-        //     if (err !== "NEXT_REDIRECT") {
-        //         console.log("Error during logging in: ", err);
-        //     } else {
-        //         console.error("Error during logging in: ", err);
-        //         setError("An error occurred during logging in: " + err);
-        //         throw err;
-        //     }
-        // } finally {
+        } catch (err) {
+            if (err !== "NEXT_REDIRECT") {
+                console.log("Error during logging in: ", err);
+            } else {
+                console.error("Error during logging in: ", err);
+                setError("An error occurred during logging in: " + err);
+                throw err;
+            }
+        } finally {
              setLoading(false);
-        // }
+        }
     };
 
     return (
