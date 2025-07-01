@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Image from 'next/image';
 import { Box, Container, Typography } from '@mui/material';
-import {Twitter, LinkedIn, Facebook, X} from '@mui/icons-material';
+import {LinkedIn, Facebook, X} from '@mui/icons-material';
 
 const Footer = () => {
     return (
