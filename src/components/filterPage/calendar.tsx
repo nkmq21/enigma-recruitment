@@ -1,371 +1,155 @@
 import { FunctionComponent, useState } from 'react';
-import { Box, Typography, Button, IconButton, TextField, ThemeProvider } from '@mui/material';
-import { ChevronLeft, ChevronRight } from '@mui/icons-material';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { format, startOfMonth, endOfMonth, eachDayOfInterval, getDay, isWithinInterval, isSameDay } from 'date-fns';
-
-// Ensure theme augmentation for MUI X Date Pickers
-import type { } from '@mui/x-date-pickers/themeAugmentation';
+import { Box, Typography, Button, ThemeProvider } from '@mui/material';
 import theme from '../font/theme';
 
 interface DatePickerMenuProps {
     onClose: () => void;
+    onSelect?: (value: string) => void;
 }
 
-const DatePickerMenu: FunctionComponent<DatePickerMenuProps> = ({ onClose }) => {
-    const [startDate, setStartDate] = useState<Date | null>(new Date('2024-01-12'));
-    const [endDate, setEndDate] = useState<Date | null>(new Date('2024-01-18'));
-    const [leftMonth, setLeftMonth] = useState<Date>(new Date('2024-01-01')); // January 2024
-    const [rightMonth, setRightMonth] = useState<Date>(new Date('2024-02-01')); // February 2024
+const DatePickerMenu: FunctionComponent<DatePickerMenuProps> = ({ onClose, onSelect }) => {
+    const [selectedPeriod, setSelectedPeriod] = useState<string>('Any time');
 
-    // Function to generate calendar days for a given month
-    const generateCalendarDays = (month: Date) => {
-        const start = startOfMonth(month);
-        const end = endOfMonth(month);
-        const days = eachDayOfInterval({ start, end });
+    const timePeriods = [
+        'Past month',
+        'Past week',
+        'Past 24 hours'
+    ];
 
-        // Add padding days to align with the first day of the week (Monday start)
-        const firstDayOfWeek = getDay(start); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
-        const paddingDaysBefore = (firstDayOfWeek + 6) % 7; // Adjust for Monday start (Mo=0, Su=6)
-        const paddingDaysAfter = (42 - days.length - paddingDaysBefore) % 7; // Fill to 6 weeks
-
-        const allDays = [
-            ...Array(paddingDaysBefore).fill(null), // Days before the month starts
-            ...days, // Actual days of the month
-            ...Array(paddingDaysAfter).fill(null), // Days after the month ends
-        ];
-
-        return allDays;
+    const handlePeriodSelect = (period: string) => {
+        setSelectedPeriod(period);
     };
 
-    // Function to check if a date has a dot (e.g., Jan 1, Feb 4, Feb 14)
-    const hasDot = (date: Date | null) => {
-        if (!date) return false;
-        const dotDates = [
-            new Date('2024-01-01'),
-            new Date('2024-02-04'),
-            new Date('2024-02-14'),
-            new Date('2024-03-08'),
-        ];
-        return dotDates.some((dotDate) => isSameDay(date, dotDate));
-    };
-
-    // Function to render a single calendar cell
-    const renderCalendarCell = (date: Date | null, month: Date, isLeftPicker: boolean) => {
-        if (!date) {
-            return (
-                <Box
-                    sx={{
-                        borderRadius: '50%',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        color: '#667085', // Gray for out-of-month days
-                    }}
-                >
-                </Box>
-            );
-        }
-
-        const isSelected = startDate && endDate && isWithinInterval(date, { start: startDate, end: endDate });
-        const isStart = startDate && isSameDay(date, startDate);
-        const isEnd = endDate && isSameDay(date, endDate);
-        const isInRange = isSelected && !isStart && !isEnd;
-        const isHovered = isSameDay(date, new Date('2024-01-28')); // Example: Jan 28 has a cursor in the image
-        const showDot = hasDot(date);
-
-        // Determine if connectors are needed
-        const hasLeftConnector = isSelected && (!isStart || isInRange);
-        const hasRightConnector = isSelected && (!isEnd || isInRange);
-
-        return (
-            <ThemeProvider theme={theme}>
-                <Box
-                    sx={{
-                        position: 'relative',
-                        width: 40,
-                        height: 40,
-                        borderRadius: '50%',
-                        backgroundColor: (isStart || isEnd) ? '#2494b6' : isInRange ? '#f9fafb' : 'transparent',
-                        color: (isStart || isEnd) ? '#fff' : isInRange ? '#182230' : date.getMonth() === month.getMonth() ? '#344054' : '#667085',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        cursor: 'pointer',
-                        '&:hover': { backgroundColor: '#e0e7ff' },
-                    }}
-                    onClick={() => {
-                        if (!startDate || (startDate && endDate)) {
-                            setStartDate(date);
-                            setEndDate(null);
-                        } else if (startDate && !endDate) {
-                            if (date < startDate) {
-                                setStartDate(date);
-                                setEndDate(startDate);
-                            } else {
-                                setEndDate(date);
-                            }
-                        }
-                    }}
-                >
-                    {/* Date Number */}
-                    <Typography
-                        variant='body2'
-                        sx={{
-                            fontWeight: 500,
-                            textAlign: 'center',
-                        }}
-                    >
-                        {date.getDate()}
-                    </Typography>
-
-                    {/* Dot Indicator */}
-                    {showDot && (
-                        <Box
-                            sx={{
-                                position: 'absolute',
-                                bottom: 4,
-                                left: 'calc(50% - 2.5px)',
-                                borderRadius: '50%',
-                                backgroundColor: date.getMonth() === month.getMonth() ? '#2494b6' : '#98a2b3',
-                                width: 5,
-                                height: 5,
-                            }}
-                        />
-                    )}
-
-                    {/* Left Connector */}
-                    {hasLeftConnector && (
-                        <Box
-                            sx={{
-                                position: 'absolute',
-                                top: 0,
-                                left: -20,
-                                width: 40,
-                                height: 40,
-                            }}
-                        />
-                    )}
-
-                    {/* Right Connector */}
-                    {hasRightConnector && (
-                        <Box
-                            sx={{
-                                position: 'absolute',
-                                top: 0,
-                                right: -20,
-                                width: 40,
-                                height: 40,
-                            }}
-                        />
-                    )}
-
-                    {/* Cursor Indicator (e.g., Jan 28) */}
-                    {isHovered && (
-                        <Box
-                            sx={{
-                                position: 'absolute',
-                                height: '50%',
-                                width: '50%',
-                                top: '50%',
-                                right: '-10%',
-                                bottom: 0,
-                                left: '60%',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                            }}
-                        >
-                            <Box component="img" src="/path-to-shape-icon.svg" sx={{ width: 14, height: 16 }} />
-                            <Box component="img" src="/path-to-lines-icon.svg" sx={{ width: 5, height: 4 }} />
-                        </Box>
-                    )}
-                </Box>
-            </ThemeProvider>
-        );
-    };
-
-    // Render calendar for a given month
-    const renderCalendar = (month: Date, setMonth: (date: Date) => void, isLeftPicker: boolean) => {
-        const days = generateCalendarDays(month);
-        const weekdays = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'];
-
-        return (
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                {/* Month Header */}
-                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <IconButton
-                        onClick={() => setMonth(new Date(month.getFullYear(), month.getMonth() - 1, 1))}
-                    >
-                        <ChevronLeft />
-                    </IconButton>
-                    <Typography variant='body2' sx={{ fontWeight: 600, fontSize: { xs: 'body2', md: 'body1' } }}>
-                        {format(month, 'MMMM yyyy')}
-                    </Typography>
-                    <IconButton
-                        onClick={() => setMonth(new Date(month.getFullYear(), month.getMonth() + 1, 1))}
-                    >
-                        <ChevronRight />
-                    </IconButton>
-                </Box>
-
-                {/* Calendar Grid */}
-                <Box
-                    sx={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        flexWrap: 'wrap',
-                        alignItems: 'flex-start',
-                        justifyContent: 'flex-start',
-                        gap: '4px 0px',
-                        fontSize: { xs: '12px', md: '14px' },
-                    }}
-                >
-                    {/* Weekday Headers */}
-                    {weekdays.map((day) => (
-                        <Box
-                            key={day}
-                            sx={{
-                                width: 40,
-                                height: 40,
-                                borderRadius: '50%',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                fontWeight: 500,
-                            }}
-                        >
-                            {day}
-                        </Box>
-                    ))}
-
-                    {/* Calendar Days */}
-                    {days.map((date, index) => (
-                        <Box key={index}>{renderCalendarCell(date, month, isLeftPicker)}</Box>
-                    ))}
-                </Box>
-            </Box>
-        );
+    const handleApply = () => {
+        onSelect?.(selectedPeriod);
+        onClose();
     };
 
     return (
-        <LocalizationProvider dateAdapter={AdapterDateFns}>
+        <ThemeProvider theme={theme}>
             <Box
                 sx={{
-                    boxShadow: '0px 20px 24px -4px rgba(16, 24, 40, 0.08), 0px 8px 8px -4px rgba(16, 24, 40, 0.03)',
-                    borderRadius: '12px',
-                    backgroundColor: '#fff',
-                    border: '1px solid #e4e7ec',
-                    overflow: 'hidden',
                     display: 'flex',
-                    flexDirection: 'row',
+                    flexDirection: 'column',
                     textAlign: 'left',
                     color: '#344054',
                     fontFamily: 'Inter',
+                    width: '100%',
+                    minHeight: '280px',
                 }}
             >
-                {/* Leading Content */}
+                {/* Header */}
                 <Box
                     sx={{
-                        borderRight: '1px solid #e4e7ec',
-                        width: '30%',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'flex-start',
-                        justifyContent: 'center',
-                        p: '12px 0px',
-                        gap: '4px',
+                        padding: { xs: '16px 16px 12px 16px', sm: '20px 20px 16px 20px' },
+                        borderBottom: '1px solid #e4e7ec',
                     }}
                 >
-                    {['Today', 'Yesterday', 'This week', 'Last week', 'This month', 'Last month', 'This year', 'Last year', 'All time'].map((label) => (
+                    <Typography
+                        sx={{
+                            fontWeight: 600,
+                            color: '#262d34',
+                            fontSize: { xs: '16px', sm: '18px' },
+                        }}
+                    >
+                        Select Time Period
+                    </Typography>
+                </Box>
+
+                {/* Time Period Options */}
+                <Box
+                    sx={{
+                        padding: { xs: '12px 16px', sm: '16px 20px' },
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: '8px',
+                        flex: 1,
+                        overflow: 'auto',
+                        minHeight: '160px',
+                    }}
+                >
+                    {timePeriods.map((period) => (
                         <Box
-                            key={label}
+                            key={period}
                             sx={{
-                                borderRadius: '6px',
-                                height: '40px',
+                                borderRadius: '8px',
+                                padding: { xs: '12px 14px', sm: '14px 16px' },
+                                backgroundColor: selectedPeriod === period ? '#e3f2fd' : 'transparent',
+                                border: selectedPeriod === period ? '1px solid #2494b6' : '1px solid transparent',
+                                cursor: 'pointer',
+                                transition: 'all 0.2s ease',
+                                boxSizing: 'border-box',
+                                width: '100%',
+                                minHeight: '44px',
                                 display: 'flex',
                                 alignItems: 'center',
-                                justifyContent: 'flex-start',
-                                px: '16px',
-                                py: '8px',
-                                backgroundColor: label === 'Last week' ? '#f9fafb' : 'transparent',
-                                color: label === 'Last week' ? '#182230' : '#344054',
-                                cursor: 'pointer',
-                                '&:hover': { backgroundColor: '#f0f2f5' },
+                                '&:hover': {
+                                    backgroundColor: selectedPeriod === period ? '#bbdefb' : '#f9fafb',
+                                },
                             }}
-                            onClick={() => {
-                                // Implement predefined range logic
-                                if (label === 'Today') {
-                                    setStartDate(new Date());
-                                    setEndDate(new Date());
-                                } else if (label === 'Yesterday') {
-                                    const yesterday = new Date();
-                                    yesterday.setDate(yesterday.getDate() - 1);
-                                    setStartDate(yesterday);
-                                    setEndDate(yesterday);
-                                }
-                                // Add more cases as needed
-                            }}
+                            onClick={() => handlePeriodSelect(period)}
                         >
-                            <Typography sx={{ fontWeight: 500, lineHeight: '20px' }}>{label}</Typography>
+                            <Typography
+                                sx={{
+                                    fontWeight: selectedPeriod === period ? 600 : 400,
+                                    color: selectedPeriod === period ? '#2494b6' : '#344054',
+                                    fontSize: { xs: '14px', sm: '15px' },
+                                    lineHeight: '20px',
+                                    whiteSpace: 'nowrap',
+                                    userSelect: 'none',
+                                }}
+                            >
+                                {period}
+                            </Typography>
                         </Box>
                     ))}
                 </Box>
 
-                {/* Trailing Content */}
-                <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
-                    {/* Date Pickers */}
-                    <Box sx={{ display: 'flex', flexDirection: 'row', borderBottom: '1px solid #e4e7ec', }}>
-                        {/* Left Picker (January 2024) */}
-                        <Box sx={{ p: '20px 24px' }}>
-                            {renderCalendar(leftMonth, setLeftMonth, true)}
-                        </Box>
-                    </Box>
-                    {/* Bottom Panel */}
-                    <Box
+                {/* Action Buttons */}
+                <Box
+                    sx={{
+                        borderTop: '1px solid #e4e7ec',
+                        padding: { xs: '12px 16px', sm: '16px 20px' },
+                        display: 'flex',
+                        gap: '12px',
+                    }}
+                >
+                    <Button
+                        variant="outlined"
+                        onClick={onClose}
                         sx={{
-                            borderTop: '1px solid #e4e7ec',
-                            display: 'flex',
-                            p: '16px',
+                            flex: 1,
+                            borderRadius: '8px',
+                            border: '1px solid #d0d5dd',
+                            boxShadow: '0px 1px 2px rgba(16, 24, 40, 0.05)',
+                            textTransform: 'none',
+                            color: '#344054',
+                            fontWeight: 600,
+                            fontSize: { xs: '13px', sm: '14px' },
                         }}
                     >
-                        <Box sx={{ display: 'flex', gap: '12px' }}>
-                            <Button
-                                variant="outlined"
-                                onClick={onClose}
-                                sx={{
-                                    borderRadius: '8px',
-                                    border: '1px solid #d0d5dd',
-                                    boxShadow: '0px 1px 2px rgba(16, 24, 40, 0.05)',
-                                    textTransform: 'none',
-                                    color: '#344054',
-                                    fontWeight: 600,
-                                }}
-                            >
-                                Cancel
-                            </Button>
-                            <Button
-                                variant="contained"
-                                sx={{
-                                    borderRadius: '8px',
-                                    backgroundColor: '#2494b6',
-                                    border: '2px solid rgba(255, 255, 255, 0.12)',
-                                    textTransform: 'none',
-                                    fontWeight: 600,
-                                    '&:hover': { backgroundColor: '#1e7a96' },
-                                }}
-                                onClick={() => {
-                                    onClose()
-                                }}
-                            >
-                                Apply
-                            </Button>
-                        </Box>
-                    </Box>
+                        Cancel
+                    </Button>
+                    <Button
+                        variant="contained"
+                        onClick={handleApply}
+                        sx={{
+                            flex: 1,
+                            borderRadius: '8px',
+                            backgroundColor: '#2494b6',
+                            textTransform: 'none',
+                            fontWeight: 600,
+                            fontSize: { xs: '13px', sm: '14px' },
+                            '&:hover': {
+                                backgroundColor: '#1e7a9a'
+                            },
+                        }}
+                    >
+                        Apply
+                    </Button>
                 </Box>
             </Box>
-        </LocalizationProvider >
+        </ThemeProvider>
     );
 };
 

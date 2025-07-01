@@ -1,5 +1,5 @@
-import {Job, Prisma} from '@prisma/client';
-import {prisma} from '../../prisma/prisma';
+import { Job, Prisma } from '@prisma/client';
+import { prisma } from '../../prisma/prisma';
 
 
 //DO NOT FUCKING FORMAT THIS FILE
@@ -13,16 +13,39 @@ export class JobRepository {
         jobSubfunctions: string[],
         industries: string[],
         employment_type: string[],
+        postDateRange: string,
         page = 1,
         limit = 19,
     ) {
         const skip = (page - 1) * limit;
 
-        if (!query && locations.length == 0 && jobFunctions.length == 0 && jobSubfunctions.length == 0 && industries.length == 0 && employment_type.length == 0) {
+        if (!query && locations.length == 0 && jobFunctions.length == 0 && jobSubfunctions.length == 0 && industries.length == 0 && employment_type.length == 0 && !postDateRange) {
             return this.findJobs(status, skip, limit);
         }
 
         const lowercasedQuery = query.toLowerCase();
+        let dateCondition = Prisma.empty;
+        if (postDateRange) {
+            const now = new Date();
+            let cutoffDate: Date;
+            const oneDayMilliseconds = 24 * 60 * 60 * 1000;
+            switch (postDateRange.toLowerCase()) {
+                case 'past 24 hours':
+                    cutoffDate = new Date(now.getTime() - oneDayMilliseconds);
+                    break;
+                case "past week":
+                    cutoffDate = new Date(now.getTime() - 7 * oneDayMilliseconds);
+                    break;
+                case "past month":
+                    cutoffDate = new Date(now.getTime() - 30 * oneDayMilliseconds);
+                    break;
+                default:
+                    cutoffDate = new Date(now.getTime());
+            }
+            if (cutoffDate) {
+                dateCondition = Prisma.sql`AND j.close_date >= ${cutoffDate.toISOString()}`
+            }
+        }
 
         const jobs: Job[] = await prisma.$queryRaw`
             SELECT DISTINCT ON (j.job_id) 
@@ -36,26 +59,27 @@ export class JobRepository {
             WHERE j.status = ANY (${status})
                 ${locations.length > 0 ? Prisma.sql`AND j.location = ANY(${locations})` : Prisma.empty}
                 ${jobFunctions.length > 0
-                    ? Prisma.sql`AND (${Prisma.join(
-                            jobFunctions.map(jf => Prisma.sql`jf.job_function_name ILIKE ${`%${jf.toLowerCase()}%`}`),
-                            ' OR '
-                    )})`
-                    : Prisma.empty}
+                ? Prisma.sql`AND (${Prisma.join(
+                    jobFunctions.map(jf => Prisma.sql`jf.job_function_name ILIKE ${`%${jf.toLowerCase()}%`}`),
+                    ' OR '
+                )})`
+                : Prisma.empty}
                 ${jobSubfunctions.length > 0
-                        ? Prisma.sql`AND (${Prisma.join(
-                                jobSubfunctions.map(js => Prisma.sql`js.job_subfunction_name ILIKE ${`%${js.toLowerCase()}%`}`),
-                                ' OR '
-                        )})`
-                        : Prisma.empty}
+                ? Prisma.sql`AND (${Prisma.join(
+                    jobSubfunctions.map(js => Prisma.sql`js.job_subfunction_name ILIKE ${`%${js.toLowerCase()}%`}`),
+                    ' OR '
+                )})`
+                : Prisma.empty}
                 ${industries.length > 0
-                        ? Prisma.sql`AND (${Prisma.join(
-                                industries.map(i => Prisma.sql`i.industry_name ILIKE ${`%${i.toLowerCase()}%`}`),
-                                ' OR '
-                        )})`
-                        : Prisma.empty}
+                ? Prisma.sql`AND (${Prisma.join(
+                    industries.map(i => Prisma.sql`i.industry_name ILIKE ${`%${i.toLowerCase()}%`}`),
+                    ' OR '
+                )})`
+                : Prisma.empty}
                 ${employment_type.length > 0
-                        ? Prisma.sql`AND j.employment_type ILIKE ANY(${employment_type})`
-                        : Prisma.empty}
+                ? Prisma.sql`AND j.employment_type ILIKE ANY(${employment_type})`
+                : Prisma.empty}
+                ${dateCondition}
             
             -- TODO: add other filter criteria continue from here
 
@@ -92,23 +116,25 @@ export class JobRepository {
             WHERE j.status = ANY (${status}) 
                 ${locations.length > 0 ? Prisma.sql`AND j.location = ANY(${locations})` : Prisma.empty} 
                 ${jobFunctions.length > 0
-                    ? Prisma.sql`AND (${Prisma.join(
-                            jobFunctions.map(jf => Prisma.sql`jf.job_function_name ILIKE ${`%${jf.toLowerCase()}%`}`),
-                            ' OR '
-                    )})`
-                    : Prisma.empty}
+                ? Prisma.sql`AND (${Prisma.join(
+                    jobFunctions.map(jf => Prisma.sql`jf.job_function_name ILIKE ${`%${jf.toLowerCase()}%`}`),
+                    ' OR '
+                )})`
+                : Prisma.empty}
                 ${jobSubfunctions.length > 0
-                        ? Prisma.sql`AND (${Prisma.join(
-                                jobSubfunctions.map(js => Prisma.sql`js.job_subfunction_name ILIKE ${`%${js.toLowerCase()}%`}`),
-                                ' OR '
-                        )})`
-                        : Prisma.empty}
+                ? Prisma.sql`AND (${Prisma.join(
+                    jobSubfunctions.map(js => Prisma.sql`js.job_subfunction_name ILIKE ${`%${js.toLowerCase()}%`}`),
+                    ' OR '
+                )})`
+                : Prisma.empty}
                 ${industries.length > 0
-                        ? Prisma.sql`AND (${Prisma.join(
-                                industries.map(i => Prisma.sql`i.industry_name ILIKE ${`%${i.toLowerCase()}%`}`),
-                                ' OR '
-                        )})`
-                        : Prisma.empty}
+                ? Prisma.sql`AND (${Prisma.join(
+                    industries.map(i => Prisma.sql`i.industry_name ILIKE ${`%${i.toLowerCase()}%`}`),
+                    ' OR '
+                )})`
+                : Prisma.empty}
+                ${dateCondition}
+
             -- TODO: add other filter criteria from here
 
               AND (

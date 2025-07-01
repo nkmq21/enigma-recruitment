@@ -22,16 +22,12 @@ import {useSearchParams} from 'next/navigation';
 
 interface JobRoleFilterProps {
     disabled?: boolean;
-    onDialogOpen?: () => void;
-    onDialogClose?: () => void;
     value?: string[];
     onChange?: (jobFunctions: string[]) => void;
 }
 
 const JobRoleFilter: FunctionComponent<JobRoleFilterProps> = ({
                                                                   disabled = false,
-                                                                  onDialogOpen,
-                                                                  onDialogClose,
                                                                   value = [],
                                                                   onChange,
                                                               }) => {
@@ -85,12 +81,10 @@ const JobRoleFilter: FunctionComponent<JobRoleFilterProps> = ({
     const handleOpenJobFunctions = () => {
         if (disabled) return;
         setOpen(true);
-        onDialogOpen?.();
     };
 
     const handleCloseJobFunctions = () => {
         setOpen(false);
-        onDialogClose?.();
     };
 
     const handleJobFunctionToggle = (jobFunction: string) => {
@@ -113,7 +107,6 @@ const JobRoleFilter: FunctionComponent<JobRoleFilterProps> = ({
     const handleApplySelection = () => {
         onChange?.(selectedJobFunctions);
         setOpen(false);
-        onDialogClose?.();
     };
 
     // Filter job functions based on search term
