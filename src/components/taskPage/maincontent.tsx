@@ -4,7 +4,6 @@ import SectionTitle from "../font/sectionTitle";
 import LogoHeader from "../logoHeader";
 import SearchBar from "../searchBar";
 import CTA from "../common/cta";
-import LoadingData from "./loadingData";
 import {
     Box,
     Typography,
@@ -13,6 +12,7 @@ import {
 } from "@mui/material";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
+import LoadingData from "./loadingData";
 import { PopularJobChip } from "../popularChip";
 
 export const MainContent = () => {
@@ -139,28 +139,6 @@ export const MainContent = () => {
 
             {/* Popular Jobs */}
             <PopularJobChip />
-
-            {/* Divider */}
-            <Divider sx={{ mb: 3, width: '100%' }} />
-            <Typography variant="h6" color="text.secondary" sx={{ mb: 1 }}>
-                Popular Jobs:
-            </Typography>
-            <Box sx={{ display: "flex", gap: 1.5, flexWrap: "wrap" }}>
-                {popularJobs.map((job, index) => (
-                    <Chip
-                        key={index}
-                        label={job}
-                        variant="outlined"
-                        clickable
-                        sx={{
-                            color: '#667085',
-                            borderColor: '#2494B6',
-                            '&:hover': {
-                                backgroundColor: '#2494B620' // 20% opacity
-                            }
-                        }} />
-                ))}
-            </Box>
 
             <Box sx={{
                 display: "flex", flexDirection: { xs: "column", lg: "row" }, gap: 4, width: '100%'
