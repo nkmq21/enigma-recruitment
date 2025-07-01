@@ -21,17 +21,12 @@ import {useSearchParams} from 'next/navigation';
 
 interface LocationProps {
     disabled?: boolean;
-    onDialogOpen?: () => void;
-    onDialogClose?: () => void;
     value?: string[]; // Change to array for multiple selections
     onChange?: (locations: string[]) => void; // Change to array
-    // style?: CSSProperties;
 }
 
 const Location = React.memo<LocationProps>(({
                                                 disabled = false,
-                                                onDialogOpen,
-                                                onDialogClose,
                                                 value = [],
                                                 onChange,
                                             }) => {
@@ -48,13 +43,11 @@ const Location = React.memo<LocationProps>(({
 
     //sync with URL params when they change
     useEffect(() => {
-
         if (open) {
             const urlLocations = searchParams.get('locations')?.split(',').filter(Boolean) || [];
             setSelectedLocations(urlLocations.length > 0 ? urlLocations : value);
         }
-
-    }, [open]);
+    }, [open, searchParams, value]);
 
     //notify parent when selectedLocations change
     useEffect(() => {
@@ -84,12 +77,10 @@ const Location = React.memo<LocationProps>(({
     const handleOpenLocation = () => {
         if (disabled) return;
         setOpen(true);
-        onDialogOpen?.();
     };
 
     const handleCloseLocation = () => {
         setOpen(false);
-        onDialogClose?.();
     };
 
     const handleLocationToggle = (province: string) => {
@@ -115,7 +106,6 @@ const Location = React.memo<LocationProps>(({
     const handleApplySelection = () => {
         onChange?.(selectedLocations);
         setOpen(false);
-        onDialogClose?.();
     };
 
     // Filter locations based on search term

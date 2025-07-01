@@ -113,6 +113,7 @@ model Job {
   description        String
   salary_range_start Float
   salary_range_end   Float
+  created_date       DateTime         @default(now()) @db.Timestamp()
   close_date         DateTime         @db.Date
   industry_id        String           @db.VarChar(3)
   job_function_id    String           @db.VarChar(3)

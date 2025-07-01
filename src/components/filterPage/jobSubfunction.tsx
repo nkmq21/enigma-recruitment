@@ -20,8 +20,6 @@ import {useSearchParams} from "next/navigation";
 
 interface JobSubRoleFilterProps {
     disabled?: boolean;
-    onDialogOpen?: () => void;
-    onDialogClose?: () => void;
     selectedJobFunction: string[];
     value?: string[];
     onChange?: (jobSubfunction: string[]) => void;
@@ -29,8 +27,6 @@ interface JobSubRoleFilterProps {
 
 const JobSubRoleFilter: FunctionComponent<JobSubRoleFilterProps> = ({
                                                                         disabled = false,
-                                                                        onDialogOpen,
-                                                                        onDialogClose,
                                                                         value = [],
                                                                         selectedJobFunction = [],
                                                                         onChange,
@@ -52,13 +48,11 @@ const JobSubRoleFilter: FunctionComponent<JobSubRoleFilterProps> = ({
     const handleOpenJobSubfunction = () => {
         if (disabled) return;
         setOpen(true);
-        onDialogOpen?.();
     };
 
     // Handle closing dialog
     const handleCloseJobSubfunction = () => {
         setOpen(false);
-        onDialogClose?.();
     };
 
     // Handle subfunction selection
@@ -75,7 +69,7 @@ const JobSubRoleFilter: FunctionComponent<JobSubRoleFilterProps> = ({
             const urlJobSubfunctions = searchParams.get('jobSubfunctions')?.split(',').filter(Boolean) || [];
             setSelectedJobSubfunctions(urlJobSubfunctions.length > 0 ? urlJobSubfunctions : value);
         }
-    }, [open]);
+    }, [open, searchParams, value]);
 
     //notify parent when selected job subfunctions change
     useEffect(() => {
@@ -116,7 +110,6 @@ const JobSubRoleFilter: FunctionComponent<JobSubRoleFilterProps> = ({
     const handleApplySelection = () => {
         onChange?.(selectedJobSubfunctions);
         setOpen(false);
-        onDialogClose?.();
     };
 
     const filteredJobSubfunctions = searchTerm

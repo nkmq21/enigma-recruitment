@@ -24,13 +24,15 @@ export async function GET(request: NextRequest) {
     const employmentTypeParam = searchParams.get('employment_type') || '' as string;
     const employment_type = employmentTypeParam ? employmentTypeParam.split(',').map(empType => empType.trim()) : [];
 
+    const postDateRange = searchParams.get('postDateRange') || '' as string;
+
     //TODO: other filter params will continue from here
 
     try {
         //fetch filter options
         const jobRepository = new JobRepository();
         //TODO: add other filter params to the search method below
-        const { jobs, total } = await jobRepository.findBySearch(query, status, locations, jobFunctions, jobSubfunctions, industries, employment_type, page, limit);
+        const { jobs, total } = await jobRepository.findBySearch(query, status, locations, jobFunctions, jobSubfunctions, industries, employment_type, postDateRange, page, limit);
 
         return NextResponse.json({
             jobs,
