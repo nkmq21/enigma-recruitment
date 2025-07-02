@@ -147,8 +147,8 @@ export const login = async (data: z.infer<typeof LoginSchema>) => {
             await sendVerificationEmail(verificationToken?.email, existingUser.name, verificationToken?.token);
             return {error: "Please confirm your email address. A new confirmation email has been sent."};
         } else {
-            console.log("userServices.login: Error creating verification token");
-            return {error: "Error creating verification token"};
+            console.log("userServices.login: Error creating newVerification token");
+            return {error: "Error creating newVerification token"};
         }
     }
     console.log("userServices.login: User email verified");
@@ -212,7 +212,7 @@ export async function newVerification(token: string) {
         console.log("userServices.newVerification: User not found");
         return {error: "Email not found!"};
     }
-    // If verification is complete, update emailVerified column
+    // If newVerification is complete, update emailVerified column
     // and update email column with the email in the token
     // in case the user changes their email address in profile page
     await prisma.user.update({
@@ -222,7 +222,7 @@ export async function newVerification(token: string) {
             email: existingToken.email
         }
     });
-    // Delete the verification token after successful verification
+    // Delete the newVerification token after successful newVerification
     await prisma.verificationToken.delete({
         where: {identifier: existingToken.identifier}
     });
@@ -253,7 +253,7 @@ export const resetPass = async (data: z.infer<typeof ResetPasswordSchema>) => {
         await sendResetPasswordEmail(resetPasswordToken?.email, existingUser.name, resetPasswordToken?.token);
         return {success: "Success! If your email exists in our system, you should receive a reset password link in your inbox soon!"};
     } else {
-        console.log("userServices.resetPass: Error creating verification token");
+        console.log("userServices.resetPass: Error creating newVerification token");
         return {error: "Error creating reset password token"};
     }
 }
@@ -372,12 +372,12 @@ export const register = async (data: z.infer<typeof RegisterSchema>) => {
                 name: name,
             },
         });
-        // Create a verification token
+        // Create a newVerification token
         const verificationToken = await vts.createVerificationToken(email);
-        // Send the verification email
+        // Send the newVerification email
         if (verificationToken) {
             await sendVerificationEmail(verificationToken?.email, name, verificationToken?.token);
-            return {success: "User created successfully, email verification sent!", user: user};
+            return {success: "User created successfully, email newVerification sent!", user: user};
         } else {
             return {error: "Error when registering, please try again."};
         }

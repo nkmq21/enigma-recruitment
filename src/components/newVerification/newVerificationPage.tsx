@@ -1,10 +1,10 @@
 import * as React from "react";
-import { SuccesForm } from "./verifyForm";
+import { NewVerificationForm } from "./newVerificationForm";
 import { LoginHero } from "enigma/components/login/loginHero";
 import { ThemeProvider, Box, Grid } from '@mui/material';
 import theme from "enigma/components/font/theme";
 
-export function VerifySucces() {
+export default function NewVerificationPage() {
     return (
         <ThemeProvider theme={theme}>
             <Box
@@ -40,7 +40,7 @@ export function VerifySucces() {
                             bgcolor: '#FFF',
                         }}
                     >
-                        <SuccesForm />
+                        <NewVerificationForm />
                         <LoginHero />
                     </Grid>
                 </Grid>

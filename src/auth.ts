@@ -3,7 +3,6 @@ import {PrismaAdapter} from "@auth/prisma-adapter";
 import {prisma} from "../prisma/prisma";
 import authConfig from "./auth.config";
 import {getAccount, getUser} from "enigma/services/userServices";
-import {User} from "enigma/types/models";
 
 export const {handlers: {GET, POST}, signIn, signOut, auth} = NextAuth({
     adapter: PrismaAdapter(prisma),

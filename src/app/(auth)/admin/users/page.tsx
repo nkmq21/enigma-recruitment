@@ -16,3 +16,9 @@ export default async function UsersPage({searchParams}: {searchParams: Params}) 
         <UserManagement session={session} users={users} totalUsers={total} currentPage={actualPage} pageSize={pageSize}/>
     );
 }
+
+export async function generateMetadata() {
+    return {
+        title: 'User Management | Enigma Recruitment',
+    };
+}

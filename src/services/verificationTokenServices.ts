@@ -7,7 +7,7 @@ export const getVerificationTokenByEmail = async (email: string) => {
             where: {email: email}
         });
     } catch (error) {
-        console.error("verificationTokenServices.getVerificationTokenByEmail: Error fetching verification token: ", error);
+        console.error("verificationTokenServices.getVerificationTokenByEmail: Error fetching newVerification token: ", error);
         return null;
     }
 }
@@ -18,7 +18,7 @@ export const getVerificationTokenByToken = async (token: string) => {
             where: {token: token}
         });
     } catch (error) {
-        console.error("verificationTokenServices.getVerificationTokenByToken: Error fetching verification token: ", error);
+        console.error("verificationTokenServices.getVerificationTokenByToken: Error fetching newVerification token: ", error);
     }
 }
 
@@ -43,7 +43,7 @@ export const createVerificationToken = async (email: string) => {
         // Send the email
         return {success: "Confirmation email sent! Please check your inbox and your spam folder.", email: verificationToken.email, token: verificationToken.token};
     } catch (error) {
-        console.error("verificationTokenServices.createVerificationToken: Error creating verification token: ", error);
+        console.error("verificationTokenServices.createVerificationToken: Error creating newVerification token: ", error);
         return null;
     }
 }

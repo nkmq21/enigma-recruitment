@@ -1,12 +1,18 @@
 import React, {Suspense} from 'react';
-import VerificationForm from 'enigma/components/verification/verificationForm';
+import NewVerificationPage from 'enigma/components/newVerification/newVerificationPage';
 
-const VerificationPage = () => {
+const NewVerification = () => {
     return (
         <Suspense fallback={<div>Loading...</div>}>
-            <VerificationForm/>
+            <NewVerificationPage/>
         </Suspense>
     );
 };
 
-export default VerificationPage;
+export default NewVerification;
+
+export async function generateMetadata() {
+    return {
+        title: 'Email Verification | Enigma Recruitment',
+    };
+}

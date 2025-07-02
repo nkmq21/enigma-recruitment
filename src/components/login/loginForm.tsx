@@ -226,6 +226,11 @@ export const LoginForm: React.FC = () => {
                                                 {error || errorMessageGoogle}
                                             </Typography>
                                         )}
+                                        {success && (
+                                            <Typography color="success.main" sx={{fontSize: '14px'}}>
+                                                {success}
+                                            </Typography>
+                                        )}
                                     </Stack>
                                 </Box>
                                 <Box>
@@ -271,7 +276,7 @@ export const LoginForm: React.FC = () => {
                                         fontSize: '14px',
                                     }}
                                 >
-                                    Don't have an account?
+                                    Don&#39;t have an account?
                                 </Typography>
                                 <Button
                                     sx={{

@@ -11,3 +11,9 @@ export default async function Home() {
 
     );
 }
+
+export async function generateMetadata() {
+    return {
+        title: 'Home | Enigma Recruitment',
+    };
+}

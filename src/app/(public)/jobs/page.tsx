@@ -11,3 +11,9 @@ export default async function Page() {
         <LandingPage session={session} />
     );
 }
+
+export async function generateMetadata() {
+    return {
+        title: 'Open Jobs | Enigma Recruitment',
+    };
+}

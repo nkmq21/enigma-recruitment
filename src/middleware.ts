@@ -11,7 +11,7 @@ export default auth((req) => {
     // 1) Allow public and API routes through
     if (
         pathname.startsWith("/api") ||
-        ["/", "/about", "/contact-us", "/register", "/login/new-verification"].includes(pathname)
+        ["/", "/about", "/contact-us", "/register", "/login/new-newVerification"].includes(pathname)
     ) {
         return;
     }
@@ -69,7 +69,7 @@ export const config = {
 //
 //     if (
 //         pathname.startsWith("/api") ||
-//         ["/", "/about", "/contact-us", "/register", "/login/new-verification"].includes(pathname)
+//         ["/", "/about", "/contact-us", "/register", "/login/new-newVerification"].includes(pathname)
 //     ) {
 //         return NextResponse.next();
 //     }
