@@ -7,3 +7,9 @@ export default function RegisterPage() {
         <SignUpPage/>
     );
 }
+
+export async function generateMetadata() {
+    return {
+        title: 'Sign Up | Enigma Recruitment',
+    };
+}

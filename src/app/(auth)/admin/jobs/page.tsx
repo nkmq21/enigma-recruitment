@@ -9,3 +9,9 @@ export default async function JobsPage() {
         <Job session={session}/>
     );
 }
+
+export async function generateMetadata() {
+    return {
+        title: `Job Management | Enigma Recruitment`,
+    };
+}

@@ -115,7 +115,7 @@ export const SidebarNavigation = ({
         },
         {
             text: 'Open Jobs',
-            icon: <Image src='/bagIcon.svg' alt='home' width={24} height={24} />,
+            icon: <Image src='/bagicon.svg' alt='home' width={24} height={24} />,
             href: "/jobs",
         },
         ...(session?.user

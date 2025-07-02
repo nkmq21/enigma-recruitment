@@ -10,3 +10,9 @@ const NewVerification = () => {
 };
 
 export default NewVerification;
+
+export async function generateMetadata() {
+    return {
+        title: 'Email Verification | Enigma Recruitment',
+    };
+}
