@@ -22,8 +22,7 @@ export default async function UserDetailsPage({params}: {params: Params}) {
 }
 
 export async function generateMetadata() {
-    const {userid} = await params;
     return {
-        title: `User ID ${userid} | User Management | Enigma Recruitment`,
+        title: `User Management | Enigma Recruitment`,
     };
 }
