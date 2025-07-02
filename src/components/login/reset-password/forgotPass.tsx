@@ -1,3 +1,4 @@
+"use client";
 import * as React from "react";
 import { ForgotForm } from "./forgotForm";
 import { LoginHero } from "./forgotHero";
