@@ -1,3 +1,4 @@
+"use client";
 import * as React from "react";
 import { PassConfirm } from "./passConfirm";
 import { LoginHero } from "./forgotHero";

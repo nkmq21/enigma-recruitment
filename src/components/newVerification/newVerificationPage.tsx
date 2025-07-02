@@ -1,3 +1,4 @@
+"use client";
 import * as React from "react";
 import { NewVerificationForm } from "./newVerificationForm";
 import { LoginHero } from "enigma/components/login/loginHero";
