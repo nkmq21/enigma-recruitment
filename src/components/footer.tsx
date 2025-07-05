@@ -56,7 +56,7 @@ const Footer = () => {
                             }}
                         >
                             Number 2, Marigold Tower Suvarnabhumi Building, Room 1508, 5th Floor,
-                            Soi Lat Krabang 1, On Nut – Lat Krabang Road, Lat Krabang, Bangkok, 10520
+                            Soi Lat Krabang 1, On Nut – Lat Krabang Road, Lat Krabang, Bangkok, 10520.
                         </Typography>
 
                         {/* Social Links */}
@@ -101,7 +101,7 @@ const Footer = () => {
                                     color: '#667085',
                                     fontSize: '0.75rem',
                                     lineHeight: '1.5',
-                                    fontFamily: 'Inter, sans-serif',
+                                    ml: 1,
                                 }}
                             >
                                 © {new Date().getFullYear()} Enigma Recruitment. All rights reserved.
