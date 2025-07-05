@@ -227,6 +227,7 @@ const SlideOutMenu: FunctionComponent<SlideOutMenuProps> = ({ onClose }) => {
             <Box
                 sx={{
                     width: '100%',
+                    p: '0 14px',
                     bgcolor: 'white',
                     borderRadius: 3,
                     boxShadow: 3,

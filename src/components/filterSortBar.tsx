@@ -22,6 +22,7 @@ export function FilterSortBar() {
         <Box
             sx={{
                 width: '38%',
+                backgroundColor: '#F9FAFB', // Updated from #FFF to match ExpandedSearchBar
                 display: 'flex',
                 height: '64px',
                 boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
@@ -47,7 +48,7 @@ export function FilterSortBar() {
                     width: '100%',
                     fontWeight: '600',
                     borderColor: '#98A2B3',
-                    color: '#98A2B3',
+                    color: '#475467',
                     '&:hover': {
                         borderColor: '#2494B6',
                         color: '#FDFDFD',
@@ -76,7 +77,7 @@ export function FilterSortBar() {
                     width: '100%',
                     fontWeight: 600,
                     borderColor: '#98A2B3',
-                    color: '#98A2B3',
+                    color: '#475467',
                     '&:hover': {
                         borderColor: '#2494B6',
                         color: '#FDFDFD',
@@ -94,7 +95,7 @@ export function FilterSortBar() {
             <Dialog
                 open={open}
                 onClose={handleClose}
-                maxWidth="lg"
+                maxWidth="md"
                 fullWidth
                 PaperProps={{
                     sx: {
