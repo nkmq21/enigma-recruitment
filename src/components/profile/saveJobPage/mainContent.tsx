@@ -1,10 +1,9 @@
+"use client";
 import * as React from "react";
 import {
     Box,
     Typography,
-    Card,
-    Divider,
-    IconButton,
+    Divider
 } from "@mui/material";
 import CardComponent from "./saveJobCard";
 import LogoHeader from "enigma/components/logoHeader";

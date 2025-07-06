@@ -1,10 +1,10 @@
+"use client";
 import * as React from "react";
 import {
     Box,
     Typography,
     Divider,
 } from "@mui/material";
-import CardComponent from "./saveJobCard";
 import DashBoardProfile from "./saveJobCard";
 import LogoHeader from "enigma/components/logoHeader";
 import { FilterSortBar } from "enigma/components/filterSortBar";
@@ -39,7 +39,6 @@ export const MainContent = () => {
                 <SearchBar placeholder="Search by type (media/news/blog), publish date, and author." />
                 <FilterSortBar />
             </Box>
-
             <DashBoardProfile />
         </Box >
     );

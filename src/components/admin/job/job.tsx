@@ -10,7 +10,7 @@ import { Session } from "next-auth";
 export default function Job({ session }: { session: Session | null }) {
 
     const [isCollapsed, setIsCollapsed] = React.useState(false);
-    const sidebarWidth = isCollapsed ? '6%' : '19%';
+    const sidebarWidth = isCollapsed ? '6%' : '18%';
     return (
         <ThemeProvider theme={theme}>
             <Box component="main" sx={{
