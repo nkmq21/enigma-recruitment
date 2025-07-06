@@ -162,7 +162,7 @@ const SlideOutMenu: FunctionComponent<SlideOutMenuProps> = ({ onClose }) => {
     const handleApplyFilters = () => {
         const queryParams = new URLSearchParams(searchParams.toString());
 
-        if (filterValues.postDateRange && filterValues.postDateRange !== 'Any time') {
+        if (filterValues.postDateRange) {
             queryParams.set('postDateRange', filterValues.postDateRange);
         } else {
             queryParams.delete('postDateRange');

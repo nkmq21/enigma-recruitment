@@ -41,6 +41,7 @@ export interface Job {
     description: string;
     salary_range_start: number;
     salary_range_end: number;
+    created_date: Date;
     close_date: Date;
     industry: {
         industry_id: string;
