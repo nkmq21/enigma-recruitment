@@ -14,7 +14,6 @@ import LogoHeader from "enigma/components/logoHeader";
 import SectionTitle from "enigma/components/font/sectionTitle";
 
 export const MainContent = () => {
-
     return (
         <Box component="main" sx={{
             flexGrow: 1,

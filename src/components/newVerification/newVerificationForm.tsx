@@ -2,9 +2,36 @@
 import * as React from "react";
 import LogoHeader from "enigma/components/logoHeader";
 import { Box, Button, Container, Stack, Typography, Divider } from '@mui/material';
+import { useSearchParams } from "next/navigation";
+import { newVerification } from "enigma/services/userServices";
+import {useCallback, useEffect, useState} from "react";
 
-export const SuccesForm: React.FC = () => {
-
+export const NewVerificationForm: React.FC = () => {
+    const [error, setError] = useState<string>("");
+    const [success, setSuccess] = useState<string>("");
+    const searchParams = useSearchParams();
+    const token = searchParams.get('token');
+    const onSubmit = useCallback(() => {
+        if (!token) {
+            console.error("newVerificationForm.tsx - No token provided");
+            setError("Missing token");
+            return;
+        }
+        console.log("newVerificationForm.tsx - Verifying token: " + token);
+        newVerification(token).then((data) => {
+            if (data.success) {
+                setSuccess(data.success);
+            } else if (data.error) {
+                setError(data.error);
+            }
+        }).catch((error) => {
+            console.error("verificationForm.tsx - Error verifying token: ", error);
+            setError("Error verifying token: " + error);
+        });
+    }, [token]);
+    useEffect(() => {
+        onSubmit();
+    }, [onSubmit]);
     return (
         <>
             <Box
@@ -45,25 +72,27 @@ export const SuccesForm: React.FC = () => {
                     >
                         <Stack spacing={6}>
                             <Stack spacing={2}>
-                                <Typography variant="h2" color="text.primary">
-                                    Verified successfully
-                                </Typography>
-                                <Typography variant="body1" color="text.secondary">
-                                    You're confirm Google in mail.
-                                    Thank you for register succesful
-                                </Typography>
-
-                                {/* Viết thêm logic để đổi verify  */}
-                                {/* <Typography variant="h2" color="error.main">
-                                    Confirm Failed
-                                </Typography>
-                                <Typography variant="body1" color="text.secondary">
-                                    Verification failed. Please try again.
-                                </Typography> */}
-
+                                {error && (
+                                    <>
+                                        <Typography variant="h2" color="error.main">
+                                            Email verification failed!
+                                        </Typography>
+                                        <Typography variant="body1" color="text.secondary">
+                                            {error}
+                                        </Typography>
+                                    </>
+                                )}
+                                {success && (
+                                    <>
+                                        <Typography variant="h2" color="success.main">
+                                            {success}
+                                        </Typography>
+                                        <Typography variant="body1" color="text.secondary">
+                                            Your email has been verified successfully. You can now log in to your account.
+                                        </Typography>
+                                    </>
+                                )}
                             </Stack>
-                            {/*Credentials login section*/}
-
                             <Stack spacing={3} >
                                 {/* input mail and password and login */}
                                 <Box>
@@ -81,19 +110,16 @@ export const SuccesForm: React.FC = () => {
                                                     bgcolor: '#1a7a9d',
                                                 },
                                             }}
-                                            type="submit"
+                                            href="/login"
                                         >
                                             Back to Login
                                         </Button>
-
-                                        {/* Ở đây đổi button khi verify failed */}
                                     </Stack>
                                 </Box>
                             </Stack>
                         </Stack>
                     </Box>
                 </Container >
-
                 <Box
                     sx={{
                         position: 'absolute',
@@ -134,7 +160,7 @@ export const SuccesForm: React.FC = () => {
                             textDecoration: 'none',
                         }}
                     >
-                        help@enigma.com
+                        help@enigma-recruitment.com
                     </Typography>
                 </Box>
             </Box >

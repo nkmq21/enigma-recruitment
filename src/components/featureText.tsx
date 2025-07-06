@@ -49,28 +49,23 @@ const FeatureCard = styled(Card)({
     boxShadow: 'none',
     textAlign: 'center',
     width: '100%',
-    position: 'relative', // Needed for positioning the hover overlay
+    transition: 'margin 0.3s ease', // Smooth transition for margin changes
 });
 
-const HoverOverlay = styled(Box)(({ theme }) => ({
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    backgroundColor: 'rgba(0, 0, 0, 0.8)',
-    color: 'white',
-    padding: theme.spacing(2),
+const DescriptionBox = styled(Box)(({ theme }) => ({
+    color: '#404A7C',
     borderRadius: theme.shape.borderRadius,
-    zIndex: 10,
+    marginTop: theme.spacing(2),
     opacity: 0,
     transition: 'opacity 0.3s ease, transform 0.3s ease',
-    pointerEvents: 'none', // Prevents interaction with the overlay itself
-    maxWidth: '80%', // Ensures the overlay doesn't overflow the card
+    transform: 'scale(0.8)',
+    maxWidth: '90%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
     textAlign: 'center',
 }));
 
 const FeatureText: React.FC = () => {
-    // State to track which card is being hovered
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
     return (
@@ -78,7 +73,7 @@ const FeatureText: React.FC = () => {
             sx={{
                 display: 'flex',
                 flexWrap: 'wrap',
-                gap: 3,
+                gap: 2,
                 justifyContent: 'center',
             }}
         >
@@ -89,7 +84,8 @@ const FeatureText: React.FC = () => {
                         flex: '1 1 calc(33.333% - 16px)',
                         maxWidth: 'calc(33.333% - 16px)',
                         minWidth: { xs: '360px', lg: '250px' },
-                        pr: 2,
+                        transition: 'margin 0.3s ease', // Smooth margin transition
+                        marginBottom: hoveredIndex === index ? '48px' : '0px', // Increase margin-bottom on hover
                     }}
                 >
                     <FeatureCard
@@ -105,31 +101,26 @@ const FeatureText: React.FC = () => {
                                     border: '1px solid rgba(255, 255, 255, 0.8)',
                                     width: 48,
                                     height: 48,
-                                    mb: 3,
+                                    mb: 2,
                                     cursor: 'pointer',
                                 }}
                             />
                             <Typography
                                 variant="h3"
-                                gutterBottom
                                 sx={{ cursor: 'pointer' }}
                             >
                                 {feature.title}
                             </Typography>
-                            {/* Hover overlay */}
-                            <HoverOverlay
+                            <DescriptionBox
                                 sx={{
                                     opacity: hoveredIndex === index ? 1 : 0,
-                                    transform:
-                                        hoveredIndex === index
-                                            ? 'translate(-50%, -50%) scale(1)'
-                                            : 'translate(-50%, -50%) scale(0.8)',
+                                    transform: hoveredIndex === index ? 'scale(1)' : 'scale(0.8)',
                                 }}
                             >
                                 <Typography variant="body2">
                                     {feature.description}
                                 </Typography>
-                            </HoverOverlay>
+                            </DescriptionBox>
                         </CardContent>
                     </FeatureCard>
                 </Box>

@@ -11,8 +11,6 @@ import {
     ListItemIcon,
     ListItemText,
     IconButton,
-    InputBase,
-    Paper,
     Button,
     useTheme,
     Avatar,
@@ -22,7 +20,7 @@ import {
 } from '@mui/material';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Search, ExpandLess } from '@mui/icons-material';
+import { ExpandLess } from '@mui/icons-material';
 import { signOut } from 'next-auth/react';
 import { Session } from 'next-auth';
 import { usePathname } from 'next/navigation';
@@ -115,7 +113,7 @@ export const SidebarNavigation = ({
         },
         {
             text: 'Open Jobs',
-            icon: <Image src='/bagIcon.svg' alt='home' width={24} height={24} />,
+            icon: <Image src='/bagicon.svg' alt='home' width={24} height={24} />,
             href: "/jobs",
         },
         ...(session?.user
@@ -123,7 +121,26 @@ export const SidebarNavigation = ({
                 {
                     text: 'Profile',
                     icon: <Image src='/profile.svg' alt='profile' width={24} height={24} />,
-                    href: '/profile',
+                    icon1: <Image src='/arrowSlide.svg' alt='arrow' width={24} height={24} />,
+                    href: '/#',
+                    subItems: [
+                        {
+                            text: 'Saved Jobs',
+                            href: '/profile/saved-jobs',
+                        },
+                        {
+                            text: 'Manage Resumes',
+                            href: '/profile/cvs',
+                        },
+                        {
+                            text: 'Job Applications',
+                            href: '/profile/applications',
+                        },
+                        {
+                            text: 'Personal Info',
+                            href: '/profile',
+                        },
+                    ],
                 },
             ]
             : []),

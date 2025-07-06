@@ -53,7 +53,7 @@ export async function getPaginatedUsers(page: number = 1, pageSize: number = 10)
         }
     });
     if (!users) {
-        console.error("userServices.getPaginatedUsers: Users not found");
+        console.log("userServices.getPaginatedUsers: Users not found");
     }
     const total = await prisma.user.count();
     return {users, total};
@@ -74,12 +74,12 @@ export const getUsers = async () => {
             },
         });
         if (!users) {
-            console.error("userServices.getUsers: Users not found");
+            console.log("userServices.getUsers: Users not found");
             return null;
         }
         return users as User[];
     } catch (error) {
-        console.error("userServices.getUsers: Error fetching user: ", error);
+        console.log("userServices.getUsers: Error fetching user: ", error);
         return null;
     }
 }
@@ -90,12 +90,12 @@ export const getUser = async (id: string) => {
             where: {id: parseInt(id)}
         });
         if (!user) {
-            console.error("userServices.getUser: User not found");
+            console.log("userServices.getUser: User not found");
             return null;
         }
         return user;
     } catch (error) {
-        console.error("userServices.getUser: Error fetching user: ", error);
+        console.log("userServices.getUser: Error fetching user: ", error);
         return null;
     }
 }
@@ -112,17 +112,19 @@ export const getAccount = async (userId: string)  => {
         }
         return account;
     } catch (error) {
-        console.error("userServices.getAccount: Error fetching account: ", error);
+        console.log("userServices.getAccount: Error fetching account: ", error);
         return null;
     }
 
 }
 
 export const login = async (data: z.infer<typeof LoginSchema>) => {
+    console.log("userServices.login: Attempting to log in user with data: ", data);
     // Validate the data using the LoginSchema
     const validatedData = LoginSchema.parse(data);
+    console.log("userServices.login: Validated data: ", validatedData);
     if (!validatedData) {
-        console.error("userServices.login: Invalid data");
+        console.log("userServices.login: Invalid data");
         return {error: "Invalid data"};
     }
     // Destructure the validated data
@@ -131,39 +133,43 @@ export const login = async (data: z.infer<typeof LoginSchema>) => {
     const existingUser = await prisma.user.findFirst({
         where: {email: email.toLowerCase()}
     });
+    console.log("userServices.login: Existing user: ", existingUser);
     if (!existingUser || !existingUser.password || !existingUser.email) {
-        console.error("userServices.login: User not found");
+        console.log("userServices.login: User not found");
         return {error: "Invalid credentials"};
     }
 
     // Resend confirmation email in login page
     if (!existingUser.emailVerified) {
-        console.error("userServices.login: Email not verified");
+        console.log("userServices.login: Email not verified");
         const verificationToken = await vts.createVerificationToken(email);
         if (verificationToken) {
             await sendVerificationEmail(verificationToken?.email, existingUser.name, verificationToken?.token);
             return {error: "Please confirm your email address. A new confirmation email has been sent."};
         } else {
-            console.error("userServices.login: Error creating verification token");
-            return {error: "Error creating verification token"};
+            console.log("userServices.login: Error creating newVerification token");
+            return {error: "Error creating newVerification token"};
         }
     }
+    console.log("userServices.login: User email verified");
     // Attempt to sign in using signIn() from Auth.js
     try {
+        console.log("userServices.login: Attempting to sign in with credentials");
         await signIn('credentials', {
             email: existingUser.email,
             password: password,
+            redirect: true,
             redirectTo: '/home'
         });
     } catch (error) {
         if (error instanceof AuthError) {
-            console.error("userServices.login: Login failed: ", error);
+            console.log("userServices.login: Login failed: ", error);
             switch (error.type) {
                 case "CredentialsSignin":
-                    console.error("userServices.login: Invalid credentials");
+                    console.log("userServices.login: Invalid credentials");
                     return {error: "Invalid credentials"};
                 default:
-                    console.error("userServices.login: Email not verified");
+                    console.log("userServices.login: Email not verified");
                     return {error: "Please confirm your email address"};
             }
         }
@@ -178,7 +184,7 @@ export async function loginGoogle() {
         return undefined;
     } catch (error) {
         if (error instanceof AuthError) {
-            console.error("Google login failed: ", error);
+            console.log("Google login failed: ", error);
             return 'Google logged in failed: ' + error;
         }
         throw error;
@@ -189,13 +195,13 @@ export async function newVerification(token: string) {
     // Check if the token is valid
     const existingToken = await vts.getVerificationTokenByToken(token);
     if (!existingToken) {
-        console.error("userServices.newVerification: Token not found");
+        console.log("userServices.newVerification: Token not found");
         return {error: "Token not found!"};
     }
     // Check if the token is expired
     const tokenExpired = new Date(existingToken.expires) < new Date();
     if (tokenExpired) {
-        console.error("userServices.newVerification: Token expired");
+        console.log("userServices.newVerification: Token expired");
         return {error: "Token expired!"};
     }
     // Check if the user exists with the email in the token
@@ -203,10 +209,10 @@ export async function newVerification(token: string) {
         where: {email: existingToken.email}
     });
     if (!existingUser) {
-        console.error("userServices.newVerification: User not found");
+        console.log("userServices.newVerification: User not found");
         return {error: "Email not found!"};
     }
-    // If verification is complete, update emailVerified column
+    // If newVerification is complete, update emailVerified column
     // and update email column with the email in the token
     // in case the user changes their email address in profile page
     await prisma.user.update({
@@ -216,7 +222,7 @@ export async function newVerification(token: string) {
             email: existingToken.email
         }
     });
-    // Delete the verification token after successful verification
+    // Delete the newVerification token after successful newVerification
     await prisma.verificationToken.delete({
         where: {identifier: existingToken.identifier}
     });
@@ -228,7 +234,7 @@ export const resetPass = async (data: z.infer<typeof ResetPasswordSchema>) => {
     // Validate the data using the LoginSchema
     const validatedData = ResetPasswordSchema.parse(data);
     if (!validatedData) {
-        console.error("userServices.resetPass: Invalid data");
+        console.log("userServices.resetPass: Invalid data");
         return {error: "Invalid data"};
     }
     // Destructure the validated data
@@ -247,7 +253,7 @@ export const resetPass = async (data: z.infer<typeof ResetPasswordSchema>) => {
         await sendResetPasswordEmail(resetPasswordToken?.email, existingUser.name, resetPasswordToken?.token);
         return {success: "Success! If your email exists in our system, you should receive a reset password link in your inbox soon!"};
     } else {
-        console.error("userServices.resetPass: Error creating verification token");
+        console.log("userServices.resetPass: Error creating newVerification token");
         return {error: "Error creating reset password token"};
     }
 }
@@ -256,29 +262,29 @@ export const changePass = async (data: z.infer<typeof ChangePasswordSchema>, tok
     if (!token) return {error: "Missing token."}
     const validatedData = ChangePasswordSchema.parse(data);
     if (!validatedData) {
-        console.error("userServices.changePass: Invalid data.");
+        console.log("userServices.changePass: Invalid data.");
         return {error: "Invalid data."};
     }
     const {password, confirmPassword} = validatedData;
     if (password !== confirmPassword) {
-        console.error("userServices.changePass: Passwords don't match.");
+        console.log("userServices.changePass: Passwords don't match.");
         return {error: "Confirm password does not match! Please enter again."}
     }
     const existingToken = await getResetPasswordTokenByToken(token);
     if (!existingToken) {
-        console.error("userServices.changePass: Invalid token.");
+        console.log("userServices.changePass: Invalid token.");
         return {error: "Invalid token. You have already changed your password with this token."};
     }
     const isExpired = new Date(existingToken.expires) < new Date();
     if (isExpired) {
-        console.error("userServices.changePass: Token expired.");
+        console.log("userServices.changePass: Token expired.");
         return {error: "Token expired."};
     }
     const existingUser = await prisma.user.findUnique({
         where: {email: existingToken.email}
     })
     if (!existingUser) {
-        console.error("userServices.changePass: Email does not exist.");
+        console.log("userServices.changePass: Email does not exist.");
         return {error: "Email does not exist."};
     }
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -295,7 +301,7 @@ export const changePass = async (data: z.infer<typeof ChangePasswordSchema>, tok
 export async function createPass(email: string, data: z.infer<typeof CreatePasswordSchema>) {
     const validatedData = CreatePasswordSchema.parse(data);
     if (!validatedData) {
-        console.error("userServices.createPass: Invalid data");
+        console.log("userServices.createPass: Invalid data");
         return {error: "Invalid data"};
     }
     // Destructure the validated data
@@ -305,7 +311,7 @@ export async function createPass(email: string, data: z.infer<typeof CreatePassw
         where: {email: email.toLowerCase()}
     });
     if (!existingUser || !existingUser.password || !existingUser.email) {
-        console.error("userServices.createPass: User not found");
+        console.log("userServices.createPass: User not found");
         return {error: "Invalid credentials"};
     }
 
@@ -325,13 +331,13 @@ export async function createPass(email: string, data: z.infer<typeof CreatePassw
         });
     } catch (error) {
         if (error instanceof AuthError) {
-            console.error("userServices.createPass: Login failed: ", error);
+            console.log("userServices.createPass: Login failed: ", error);
             switch (error.type) {
                 case "CredentialsSignin":
-                    console.error("userServices.createPass: Invalid credentials");
+                    console.log("userServices.createPass: Invalid credentials");
                     return {error: "Invalid credentials"};
                 default:
-                    console.error("userServices.createPass: " + error.message);
+                    console.log("userServices.createPass: " + error.message);
                     return {error: error.message};
             }
         }
@@ -366,17 +372,17 @@ export const register = async (data: z.infer<typeof RegisterSchema>) => {
                 name: name,
             },
         });
-        // Create a verification token
+        // Create a newVerification token
         const verificationToken = await vts.createVerificationToken(email);
-        // Send the verification email
+        // Send the newVerification email
         if (verificationToken) {
             await sendVerificationEmail(verificationToken?.email, name, verificationToken?.token);
-            return {success: "User created successfully, email verification sent!", user: user};
+            return {success: "User created successfully, email newVerification sent!", user: user};
         } else {
             return {error: "Error when registering, please try again."};
         }
     } catch (error) {
-        console.error("Error during registration: ", error);
+        console.log("Error during registration: ", error);
         return {error: "An error occurred during registration"};
     }
 }

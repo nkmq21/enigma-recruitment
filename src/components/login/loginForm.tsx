@@ -31,28 +31,34 @@ export const LoginForm: React.FC = () => {
         setLoading(true);
         setError(null);
         setSuccess("");
-        try {
+        // try {
+            console.log("LoginForm - Prepare to invoke login() with data: ", data);
             const res = await login(data);
+            console.log("LoginForm - Response from login(): ", res);
             if (res.error) {
+                console.log("LoginForm - Error during login: ", res.error);
                 setError(res.error);
                 setLoading(false);
                 setSuccess("");
             }
             if (res.success) {
+                console.log("LoginForm - Successfully logged in: ", res.success);
                 setSuccess(res.success);
                 setLoading(false);
                 setError("");
+                router.push("/home");
             }
-        } catch (err) {
-            if (err !== "NEXT_REDIRECT") {
-                console.log("Error during logging in: ", err);
-            } else {
-                console.error("Error during logging in: ", err);
-                setError("An error occurred during logging in: " + err);
-            }
-        } finally {
-            setLoading(false);
-        }
+        // } catch (err) {
+        //     if (err !== "NEXT_REDIRECT") {
+        //         console.log("Error during logging in: ", err);
+        //     } else {
+        //         console.error("Error during logging in: ", err);
+        //         setError("An error occurred during logging in: " + err);
+        //         throw err;
+        //     }
+        // } finally {
+             setLoading(false);
+        // }
     };
 
     return (
@@ -220,6 +226,11 @@ export const LoginForm: React.FC = () => {
                                                 {error || errorMessageGoogle}
                                             </Typography>
                                         )}
+                                        {success && (
+                                            <Typography color="success.main" sx={{fontSize: '14px'}}>
+                                                {success}
+                                            </Typography>
+                                        )}
                                     </Stack>
                                 </Box>
                                 <Box>
@@ -265,7 +276,7 @@ export const LoginForm: React.FC = () => {
                                         fontSize: '14px',
                                     }}
                                 >
-                                    Don't have an account?
+                                    Don&#39;t have an account?
                                 </Typography>
                                 <Button
                                     sx={{

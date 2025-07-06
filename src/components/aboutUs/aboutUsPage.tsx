@@ -7,9 +7,9 @@ import theme from '../font/theme';
 import LogoHeader from "../logoHeader";
 import Image from 'next/image';
 import Section from './mainContent';
-import {Session} from "next-auth";
+import { Session } from "next-auth";
 
-const AboutUsPage = ({ session }: {session: Session | null}) => {
+const AboutUsPage = ({ session }: { session: Session | null }) => {
     // 18% for expanded sidebar, 6% for collapsed sidebar
     const [isCollapsed, setIsCollapsed] = React.useState(false);
     const sidebarWidth = isCollapsed ? '6%' : '18%';

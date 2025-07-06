@@ -505,7 +505,7 @@ This project aims to enhance the recruitment experience by providing a comprehen
 							</table>
 						</blockquote>
 					</details>
-					<!-- verification Submodule -->
+					<!-- newVerification Submodule -->
 					<details>
 						<summary><b>verification</b></summary>
 						<blockquote>
@@ -865,7 +865,7 @@ This project aims to enhance the recruitment experience by providing a comprehen
 											</table>
 										</blockquote>
 									</details>
-									<!-- new-verification Submodule -->
+									<!-- new-newVerification Submodule -->
 									<details>
 										<summary><b>new-verification</b></summary>
 										<blockquote>

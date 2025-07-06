@@ -17,7 +17,7 @@ interface Props {
 }
 
 const LandingPage = ({ session }: Props) => {
-    // 19% for expanded sidebar, 6% for collapsed sidebar
+    // 18% for expanded sidebar, 6% for collapsed sidebar
     const [isCollapsed, setIsCollapsed] = React.useState(false);
     const sidebarWidth = isCollapsed ? '6%' : '18%';
     return (

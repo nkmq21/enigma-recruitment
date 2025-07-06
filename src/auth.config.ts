@@ -1,10 +1,8 @@
 import Google from "next-auth/providers/google";
 import Credentials from "next-auth/providers/credentials";
-import Facebook from "next-auth/providers/facebook";
-import {CredentialsSignin, NextAuthConfig} from "next-auth";
+import {NextAuthConfig} from "next-auth";
 import {prisma} from "../prisma/prisma";
 import bcrypt from "bcryptjs";
-import {User} from "./types/models";
 import {LoginSchema} from "enigma/schemas";
 
 export default {
@@ -12,6 +10,7 @@ export default {
         Google({
             clientId: process.env.AUTH_GOOGLE_ID,
             clientSecret: process.env.AUTH_GOOGLE_SECRET,
+            allowDangerousEmailAccountLinking: true
         }),
         Credentials({
             async authorize(credentials) {
@@ -40,5 +39,6 @@ export default {
             }
         })
     ],
+    useSecureCookies: process.env.NODE_ENV === 'production',
     secret: process.env.AUTH_SECRET
 } satisfies NextAuthConfig;

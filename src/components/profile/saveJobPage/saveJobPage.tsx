@@ -1,14 +1,13 @@
 "use client";
 import * as React from "react";
-import { Box, ThemeProvider } from "@mui/material";
-import { MainContent } from "./mainContent";
+import {Box, ThemeProvider} from "@mui/material";
+import {MainContent} from "./mainContent";
 import Image from "next/image";
-import { SidebarNavigation } from "enigma/components/sideBarNavigation";
 import theme from "enigma/components/font/theme";
-import { Session } from "next-auth";
+import {SidebarNavigation} from "enigma/components/sideBarNavigation";
+import {Session} from "next-auth";
 
-export default function Job({ session }: { session: Session | null }) {
-
+export default function SaveJobPage({session}: { session: Session | null }) {
     const [isCollapsed, setIsCollapsed] = React.useState(false);
     const sidebarWidth = isCollapsed ? '6%' : '18%';
     return (
@@ -18,7 +17,7 @@ export default function Job({ session }: { session: Session | null }) {
                 alignItems: "flex-start",
                 justifyContent: "flex-start",
             }}>
-                <SidebarNavigation session={session} isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
+                <SidebarNavigation session={session} isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed}/>
                 <Box sx={{
                     pt: 10,
                     width: '100%',
@@ -30,13 +29,13 @@ export default function Job({ session }: { session: Session | null }) {
                     },
                 }}>
                     <Image src="/Background.svg" alt='' width={1920} height={1440}
-                        style={{
-                            position: 'fixed',
-                            top: 0,
-                            zIndex: -1, // Place the image behind all other content
-                            height: 'auto', // Optional: Maintain aspect ratio
-                        }} />
-                    <MainContent />
+                           style={{
+                               position: 'fixed',
+                               top: 0,
+                               zIndex: -1, // Place the image behind all other content
+                               height: 'auto', // Optional: Maintain aspect ratio
+                           }}/>
+                    <MainContent/>
                 </Box>
             </Box>
         </ThemeProvider>

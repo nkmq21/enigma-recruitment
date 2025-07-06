@@ -1,83 +1,113 @@
 import * as React from 'react';
 import Image from 'next/image';
-import { Box, Container, Typography } from '@mui/material';
-import {Twitter, LinkedIn, Facebook, X} from '@mui/icons-material';
+import { Box, Container, Typography, Link } from '@mui/material';
+import { Twitter, LinkedIn, Facebook } from '@mui/icons-material';
 
 const Footer = () => {
     return (
         <Box
             component="footer"
             sx={{
-                p: { xs: '48px 16px', sm: '64px 0 48px' },
+                py: { xs: 4, sm: 6 },
                 bgcolor: '#fff',
+                borderTop: '1px solid #e4e7ec',
             }}
         >
             <Container maxWidth="lg">
                 <Box
                     sx={{
-                        borderTop: '1px solid #e4e7ec',
-                        pt: 3.5,
                         display: 'flex',
+                        flexDirection: { xs: 'column', sm: 'row' },
+                        alignItems: { xs: 'center', sm: 'flex-start' },
                         justifyContent: 'space-between',
-                        alignItems: 'center',
-                        gap: 3,
-                        flexWrap: { xs: 'wrap', sm: 'nowrap' },
+                        gap: 4,
                         textAlign: { xs: 'center', sm: 'left' },
                     }}
                 >
-                    <Image src="/Logo2.svg" alt="Career Logo" width={135} height={28} />
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, flexWrap: 'wrap', justifyContent: { xs: 'center', sm: 'flex-start' } }}>
-                        <Box sx={{ display: 'flex', gap: 2 }}>
-                            <Box
-                                component="a"
-                                href="https://x.com/EnigmaRecTH"
-                                target="_blank"
-                                sx={{ color: '#475467', '&:hover': { color: '#1976d2' }, display: 'flex', alignItems: 'center' }}
-                            >
-                                <X sx={{ fontSize: 24 }} />
-                            </Box>
-                            <Box
-                                component="a"
-                                href="https://www.linkedin.com/company/enigma-recruitment-thailand/"
-                                target="_blank"
-                                sx={{ color: '#475467', '&:hover': { color: '#1976d2' }, display: 'flex', alignItems: 'center' }}
-                            >
-                                <LinkedIn sx={{ fontSize: 24 }} />
-                            </Box>
-                            <Box
-                                component="a"
-                                href="https://www.facebook.com/profile.php?id=61563838651038"
-                                target="_blank"
-                                sx={{ color: '#475467', '&:hover': { color: '#1976d2' }, display: 'flex', alignItems: 'center' }}
-                            >
-                                <Facebook sx={{ fontSize: 24 }} />
-                            </Box>
-                        </Box>
+                    {/* Logo Section */}
+                    <Box sx={{ flexShrink: 0 }}>
+                        <Image
+                            src="/Logo2.svg"
+                            alt="Enigma Recruitment Logo"
+                            width={135}
+                            height={28}
+                            priority // Preload logo for better performance
+                        />
+                    </Box>
+
+                    {/* Content Section */}
+                    <Box
+                        sx={{
+                            flex: 1,
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: 3,
+                            maxWidth: '500px',
+                            alignItems: { xs: 'center', sm: 'flex-start' },
+                        }}
+                    >
+                        {/* Address */}
                         <Typography
+                            variant="body2"
                             sx={{
                                 color: '#667085',
-                                fontSize: '16px',
-                                lineHeight: '24px',
-                                fontFamily: 'Inter, sans-serif',
-                            }}
-                        >
-                            © 2025 Enigma Recruitment. All rights reserved.
-                            <br/>
-                        </Typography>
-                        <Typography
-                            sx={{
-                                color: '#667085',
-                                fontSize: '16px',
-                                lineHeight: '24px',
-                                fontFamily: 'Inter, sans-serif',
-                                textAlign: 'right'
+                                fontSize: '0.875rem',
+                                lineHeight: '1.5',
                             }}
                         >
                             Number 2, Marigold Tower Suvarnabhumi Building, Room 1508, 5th Floor,
-                            Soi Lat Krabang 1, On Nut – Lat Krabang Road, Lat Krabang, Bangkok, 10520
+                            Soi Lat Krabang 1, On Nut – Lat Krabang Road, Lat Krabang, Bangkok, 10520.
                         </Typography>
-                    </Box>
 
+                        {/* Social Links */}
+                        <Box sx={{ display: 'flex', gap: 2, alignItems: "flex-end" }}>
+                            {[
+                                {
+                                    href: 'https://x.com/EnigmaRecTH',
+                                    icon: <Twitter sx={{ fontSize: 24 }} />,
+                                    label: 'Twitter',
+                                },
+                                {
+                                    href: 'https://www.linkedin.com/company/enigma-recruitment-thailand/',
+                                    icon: <LinkedIn sx={{ fontSize: 24 }} />,
+                                    label: 'LinkedIn',
+                                },
+                                {
+                                    href: 'https://www.facebook.com/profile.php?id=61563838651038',
+                                    icon: <Facebook sx={{ fontSize: 24 }} />,
+                                    label: 'Facebook',
+                                },
+                            ].map(({ href, icon, label }) => (
+                                <Link
+                                    key={href}
+                                    href={href}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    aria-label={`Visit our ${label} page`}
+                                    sx={{
+                                        color: '#475467',
+                                        '&:hover': { color: '#1976d2' },
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        transition: 'color 0.2s',
+                                    }}
+                                >
+                                    {icon}
+                                </Link>
+                            ))}
+                            <Typography
+                                variant="caption"
+                                sx={{
+                                    color: '#667085',
+                                    fontSize: '0.75rem',
+                                    lineHeight: '1.5',
+                                    ml: 1,
+                                }}
+                            >
+                                © {new Date().getFullYear()} Enigma Recruitment. All rights reserved.
+                            </Typography>
+                        </Box>
+                    </Box>
                 </Box>
             </Container>
         </Box>

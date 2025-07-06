@@ -20,3 +20,9 @@ export default async function UserDetailsPage({params}: {params: Params}) {
         <UserDetails session={session} user={user as User} applications={applications as JobApplicationWithFlatJob[]}/>
     );
 }
+
+export async function generateMetadata() {
+    return {
+        title: `User Management | Enigma Recruitment`,
+    };
+}
