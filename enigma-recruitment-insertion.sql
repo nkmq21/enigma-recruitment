@@ -1,5 +1,6 @@
-INSERT INTO users (email, user_name, password, role, status, img_url, dob, address) 
-VALUES ('nigga@gmail.com', 'nigga', 'nigga', 'admin', 'active', 'img_url', '2005-05-19', 'nigeria'); // PASSWORD IS NOT HASHED
+INSERT INTO users (email, user_name, password, role, status, img_url, dob, address)
+VALUES ('nigga@gmail.com', 'nigga', 'nigga', 'admin', 'active', 'img_url', '2005-05-19', 'nigeria');
+// PASSWORD IS NOT HASHED
 
 INSERT INTO industries VALUES 
 ('AER', 'Aerospace'),
@@ -16,39 +17,40 @@ INSERT INTO industries VALUES
 ('MED', 'Medical & Pharmaceuticals'),
 ('MET', 'Metal Work & Fabrication');
 
-INSERT INTO job_functions VALUES
-('ACC', 'Accounting'),
-('AOS', 'Administration & Office Support'),
-('ADM', 'Advertising, Arts & Media'),
-('BAF', 'Banking & Financial Services'),
-('CCS', 'Call Center & Customer Services'),
-('CEO', 'CEO & General Management'),
-('COM', 'Community Services & Development'),
-('CON', 'Construction'),
-('COS', 'Consulting & Strategy'),
-('DEA', 'Design & Architecture'),
-('EDU', 'Education & Training'),
-('ENG', 'Engineering'),
-('FAR', 'Farming, Animals & Conservation'),
-('GOV', 'Government & Defense'),
-('HEM', 'Healthcare & Medical'),
-('HOT', 'Hospitality & Tourism'),
-('HRR', 'Human Resources & Recruitment'),
-('ICT', 'Information & Communication Technology'),
-('INS', 'Insurance & Superannuation'),
-('LEG', 'Legal'),
-('MTL', 'Manufacturing, Transport & Logistics'),
-('MAC', 'Marketing & Communications'),
-('MRE', 'Mining, Resources & Energy'),
-('RES', 'Real Estate & Property'),
-('RET', 'Retail & Consumer Products'),
-('SAL', 'Sales'),
-('SCT', 'Science & Technology'),
-('SEM', 'Self Employment'),
-('SPR', 'Sport & Recreation'),
-('TRS', 'Trades & Services');
+INSERT INTO job_functions
+VALUES ('ACC', 'Accounting'),
+       ('AOS', 'Administration & Office Support'),
+       ('ADM', 'Advertising, Arts & Media'),
+       ('BAF', 'Banking & Financial Services'),
+       ('CCS', 'Call Center & Customer Services'),
+       ('CEO', 'CEO & General Management'),
+       ('COM', 'Community Services & Development'),
+       ('CON', 'Construction'),
+       ('COS', 'Consulting & Strategy'),
+       ('DEA', 'Design & Architecture'),
+       ('EDU', 'Education & Training'),
+       ('ENG', 'Engineering'),
+       ('FAR', 'Farming, Animals & Conservation'),
+       ('GOV', 'Government & Defense'),
+       ('HEM', 'Healthcare & Medical'),
+       ('HOT', 'Hospitality & Tourism'),
+       ('HRR', 'Human Resources & Recruitment'),
+       ('ICT', 'Information & Communication Technology'),
+       ('INS', 'Insurance & Superannuation'),
+       ('LEG', 'Legal'),
+       ('MTL', 'Manufacturing, Transport & Logistics'),
+       ('MAC', 'Marketing & Communications'),
+       ('MRE', 'Mining, Resources & Energy'),
+       ('RES', 'Real Estate & Property'),
+       ('RET', 'Retail & Consumer Products'),
+       ('SAL', 'Sales'),
+       ('SCT', 'Science & Technology'),
+       ('SEM', 'Self Employment'),
+       ('SPR', 'Sport & Recreation'),
+       ('TRS', 'Trades & Services');
 
-INSERT INTO job_subfunctions VALUES
+INSERT INTO job_subfunctions
+VALUES
 -- Accounting
 ('AOC', 'Accounts Officers/Clerks', 'ACC'),
 ('ACP', 'Accounts Payable', 'ACC'),
@@ -685,10 +687,11 @@ VALUES ('AER_ICT_231', 'IT Specialist', 'Support aerospace IT systems.', 75000.0
        ('IME_MTL_330', 'Freight Manager', 'Manage industrial freight.', 55000.00, 80000.00, '2025-06-13 03:00:00+07',
         '2025-07-15', 'IME', 'MTL', 'FRF', 'Ubon Ratchathani', 'active', 'permanent');
 
-SELECT * FROM job_subfunctions;
+SELECT *
+FROM job_subfunctions;
 
-INSERT INTO cvs (user_id, cv_url, cv_title, status) VALUES
-(1, '/cvs/1/2', 'GAMING CV', 'active');
+INSERT INTO cvs (user_id, cv_url, cv_title, status)
+VALUES (1, '/cvs/1/2', 'GAMING CV', 'active');
 
-INSERT INTO job_applications (job_id, user_id, cv_id, status) VALUES
-('AER_ENG_001', 1, 3, 'hired');
+INSERT INTO job_applications (job_id, user_id, cv_id, status)
+VALUES ('AER_ENG_001', 1, 3, 'hired');

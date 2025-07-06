@@ -26,25 +26,28 @@ export class JobRepository {
         const lowercasedQuery = query.toLowerCase();
         let dateCondition = Prisma.empty;
         if (postDateRange) {
-            const now = new Date();
-            let cutoffDate: Date;
-            const oneDayMilliseconds = 24 * 60 * 60 * 1000;
-            switch (postDateRange.toLowerCase()) {
-                case 'past 24 hours':
-                    cutoffDate = new Date(now.getTime() - oneDayMilliseconds);
+            // const now = new Date();
+            // let cutoffDate: Date;
+            // const oneDayMilliseconds = 24 * 60 * 60 * 1000;
+            switch (postDateRange) {
+                case 'Past 24 hours':
+                    // cutoffDate = new Date(now.getTime() - oneDayMilliseconds);
+                    dateCondition = Prisma.sql`AND j.created_date >= NOW() - INTERVAL '24 Hours'`
                     break;
-                case "past week":
-                    cutoffDate = new Date(now.getTime() - 7 * oneDayMilliseconds);
+                case "Past week":
+                    // cutoffDate = new Date(now.getTime() - 7 * oneDayMilliseconds);
+                    dateCondition = Prisma.sql`AND j.created_date >= NOW() - INTERVAL '1 Week'`
                     break;
-                case "past month":
-                    cutoffDate = new Date(now.getTime() - 30 * oneDayMilliseconds);
+                case "Past month":
+                    // cutoffDate = new Date(now.getTime() - 30 * oneDayMilliseconds);
+                    dateCondition = Prisma.sql`AND j.created_date >= NOW() - INTERVAL '1 Month'`
                     break;
-                default:
-                    cutoffDate = new Date(now.getTime());
+                // default:
+                //     cutoffDate = new Date(now.getTime());
             }
-            if (cutoffDate) {
-                dateCondition = Prisma.sql`AND j.close_date >= ${cutoffDate.toISOString()}`
-            }
+            // if (cutoffDate) {
+            //     dateCondition = Prisma.sql`AND j.created_date >= ${cutoffDate.toISOString()}`
+            // }
         }
 
         const jobs: Job[] = await prisma.$queryRaw`
