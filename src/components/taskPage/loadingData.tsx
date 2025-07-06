@@ -2,6 +2,7 @@ import * as React from "react";
 import {
     Typography,
     Box,
+    CircularProgress
 } from "@mui/material";
 import { JobListPage } from "../home/JobCard";
 import { Job } from "enigma/types/models";
@@ -98,13 +99,37 @@ export default function LoadingData() {
                 },
             }}>
                 {loading ? (
-                    <Box sx={{ textAlign: 'center', py: 4 }}>
-                        <Typography variant="body1">Loading jobs...</Typography>
+                    <Box
+                        sx={{
+                            textAlign: 'center',
+                            py: 4,
+                            opacity: 0,
+                            animation: 'fadeIn 0.5s ease-in-out forwards', // Fade-in transition for the Box
+                            '@keyframes fadeIn': {
+                                from: { opacity: 0, transform: 'scale(0.8)' },
+                                to: { opacity: 1, transform: 'scale(1)' },
+                            },
+                        }}
+                    >
+                        <CircularProgress
+                            sx={{
+                                color: '#40b0d0', // Match the blue theme from Features component
+                                animation: 'spin 1s linear infinite', // Continuous spinning animation
+                                '@keyframes spin': {
+                                    '0%': { transform: 'rotate(0deg)' },
+                                    '100%': { transform: 'rotate(360deg)' },
+                                },
+                            }}
+                            size={40} // Size of the loader
+                        />
+                        <Typography variant="body1" sx={{ mt: 2, color: '#475467' }}>
+                            Loading jobs...
+                        </Typography>
                     </Box>
                 ) : jobs.length > 0 ? (
                     <JobListPage jobs={jobs} />
                 ) : (
-                    <Box sx={{ textAlign: 'center', py: 4 }}>
+                    <Box sx={{ textAlign: 'center', py: 4, color: '#475467' }}>
                         <Typography variant="body1">No jobs found matching your criteria.</Typography>
                     </Box>
                 )}

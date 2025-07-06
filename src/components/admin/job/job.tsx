@@ -5,10 +5,10 @@ import { MainContent } from "./mainContent";
 import Image from "next/image";
 import { SidebarNavigation } from "enigma/components/sideBarNavigation";
 import theme from "enigma/components/font/theme";
-import {Session} from "next-auth";
+import { Session } from "next-auth";
 
-export default function Job({session}: {session: Session | null}) {
-    // 19% for expanded sidebar, 6% for collapsed sidebar
+export default function Job({ session }: { session: Session | null }) {
+
     const [isCollapsed, setIsCollapsed] = React.useState(false);
     const sidebarWidth = isCollapsed ? '6%' : '19%';
     return (
@@ -23,7 +23,7 @@ export default function Job({session}: {session: Session | null}) {
                     pt: 10,
                     width: '100%',
                     position: 'relative',
-                    marginLeft: {sm: sidebarWidth},
+                    marginLeft: { sm: sidebarWidth },
                     '@media (max-width: 991px)': {
                         maxWidth: '100%',
                         marginLeft: '0'
