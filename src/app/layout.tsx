@@ -13,7 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-    title: "Enigma Recruitment"
+    title: "Enigma Recruitment",
+    description: "Enigma Recruitment - Your gateway to the best job opportunities",
+    
 };
 
 export default function RootLayout({

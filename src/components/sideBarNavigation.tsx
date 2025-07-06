@@ -121,7 +121,26 @@ export const SidebarNavigation = ({
                 {
                     text: 'Profile',
                     icon: <Image src='/profile.svg' alt='profile' width={24} height={24} />,
-                    href: '/profile',
+                    icon1: <Image src='/arrowSlide.svg' alt='arrow' width={24} height={24} />,
+                    href: '/#',
+                    subItems: [
+                        {
+                            text: 'Saved Jobs',
+                            href: '/profile/saved-jobs',
+                        },
+                        {
+                            text: 'Manage Resumes',
+                            href: '/profile/cvs',
+                        },
+                        {
+                            text: 'Job Applications',
+                            href: '/profile/applications',
+                        },
+                        {
+                            text: 'Personal Info',
+                            href: '/profile',
+                        },
+                    ],
                 },
             ]
             : []),
