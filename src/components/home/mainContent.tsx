@@ -47,7 +47,7 @@ export const MainContent = () => {
                 Dashboard
             </Typography>
 
-            <SearchBar placeholder="Job title, description, or industry name"/>
+            <SearchBar placeholder="Job title, description, or industry name" targetPath="/jobs"/>
 
             {/* Popular Jobs */}
             <Box sx={{

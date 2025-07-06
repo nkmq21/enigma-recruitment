@@ -6,7 +6,12 @@ import { FilterSortBar } from './filterSortBar';
 import { usePathname, useSearchParams, useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-export default function SearchBar({ placeholder }: { placeholder?: string }) {
+interface SearchBarProps {
+    placeholder?: string;
+    targetPath?: string;
+}
+
+export default function SearchBar({ placeholder, targetPath }: SearchBarProps ) {
     const router = useRouter();
     const pathName = usePathname();
     const searchParams = useSearchParams();
@@ -20,7 +25,8 @@ export default function SearchBar({ placeholder }: { placeholder?: string }) {
         setQuery('');
         const params = new URLSearchParams(searchParams.toString());
         params.delete('query');
-        router.replace(`${pathName}`);
+        const navigationPath = targetPath || pathName;
+        router.replace(`${navigationPath}`);
         setTimeout(() => setIsSpinning(false), 300); // Match animation duration
     };
 
@@ -38,7 +44,8 @@ export default function SearchBar({ placeholder }: { placeholder?: string }) {
         }
 
         console.log(pathName);
-        router.replace(`/jobs?${params.toString()}`);
+        const navigationPath = targetPath || pathName;
+        router.replace(`${navigationPath}?${params.toString()}`);
     };
 
     const handleIconClick = () => {
