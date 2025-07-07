@@ -55,14 +55,21 @@ const FeatureCard = styled(Card)({
 const DescriptionBox = styled(Box)(({ theme }) => ({
     color: '#404A7C',
     borderRadius: theme.shape.borderRadius,
-    marginTop: theme.spacing(2),
-    opacity: 0,
-    transition: 'opacity 0.3s ease, transform 0.3s ease',
-    transform: 'scale(0.8)',
-    maxWidth: '90%',
+    marginTop: theme.spacing(1),
+    transition: 'opacity 0.3s ease, transform 0.3s ease, max-height 0.3s ease',
+    maxWidth: '100%',
     marginLeft: 'auto',
     marginRight: 'auto',
     textAlign: 'center',
+    opacity: 0,
+    maxHeight: 0,
+    overflow: 'hidden',
+    transform: 'scale(0.8)',
+    '&.visible': {
+        opacity: 1,
+        maxHeight: '100px', // Adjust based on content height
+        transform: 'scale(1)',
+    },
 }));
 
 const FeatureText: React.FC = () => {
@@ -83,8 +90,8 @@ const FeatureText: React.FC = () => {
                     sx={{
                         flex: '1 1 calc(33.333% - 16px)',
                         maxWidth: 'calc(33.333% - 16px)',
-                        minWidth: { xs: '360px', lg: '250px' },
-                        transition: 'margin 0.3s ease', // Smooth margin transition
+                        minWidth: { xs: '250px', md: '200px' },
+                        transition: 'gap 0.3s ease',
                         marginBottom: hoveredIndex === index ? '48px' : '0px', // Increase margin-bottom on hover
                     }}
                 >
@@ -106,26 +113,24 @@ const FeatureText: React.FC = () => {
                                 }}
                             />
                             <Typography
-                                variant="h3"
+                                variant="h5"
                                 sx={{ cursor: 'pointer' }}
                             >
                                 {feature.title}
                             </Typography>
                             <DescriptionBox
-                                sx={{
-                                    opacity: hoveredIndex === index ? 1 : 0,
-                                    transform: hoveredIndex === index ? 'scale(1)' : 'scale(0.8)',
-                                }}
+                                className={hoveredIndex === index ? 'visible' : ''}
                             >
-                                <Typography variant="body2">
+                                <Typography variant="body1">
                                     {feature.description}
                                 </Typography>
                             </DescriptionBox>
                         </CardContent>
                     </FeatureCard>
                 </Box>
-            ))}
-        </Box>
+            ))
+            }
+        </Box >
     );
 };
 

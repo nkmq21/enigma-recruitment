@@ -1,8 +1,7 @@
-"use client";
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import {Box} from "@mui/material";
+import { Box, IconButton } from "@mui/material";
 
 const LogoHeader = () => {
     const href = '/';
@@ -28,17 +27,17 @@ const LogoHeader = () => {
                     <Image
                         src="/Logo2.svg"
                         alt="Career Logo"
-                        width={135*1.5}
-                        height={28*1.5}
+                        width={135 * 1.5}
+                        height={28 * 1.5}
                     />
                 </Box>
-                <Box
+                <IconButton
                     sx={{
                         display: 'none',
+                        p: 0,
                         '@media (max-width: 991px)': {
                             display: 'grid',
-                            marginTop: 1.9,
-                            marginRight: -2.5,
+                            marginRight: -4
                         },
                     }}
                 >
@@ -48,11 +47,10 @@ const LogoHeader = () => {
                         width={135}
                         height={28}
                     />
-                </Box>
+                </IconButton>
             </Box>
         </Link>
     );
-
 };
 
 export const JustLogoHeader = () => {
