@@ -1,13 +1,7 @@
-import { Box, Container, Typography, Button } from '@mui/material';
+import { Box, Container, Typography, Button, IconButton } from '@mui/material';
 import BlogCard from '../blogCard';
 
 const BlogSection = () => {
-
-    const blogPosts = [
-        { title: 'Behind the scenes at Enigma', category: 'Recruitment', supportTitle: 'A look at our company culture and what makes our team thrive.', author: 'Robert Fox', date: '19 Jan 2024' },
-        { title: 'My journey from intern to team lead', category: 'Personal stories', supportTitle: 'A personal reflection on growth, mentorship, and leadership.', author: 'Jenny Wilson', date: '19 Jan 2024' },
-        { title: 'New features for admin dashboard', category: 'System updates', supportTitle: 'Learn about the latest improvements for managing your recruitment content.', author: 'Eleanor Pena', date: '19 Jan 2024' },
-    ];
 
 
     return (

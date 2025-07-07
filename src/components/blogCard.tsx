@@ -11,16 +11,25 @@ const BlogCard = () => {
 
 
     return (
-        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 4, mt: 6, width: '100%', }}>
+        <Box sx={{
+            display: 'flex', flexWrap: 'wrap', gap: 4, mt: 6,
+            flexDirection: { xs: 'column', sm: 'row' },
+            width: '100%',
+        }}>
             {blogPosts.map((post, index) => (
                 <Box key={index} sx={{
                     display: 'flex',
-                    width: '31%',
+                    maxWidth: { xs: '100%', sm: '31%' },
                     flexDirection: 'column',
                     gap: 2,
                     textAlign: 'left',
                 }}>
-                    <Box component="img" src="/backGr.png" alt="" sx={{ width: '100%', height: 240, borderRadius: 4 }} />
+                    <Box component="img" src="/backGr.png" alt=""
+                        sx={{
+                            width: '100%',
+                            height: 240,
+                            borderRadius: 4
+                        }} />
                     <Typography variant="body2" fontWeight={600} color='#217799'>{post.category}</Typography>
                     <Box sx={{ display: 'flex', gap: 2, color: '#101828' }}>
                         <Typography fontSize="24px" lineHeight="32px" fontWeight={600}
