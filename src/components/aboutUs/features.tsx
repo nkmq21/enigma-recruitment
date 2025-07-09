@@ -56,10 +56,13 @@ const Features = () => {
 
         if (!container) return;
 
+
         const boxes = container.children;
         Array.from(boxes).forEach((box) => {
-            box.addEventListener('mouseenter', handleMouseEnter);
-            box.addEventListener('mouseleave', handleMouseLeave);
+            if (box.tagName !== 'BUTTON') {
+                box.addEventListener('mouseenter', handleMouseEnter);
+                box.addEventListener('mouseleave', handleMouseLeave);
+            }
         });
 
         // Initialize vertical bar position to the first box
@@ -171,7 +174,12 @@ const Features = () => {
                                 Learn more
                             </Button>
                         </Box>
-                        <Box sx={{ flex: '1 1 320px', maxWidth: 776 }}>
+
+                        <Box sx={{
+                            flex: '1 1 320px', maxWidth: 776,
+                            display: { xs: 'none', md: 'flex' },
+                            justifyContent: 'center', alignItems: 'center', position: 'relative'
+                        }}>
                             <Box component="img" src="/Screen.png" alt="" sx={{ width: '100%' }} />
                         </Box>
                     </Box>
