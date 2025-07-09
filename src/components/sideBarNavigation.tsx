@@ -1,4 +1,3 @@
-"use client";
 import * as React from "react";
 import { useState, useEffect } from "react";
 import LogoHeader from "./logoHeader";
@@ -213,6 +212,7 @@ export const SidebarNavigation = ({
                     flexDirection: 'column',
                     backgroundColor: theme.palette.background.paper,
                     width: isCollapsed ? '6%' : '18%',
+                    zIndex: 1000,
                     transition: 'width 0.3s ease, top 0.3s ease, max-height 0.3s ease',
                     willChange: 'top, max-height, width',
                     '@media (max-width: 991px)': {
@@ -227,8 +227,7 @@ export const SidebarNavigation = ({
                         justifyContent: isCollapsed ? 'center' : 'space-between',
                         alignItems: 'center',
                         p: isCollapsed ? 2 : 0,
-                        pt: 1,
-                        pl: 1,
+                        pt: 2,
                         transition: 'padding 0.7s ease',
                         borderBottom: `1px solid ${theme.palette.divider}`
                     }}
@@ -239,7 +238,7 @@ export const SidebarNavigation = ({
                             onClick={toggleSidebar}
                             sx={{
                                 position: 'absolute',
-                                left: '85%',
+                                left: '92%',
                                 border: '1px solid #D0D5DD',
                                 borderRadius: '50%',
                                 p: 1,
@@ -261,7 +260,7 @@ export const SidebarNavigation = ({
                             onClick={toggleSidebar}
                             sx={{
                                 position: 'absolute',
-                                left: '72%',
+                                left: '77%',
                                 border: '1px solid #D0D5DD',
                                 p: 1,
                                 minWidth: 40,

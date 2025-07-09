@@ -18,7 +18,6 @@ import {
 import SearchBar from "enigma/components/searchBar";
 
 export const MainContent = () => {
-    const theme = useTheme();
     const jobData = [1, 2, 3, 4];
     const popularJobs = [
         "Digital Marketer",
@@ -47,7 +46,7 @@ export const MainContent = () => {
                 Dashboard
             </Typography>
 
-            <SearchBar placeholder="Job title, description, or industry name" targetPath="/jobs"/>
+            <SearchBar placeholder="Job title, description, or industry name" targetPath="/jobs" />
 
             {/* Popular Jobs */}
             <Box sx={{

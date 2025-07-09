@@ -6,7 +6,7 @@ import FeaturesSection from '../landing/featureSection';
 import SelectionProcess from './selectionProcess';
 import Features from './features';
 import TestimonialSection from '../landing/testimonialSection';
-import {BadgeGroup, CustomBadge} from "enigma/components/landing/landingContent";
+import { BadgeGroup, CustomBadge } from "enigma/components/landing/landingContent";
 
 const Section = () => {
     return (
@@ -33,7 +33,10 @@ const Section = () => {
             <Header />
             {/* Image Section */}
             <Container maxWidth="lg" sx={{ textAlign: 'center', my: 4 }}>
-                <Box component="img" src="Saly-31.png" alt="" sx={{ width: 510, height: 389 }} />
+                <Box component="img" src="Saly-31.png" alt="" sx={{
+                    width: { xs: '100%', md: 510 },
+                    height: { xs: '100%', md: 389 },
+                }} />
             </Container>
             {/* Our Services Section */}
             <Features />
