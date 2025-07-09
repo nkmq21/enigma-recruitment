@@ -95,7 +95,7 @@ const Features = () => {
                             }}
                         >
                             <Typography variant="body1" fontWeight={600} color="#2494b6">
-                                Features
+                                Our Services
                             </Typography>
                             <Typography variant="h2" letterSpacing="-0.02em" color="#101828">
                                 Recruitment, done the right way
