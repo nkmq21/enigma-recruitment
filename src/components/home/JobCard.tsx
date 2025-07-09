@@ -196,6 +196,7 @@ type Job = {
     description: string;
     salary_range_start: number;
     salary_range_end: number;
+    created_date: string | Date;
     close_date: string | Date;
     industry?: { industry_name: string };
     location: string;
@@ -215,6 +216,7 @@ const JobListPage: React.FC<JobListPageProps> = ({ jobs }) => {
             description: "Lead digital marketing strategies for a growing e-commerce platform. Develop and execute campaigns to enhance brand visibility, collaborate with Key Opinion Leaders (KOLs) to boost engagement, and optimize content for multiple social media channels.",
             salary_range_start: 1200,
             salary_range_end: 1500,
+            created_date: "01 Jan 2025",
             close_date: "20 Jan 2025",
             industry: { industry_name: "Marketing" },
             location: "Bangkok",
@@ -226,6 +228,7 @@ const JobListPage: React.FC<JobListPageProps> = ({ jobs }) => {
             description: "Join GreenWave Tech to design intuitive and visually appealing interfaces for our sustainability-focused mobile app. Collaborate with product managers and developers to create user-centered designs and iterate on prototypes.",
             salary_range_start: 1800,
             salary_range_end: 2200,
+            created_date: "15 Feb 2025",
             close_date: "25 May 2025",
             industry: { industry_name: "Design" },
             location: "Remote",
@@ -237,6 +240,7 @@ const JobListPage: React.FC<JobListPageProps> = ({ jobs }) => {
             description: "Build and maintain responsive web applications for NovaTech's AI-driven platform. Work closely with the design team to implement modern UI components and ensure seamless user experiences.",
             salary_range_start: 1500,
             salary_range_end: 2000,
+            created_date: "10 Mar 2025",
             close_date: "25 May 2025",
             industry: { industry_name: "Software Development" },
             location: "Chiang Mai",

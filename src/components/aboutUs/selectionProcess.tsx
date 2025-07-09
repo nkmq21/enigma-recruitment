@@ -41,7 +41,7 @@ const SelectionProcess = () => {
         < Box sx={{ py: 8, bgcolor: '#effbfc', zIndex: 5 }}>
             <Container maxWidth="lg">
                 <Typography variant="subtitle1" fontWeight={600} color="#2494b6" sx={{ mt: 6 }}>
-                    Features
+                    Our Process
                 </Typography>
                 <Typography variant="h4" fontWeight={600} color="#101828" sx={{ mt: 1.5 }}>
                     Our Selection Process

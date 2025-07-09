@@ -29,7 +29,7 @@ const Section = () => {
                 </BadgeGroup>
             </Container>
 
-            {/* Header Section */}
+            {/* Big Heading Text Section */}
             <Header />
             {/* Image Section */}
             <Container maxWidth="lg" sx={{ textAlign: 'center', my: 4 }}>
@@ -38,17 +38,16 @@ const Section = () => {
                     height: { xs: '100%', md: 389 },
                 }} />
             </Container>
+            {/* Our Services Section */}
+            <Features />
+            {/* Functions We Specialize In */}
             <FeaturesSection />
-            {/* Team Section */}
+            {/* Our Process Section */}
+            <SelectionProcess />
+            {/* Meet Our Team Section */}
             <TeamSection />
             {/* Testimonial Section */}
             <TestimonialSection />
-
-            {/* Features Section */}
-            <Features />
-            {/* FAQ Section */}
-            <SelectionProcess />
-
             {/* Blog Section */}
             <BlogSection />
 
