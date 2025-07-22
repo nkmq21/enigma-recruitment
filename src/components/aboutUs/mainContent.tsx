@@ -32,10 +32,10 @@ const Section = () => {
             {/* Big Heading Text Section */}
             <Header />
             {/* Image Section */}
-            <Container maxWidth="lg" sx={{ textAlign: 'center', my: 4 }}>
-                <Box component="img" src="Saly-31.png" alt="" sx={{
-                    width: { xs: '100%', md: 510 },
-                    height: { xs: '100%', md: 389 },
+            <Container maxWidth="lg" sx={{ textAlign: 'center', my: '-10%' }}>
+                <Box component="img" src="landing_page_guy.png" alt="Landing page guy" sx={{
+                    width: { xs: '100%', md: 1024 },
+                    height: { xs: '100%', md: 1024 },
                 }} />
             </Container>
             {/* Our Services Section */}
