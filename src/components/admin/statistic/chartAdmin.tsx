@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import {
     Box,
     Card,
@@ -41,10 +41,10 @@ const barChartData = [
 const ChartAdmin = () => {
     const theme = useTheme();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
-    const [anchorEl, setAnchorEl] = useState(null);
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
 
-    const handleMenuOpen = (event) => {
+    const handleMenuOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(event.currentTarget);
     };
 
@@ -212,7 +212,7 @@ const ChartAdmin = () => {
                                         min: 0,
                                         max: 200, // Max dựa trên pending lớn nhất (180)
                                         tickNumber: 6, // 200, 160, 120, 80, 40, 0
-                                        valueFormatter: (value) => value.toString(),
+                                        valueFormatter: (value: number) => value.toString(),
                                     },
                                 ]}
                                 sx={{

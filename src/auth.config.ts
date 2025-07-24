@@ -17,7 +17,6 @@ export default {
                 // Validate the data by safely parsing the LoginSchema (only returns true/false)
                 const validatedData = LoginSchema.safeParse(credentials);
                 if (!validatedData.success) {
-                    console.error("Invalid data");
                     return null;
                 }
                 // Destructure the validated data
@@ -27,7 +26,6 @@ export default {
                     where: {email: email}
                 });
                 if (!user || !user.password || !user.email) {
-                    console.error("User not found");
                     return null;
                 }
                 // Check if the password is correct
