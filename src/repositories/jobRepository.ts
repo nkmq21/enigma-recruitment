@@ -1,9 +1,6 @@
 import { Job, Prisma } from '@prisma/client';
 import { prisma } from '../../prisma/prisma';
 
-
-//DO NOT FUCKING FORMAT THIS FILE
-
 export class JobRepository {
     async findBySearch(
         query: string,
@@ -170,10 +167,6 @@ export class JobRepository {
         const whereConditions: Prisma.JobWhereInput = {
             status: { in: status }
         }
-
-        console.log('Repository: findJobs with conditions:', whereConditions);
-
-
         const jobs = await prisma.job.findMany({
             where: whereConditions,
             orderBy: { close_date: "desc" },

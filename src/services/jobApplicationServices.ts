@@ -52,12 +52,10 @@ export async function getJobApplications() {
             }
         });
         if (!jobApplications) {
-            console.error("jobApplicationServices.getJobApplications: Job applications not found");
             return null;
         }
         return jobApplications;
     } catch (error) {
-        console.error("jobApplicationServices.getJobApplications: Error fetching user: ", error);
         return null;
     }
 }
@@ -141,7 +139,6 @@ export async function getJobApplicationsByUserId(id: string): Promise<JobApplica
             }
         });
     } catch (err) {
-        console.error("getJobApplicationsByUserId failed:", err);
         return null;
     }
 }

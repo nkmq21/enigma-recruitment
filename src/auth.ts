@@ -25,7 +25,6 @@ export const {handlers: {GET, POST}, signIn, signOut, auth} = NextAuth({
             token.email = existingUser.email;
             token.image = existingUser.image;
             token.role = existingUser.role || 'seeker';
-            console.log("auth.js - JWT Token: " + token.sub + " " + token.isOauth + " " + token.name + " " + token.email + " " + token.role);
             return token;
         },
         async session({token, session}) {
@@ -54,7 +53,6 @@ export const {handlers: {GET, POST}, signIn, signOut, auth} = NextAuth({
             const existingUser = await getUser(String(user.id));
             // Check if the user email is verified
             if (!existingUser?.emailVerified) {
-                console.error("auth.signIn: User email not verified");
                 return false;
             }
             // TODO: 2FA check
