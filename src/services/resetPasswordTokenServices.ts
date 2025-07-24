@@ -7,7 +7,6 @@ export const getResetPasswordTokenByEmail = async (email: string) => {
             where: {email: email}
         });
     } catch (error) {
-        console.error("resetPasswordTokenServices.getResetPasswordTokenByEmail: Error fetching reset password token: ", error);
         return null;
     }
 }
@@ -18,7 +17,7 @@ export const getResetPasswordTokenByToken = async (token: string) => {
             where: {token: token}
         });
     } catch (error) {
-        console.error("resetPasswordTokenServices.getResetPasswordTokenByToken: Error fetching reset password token: ", error);
+        return null;
     }
 }
 
@@ -43,7 +42,6 @@ export const createResetPasswordToken = async (email: string) => {
         // Send the email
         return {success: "Reset password email sent! Please check your inbox and your spam folder.", email: resetPasswordToken.email, token: resetPasswordToken.token};
     } catch (error) {
-        console.error("resetPasswordTokenServices.createResetPasswordToken: Error creating reset password token: ", error);
         return null;
     }
 }

@@ -1,7 +1,6 @@
 // src/services/jobServices.ts
 import { Job } from 'enigma/types/models';
 import { prisma } from '../../prisma/prisma';
-import { error } from 'console';
 
 export async function getJob(jobid: string): Promise<Job> {
     const response = await fetch(`/api/jobs/${jobid}`, {

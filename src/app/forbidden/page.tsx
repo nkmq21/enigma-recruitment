@@ -23,7 +23,6 @@ export default async function ForbiddenPage() {
     }
 
     return (
-
         <Container
             maxWidth="sm"
             sx={{
