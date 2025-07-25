@@ -40,7 +40,7 @@ jobs:
           username: ${{secrets.CPANEL_USERNAME}}
           password: ${{secrets.CPANEL_PASSWORD}}
           protocol: ${{secrets.CPANEL_PROTOCOL}}
-          local-dir: ./.next/
+          local-dir: ./
           exclude: |
             **/.git*
             **/.idea*
