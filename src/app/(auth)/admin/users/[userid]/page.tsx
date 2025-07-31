@@ -2,7 +2,7 @@
 
 import React from "react";
 import {auth} from "enigma/auth";
-import UserDetails from "enigma/components/admin/user/userDetails/userDetails";
+import UserDetails from "enigma/pages/admin/user/userDetails/userDetails";
 import { getUser } from "enigma/services/userServices";
 import {getJobApplicationsByUserId, JobApplicationWithFlatJob} from "enigma/services/jobApplicationServices";
 import {User} from "enigma/types/models";

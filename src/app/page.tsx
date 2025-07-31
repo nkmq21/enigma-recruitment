@@ -1,4 +1,4 @@
-import AboutUsPage from "enigma/components/aboutUs/aboutUsPage";
+import AboutUsPage from "enigma/pages/aboutUs/aboutUsPage";
 import {auth} from "enigma/auth";
 
 export default async function Page() {

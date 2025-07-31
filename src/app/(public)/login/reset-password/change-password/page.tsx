@@ -1,5 +1,5 @@
 import React from 'react';
-import { ConfirmPasss } from 'enigma/components/login/reset-password/confirmPass';
+import { ConfirmPasss } from 'enigma/pages/login/reset-password/confirmPass';
 
 export default function ChangePasswordPage() {
     return <ConfirmPasss />;
