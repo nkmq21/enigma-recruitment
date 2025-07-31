@@ -1,5 +1,5 @@
 import {auth} from "enigma/auth";
-import SaveJobPage from "enigma/components/profile/saveJobPage/saveJobPage";
+import SaveJobPage from "enigma/pages/profile/saveJobPage/saveJobPage";
 
 export default async function CvsPage() {
     const session = await auth();

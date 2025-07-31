@@ -1,5 +1,5 @@
 import React from 'react';
-import LoginPage from "enigma/components/login/loginPage";
+import LoginPage from "enigma/pages/login/loginPage";
 
 export default function Page() {
     return (

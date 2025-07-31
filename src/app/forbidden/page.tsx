@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { Container, Typography, Button, Box, Paper } from '@mui/material';
 import LockIcon from '@mui/icons-material/Lock';
 import HomeIcon from '@mui/icons-material/Home';
-import LogoHeader from 'enigma/components/logoHeader';
+import LogoHeader from 'enigma/layouts/logoHeader';
 
 const JWT_SECRET = process.env.JWT_SECRET!;
 

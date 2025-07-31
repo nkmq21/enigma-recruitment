@@ -1,5 +1,5 @@
 import React from 'react';
-import { ForgotPass } from "enigma/components/login/reset-password/forgotPass";
+import { ForgotPass } from "enigma/pages/login/reset-password/forgotPass";
 
 export default function ResetPasswordPage() {
     return <ForgotPass />;
