@@ -1,5 +1,5 @@
 import React from 'react';
-import LandingPage from "enigma/components/landing/landingPage";
+import LandingPage from "enigma/pages/landing/landingPage";
 import { auth } from "enigma/auth";
 import '@fontsource/inter/400.css';
 import '@fontsource/inter/500.css';

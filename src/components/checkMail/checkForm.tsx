@@ -1,9 +1,10 @@
+// TODO: Check this file usage
 "use client";
 import * as React from "react";
-import { useActionState, useState } from "react";
-import LogoHeader from "../logoHeader"
+import { useState } from "react";
+import BigHeaderLogo from "enigma/components/common/HeaderLogo"
 import Image from "next/image";
-import { Box, Button, Checkbox, Container, FormControlLabel, Stack, TextField, Typography, Divider } from '@mui/material';
+import { Box, Button, Container, Stack, Typography, Divider } from '@mui/material';
 import { useRouter } from "next/navigation";
 
 export const CheckForm: React.FC = () => {
@@ -62,7 +63,7 @@ export const CheckForm: React.FC = () => {
                     position: 'relative',
                 }}
             >
-                <LogoHeader />
+                <BigHeaderLogo />
                 <Divider sx={{
                     mt: 1, mb: 3, width: '100%',
                     display: {

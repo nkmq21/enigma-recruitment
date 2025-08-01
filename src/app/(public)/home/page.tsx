@@ -1,6 +1,6 @@
 'use server';
 import React from 'react';
-import HomePage from 'enigma/components/home/homePage';
+import HomePage from 'enigma/pages/home/homePage';
 import { auth } from "enigma/auth";
 
 export default async function Home() {
