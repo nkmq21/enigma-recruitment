@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button, Dialog, Stack } from '@mui/material';
 import { Share, Edit, Delete } from '@mui/icons-material';
 import Content from './content';
-import DeleteButton from '../user/userDetails/buttonDialog';
+import DeleteButton from 'enigma/pages/admin/users/userDetails/buttonDialog';
 
 // Define the props interface for Content (customize based on your Content component)
 interface ContentProps {

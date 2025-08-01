@@ -14,7 +14,7 @@ import {
     Checkbox,
 } from '@mui/material';
 import {ThemeProvider} from '@emotion/react';
-import theme from '../font/theme';
+import theme from 'enigma/styles/theme';
 import Image from 'next/image';
 import {ArrowDropDown, Close} from '@mui/icons-material';
 import {getJobFunctionNames, jobFunctionSearch} from "enigma/data/jobFunctionData";
@@ -34,7 +34,7 @@ const JobRoleFilter: FunctionComponent<JobRoleFilterProps> = ({
     const [open, setOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
     const jobFunctionsRef = useRef(null);
-    const searchParams = useSearchParams();
+    const searchParams = useSearchParams()!;
 
     // State to store selected job functions
     const [selectedJobFunctions, setSelectedJobFunctions] = useState<string[]>(() => {

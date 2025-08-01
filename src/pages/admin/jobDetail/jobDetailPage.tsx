@@ -1,8 +1,8 @@
 import React from 'react';
 import { Box, ThemeProvider, Divider } from '@mui/material';
 import { DetailContent } from './detailContent';
-import theme from 'enigma/ui/font/theme';
-import { SidebarNavigation } from 'enigma/layouts/sideBarNavigation';
+import theme from 'enigma/styles/theme';
+import { SidebarNavigation } from 'enigma/components/common/SidebarNavigation';
 
 const JobDetailAdminPage: React.FC = () => {
     return (

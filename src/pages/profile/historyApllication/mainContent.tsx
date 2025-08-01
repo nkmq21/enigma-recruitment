@@ -6,7 +6,7 @@ import {
     Divider,
 } from "@mui/material";
 import DashBoardProfile from "./saveJobCard";
-import LogoHeader from "enigma/layouts/logoHeader";
+import BigHeaderLogo from "enigma/components/common/HeaderLogo";
 import { FilterSortBar } from "enigma/ui/filterSortBar";
 import SearchBar from "enigma/ui/searchBar";
 
@@ -22,7 +22,7 @@ export const MainContent = () => {
             },
         }}>
             <Box sx={{ display: { lg: 'none', sm: 'block' } }}>
-                <LogoHeader />
+                <BigHeaderLogo />
                 <Divider sx={{ mt: 1, mb: 1, width: '100%' }} />
             </Box>
 

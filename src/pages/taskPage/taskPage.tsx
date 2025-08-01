@@ -2,7 +2,7 @@
 import * as React from "react";
 import {Box} from "@mui/material";
 import {MainContent} from "./maincontent";
-import {SidebarNavigation} from "enigma/layouts/sideBarNavigation";
+import {SidebarNavigation} from "enigma/components/common/SidebarNavigation";
 import {Session} from "next-auth";
 
 export default function TaskPage({session}: { session: Session | null }) {

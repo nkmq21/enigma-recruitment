@@ -15,7 +15,7 @@ import {
     Stack,
     ThemeProvider,
 } from "@mui/material";
-import theme from '../font/theme';
+import theme from 'enigma/styles/theme';
 import Image from "next/image";
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 

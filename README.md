@@ -40,7 +40,7 @@
     - [Installation](#installation)
     - [Usage](#usage)
     - [Testing](#testing)
-- [Features](#features)
+- [OurServices](#features)
 - [Project Structure](#project-structure)
     - [Project Index](#project-index)
 - [Contributing](#contributing)
@@ -63,7 +63,7 @@ This project aims to enhance the recruitment experience by providing a comprehen
 
 ---
 
-## Features
+## OurServices
 
 |      | Component       | Details                              |
 | :--- | :-------------- | :----------------------------------- |
@@ -101,7 +101,7 @@ This project aims to enhance the recruitment experience by providing a comprehen
     │   ├── assets # Static assets directory
     │   ├── auth.config.ts
     │   ├── auth.ts
-    │   ├── components # Reusable UI components
+    │   ├── components # Reusable ui components
     │   ├── middleware.ts
     │   ├── repositories # Data access layer
     │   ├── schemas # Validation schemas
@@ -221,7 +221,7 @@ This project aims to enhance the recruitment experience by providing a comprehen
 						</tr>
 					</thead>
 						<tr style='border-bottom: 1px solid #eee;'>
-							<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/components/logoHeader.tsx'>logoHeader.tsx</a></b></td>
+							<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/components/logoHeader.tsx'>HeaderLogo.tsx</a></b></td>
 							<td style='padding: 8px;'>- LogoHeader component serves as a responsive navigation header, displaying the main logo and an optional sidebar logo based on screen size<br>- It enhances user experience by adapting its layout for different devices, ensuring accessibility and visual appeal<br>- The JustLogoHeader variant provides a simplified version, focusing solely on the primary logo, contributing to the overall branding and identity of the application.</td>
 						</tr>
 						<tr style='border-bottom: 1px solid #eee;'>
@@ -241,7 +241,7 @@ This project aims to enhance the recruitment experience by providing a comprehen
 							<td style='padding: 8px;'>- SuggestedJobCard serves as a visually appealing component within the project, designed to display job opportunities in a concise format<br>- It highlights essential details such as job title, company name, location, and salary, enhancing user engagement<br>- By integrating Material-UI elements, it ensures a responsive and interactive experience, contributing to the overall architectures focus on user-friendly job search functionalities.</td>
 						</tr>
 						<tr style='border-bottom: 1px solid #eee;'>
-							<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/components/footer.tsx'>footer.tsx</a></b></td>
+							<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/components/footer.tsx'>Footer.tsx</a></b></td>
 							<td style='padding: 8px;'>- Footer component serves as the foundational element for the websites footer section, providing structured navigation and essential links for users<br>- It organizes content into distinct categories such as Product, Company, Resources, Use cases, Social, and Legal, enhancing user experience and accessibility<br>- Additionally, it features branding elements and copyright information, contributing to the overall aesthetic and functionality of the application.</td>
 						</tr>
 					</table>
@@ -283,23 +283,23 @@ This project aims to enhance the recruitment experience by providing a comprehen
 								</tr>
 							</thead>
 								<tr style='border-bottom: 1px solid #eee;'>
-									<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/components/login/inputField.tsx'>inputField.tsx</a></b></td>
+									<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/components/login/inputField.tsx'>InputField.tsx</a></b></td>
 									<td style='padding: 8px;'>- InputField component serves as a reusable UI element designed to capture user input within forms<br>- It enhances user experience by providing a labeled input area with customizable placeholder text and input type<br>- Integrated styling ensures a visually appealing and responsive design, contributing to the overall architecture of the project by promoting consistency and ease of use across various input scenarios.</td>
 								</tr>
 								<tr style='border-bottom: 1px solid #eee;'>
-									<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/components/login/loginPage.tsx'>loginPage.tsx</a></b></td>
+									<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/components/login/loginPage.tsx'>LoginPage.tsx</a></b></td>
 									<td style='padding: 8px;'>- LoginPage serves as a central component for user authentication within the application, providing a structured layout that integrates both the login form and a visual hero section<br>- Utilizing a custom theme for consistent styling, it enhances user experience by ensuring a cohesive design<br>- The component effectively manages the overall presentation and functionality of the login interface, contributing to the projects architecture focused on user engagement and accessibility.</td>
 								</tr>
 								<tr style='border-bottom: 1px solid #eee;'>
-									<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/components/login/loginHero.tsx'>loginHero.tsx</a></b></td>
+									<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/components/login/loginHero.tsx'>LoginHero.tsx</a></b></td>
 									<td style='padding: 8px;'>- LoginHero component serves as a visually engaging section of the application, designed to welcome users back and encourage them to log in<br>- It features a prominent background image, motivational text about accessing job opportunities, and interactive elements like social media icons<br>- This component enhances user experience by providing a clear call to action while maintaining a responsive design that adapts to various screen sizes.</td>
 								</tr>
 								<tr style='border-bottom: 1px solid #eee;'>
-									<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/components/login/button.tsx'>button.tsx</a></b></td>
+									<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/components/login/button.tsx'>Button.tsx</a></b></td>
 									<td style='padding: 8px;'>- Provides a customizable button component designed for user interaction within the application<br>- It supports different visual styles through variants and allows for click event handling<br>- By encapsulating styling and behavior, it enhances the user interface, ensuring a consistent and accessible experience across the codebase<br>- This component plays a crucial role in facilitating user actions and improving overall usability.</td>
 								</tr>
 								<tr style='border-bottom: 1px solid #eee;'>
-									<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/components/login/loginForm.tsx'>loginForm.tsx</a></b></td>
+									<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/components/login/loginForm.tsx'>LoginForm.tsx</a></b></td>
 									<td style='padding: 8px;'>- Facilitates user authentication through a responsive login form, enabling users to sign in with email and password or via Google<br>- It incorporates form validation using Zod and manages loading states and error messages to enhance user experience<br>- Positioned within the broader application architecture, it serves as a critical component for user access, contributing to the overall functionality of the platform.</td>
 								</tr>
 								<tr style='border-bottom: 1px solid #eee;'>
@@ -307,7 +307,7 @@ This project aims to enhance the recruitment experience by providing a comprehen
 									<td style='padding: 8px;'>- Facilitates user logout functionality within the application by providing a LogoutButton component<br>- Upon activation, it triggers a sign-out process that redirects users to the homepage<br>- This component enhances user experience by allowing seamless session termination, contributing to the overall security and usability of the application<br>- It integrates with the authentication system and utilizes Material UI for a polished interface.</td>
 								</tr>
 								<tr style='border-bottom: 1px solid #eee;'>
-									<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/components/login/socialButton.tsx'>socialButton.tsx</a></b></td>
+									<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/components/login/socialButton.tsx'>SocialButton.tsx</a></b></td>
 									<td style='padding: 8px;'>- SocialButton serves as a reusable component designed to facilitate social login interactions within the application<br>- By providing a customizable button that incorporates an icon and text, it enhances user experience and engagement<br>- This component seamlessly integrates into the broader codebase architecture, promoting consistency and ease of use across various social authentication scenarios.</td>
 								</tr>
 							</table>
@@ -371,11 +371,11 @@ This project aims to enhance the recruitment experience by providing a comprehen
 									<td style='padding: 8px;'>- FeaturesSection serves as a visually engaging component within the landing page of the project, showcasing the core functions and values of the organization<br>- By presenting a clear and inviting message, it fosters a connection with users, emphasizing the teams shared values and expertise<br>- This component enhances the overall user experience by providing essential information in a structured and appealing format.</td>
 								</tr>
 								<tr style='border-bottom: 1px solid #eee;'>
-									<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/components/landing/blogSection.tsx'>blogSection.tsx</a></b></td>
+									<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/components/landing/blogSection.tsx'>Blogs.tsx</a></b></td>
 									<td style='padding: 8px;'>- BlogSection component serves as a dynamic showcase for recent blog posts, providing users with valuable career tips and interview advice<br>- It features a visually appealing layout that highlights each posts title, subheading, and author details, encouraging engagement through a call-to-action button<br>- This component enhances the overall user experience by presenting relevant content in an organized and accessible manner, contributing to the projects goal of supporting professional development.</td>
 								</tr>
 								<tr style='border-bottom: 1px solid #eee;'>
-									<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/components/landing/landingPage.tsx'>landingPage.tsx</a></b></td>
+									<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/components/landing/landingPage.tsx'>LandingPage.tsx</a></b></td>
 									<td style='padding: 8px;'>- Creates a comprehensive landing page that serves as the initial user interface for the application<br>- It integrates various components such as navigation, content sections, social proof, and a footer, all styled with a consistent theme<br>- This structure enhances user engagement and provides essential information, guiding visitors through the features and offerings of the project while ensuring a visually appealing experience.</td>
 								</tr>
 								<tr style='border-bottom: 1px solid #eee;'>
@@ -599,7 +599,7 @@ This project aims to enhance the recruitment experience by providing a comprehen
 									<td style='padding: 8px;'>- MainContent serves as a central component of the application, providing users with an interactive dashboard for job searching and application management<br>- It features a search and filter interface, displays popular and trending job listings, and encourages user engagement through options to upload CVs and create profiles<br>- This component enhances the overall user experience by facilitating easy navigation and access to job opportunities within the platform.</td>
 								</tr>
 								<tr style='border-bottom: 1px solid #eee;'>
-									<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/components/home/sideBarNavigation.tsx'>sideBarNavigation.tsx</a></b></td>
+									<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/components/home/sideBarNavigation.tsx'>SidebarNavigation.tsx</a></b></td>
 									<td style='padding: 8px;'>- SidebarNavigation component facilitates user interaction within the application by providing a dynamic sidebar interface<br>- It manages user session states, allowing for personalized navigation options based on authentication status<br>- The component includes menu items for easy access to key features and a search functionality, while also offering a responsive design that adapts to user preferences, enhancing overall user experience and engagement.</td>
 								</tr>
 							</table>

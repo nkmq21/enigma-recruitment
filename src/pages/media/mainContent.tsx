@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState } from "react"; // Added missing import
+import { useState } from "react";
 import {
     Box,
     Typography,
@@ -9,12 +9,12 @@ import {
 } from "@mui/material";
 import Image from "next/image";
 import HorizontalTabs from "./horizontalTabs";
-import LogoHeader from "../logoHeader";
-import SearchBar from "../searchBar";
-import { FilterSortBar } from "../filterSortBar";
+import BigHeaderLogo from "enigma/components/common/HeaderLogo";
+import SearchBar from "enigma/ui/searchBar";
+import { FilterSortBar } from "enigma/ui/filterSortBar";
 import { SearchHistoryChip } from "./searchHistoryJob";
-import SectionTitle from "../font/sectionTitle";
-import BlogCard from "../blogCard";
+import SectionTitle from "enigma/styles/sectionTitle";
+import BlogCard from "enigma/ui/blogCard";
 
 // Sample data (replace with your actual data source)
 const tableData = Array.from({ length: 50 }, (_, i) => ({
@@ -66,7 +66,7 @@ export const MainContent = () => {
             }}
         >
             <Box sx={{ display: { lg: "none", sm: "block" } }}>
-                <LogoHeader />
+                <BigHeaderLogo />
                 <Divider sx={{ mt: 1, mb: 1, width: "100%" }} />
             </Box>
 

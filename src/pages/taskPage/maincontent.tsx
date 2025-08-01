@@ -1,9 +1,9 @@
 "use client";
 import * as React from "react";
-import SectionTitle from "../font/sectionTitle";
-import LogoHeader from "../logoHeader";
-import SearchBar from "../searchBar";
-import CTA from "../common/cta";
+import SectionTitle from "enigma/styles/sectionTitle";
+import BigHeaderLogo from "enigma/components/common/HeaderLogo";
+import SearchBar from "enigma/ui/searchBar";
+import CTA from "enigma/components/common/cta";
 import {
     Box,
     Typography,
@@ -13,11 +13,11 @@ import {
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import LoadingData from "./loadingData";
-import { PopularJobChip } from "../popularChip";
+import { PopularJobChip } from "enigma/ui/popularChip";
 
 export const MainContent = () => {
     const router = useRouter();
-    const searchParams = useSearchParams();
+    const searchParams = useSearchParams()!;
     const popularJobs = [
         "Digital Marketer",
         "Software Developer",
@@ -37,7 +37,7 @@ export const MainContent = () => {
             },
         }}>
             <Box sx={{ display: { lg: 'none', sm: 'block' } }}>
-                <LogoHeader />
+                <BigHeaderLogo />
                 <Divider sx={{ mt: 1, mb: 3, width: '100%' }} />
             </Box>
 
@@ -47,7 +47,6 @@ export const MainContent = () => {
 
             {/* Search and Filter */}
             <SearchBar placeholder="Job title, description, or industry name" />
-
 
             {/* ADDED TO CHECK THE ACTIVATED FILTER */}
             {/* Active Filters */}

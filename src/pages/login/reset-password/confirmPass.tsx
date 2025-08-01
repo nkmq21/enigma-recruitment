@@ -3,7 +3,7 @@ import * as React from "react";
 import { PassConfirm } from "./passConfirm";
 import { LoginHero } from "./forgotHero";
 import { ThemeProvider, Box, Grid } from '@mui/material';
-import theme from '../../font/theme';
+import theme from 'enigma/styles/theme';
 
 export function ConfirmPasss() {
     return (

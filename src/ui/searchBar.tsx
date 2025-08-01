@@ -14,7 +14,7 @@ interface SearchBarProps {
 export default function SearchBar({ placeholder, targetPath }: SearchBarProps ) {
     const router = useRouter();
     const pathName = usePathname();
-    const searchParams = useSearchParams();
+    const searchParams = useSearchParams()!;
 
     const [query, setQuery] = useState(searchParams.get('query')?.toString() || '');
     const [isSpinning, setIsSpinning] = useState(false);

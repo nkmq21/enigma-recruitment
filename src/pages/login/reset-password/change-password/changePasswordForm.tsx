@@ -1,7 +1,7 @@
 "use client";
 import * as React from "react";
 import {useState} from "react";
-import LogoHeader from "../../../logoHeader"
+import BigHeaderLogo from "enigma/components/common/HeaderLogo"
 import Image from "next/image";
 import {Box, Button, Container, Stack, TextField, Typography, Divider} from '@mui/material';
 import {ChangePasswordSchema} from "enigma/schemas";
@@ -13,7 +13,7 @@ import {useRouter, useSearchParams} from "next/navigation";
 
 export const ChangePasswordForm: React.FC = () => {
     const router = useRouter();
-    const searchParams = useSearchParams();
+    const searchParams = useSearchParams()!;
     const token = searchParams.get("token");
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
@@ -70,7 +70,7 @@ export const ChangePasswordForm: React.FC = () => {
                     position: 'relative',
                 }}
             >
-                <LogoHeader/>
+                <BigHeaderLogo/>
                 <Divider sx={{
                     mt: 1, mb: 3, width: '100%',
                     display: {

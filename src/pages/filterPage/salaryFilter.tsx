@@ -8,7 +8,7 @@ import {
     Button,
 } from '@mui/material'
 import Image from 'next/image';
-import theme from '../font/theme';
+import theme from 'enigma/styles/theme';
 import { ArrowDropDown } from '@mui/icons-material';
 
 // Define ResetButton component

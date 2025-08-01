@@ -13,7 +13,7 @@ import {
     Stack,
 } from '@mui/material';
 import {ThemeProvider} from '@emotion/react';
-import theme from '../font/theme';
+import theme from 'enigma/styles/theme';
 import {ArrowDropDown, Close} from '@mui/icons-material';
 import {getJobSubfunctionNamesByJobFunction} from "enigma/data/jobFunctionData";
 import {useSearchParams} from "next/navigation";
@@ -31,7 +31,7 @@ const JobSubRoleFilter: FunctionComponent<JobSubRoleFilterProps> = ({
                                                                         selectedJobFunction = [],
                                                                         onChange,
                                                                     }) => {
-    const searchParams = useSearchParams();
+    const searchParams = useSearchParams()!;
     // State to manage dialog visibility
     const [open, setOpen] = useState(false);
     // State to store selected job subfunctions

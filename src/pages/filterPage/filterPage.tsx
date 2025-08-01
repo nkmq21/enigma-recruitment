@@ -10,7 +10,7 @@ import {
     DialogActions,
     Dialog,
 } from '@mui/material';
-import theme from '../font/theme';
+import theme from 'enigma/styles/theme';
 import Image from 'next/image';
 import { Close, ArrowDropDown } from '@mui/icons-material';
 import CheckboxGroup from './checkboxGroup';
@@ -20,9 +20,7 @@ import Location from './locationFilter';
 import IndustriesFilter from './industries';
 import JobRoleFilter from './jobFunction';
 import JobSubRoleFilter from './jobSubfunction';
-
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-
 
 // Reusable ResetButton component
 const ResetButton: FunctionComponent<{
@@ -46,7 +44,7 @@ interface SlideOutMenuProps {
 const SlideOutMenu: FunctionComponent<SlideOutMenuProps> = ({ onClose }) => {
     const router = useRouter();
     const currentPath = usePathname();
-    const searchParams = useSearchParams();
+    const searchParams = useSearchParams()!;
 
     const [filterValues, setFilterValues] = useState({
         postDateRange: searchParams.get('postDateRange') || '',

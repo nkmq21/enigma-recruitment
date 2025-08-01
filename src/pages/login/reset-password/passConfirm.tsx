@@ -1,8 +1,8 @@
 "use client";
 import * as React from "react";
-import LogoHeader from "../../logoHeader"
+import BigHeaderLogo from "enigma/components/common/HeaderLogo"
 import Image from "next/image";
-import { Box, Button, Checkbox, Container, FormControlLabel, Stack, TextField, Typography, Divider } from '@mui/material';
+import { Box, Button, Container, Stack, TextField, Typography, Divider } from '@mui/material';
 
 export const PassConfirm: React.FC = () => {
     return (
@@ -17,7 +17,7 @@ export const PassConfirm: React.FC = () => {
                     position: 'relative',
                 }}
             >
-                <LogoHeader />
+                <BigHeaderLogo />
                 <Divider sx={{
                     mt: 1, mb: 3, width: '100%',
                     display: {

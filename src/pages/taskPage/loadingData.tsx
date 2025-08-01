@@ -11,7 +11,7 @@ import { useSearchParams } from "next/navigation";
 export default function LoadingData() {
     const [jobs, setJobs] = React.useState<Job[]>([]);
     const [loading, setLoading] = React.useState(true);
-    const searchParams = useSearchParams();
+    const searchParams = useSearchParams()!;
 
     React.useEffect(() => {
         const fetchJobs = async () => {
@@ -118,7 +118,7 @@ export default function LoadingData() {
                     >
                         <CircularProgress
                             sx={{
-                                color: '#40b0d0', // Match the blue theme from Features component
+                                color: '#40b0d0', // Match the blue theme from OurServices component
                                 animation: 'spin 1s linear infinite', // Continuous spinning animation
                                 '@keyframes spin': {
                                     '0%': { transform: 'rotate(0deg)' },

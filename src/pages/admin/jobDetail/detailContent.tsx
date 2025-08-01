@@ -5,8 +5,8 @@ import {
     Typography,
     Divider,
 } from "@mui/material";
-import LogoHeader from "enigma/layouts/logoHeader";
-import SectionTitle from "enigma/ui/font/sectionTitle";
+import BigHeaderLogo from "enigma/components/common/HeaderLogo";
+import SectionTitle from "enigma/styles/sectionTitle";
 import SuggestedJobCard from "enigma/ui/suggestJobCard";
 
 export const DetailContent = () => {
@@ -22,7 +22,7 @@ export const DetailContent = () => {
             },
         }}>
             <Box sx={{ display: { lg: 'none', sm: 'block' } }}>
-                <LogoHeader />
+                <BigHeaderLogo />
                 <Divider sx={{ mt: 1, mb: 3, width: '100%' }} />
             </Box>
 
