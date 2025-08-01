@@ -14,7 +14,7 @@ const CheckboxGroup: FunctionComponent<CheckboxGroupProps> = ({
                                                                   value = [],
                                                                   onChange,
                                                               }) => {
-    const searchParams = useSearchParams();
+    const searchParams = useSearchParams()!;
     const [internalValue, setInternalValue] = useState<string[]>(() => {
         const urlValue = searchParams.get('employment_type')?.split(',').filter(Boolean) || [];
         return urlValue.length > 0 ? urlValue : value;

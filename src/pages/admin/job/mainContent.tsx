@@ -10,8 +10,8 @@ import MoreVertIcon from '@mui/icons-material/MoreVert'; // Thay cho dots-vertic
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward'; // Thay cho arrow-up.svg
 import Image from "next/image";
 import DashboardJob from "./dashboardJob";
-import LogoHeader from "enigma/layouts/logoHeader";
-import SectionTitle from "enigma/ui/font/sectionTitle";
+import BigHeaderLogo from "enigma/components/common/HeaderLogo";
+import SectionTitle from "enigma/styles/sectionTitle";
 
 export const MainContent = () => {
     return (
@@ -24,7 +24,7 @@ export const MainContent = () => {
             },
         }}>
             <Box sx={{ display: { lg: 'none', sm: 'block' } }}>
-                <LogoHeader />
+                <BigHeaderLogo />
                 <Divider sx={{ mt: 1, mb: 1, width: '100%' }} />
             </Box>
 

@@ -13,7 +13,7 @@ import {
     Stack
 } from '@mui/material';
 import {ThemeProvider} from '@emotion/react';
-import theme from '../font/theme';
+import theme from 'enigma/styles/theme';
 import Image from 'next/image';
 import {ArrowDropDown, Close} from '@mui/icons-material';
 import {FilterService} from 'enigma/services/jobServices';
@@ -34,7 +34,7 @@ const Location = React.memo<LocationProps>(({
     const [locationList, setLocationList] = useState<string[]>([]);
     const [open, setOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
-    const searchParams = useSearchParams();
+    const searchParams = useSearchParams()!;
     const locationProvinceRef = useRef(null);
     const [selectedLocations, setSelectedLocations] = useState<string[]>(() => {
         const urlLocations = searchParams.get('locations')?.split(',').filter(Boolean) || [];

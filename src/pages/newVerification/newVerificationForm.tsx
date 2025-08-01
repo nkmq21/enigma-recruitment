@@ -1,6 +1,6 @@
 "use client";
 import * as React from "react";
-import LogoHeader from "enigma/layouts/logoHeader";
+import BigHeaderLogo from "enigma/components/common/HeaderLogo";
 import { Box, Button, Container, Stack, Typography, Divider } from '@mui/material';
 import { useSearchParams } from "next/navigation";
 import { newVerification } from "enigma/services/userServices";
@@ -9,7 +9,7 @@ import {useCallback, useEffect, useState} from "react";
 export const NewVerificationForm: React.FC = () => {
     const [error, setError] = useState<string>("");
     const [success, setSuccess] = useState<string>("");
-    const searchParams = useSearchParams();
+    const searchParams = useSearchParams()!;
     const token = searchParams.get('token');
     const onSubmit = useCallback(() => {
         if (!token) {
@@ -44,7 +44,7 @@ export const NewVerificationForm: React.FC = () => {
                     position: 'relative',
                 }}
             >
-                <LogoHeader />
+                <BigHeaderLogo />
                 <Divider sx={{
                     mt: 1, mb: 3, width: '100%',
                     display: {

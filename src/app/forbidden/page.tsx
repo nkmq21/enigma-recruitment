@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { Container, Typography, Button, Box, Paper } from '@mui/material';
 import LockIcon from '@mui/icons-material/Lock';
 import HomeIcon from '@mui/icons-material/Home';
-import LogoHeader from 'enigma/layouts/logoHeader';
+import BigHeaderLogo from 'enigma/components/common/HeaderLogo';
 
 const JWT_SECRET = process.env.JWT_SECRET!;
 
@@ -43,7 +43,7 @@ export default async function ForbiddenPage() {
                 }}
             >
                 <Box sx={{ textAlign: 'start', mt: -4, ml: -4 }}>
-                    <LogoHeader />
+                    <BigHeaderLogo />
                 </Box>
                 <Box sx={{ mb: 3 }}>
                     <LockIcon sx={{ fontSize: 60, color: 'error.main' }} />

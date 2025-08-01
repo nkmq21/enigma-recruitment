@@ -1,6 +1,6 @@
 import { FunctionComponent, useState } from 'react';
 import { Box, Typography, Button, ThemeProvider } from '@mui/material';
-import theme from '../font/theme';
+import theme from 'enigma/styles/theme';
 
 interface DatePickerMenuProps {
     onClose: () => void;

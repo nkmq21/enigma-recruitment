@@ -1,7 +1,8 @@
+// TODO: Refactor this file to use the new layout system
 import React from 'react';
-import { Box, ThemeProvider, Divider } from '@mui/material';
-import { SidebarNavigation } from 'enigma/layouts/sideBarNavigation';
-import theme from '../font/theme';
+import { Box, ThemeProvider } from '@mui/material';
+import { SidebarNavigation } from 'enigma/components/common/SidebarNavigation';
+import theme from 'enigma/styles/theme';
 import { DetailContent } from './detailContent';
 
 const JobDetailPage: React.FC = () => {

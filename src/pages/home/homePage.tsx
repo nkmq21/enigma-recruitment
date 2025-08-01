@@ -1,7 +1,7 @@
 "use client";
 import * as React from "react";
 import { Box } from "@mui/material";
-import { SidebarNavigation } from "enigma/layouts/sideBarNavigation";
+import { SidebarNavigation } from "enigma/components/common/SidebarNavigation";
 import { MainContent } from "./mainContent";
 import { Session } from "next-auth";
 

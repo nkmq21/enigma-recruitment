@@ -9,10 +9,10 @@ import {
 } from "@mui/material";
 import { SearchHistoryChip } from "./searchHistoryJob";
 import Image from "next/image";
-import LogoHeader from "enigma/layouts/logoHeader";
+import BigHeaderLogo from "enigma/components/common/HeaderLogo";
 import SearchBar from "enigma/ui/searchBar";
 import { FilterSortBar } from "enigma/ui/filterSortBar";
-import SectionTitle from "enigma/ui/font/sectionTitle";
+import SectionTitle from "enigma/styles/sectionTitle";
 import BlogCard from "enigma/ui/blogCard";
 
 

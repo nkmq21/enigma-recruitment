@@ -1,9 +1,9 @@
 "use client";
 import * as React from "react";
 import { NewVerificationForm } from "./newVerificationForm";
-import { LoginHero } from "enigma/pages/login/loginHero";
+import { LoginHero } from "enigma/pages/login/LoginHero";
 import { ThemeProvider, Box, Grid } from '@mui/material';
-import theme from "enigma/ui/font/theme";
+import theme from "enigma/styles/theme";
 
 export default function NewVerificationPage() {
     return (

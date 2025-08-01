@@ -2,7 +2,7 @@ import * as React from "react";
 import { Box, ThemeProvider } from "@mui/material";
 import { MainContent } from "./mainContent";
 import Image from "next/image";
-import theme from "enigma/ui/font/theme";
+import theme from "enigma/styles/theme";
 
 export default function Media() {
     return (

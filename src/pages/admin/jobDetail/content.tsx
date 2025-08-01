@@ -18,7 +18,7 @@ import {
 import Image from "next/image";
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { Close } from '@mui/icons-material';
-import theme from "enigma/ui/font/theme";
+import theme from "enigma/styles/theme";
 
 interface ContentProps {
     handleClose: () => void;

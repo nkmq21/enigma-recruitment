@@ -13,7 +13,7 @@ import {
     Stack,
 } from '@mui/material';
 import { ThemeProvider } from '@emotion/react';
-import theme from '../font/theme';
+import theme from 'enigma/styles/theme';
 import { ArrowDropDown, Close } from '@mui/icons-material';
 import Image from 'next/image';
 import { INDUSTRIES } from 'enigma/data/industryData';
@@ -34,7 +34,7 @@ const IndustriesFilter: FunctionComponent<IndustriesFilterProps> = ({
     onDialogOpen,
     onDialogClose,
 }) => {
-    const searchParams = useSearchParams();
+    const searchParams = useSearchParams()!;
     const [open, setOpen] = useState(false);
     const [selectedIndustries, setSelectedIndustries] = useState<string[]>(() => {
         const urlIndustries = searchParams.get('industries')?.split(',').filter(Boolean) || [];

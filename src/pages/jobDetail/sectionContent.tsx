@@ -2,7 +2,6 @@ import { FunctionComponent } from "react";
 import {
     Box,
     Typography,
-    Button,
     Chip,
     Divider,
     Card,
@@ -23,7 +22,7 @@ import {
     Schedule,
     Business,
 } from "@mui/icons-material";
-import ApplyNowDialog from "../admin/jobDetail/buttonAdmin";
+import ApplyNowDialog from "enigma/pages/admin/jobDetail/buttonAdmin";
 
 const SectionContent: FunctionComponent = () => {
     return (

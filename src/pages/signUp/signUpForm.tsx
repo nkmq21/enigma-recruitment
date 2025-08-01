@@ -1,6 +1,6 @@
 "use client";
 import React, {useActionState, useState} from 'react';
-import LogoHeader from "../logoHeader"
+import BigHeaderLogo from "enigma/components/common/HeaderLogo"
 import { useRouter } from 'next/navigation';
 import {
     Box,
@@ -103,7 +103,7 @@ export const SignUpForm: React.FC = () => {
                 fontFamily: 'Inter, -apple-system, Roboto, Helvetica, sans-serif',
             }}
         >
-            <LogoHeader />
+            <BigHeaderLogo />
             <Container
                 sx={{
                     display: 'flex',

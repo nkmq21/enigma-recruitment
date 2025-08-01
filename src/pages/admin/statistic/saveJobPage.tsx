@@ -2,8 +2,8 @@ import * as React from "react";
 import { Box, ThemeProvider } from "@mui/material";
 import { MainContentStatisticAdmin } from "./mainContent";
 import Image from "next/image";
-import theme from "enigma/ui/font/theme";
-import { SidebarNavigation } from "enigma/layouts/sideBarNavigation";
+import theme from "enigma/styles/theme";
+import { SidebarNavigation } from "enigma/components/common/SidebarNavigation";
 
 export default function StatisticAdmin() {
     return (

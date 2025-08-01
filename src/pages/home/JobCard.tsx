@@ -10,7 +10,7 @@ import {
     Chip,
 } from '@mui/material';
 import ArrowOutwardIcon from '@mui/icons-material/ArrowOutward';
-import { JobTitleTypography } from '../font/typography';
+import { JobTitleTypography } from 'enigma/styles/typography';
 import { format } from "date-fns";
 
 // Define the props interface for better type safety
@@ -224,7 +224,7 @@ const JobListPage: React.FC<JobListPageProps> = ({ jobs }) => {
         },
         {
             job_id: "2",
-            job_title: "Product Designer (UI/UX Specialist)",
+            job_title: "Product Designer (ui/UX Specialist)",
             description: "Join GreenWave Tech to design intuitive and visually appealing interfaces for our sustainability-focused mobile app. Collaborate with product managers and developers to create user-centered designs and iterate on prototypes.",
             salary_range_start: 1800,
             salary_range_end: 2200,
@@ -237,7 +237,7 @@ const JobListPage: React.FC<JobListPageProps> = ({ jobs }) => {
         {
             job_id: "3",
             job_title: "Frontend Developer (React Expert)",
-            description: "Build and maintain responsive web applications for NovaTech's AI-driven platform. Work closely with the design team to implement modern UI components and ensure seamless user experiences.",
+            description: "Build and maintain responsive web applications for NovaTech's AI-driven platform. Work closely with the design team to implement modern ui components and ensure seamless user experiences.",
             salary_range_start: 1500,
             salary_range_end: 2000,
             created_date: "10 Mar 2025",

@@ -1,9 +1,9 @@
 import * as React from "react";
-import SuggestedJobCard from "../suggestJobCard";
-import SectionTitle from "../font/sectionTitle";
+import SuggestedJobCard from "enigma/ui/suggestJobCard";
+import SectionTitle from "enigma/styles/sectionTitle";
 import Image from 'next/image';
 import SearchIcon from '@mui/icons-material/Search';
-import LogoHeader from "../logoHeader";
+import BigHeaderLogo from "enigma/components/common/HeaderLogo";
 import SectionContent from "./sectionContent";
 import {
     Box,
@@ -12,7 +12,7 @@ import {
     TextField, InputAdornment,
     Divider,
 } from "@mui/material";
-import { PopularJobChip } from "../popularChip";
+import { PopularJobChip } from "enigma/ui/popularChip";
 
 export const DetailContent = () => {
 
@@ -27,7 +27,7 @@ export const DetailContent = () => {
             },
         }}>
             <Box sx={{ display: { lg: 'none', sm: 'block' } }}>
-                <LogoHeader />
+                <BigHeaderLogo />
                 <Divider sx={{ mt: 1, mb: 3, width: '100%' }} />
             </Box>
 
