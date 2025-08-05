@@ -107,7 +107,7 @@ model JobSubfunction {
   @@map("job_subfunctions")
 }
 
-model AdminJobsPage {
+model Job {
   job_id             String           @id @db.VarChar(11)
   job_title          String
   description        String
