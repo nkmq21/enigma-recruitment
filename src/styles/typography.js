@@ -2,7 +2,7 @@
 import * as React from 'react';
 import Typography from '@mui/material/Typography';
 
-// Job Title Typography (with truncation)
+// AdminJobsPage Title Typography (with truncation)
 export const JobTitleTypography = ({ children, ...props }) => (
     <Typography
         sx={{

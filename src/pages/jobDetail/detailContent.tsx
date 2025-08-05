@@ -1,6 +1,6 @@
 import * as React from "react";
-import SuggestedJobCard from "enigma/ui/suggestJobCard";
-import SectionTitle from "enigma/styles/sectionTitle";
+import SuggestedJobCard from "enigma/components/ui/SuggestedJobCard";
+import SectionTitle from "enigma/components/ui/SectionTitle";
 import Image from 'next/image';
 import SearchIcon from '@mui/icons-material/Search';
 import BigHeaderLogo from "enigma/components/common/HeaderLogo";
@@ -47,7 +47,7 @@ export const DetailContent = () => {
                 <TextField
                     fullWidth
                     variant="outlined"
-                    placeholder="Job positions/ Company name"
+                    placeholder="AdminJobsPage positions/ Company name"
                     InputProps={{
                         startAdornment: (
                             <InputAdornment position="start">

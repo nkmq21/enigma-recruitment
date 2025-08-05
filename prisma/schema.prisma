@@ -48,7 +48,7 @@ model Account {
   @@map("accounts")
 }
 
-//manage login session
+// manage login session
 model Session {
   id           String   @id @default(cuid())
   sessionToken String   @unique @map("session_token")
@@ -107,7 +107,7 @@ model JobSubfunction {
   @@map("job_subfunctions")
 }
 
-model Job {
+model AdminJobsPage {
   job_id             String           @id @db.VarChar(11)
   job_title          String
   description        String

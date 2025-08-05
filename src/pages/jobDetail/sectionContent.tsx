@@ -22,19 +22,19 @@ import {
     Schedule,
     Business,
 } from "@mui/icons-material";
-import ApplyNowDialog from "enigma/pages/admin/jobDetail/buttonAdmin";
+import ApplyNowDialog from "enigma/pages/admin/jobs/job-details/buttonAdmin";
 
 const SectionContent: FunctionComponent = () => {
     return (
         <Box sx={{ display: "flex", flexDirection: "column", gap: 3, p: 2 }}>
-            {/* Job Details Section */}
+            {/* AdminJobsPage Details Section */}
             <Box>
                 <Card sx={{ borderRadius: 4 }}>
                     <CardMedia
                         component="img"
                         height="291"
                         image="bannerJobDetail.svg"
-                        alt="Job Banner"
+                        alt="AdminJobsPage Banner"
                         sx={{ borderRadius: "8px", objectFit: "cover" }}
                     />
                     <CardContent>
@@ -72,14 +72,14 @@ const SectionContent: FunctionComponent = () => {
                             </Box>
                         </Box>
 
-                        {/* Job Title and Apply Button */}
+                        {/* AdminJobsPage Title and Apply Button */}
                         <ApplyNowDialog role="seeker" />
 
                         <Typography variant="body2" color="#6941c6" mt={1}>
                             Submission deadline May 31, 2025 • 21 applicants
                         </Typography>
 
-                        {/* Job Metadata */}
+                        {/* AdminJobsPage Metadata */}
                         <Box sx={{ mt: 2, display: "flex", flexDirection: "column", gap: 1 }}>
                             <Stack direction="row" spacing={1} alignItems="center">
                                 <Work fontSize="small" />
@@ -113,10 +113,10 @@ const SectionContent: FunctionComponent = () => {
                             </Stack>
                         </Box>
                     </CardContent>
-                    {/* Job Summary and Responsibilities */}
+                    {/* AdminJobsPage Summary and Responsibilities */}
                     <CardContent sx={{ bgcolor: "#fff", borderTop: "3px solid #f2f4f7" }}>
                         <Typography variant="h6" fontWeight={600}>
-                            Job Summary
+                            AdminJobsPage Summary
                         </Typography>
                         <Typography variant="body2" color="text.secondary" mt={1}>
                             We are seeking a highly skilled Senior Business Analyst (Blockchain) to join our dynamic team in Bangkok.
@@ -189,7 +189,7 @@ const SectionContent: FunctionComponent = () => {
                                 component="img"
                                 sx={{ width: 200, height: 124, borderRadius: 2, objectFit: "cover" }}
                                 image="Image.png"
-                                alt="Job Image"
+                                alt="AdminJobsPage Image"
                             />
                             <Box sx={{ flex: 1, display: "flex", flexDirection: "column", gap: 1 }}>
                                 <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>

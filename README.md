@@ -237,7 +237,7 @@ This project aims to enhance the recruitment experience by providing a comprehen
 							<td style='padding: 8px;'>- FeatureText component showcases a series of feature cards that highlight various services offered, such as management, engineering, and HR solutions<br>- Each card presents an icon, title, and description, effectively communicating the value propositions to users<br>- Positioned within a responsive layout, it enhances the overall user experience by providing clear and visually appealing information about the projects offerings.</td>
 						</tr>
 						<tr style='border-bottom: 1px solid #eee;'>
-							<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/components/suggestJobCard.tsx'>suggestJobCard.tsx</a></b></td>
+							<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/components/suggestJobCard.tsx'>SuggestedJobCard.tsx</a></b></td>
 							<td style='padding: 8px;'>- SuggestedJobCard serves as a visually appealing component within the project, designed to display job opportunities in a concise format<br>- It highlights essential details such as job title, company name, location, and salary, enhancing user engagement<br>- By integrating Material-UI elements, it ensures a responsive and interactive experience, contributing to the overall architectures focus on user-friendly job search functionalities.</td>
 						</tr>
 						<tr style='border-bottom: 1px solid #eee;'>
@@ -325,11 +325,11 @@ This project aims to enhance the recruitment experience by providing a comprehen
 										</tr>
 									</thead>
 										<tr style='border-bottom: 1px solid #eee;'>
-											<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/components/login/reset-password/forgotForm.tsx'>forgotForm.tsx</a></b></td>
+											<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/components/login/reset-password/forgotForm.tsx'>ResetPasswordForm.tsx</a></b></td>
 											<td style='padding: 8px;'>- Facilitates the user experience for password recovery within the application<br>- It provides a form where users can enter their email address to receive a password reset link<br>- The component is designed with a user-friendly interface, incorporating visual elements and responsive design, ensuring accessibility across devices<br>- It plays a crucial role in enhancing user engagement and security by streamlining the password recovery process.</td>
 										</tr>
 										<tr style='border-bottom: 1px solid #eee;'>
-											<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/components/login/reset-password/forgotPass.tsx'>forgotPass.tsx</a></b></td>
+											<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/components/login/reset-password/forgotPass.tsx'>ResetPasswordPage.tsx</a></b></td>
 											<td style='padding: 8px;'>- Facilitates the user experience for password recovery within the application by rendering a dedicated interface<br>- It integrates a form for users to input their information alongside a visual component that enhances the overall aesthetic<br>- This component is part of a broader architecture that emphasizes user-friendly design and accessibility, ensuring a seamless interaction during the password reset process.</td>
 										</tr>
 										<tr style='border-bottom: 1px solid #eee;'>
@@ -505,7 +505,7 @@ This project aims to enhance the recruitment experience by providing a comprehen
 							</table>
 						</blockquote>
 					</details>
-					<!-- newVerification Submodule -->
+					<!-- new-verification Submodule -->
 					<details>
 						<summary><b>verification</b></summary>
 						<blockquote>
@@ -547,7 +547,7 @@ This project aims to enhance the recruitment experience by providing a comprehen
 									<td style='padding: 8px;'>- Provides a set of reusable typography components tailored for a job listing interface, enhancing the visual hierarchy and readability of job-related information<br>- It includes specialized styles for job titles, company names, and salary details, ensuring consistency across the application while adhering to the overall design theme<br>- These components contribute to a polished user experience by effectively presenting key information in a visually appealing manner.</td>
 								</tr>
 								<tr style='border-bottom: 1px solid #eee;'>
-									<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/components/font/sectionTitle.tsx'>sectionTitle.tsx</a></b></td>
+									<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/components/font/sectionTitle.tsx'>SectionTitle.tsx</a></b></td>
 									<td style='padding: 8px;'>- SectionTitle component serves as a visually appealing header for different sections within the application, enhancing user experience by clearly presenting titles<br>- It optionally includes action buttons for additional functionalities, such as filtering or more options, depending on the context<br>- This component integrates seamlessly into the overall architecture, promoting consistency and interactivity across the user interface.</td>
 								</tr>
 							</table>
@@ -622,7 +622,7 @@ This project aims to enhance the recruitment experience by providing a comprehen
 					</thead>
 						<tr style='border-bottom: 1px solid #eee;'>
 							<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/services/jobServices.ts'>jobServices.ts</a></b></td>
-							<td style='padding: 8px;'>- Job services facilitate the retrieval of job-related data within the application<br>- They enable fetching specific job details by ID, while also providing access to distinct active job locations and a sorted list of industry names<br>- This functionality supports the overall architecture by ensuring that users can efficiently access and filter job information, enhancing the user experience and data management capabilities of the project.</td>
+							<td style='padding: 8px;'>- AdminJobsPage services facilitate the retrieval of job-related data within the application<br>- They enable fetching specific job details by ID, while also providing access to distinct active job locations and a sorted list of industry names<br>- This functionality supports the overall architecture by ensuring that users can efficiently access and filter job information, enhancing the user experience and data management capabilities of the project.</td>
 						</tr>
 						<tr style='border-bottom: 1px solid #eee;'>
 							<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/services/jobApplicationServices.ts'>jobApplicationServices.ts</a></b></td>
@@ -860,12 +860,12 @@ This project aims to enhance the recruitment experience by providing a comprehen
 											</thead>
 												<tr style='border-bottom: 1px solid #eee;'>
 													<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/app/(public)/login/reset-password/page.tsx'>page.tsx</a></b></td>
-													<td style='padding: 8px;'>- Facilitates the user experience for password recovery within the application by rendering the ForgotPass component<br>- Positioned within the login module, this page serves as a dedicated interface for users to initiate the password reset process, ensuring a seamless transition for those needing to regain access to their accounts<br>- It plays a crucial role in enhancing user security and accessibility.</td>
+													<td style='padding: 8px;'>- Facilitates the user experience for password recovery within the application by rendering the ResetPasswordPage component<br>- Positioned within the login module, this page serves as a dedicated interface for users to initiate the password reset process, ensuring a seamless transition for those needing to regain access to their accounts<br>- It plays a crucial role in enhancing user security and accessibility.</td>
 												</tr>
 											</table>
 										</blockquote>
 									</details>
-									<!-- new-newVerification Submodule -->
+									<!-- new-new-verification Submodule -->
 									<details>
 										<summary><b>new-verification</b></summary>
 										<blockquote>
@@ -944,7 +944,7 @@ This project aims to enhance the recruitment experience by providing a comprehen
 							</thead>
 								<tr style='border-bottom: 1px solid #eee;'>
 									<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/app/jobs/page.tsx'>page.tsx</a></b></td>
-									<td style='padding: 8px;'>- Facilitates the rendering of the Job List page within the application by integrating authentication and displaying the TaskPage component<br>- This component serves as a crucial part of the user interface, enabling users to interact with job-related tasks seamlessly<br>- It plays a vital role in the overall architecture by ensuring that job management features are accessible and user-friendly.</td>
+									<td style='padding: 8px;'>- Facilitates the rendering of the AdminJobsPage List page within the application by integrating authentication and displaying the TaskPage component<br>- This component serves as a crucial part of the user interface, enabling users to interact with job-related tasks seamlessly<br>- It plays a vital role in the overall architecture by ensuring that job management features are accessible and user-friendly.</td>
 								</tr>
 							</table>
 						</blockquote>
@@ -987,7 +987,7 @@ This project aims to enhance the recruitment experience by providing a comprehen
 									<td style='padding: 8px;'>- Defines the API routing logic for the application, facilitating communication between the client and server components<br>- It serves as a central hub for handling incoming requests, directing them to the appropriate handlers, and ensuring a seamless interaction with the underlying services<br>- This structure enhances modularity and maintainability within the overall codebase architecture, promoting efficient data exchange and user experience.</td>
 								</tr>
 							</table>
-							<!-- job-applications Submodule -->
+							<!-- jobs-applications Submodule -->
 							<details>
 								<summary><b>jobapplications</b></summary>
 								<blockquote>

@@ -10,6 +10,6 @@ export default async function CvsPage() {
 
 export async function generateMetadata() {
     return {
-        title: 'Job Applications | Enigma Recruitment',
+        title: 'AdminJobsPage Applications | Enigma Recruitment',
     };
 }

@@ -1,10 +1,14 @@
+"use client";
 import React from 'react';
-import { Box, ThemeProvider, Divider } from '@mui/material';
-import { DetailContent } from './detailContent';
+import {Box, ThemeProvider} from '@mui/material';
+import {MainContent} from './MainContent';
 import theme from 'enigma/styles/theme';
-import { SidebarNavigation } from 'enigma/components/common/SidebarNavigation';
+import {SidebarNavigation} from 'enigma/components/common/SidebarNavigation';
+import {Session} from 'next-auth';
 
-const JobDetailAdminPage: React.FC = () => {
+export default function AdminJobDetailsPage({ session }: { session: Session | null }){
+    const [isCollapsed, setIsCollapsed] = React.useState(false);
+    const sidebarWidth = isCollapsed ? '6%' : '18%';
     return (
         <ThemeProvider theme={theme}>
             <Box component="main" sx={{
@@ -12,24 +16,23 @@ const JobDetailAdminPage: React.FC = () => {
                 alignItems: "flex-start",
                 justifyContent: "flex-start",
             }}>
+                <SidebarNavigation session={session} isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
                 <Box
                     sx={{
                         display: 'flex',
                         flex: 1,
                         width: '100%',
                         flexWrap: 'wrap',
-                        bgcolor: '#FFF',
+                        marginLeft: { sm: sidebarWidth },
                         '@media (max-width: 991px)': {
                             maxWidth: '100%',
+                            marginLeft: '0',
                         },
                     }}
                 >
-                    {/* <SidebarNavigation /> */}
-                    <DetailContent />
+                    <MainContent/>
                 </Box>
             </Box>
-        </ThemeProvider >
+        </ThemeProvider>
     );
 };
-
-export default JobDetailAdminPage;

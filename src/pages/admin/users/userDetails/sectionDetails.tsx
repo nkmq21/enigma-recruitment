@@ -301,7 +301,7 @@ const SectionDetails = ({user}: {user: User | null | undefined}) => {
                         </Button>
                     </Box>
                 </Box>
-                {/* Job Cards */}
+                {/* AdminJobsPage Cards */}
                 <Box
                     sx={{
                         display: 'flex',

@@ -1,5 +1,4 @@
-import {Box, Container, Typography,} from '@mui/material';
-
+import {Box, Container, Typography} from '@mui/material';
 import Image from 'next/image';
 
 const OurSelectionProcess = () => {
@@ -37,7 +36,7 @@ const OurSelectionProcess = () => {
     ];
 
     return (
-        < Box sx={{py: 8, bgcolor: '#effbfc', zIndex: 5}}>
+        <Box sx={{py: 8, bgcolor: '#effbfc', zIndex: 5}}>
             <Container maxWidth="lg">
                 <Typography variant="subtitle1" fontWeight={600} color="#2494b6" sx={{mt: 6}}>
                     Our Process
@@ -135,7 +134,7 @@ const OurSelectionProcess = () => {
                     </Box>
                 </Box>
             </Container>
-        </ Box>
+        </Box>
     );
 };
 

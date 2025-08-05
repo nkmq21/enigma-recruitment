@@ -12,7 +12,7 @@ import Image from "next/image";
 import BigHeaderLogo from "enigma/components/common/HeaderLogo";
 import SearchBar from "enigma/ui/searchBar";
 import { FilterSortBar } from "enigma/ui/filterSortBar";
-import SectionTitle from "enigma/styles/sectionTitle";
+import SectionTitle from "enigma/components/ui/SectionTitle";
 import BlogCard from "enigma/ui/blogCard";
 
 

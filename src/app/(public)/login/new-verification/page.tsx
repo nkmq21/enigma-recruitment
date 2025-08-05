@@ -1,7 +1,7 @@
 import React, {Suspense} from 'react';
-import NewVerificationPage from 'enigma/pages/newVerification/newVerificationPage';
+import NewVerificationPage from 'enigma/pages/login/new-verification/NewVerificationPage';
 
-const NewVerification = () => {
+const Page = () => {
     return (
         <Suspense fallback={<div>Loading...</div>}>
             <NewVerificationPage/>
@@ -9,7 +9,7 @@ const NewVerification = () => {
     );
 };
 
-export default NewVerification;
+export default Page;
 
 export async function generateMetadata() {
     return {

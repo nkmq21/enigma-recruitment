@@ -68,10 +68,10 @@ export default function LoadingData() {
 
                 const data = await response.json();
                 if (data.jobs) {
-                    // Make sure each job has the required properties
+                    // Make sure each jobs has the required properties
                     const transformedJobs = data.jobs.map((job: Job) => ({
                         ...job,
-                        // Ensure the job has industry object with industry_name
+                        // Ensure the jobs has industry object with industry_name
                         industry: job.industry || { industry_name: "" },
                         // Convert any string dates to Date objects if needed
                         close_date: job.close_date ? new Date(job.close_date) : new Date()
@@ -82,7 +82,7 @@ export default function LoadingData() {
                     setJobs([]);
                 }
             } catch (error) {
-                console.error("job fetch failed: ", error);
+                console.error("jobs fetch failed: ", error);
                 setJobs([]);
             } finally {
                 setLoading(false);

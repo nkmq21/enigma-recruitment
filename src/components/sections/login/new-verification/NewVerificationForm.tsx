@@ -13,11 +13,9 @@ export const NewVerificationForm: React.FC = () => {
     const token = searchParams.get('token');
     const onSubmit = useCallback(() => {
         if (!token) {
-            console.error("newVerificationForm.tsx - No token provided");
             setError("Missing token");
             return;
         }
-        console.log("newVerificationForm.tsx - Verifying token: " + token);
         newVerification(token).then((data) => {
             if (data.success) {
                 setSuccess(data.success);
@@ -25,7 +23,6 @@ export const NewVerificationForm: React.FC = () => {
                 setError(data.error);
             }
         }).catch((error) => {
-            console.error("verificationForm.tsx - Error verifying token: ", error);
             setError("Error verifying token: " + error);
         });
     }, [token]);

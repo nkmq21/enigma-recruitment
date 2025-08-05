@@ -1,11 +1,11 @@
 "use client";
 import * as React from "react";
-import { PassConfirm } from "./passConfirm";
-import { LoginHero } from "./forgotHero";
+import { NewVerificationForm } from "enigma/components/sections/login/new-verification/NewVerificationForm";
+import { LoginHero } from "enigma/components/sections/login/LoginHero";
 import { ThemeProvider, Box, Grid } from '@mui/material';
-import theme from 'enigma/styles/theme';
+import theme from "enigma/styles/theme";
 
-export function ConfirmPasss() {
+export default function NewVerificationPage() {
     return (
         <ThemeProvider theme={theme}>
             <Box
@@ -41,7 +41,7 @@ export function ConfirmPasss() {
                             bgcolor: '#FFF',
                         }}
                     >
-                        <PassConfirm />
+                        <NewVerificationForm />
                         <LoginHero />
                     </Grid>
                 </Grid>

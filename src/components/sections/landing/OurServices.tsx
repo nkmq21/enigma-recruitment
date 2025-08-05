@@ -15,7 +15,7 @@ export default function OurServices() {
         {
             title: 'Results you can measure',
             description:
-                "If you are looking for a job or an employee, you need an agency that delivers. We don't give up and our speciality is hard to hire jobs.",
+                "If you are looking for a jobs or an employee, you need an agency that delivers. We don't give up and our speciality is hard to hire jobs.",
         },
         {
             title: 'Supporting your employer brand',

@@ -1,6 +1,6 @@
 "use client";
 import * as React from "react";
-import SectionTitle from "enigma/styles/sectionTitle";
+import SectionTitle from "enigma/components/ui/SectionTitle";
 import BigHeaderLogo from "enigma/components/common/HeaderLogo";
 import SearchBar from "enigma/ui/searchBar";
 import CTA from "enigma/components/common/cta";
@@ -46,7 +46,7 @@ export const MainContent = () => {
             </Typography>
 
             {/* Search and Filter */}
-            <SearchBar placeholder="Job title, description, or industry name" />
+            <SearchBar placeholder="AdminJobsPage title, description, or industry name" />
 
             {/* ADDED TO CHECK THE ACTIVATED FILTER */}
             {/* Active Filters */}
@@ -86,7 +86,7 @@ export const MainContent = () => {
                         {/* Add other filter chips... */}
                         {searchParams.get('jobFunctions') && (
                             <Chip
-                                label={`Job Functions: ${searchParams.get('jobFunctions')?.replace(/,/g, ', ')}`}
+                                label={`AdminJobsPage Functions: ${searchParams.get('jobFunctions')?.replace(/,/g, ', ')}`}
                                 size="small"
                                 onDelete={() => {
                                     const newParams = new URLSearchParams(searchParams.toString());
@@ -98,7 +98,7 @@ export const MainContent = () => {
 
                         {searchParams.get('jobSubfunctions') && (
                             <Chip
-                                label={`Job Subfunctions: ${searchParams.get('jobSubfunctions')?.replace(/,/g, ', ')}`}
+                                label={`AdminJobsPage Subfunctions: ${searchParams.get('jobSubfunctions')?.replace(/,/g, ', ')}`}
                                 size="small"
                                 onDelete={() => {
                                     const newParams = new URLSearchParams(searchParams.toString());

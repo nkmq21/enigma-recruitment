@@ -10,7 +10,7 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import { z } from "zod";
 import {resetPass} from "enigma/services/userServices";
 
-export const ForgotForm: React.FC = () => {
+export const ResetPasswordForm: React.FC = () => {
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState("");

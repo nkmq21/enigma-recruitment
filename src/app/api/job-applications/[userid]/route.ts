@@ -1,4 +1,4 @@
-// src/app/api/job-applications/[userid]/route.ts
+// src/app/api/jobs-applications/[userid]/route.ts
 import {NextResponse} from 'next/server';
 import {auth} from 'enigma/auth';
 import {getJobApplicationsByUserId} from "enigma/services/jobApplicationServices";
@@ -25,7 +25,7 @@ export async function GET(request: Request, {params}: {params: Params}) {
         }
         return NextResponse.json(jobApplications);
     } catch (error) {
-        console.error('Error fetching job applications:', error);
+        console.error('Error fetching jobs applications:', error);
         return NextResponse.json(
             {error: 'Internal Server Error'},
             {status: 500}
