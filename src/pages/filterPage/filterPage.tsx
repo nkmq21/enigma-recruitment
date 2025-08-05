@@ -79,7 +79,7 @@ const SlideOutMenu: FunctionComponent<SlideOutMenuProps> = ({ onClose }) => {
     }, []); // No dependencies - stable reference
 
     const handleJobFunctionChange = useCallback((jobFunctions: string[]) => {
-        console.log('📥 Job Functions updated:', jobFunctions);
+        console.log('📥 AdminJobsPage Functions updated:', jobFunctions);
         setFilterValues(prev => ({
             ...prev,
             selectedJobFunctions: jobFunctions
@@ -87,7 +87,7 @@ const SlideOutMenu: FunctionComponent<SlideOutMenuProps> = ({ onClose }) => {
     }, []); // No dependencies - stable reference
 
     const handleJobSubfunctionChange = useCallback((jobSubfunctions: string[]) => {
-        console.log('Job subfunctions updated: ', jobSubfunctions);
+        console.log('AdminJobsPage subfunctions updated: ', jobSubfunctions);
         setFilterValues(prev => ({
             ...prev,
             jobSubfunctions: jobSubfunctions
@@ -146,7 +146,7 @@ const SlideOutMenu: FunctionComponent<SlideOutMenuProps> = ({ onClose }) => {
                 params.delete('industries');
                 if (industriesRef.current) industriesRef.current.value = '';
                 break;
-            case 'Job Role':
+            case 'AdminJobsPage Role':
                 if (jobFunctionsRef.current) jobFunctionsRef.current.value = '';
                 if (jobSubFunctionsRef.current) jobSubFunctionsRef.current.value = '';
                 break;
@@ -346,11 +346,11 @@ const SlideOutMenu: FunctionComponent<SlideOutMenuProps> = ({ onClose }) => {
                         />
                     </Box>
 
-                    {/* Job Role */}
+                    {/* AdminJobsPage Role */}
                     <Box>
                         <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-                            <Typography variant='body2' fontWeight={500} color='#31373d'>Job Role</Typography>
-                            <ResetButton filterName="Job Role" onReset={handleReset} />
+                            <Typography variant='body2' fontWeight={500} color='#31373d'>AdminJobsPage Role</Typography>
+                            <ResetButton filterName="AdminJobsPage Role" onReset={handleReset} />
                         </Box>
                         <Box sx={{ display: 'flex', gap: 2 }}>
                             <JobRoleFilter

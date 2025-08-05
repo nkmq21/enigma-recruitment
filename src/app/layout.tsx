@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
     title: "Enigma Recruitment",
-    description: "Enigma Recruitment - Your gateway to the best job opportunities",
+    description: "Enigma Recruitment - Your gateway to the best jobs opportunities",
     
 };
 

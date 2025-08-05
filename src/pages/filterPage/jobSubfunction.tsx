@@ -34,13 +34,13 @@ const JobSubRoleFilter: FunctionComponent<JobSubRoleFilterProps> = ({
     const searchParams = useSearchParams()!;
     // State to manage dialog visibility
     const [open, setOpen] = useState(false);
-    // State to store selected job subfunctions
+    // State to store selected jobs subfunctions
     const [selectedJobSubfunctions, setSelectedJobSubfunctions] = useState<string[]>(() => {
         const urlJobSubfunctions = searchParams.get('jobSubfunctions')?.split(',').filter(Boolean) || [];
         return urlJobSubfunctions.length > 0 ? urlJobSubfunctions : value;
     });
     const [searchTerm, setSearchTerm] = useState('');
-    // all job subfunctions data
+    // all jobs subfunctions data
     const [jobSubfunctionList, setJobSubfunctionList] = useState<string[]>([]);
     // Ref for TextField
     const jobSubFunctionsRef = useRef(null);
@@ -71,14 +71,14 @@ const JobSubRoleFilter: FunctionComponent<JobSubRoleFilterProps> = ({
         }
     }, [open, searchParams, value]);
 
-    //notify parent when selected job subfunctions change
+    //notify parent when selected jobs subfunctions change
     useEffect(() => {
         if (onChange && JSON.stringify(selectedJobSubfunctions) !== JSON.stringify(value)) {
             onChange(selectedJobSubfunctions);
         }
     }, [selectedJobSubfunctions, onChange, value]);
 
-    //fetch job subfunctions
+    //fetch jobs subfunctions
     const fetchJobSubfunctions = () => {
         try {
             const jobSub = selectedJobFunction
@@ -86,12 +86,12 @@ const JobSubRoleFilter: FunctionComponent<JobSubRoleFilterProps> = ({
                 .filter((v, i, a) => a.indexOf(v) === i);
             setJobSubfunctionList(jobSub);
         } catch (error) {
-            console.error('failed to fetch job functions: ', error);
+            console.error('failed to fetch jobs functions: ', error);
             setJobSubfunctionList([]);
         }
     }
 
-    //fetch job subfunctions when dialog opens or selected job subfunction change
+    //fetch jobs subfunctions when dialog opens or selected jobs subfunction change
     useEffect(() => {
         if (open) {
             fetchJobSubfunctions();
@@ -124,7 +124,7 @@ const JobSubRoleFilter: FunctionComponent<JobSubRoleFilterProps> = ({
                     fullWidth
                     variant="outlined"
                     inputRef={jobSubFunctionsRef}
-                    placeholder={selectedJobSubfunctions.length > 0 ? `${selectedJobSubfunctions.length} subfunction(s) selected` : "Job Sub Functions"}
+                    placeholder={selectedJobSubfunctions.length > 0 ? `${selectedJobSubfunctions.length} subfunction(s) selected` : "AdminJobsPage Sub Functions"}
                     value="" // Keep empty to show placeholder
                     onClick={handleOpenJobSubfunction}
                     disabled={disabled}
@@ -140,7 +140,7 @@ const JobSubRoleFilter: FunctionComponent<JobSubRoleFilterProps> = ({
                     }}
                 />
 
-                {/* Selected Job Subfunctions Chips */}
+                {/* Selected AdminJobsPage Subfunctions Chips */}
                 {selectedJobSubfunctions.length > 0 && (
                     <Stack direction="row" spacing={1} sx={{mt: 1, flexWrap: 'wrap', gap: 1}}>
                         {selectedJobSubfunctions.slice(0, 3).map((jobSubfunction) => (
@@ -174,7 +174,7 @@ const JobSubRoleFilter: FunctionComponent<JobSubRoleFilterProps> = ({
                 )}
             </Box>
 
-            {/* Dialog for job subfunctions selection */}
+            {/* Dialog for jobs subfunctions selection */}
             <Dialog
                 open={open}
                 onClose={handleCloseJobSubfunction}
@@ -223,7 +223,7 @@ const JobSubRoleFilter: FunctionComponent<JobSubRoleFilterProps> = ({
                                 color: '#262d34',
                                 fontSize: {xs: '13px', sm: '16px'},
                             }}>
-                                Select Job Sub Functions ({selectedJobSubfunctions.length} selected)
+                                Select AdminJobsPage Sub Functions ({selectedJobSubfunctions.length} selected)
                             </Typography>
                             {selectedJobSubfunctions.length > 0 && (
                                 <Button
@@ -244,7 +244,7 @@ const JobSubRoleFilter: FunctionComponent<JobSubRoleFilterProps> = ({
                         {/* Search Field */}
                         <TextField
                             fullWidth
-                            placeholder="Search Job Sub Functions"
+                            placeholder="Search AdminJobsPage Sub Functions"
                             variant="outlined"
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
@@ -260,7 +260,7 @@ const JobSubRoleFilter: FunctionComponent<JobSubRoleFilterProps> = ({
                             }}
                         />
 
-                        {/* Job Subfunction List */}
+                        {/* AdminJobsPage Subfunction List */}
                         <List
                             sx={{
                                 width: '100%',
@@ -278,7 +278,7 @@ const JobSubRoleFilter: FunctionComponent<JobSubRoleFilterProps> = ({
                         >
                             {filteredJobSubfunctions.length === 0 ? (
                                 <Typography textAlign="center" color="textSecondary" sx={{py: 2}}>
-                                    {searchTerm ? 'No job subfunctions found' : 'Please choose a Job Function first'}
+                                    {searchTerm ? 'No jobs subfunctions found' : 'Please choose a AdminJobsPage Function first'}
                                 </Typography>
                             ) : (
                                 filteredJobSubfunctions.map((jobSubfunction) => {

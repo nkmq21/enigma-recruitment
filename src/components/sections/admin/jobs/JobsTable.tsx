@@ -15,7 +15,7 @@ import {
 } from '@mui/material';
 import Image from 'next/image';
 
-const DashboardJob: React.FC = () => {
+const JobsTable: React.FC = () => {
     const jobData = [
         { title: 'Project Manager', location: 'Pasadena, Oklahoma', postDate: 'March 13, 2014', expirationDate: 'March 13, 2014', state: 'Open' },
         { title: 'Software Engineer', location: 'Lansing, Illinois', postDate: 'October 24, 2018', expirationDate: 'October 24, 2018', state: 'Open' },
@@ -188,4 +188,4 @@ const DashboardJob: React.FC = () => {
     );
 };
 
-export default DashboardJob;
+export default JobsTable;

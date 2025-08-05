@@ -1,16 +1,15 @@
 import * as React from "react";
-import SectionContent from "./sectionContent";
+import JobDetailsGrid from "../../../../components/sections/admin/jobs/job-details/JobDetailsGrid";
 import {
     Box,
     Typography,
     Divider,
 } from "@mui/material";
 import BigHeaderLogo from "enigma/components/common/HeaderLogo";
-import SectionTitle from "enigma/styles/sectionTitle";
-import SuggestedJobCard from "enigma/ui/suggestJobCard";
+import SectionTitle from "enigma/components/ui/SectionTitle";
+import SuggestedJobCard from "enigma/components/ui/SuggestedJobCard";
 
-export const DetailContent = () => {
-
+export const MainContent = () => {
     return (
         <Box component="main" sx={{
             flexGrow: 1,
@@ -27,7 +26,7 @@ export const DetailContent = () => {
             </Box>
 
             <Typography variant="h4" component="h1" gutterBottom color="#101828">
-                Job Detail
+                Job Details
             </Typography>
 
             <Box sx={{
@@ -42,8 +41,7 @@ export const DetailContent = () => {
                         pr: 2,
                     },
                 }}>
-
-                    <SectionContent />
+                    <JobDetailsGrid />
                 </Box>
 
                 {/* Right Column */}

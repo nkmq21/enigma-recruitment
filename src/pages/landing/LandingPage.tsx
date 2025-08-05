@@ -6,7 +6,7 @@ import Footer from 'enigma/components/common/Footer';
 import theme from 'enigma/styles/theme';
 import BigHeaderLogo from "enigma/components/common/HeaderLogo";
 import Image from 'next/image';
-import MainContent from './MainContent';
+import MainContent from '../../components/sections/landing/MainContent';
 import { Session } from "next-auth";
 
 const LandingPage = ({ session }: { session: Session | null }) => {

@@ -6,12 +6,12 @@ import {
     Divider,
     IconButton,
 } from "@mui/material";
-import MoreVertIcon from '@mui/icons-material/MoreVert'; // Thay cho dots-vertical.svg
-import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward'; // Thay cho arrow-up.svg
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import Image from "next/image";
-import DashboardJob from "./dashboardJob";
+import JobsTable from "./JobsTable";
 import BigHeaderLogo from "enigma/components/common/HeaderLogo";
-import SectionTitle from "enigma/styles/sectionTitle";
+import SectionTitle from "enigma/components/ui/SectionTitle";
 
 export const MainContent = () => {
     return (
@@ -29,13 +29,12 @@ export const MainContent = () => {
             </Box>
 
             <Typography sx={{ fontSize: '30px', lineHeight: '38px', mb: 3 }} fontWeight={600} color="#101828">
-                Job
+                Job Dashboard
             </Typography>
 
             {/* Popular Jobs */}
-
             <Typography sx={{ fontSize: '20px', lineHeight: '30px', mb: 4 }} fontWeight={600} gutterBottom color="#101828">
-                Overview of Job Activity
+                Overview of Job Activities
             </Typography>
             <Box sx={{
                 mb: 5, display: 'flex', gap: 2,
@@ -85,7 +84,7 @@ export const MainContent = () => {
                                     color: '#40b0d0',
                                 }}
                             >
-                                <Image src="/bagJob.svg" alt="Total Job Post" width={24} height={24} />
+                                <Image src="/bagJob.svg" alt="Total AdminJobsPage Post" width={24} height={24} />
                             </Box>
                         </Box>
                     </Box>
@@ -118,7 +117,7 @@ export const MainContent = () => {
                                 color: '#475467',
                             }}
                         >
-                            Total Job Post
+                            Total AdminJobsPage Post
                         </Typography>
                         <Box
                             sx={{
@@ -221,7 +220,7 @@ export const MainContent = () => {
                                     color: '#40b0d0',
                                 }}
                             >
-                                <Image src="/alertJob.svg" alt="Job Expiration Alert" width={24} height={24} />
+                                <Image src="/alertJob.svg" alt="AdminJobsPage Expiration Alert" width={24} height={24} />
                             </Box>
                         </Box>
                     </Box>
@@ -240,7 +239,7 @@ export const MainContent = () => {
                                 color: '#475467',
                             }}
                         >
-                            Job Expiration Alert
+                            AdminJobsPage Expiration Alert
                         </Typography>
                         <Box
                             sx={{
@@ -413,8 +412,8 @@ export const MainContent = () => {
                     </Box>
                 </Card>
             </Box>
-            <SectionTitle title="Job Postings" showOptions showOptions1 />
-            <DashboardJob />
+            <SectionTitle title="AdminJobsPage Postings" showOptions showOptions1 />
+            <JobsTable />
         </Box >
     );
 };

@@ -64,7 +64,7 @@ const JobCard: React.FC<JobCardProps> = ({
     onBookmarkClick,
 }) => {
 
-    //use provided job data
+    //use provided jobs data
     const title = job?.job_title || '';
     const createDate = job?.created_date || '';
     const closeDate = job?.close_date || '';
@@ -84,7 +84,7 @@ const JobCard: React.FC<JobCardProps> = ({
             <CardMedia
                 component="img"
                 image={image}
-                alt="Job thumbnail"
+                alt="AdminJobsPage thumbnail"
                 sx={{ objectFit: 'cover' }}
             />
             <CardContent >
@@ -190,7 +190,7 @@ const JobCard: React.FC<JobCardProps> = ({
     );
 }
 
-type Job = {
+type AdminJobsPage = {
     job_id: string;
     job_title: string;
     description: string;

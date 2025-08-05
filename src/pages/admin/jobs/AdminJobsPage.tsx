@@ -1,14 +1,13 @@
 "use client";
 import * as React from "react";
 import { Box, ThemeProvider } from "@mui/material";
-import { MainContent } from "./mainContent";
+import { MainContent } from "enigma/components/sections/admin/jobs/MainContent";
 import Image from "next/image";
 import { SidebarNavigation } from "enigma/components/common/SidebarNavigation";
 import theme from "enigma/styles/theme";
 import { Session } from "next-auth";
 
-export default function Job({ session }: { session: Session | null }) {
-
+export default function AdminJobsPage({ session }: { session: Session | null }) {
     const [isCollapsed, setIsCollapsed] = React.useState(false);
     const sidebarWidth = isCollapsed ? '6%' : '18%';
     return (

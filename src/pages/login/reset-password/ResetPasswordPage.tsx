@@ -1,11 +1,11 @@
 "use client";
 import * as React from "react";
-import { ForgotForm } from "./forgotForm";
-import { LoginHero } from "./forgotHero";
+import { ResetPasswordForm } from "enigma/components/sections/login/reset-password/ResetPasswordForm";
+import { LoginHero } from "enigma/components/sections/login/LoginHero";
 import { ThemeProvider, Box, Grid } from '@mui/material';
 import theme from 'enigma/styles/theme';
 
-export function ForgotPass() {
+export function ResetPasswordPage() {
     return (
         <ThemeProvider theme={theme}>
             <Box
@@ -41,7 +41,7 @@ export function ForgotPass() {
                             bgcolor: '#FFF',
                         }}
                     >
-                        <ForgotForm />
+                        <ResetPasswordForm />
                         <LoginHero />
                     </Grid>
                 </Grid>

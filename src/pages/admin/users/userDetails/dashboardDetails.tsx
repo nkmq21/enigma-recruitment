@@ -28,7 +28,7 @@ const DashboardDetails = ({applications}: {applications: JobApplicationWithFlatJ
             <Table sx={{ minWidth: '700px' }}>
                 <TableHead>
                     <TableRow>
-                        {['Job Title', 'Location', 'Applied Date', 'View Submitted CV', 'Job State', 'Application State', 'Action'].map((header, idx) => (
+                        {['AdminJobsPage Title', 'Location', 'Applied Date', 'View Submitted CV', 'AdminJobsPage State', 'Application State', 'Action'].map((header, idx) => (
                             <TableCell
                                 key={header}
                                 sx={{

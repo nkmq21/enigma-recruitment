@@ -1,6 +1,6 @@
 import * as React from "react";
-import SuggestedJobCard from "enigma/ui/suggestJobCard";
-import SectionTitle from "enigma/styles/sectionTitle";
+import SuggestedJobCard from "enigma/components/ui/SuggestedJobCard";
+import SectionTitle from "enigma/components/ui/SectionTitle";
 import Image from 'next/image';
 import BigHeaderLogo from "enigma/components/common/HeaderLogo";
 import { JobCard } from "./JobCard";
@@ -45,7 +45,7 @@ export const MainContent = () => {
                 Dashboard
             </Typography>
 
-            <SearchBar placeholder="Job title, description, or industry name" targetPath="/jobs" />
+            <SearchBar placeholder="AdminJobsPage title, description, or industry name" targetPath="/jobs" />
 
             {/* Popular Jobs */}
             <Box sx={{

@@ -36,13 +36,13 @@ const JobRoleFilter: FunctionComponent<JobRoleFilterProps> = ({
     const jobFunctionsRef = useRef(null);
     const searchParams = useSearchParams()!;
 
-    // State to store selected job functions
+    // State to store selected jobs functions
     const [selectedJobFunctions, setSelectedJobFunctions] = useState<string[]>(() => {
         const urlJobFunctions = searchParams.get('jobFunctions')?.split(',').filter(Boolean) || [];
         return urlJobFunctions.length > 0 ? urlJobFunctions : value;
     });
 
-    // All job functions data
+    // All jobs functions data
     const [jobFunctionList, setJobFunctionList] = useState<string[]>([]);
 
     // Sync with URL params ONLY when dialog opens
@@ -61,13 +61,13 @@ const JobRoleFilter: FunctionComponent<JobRoleFilterProps> = ({
         }
     }, [selectedJobFunctions, onChange, value]);
 
-    // Fetch job functions
+    // Fetch jobs functions
     const fetchJobFunctions = () => {
         try {
             const functions = getJobFunctionNames();
             setJobFunctionList(functions);
         } catch (error) {
-            console.error('Failed to fetch job functions:', error);
+            console.error('Failed to fetch jobs functions:', error);
             setJobFunctionList([]);
         }
     };
@@ -109,7 +109,7 @@ const JobRoleFilter: FunctionComponent<JobRoleFilterProps> = ({
         setOpen(false);
     };
 
-    // Filter job functions based on search term
+    // Filter jobs functions based on search term
     const filteredJobFunctions = searchTerm
         ? jobFunctionSearch(searchTerm.toLowerCase())
         : jobFunctionList;
@@ -121,7 +121,7 @@ const JobRoleFilter: FunctionComponent<JobRoleFilterProps> = ({
                     fullWidth
                     variant="outlined"
                     inputRef={jobFunctionsRef}
-                    placeholder={selectedJobFunctions.length > 0 ? `${selectedJobFunctions.length} function(s) selected` : "Job Functions"}
+                    placeholder={selectedJobFunctions.length > 0 ? `${selectedJobFunctions.length} function(s) selected` : "AdminJobsPage Functions"}
                     value="" // Keep empty to show placeholder
                     onClick={handleOpenJobFunctions}
                     disabled={disabled}
@@ -139,7 +139,7 @@ const JobRoleFilter: FunctionComponent<JobRoleFilterProps> = ({
                     }}
                 />
 
-                {/* Selected Job Functions Chips */}
+                {/* Selected AdminJobsPage Functions Chips */}
                 {selectedJobFunctions.length > 0 && (
                     <Stack direction="row" spacing={1} sx={{mt: 1, flexWrap: 'wrap', gap: 1}}>
                         {selectedJobFunctions.slice(0, 3).map((jobFunction) => (
@@ -173,7 +173,7 @@ const JobRoleFilter: FunctionComponent<JobRoleFilterProps> = ({
                 )}
             </Box>
 
-            {/* Dialog for job functions selection */}
+            {/* Dialog for jobs functions selection */}
             <Dialog
                 open={open}
                 onClose={handleCloseJobFunctions}
@@ -222,7 +222,7 @@ const JobRoleFilter: FunctionComponent<JobRoleFilterProps> = ({
                                 color: '#262d34',
                                 fontSize: {xs: '13px', sm: '16px'},
                             }}>
-                                Select Job Functions ({selectedJobFunctions.length} selected)
+                                Select AdminJobsPage Functions ({selectedJobFunctions.length} selected)
                             </Typography>
                             {selectedJobFunctions.length > 0 && (
                                 <Button
@@ -243,7 +243,7 @@ const JobRoleFilter: FunctionComponent<JobRoleFilterProps> = ({
                         {/* Search Field */}
                         <TextField
                             fullWidth
-                            placeholder="Search Job Functions"
+                            placeholder="Search AdminJobsPage Functions"
                             variant="outlined"
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
@@ -259,7 +259,7 @@ const JobRoleFilter: FunctionComponent<JobRoleFilterProps> = ({
                             }}
                         />
 
-                        {/* Job Function List */}
+                        {/* AdminJobsPage Function List */}
                         <List
                             sx={{
                                 width: '100%',
@@ -277,7 +277,7 @@ const JobRoleFilter: FunctionComponent<JobRoleFilterProps> = ({
                         >
                             {filteredJobFunctions.length === 0 ? (
                                 <Typography textAlign="center" color="textSecondary" sx={{py: 2}}>
-                                    {searchTerm ? 'No job functions found' : 'Loading job functions...'}
+                                    {searchTerm ? 'No jobs functions found' : 'Loading jobs functions...'}
                                 </Typography>
                             ) : (
                                 filteredJobFunctions.map((jobFunction) => {

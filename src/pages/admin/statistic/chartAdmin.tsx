@@ -143,7 +143,7 @@ const ChartAdmin = () => {
                         </Button>
                     </Box>
                 </Card>
-                {/* Number of Job Postings Card (Bar Chart) */}
+                {/* Number of AdminJobsPage Postings Card (Bar Chart) */}
                 <Card
                     sx={{
                         boxShadow: '0px 1px 2px rgba(16, 24, 40, 0.05)',
@@ -208,7 +208,7 @@ const ChartAdmin = () => {
                                 ]}
                                 yAxis={[
                                     {
-                                        label: 'Number of Job Posts',
+                                        label: 'Number of AdminJobsPage Posts',
                                         min: 0,
                                         max: 200, // Max dựa trên pending lớn nhất (180)
                                         tickNumber: 6, // 200, 160, 120, 80, 40, 0

@@ -1,12 +1,12 @@
 // src/app/(auth)/admin/jobs/page.tsx
 
 import {auth} from "enigma/auth";
-import Job from "enigma/pages/admin/job/job";
+import AdminJobsPage from "enigma/pages/admin/jobs/AdminJobsPage";
 
 export default async function JobsPage() {
     const session = await auth();
     return (
-        <Job session={session}/>
+        <AdminJobsPage session={session}/>
     );
 }
 

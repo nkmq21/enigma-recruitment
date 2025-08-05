@@ -9,7 +9,7 @@ import {
 import MoreVertIcon from '@mui/icons-material/MoreVert'; // Thay cho dots-vertical.svg
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward'; // Thay cho arrow-up.svg
 import BigHeaderLogo from "enigma/components/common/HeaderLogo";
-import SectionTitle from "enigma/styles/sectionTitle";
+import SectionTitle from "enigma/components/ui/SectionTitle";
 import Image from "next/image";
 import DashboardUser from "./dashboardUser";
 import {UserProps} from "enigma/services/userServices";

@@ -1,4 +1,4 @@
-// TODO: Implement the save job page functionality
+// TODO: Implement the save jobs page functionality
 import * as React from "react";
 import { Box, ThemeProvider } from "@mui/material";
 import { MainContent } from "./mainContent";

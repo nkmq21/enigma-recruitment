@@ -16,24 +16,23 @@ import {
 } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Image from "next/image";
-
-import ApplyNowDialog from "./buttonAdmin";
+import ApplyNowDialog from "../../../../../pages/admin/jobs/job-details/buttonAdmin";
 import TagChips from "enigma/ui/badge";
 
-const SectionContent: FunctionComponent = () => {
-    const tagss = ['ERP/CRM Systems', 'Fintech', 'Documentation Skills'];
+const JobDetailsGrid: FunctionComponent = () => {
+    const tags = ['ERP/CRM Systems', 'Fintech', 'Documentation Skills'];
     const [showMore, setShowMore] = useState(false);
     return (
 
         <Box sx={{ display: "flex", flexDirection: "column", gap: 3, p: 2, }}>
-            {/* Job Details Section */}
+            {/* AdminJobsPage Details Section */}
             <Box>
                 <Card sx={{ borderRadius: 4, boxShadow: 'none', }}>
                     <CardMedia
                         component="img"
                         height="291"
                         image="bannerJobDetail.svg"
-                        alt="Job Banner"
+                        alt="AdminJobsPage Banner"
                         sx={{ borderRadius: "8px", objectFit: "cover" }}
                     />
 
@@ -69,7 +68,7 @@ const SectionContent: FunctionComponent = () => {
                                 </IconButton>
                             </Box>
                         </Box>
-                        {/* Job Title and Apply Button */}
+                        {/* AdminJobsPage Title and Apply Button */}
                         <Box sx={{ display: "flex", alignItems: "center", justifyContent: 'space-between', gap: 2, mt: 2, }}>
                             <Typography variant="h5" fontWeight={600}>
                                 Senior Business Analyst (Blockchain)
@@ -82,7 +81,7 @@ const SectionContent: FunctionComponent = () => {
                             Submission deadline May 31, 2025 • 21 applicants
                         </Typography>
 
-                        {/* Job Metadata */}
+                        {/* AdminJobsPage Metadata */}
                         <Box sx={{ mt: 2, display: "flex", flexDirection: "column", gap: 1 }}>
                             <Stack direction="row" spacing={1.5} alignItems="center">
                                 <Image src="wallet.svg" alt="wallet" width={24} height={24} />
@@ -97,7 +96,7 @@ const SectionContent: FunctionComponent = () => {
                                 <Chip label="Permanent" variant="outlined" size="small" />
                             </Stack>
                             <Stack direction="row" spacing={1} flexWrap="wrap" gap={1}>
-                                <TagChips tags={tagss} salary="" showSalary={false} />
+                                <TagChips tags={tags} salary="" showSalary={false} />
                             </Stack>
 
                         </Box>
@@ -116,11 +115,11 @@ const SectionContent: FunctionComponent = () => {
                         }}
                     />
 
-                    {/* Job Summary and Responsibilities */}
+                    {/* AdminJobsPage Summary and Responsibilities */}
                     <CardContent sx={{ bgcolor: '#fff', borderTop: '3px solid #f2f4f7' }}>
 
                         <Typography fontWeight={600} fontSize="20px" lineHeight="30px">
-                            Job Summary
+                            AdminJobsPage Summary
                         </Typography>
 
                         <Typography variant="body1" color="#475467" mt={1}>
@@ -494,4 +493,4 @@ const SectionContent: FunctionComponent = () => {
     );
 };
 
-export default SectionContent;
+export default JobDetailsGrid;

@@ -7,7 +7,7 @@ import {
 import DashBoardStatisticAdmin from "./saveJobCard";
 import ChartAdmin from "./chartAdmin";
 import BigHeaderLogo from "enigma/components/common/HeaderLogo";
-import SectionTitle from "enigma/styles/sectionTitle";
+import SectionTitle from "enigma/components/ui/SectionTitle";
 
 export const MainContentStatisticAdmin = () => {
 
@@ -28,7 +28,7 @@ export const MainContentStatisticAdmin = () => {
             <Typography sx={{ fontSize: '30px', lineHeight: '38px', mb: 3 }} fontWeight={600} color="#101828">
                 Statistic
             </Typography>
-            <SectionTitle title="Overview of Job Activity" showOptions />
+            <SectionTitle title="Overview of AdminJobsPage Activity" showOptions />
             <ChartAdmin />
 
             <SectionTitle title="Metrics Overview" showOptions1 showOptions />

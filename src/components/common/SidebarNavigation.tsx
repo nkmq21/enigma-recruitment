@@ -132,7 +132,7 @@ export const SidebarNavigation = ({
                             href: '/profile/cvs',
                         },
                         {
-                            text: 'Job Applications',
+                            text: 'AdminJobsPage Applications',
                             href: '/profile/applications',
                         },
                         {
@@ -166,7 +166,7 @@ export const SidebarNavigation = ({
             href: '/admin/users',
         },
         {
-            text: 'Job Management',
+            text: 'AdminJobsPage Management',
             icon: <Image src='/bagicon.svg' alt='job management' width={24} height={24} />,
             href: '/admin/jobs',
         },

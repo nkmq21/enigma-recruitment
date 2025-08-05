@@ -4,7 +4,7 @@ import { Share, Edit, Delete } from '@mui/icons-material';
 import Content from './content';
 import DeleteButton from 'enigma/pages/admin/users/userDetails/buttonDialog';
 
-// Define the props interface for Content (customize based on your Content component)
+// Define the props interface for Content
 interface ContentProps {
     handleClose: () => void;
     jobId?: string; // Optional props based on previous context
