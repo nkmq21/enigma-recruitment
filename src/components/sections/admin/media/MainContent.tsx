@@ -16,7 +16,7 @@ const tableData = Array.from({length: 50}, (_, i) => ({
     title: `Article ${i + 1}`,
 })); // Mock data for pagination
 
-export const MediaContent = () => {
+export const MainContent = () => {
     const [page, setPage] = useState(0);
     const rowsPerPage = 10;
 
@@ -88,4 +88,4 @@ export const MediaContent = () => {
     );
 };
 
-export default MediaContent;
+export default MainContent;
