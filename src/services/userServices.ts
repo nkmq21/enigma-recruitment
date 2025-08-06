@@ -134,7 +134,7 @@ export const login = async (data: z.infer<typeof LoginSchema>) => {
             await sendVerificationEmail(verificationToken?.email, existingUser.name, verificationToken?.token);
             return {error: "Please confirm your email address. A new confirmation email has been sent."};
         } else {
-            return {error: "Error creating newVerification token"};
+            return {error: "Error creating new-verification token"};
         }
     }
     // Attempt to sign in using signIn() from Auth.js
@@ -189,7 +189,7 @@ export async function newVerification(token: string) {
     if (!existingUser) {
         return {error: "Email not found!"};
     }
-    // If newVerification is complete, update emailVerified column
+    // If new-verification is complete, update emailVerified column
     // and update email column with the email in the token
     // in case the user changes their email address in profile page
     await prisma.user.update({
@@ -199,11 +199,11 @@ export async function newVerification(token: string) {
             email: existingToken.email
         }
     });
-    // Delete the newVerification token after successful newVerification
+    // Delete the new-verification token after successful new-verification
     await prisma.verificationToken.delete({
         where: {identifier: existingToken.identifier}
     });
-    console.info("userServices.newVerification: User email verified successfully");
+    console.info("userServices.new-verification: User email verified successfully");
     return {success: "Email verified successfully!"};
 }
 
@@ -337,12 +337,12 @@ export const register = async (data: z.infer<typeof RegisterSchema>) => {
                 name: name,
             },
         });
-        // Create a newVerification token
+        // Create a new-verification token
         const verificationToken = await vts.createVerificationToken(email);
-        // Send the newVerification email
+        // Send the new-verification email
         if (verificationToken) {
             await sendVerificationEmail(verificationToken?.email, name, verificationToken?.token);
-            return {success: "User created successfully, email newVerification sent!", user: user};
+            return {success: "User created successfully, email new-verification sent!", user: user};
         } else {
             return {error: "Error when registering, please try again."};
         }

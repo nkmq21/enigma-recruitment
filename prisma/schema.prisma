@@ -48,7 +48,7 @@ model Account {
   @@map("accounts")
 }
 
-//manage login session
+// manage login session
 model Session {
   id           String   @id @default(cuid())
   sessionToken String   @unique @map("session_token")

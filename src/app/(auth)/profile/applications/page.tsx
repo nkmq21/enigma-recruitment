@@ -1,5 +1,5 @@
 import {auth} from "enigma/auth";
-import HistoryApplicationPage from "enigma/components/profile/historyApllication/saveJobPage";
+import HistoryApplicationPage from "enigma/pages/profile/historyApllication/saveJobPage";
 
 export default async function CvsPage() {
     const session = await auth();
@@ -10,6 +10,6 @@ export default async function CvsPage() {
 
 export async function generateMetadata() {
     return {
-        title: 'Job Applications | Enigma Recruitment',
+        title: 'AdminJobsPage Applications | Enigma Recruitment',
     };
 }
