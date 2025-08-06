@@ -2,15 +2,10 @@ import * as React from "react";
 import {
     Box,
     Typography,
-    Card,
     Divider,
-    IconButton,
 } from "@mui/material";
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import BigHeaderLogo from "enigma/components/common/HeaderLogo";
 import SectionTitle from "enigma/components/ui/SectionTitle";
-import Image from "next/image";
 import UsersTable from "./UsersTable";
 import {UserProps} from "enigma/services/userServices";
 import MetricsCard from "enigma/components/ui/MetricsCard";

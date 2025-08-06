@@ -33,7 +33,7 @@ const BigHeaderLogo = () => {
                         width={135 * 1.5}
                         height={28 * 1.5}
                         style={{
-                            width: "100%",
+                            //width: "100%",
                             height: "auto",
                             maxWidth: "100%",
                             objectFit: "contain"
