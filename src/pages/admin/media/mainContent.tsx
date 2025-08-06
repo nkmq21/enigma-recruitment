@@ -75,7 +75,7 @@ export const MainContent = () => {
                 fontWeight={600}
                 color="#101828"
             >
-                Media & Blog Management
+                MediaPage & Blog Management
             </Typography>
 
             <Box
@@ -91,7 +91,7 @@ export const MainContent = () => {
             </Box>
 
             <SearchHistoryChip />
-            <SectionTitle title="New Article or Media" showOptions />
+            <SectionTitle title="New Article or MediaPage" showOptions />
             <CTAmedia />
 
             <SectionTitle title="List of Contents" showOptions1 showOptions />

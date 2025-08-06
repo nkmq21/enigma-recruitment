@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from "react";
+import {FunctionComponent, useState} from "react";
 import {
     Box,
     Typography,
@@ -24,16 +24,16 @@ const JobDetailsGrid: FunctionComponent = () => {
     const [showMore, setShowMore] = useState(false);
     return (
 
-        <Box sx={{ display: "flex", flexDirection: "column", gap: 3, p: 2, }}>
+        <Box sx={{display: "flex", flexDirection: "column", gap: 3, p: 2,}}>
             {/* AdminJobsPage Details Section */}
             <Box>
-                <Card sx={{ borderRadius: 4, boxShadow: 'none', }}>
+                <Card sx={{borderRadius: 4, boxShadow: 'none',}}>
                     <CardMedia
                         component="img"
                         height="291"
                         image="bannerJobDetail.svg"
                         alt="AdminJobsPage Banner"
-                        sx={{ borderRadius: "8px", objectFit: "cover" }}
+                        sx={{borderRadius: "8px", objectFit: "cover"}}
                     />
 
                     <CardContent>
@@ -48,33 +48,39 @@ const JobDetailsGrid: FunctionComponent = () => {
                                 borderBottom: "1px solid #f2f4f7",
                             }}
                         >
-                            <Box sx={{ display: "flex", alignItems: "center", gap: 2, }}>
-                                <img src="/logoCompany.svg" alt="Company Logo" style={{ width: 43 }} />
+                            <Box sx={{display: "flex", alignItems: "center", gap: 2,}}>
+                                <img src="/logoCompany.svg" alt="Company Logo" style={{width: 43}}/>
                                 <Box>
                                     <Typography variant="h6" fontWeight={500}>
                                         KBTG SELL
                                     </Typography>
                                 </Box>
                             </Box>
-                            <Box sx={{ display: "flex" }}>
+                            <Box sx={{display: "flex"}}>
                                 <IconButton size="medium">
-                                    <MoreVertIcon fontSize="medium" />
+                                    <MoreVertIcon fontSize="medium"/>
                                 </IconButton>
                                 <IconButton>
-                                    <Image src="/bookmark.svg" alt="" height={24} width={24} />
+                                    <Image src="/bookmark.svg" alt="" height={24} width={24}/>
                                 </IconButton>
                                 <IconButton>
-                                    <Image src="/share.png" alt="" height={24} width={24} />
+                                    <Image src="/share.png" alt="" height={24} width={24}/>
                                 </IconButton>
                             </Box>
                         </Box>
                         {/* AdminJobsPage Title and Apply Button */}
-                        <Box sx={{ display: "flex", alignItems: "center", justifyContent: 'space-between', gap: 2, mt: 2, }}>
+                        <Box sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: 'space-between',
+                            gap: 2,
+                            mt: 2,
+                        }}>
                             <Typography variant="h5" fontWeight={600}>
                                 Senior Business Analyst (Blockchain)
                             </Typography>
                             {/* applay buttton */}
-                            <ApplyNowDialog role="admin" />
+                            <ApplyNowDialog role="admin"/>
 
                         </Box>
                         <Typography variant="body2" color="#6941c6" mt={1}>
@@ -82,21 +88,21 @@ const JobDetailsGrid: FunctionComponent = () => {
                         </Typography>
 
                         {/* AdminJobsPage Metadata */}
-                        <Box sx={{ mt: 2, display: "flex", flexDirection: "column", gap: 1 }}>
+                        <Box sx={{mt: 2, display: "flex", flexDirection: "column", gap: 1}}>
                             <Stack direction="row" spacing={1.5} alignItems="center">
-                                <Image src="wallet.svg" alt="wallet" width={24} height={24} />
+                                <Image src="wallet.svg" alt="wallet" width={24} height={24}/>
                                 <Typography variant="body2">$60.00 - $70.00 Per Hour</Typography>
                             </Stack>
                             <Stack direction="row" spacing={1.5} alignItems="center">
-                                <Image src="location1.svg" alt="location" width={24} height={24} />
+                                <Image src="location1.svg" alt="location" width={24} height={24}/>
                                 <Typography variant="body2">Din Daeng, Bangkok</Typography>
                             </Stack>
                             <Stack direction="row" spacing={1.5} alignItems="center">
-                                <Image src="bagBlack.svg" alt="experiment" width={24} height={24} />
-                                <Chip label="Permanent" variant="outlined" size="small" />
+                                <Image src="bagBlack.svg" alt="experiment" width={24} height={24}/>
+                                <Chip label="Permanent" variant="outlined" size="small"/>
                             </Stack>
                             <Stack direction="row" spacing={1} flexWrap="wrap" gap={1}>
-                                <TagChips tags={tags} salary="" showSalary={false} />
+                                <TagChips tags={tags} salary="" showSalary={false}/>
                             </Stack>
 
                         </Box>
@@ -116,16 +122,19 @@ const JobDetailsGrid: FunctionComponent = () => {
                     />
 
                     {/* AdminJobsPage Summary and Responsibilities */}
-                    <CardContent sx={{ bgcolor: '#fff', borderTop: '3px solid #f2f4f7' }}>
+                    <CardContent sx={{bgcolor: '#fff', borderTop: '3px solid #f2f4f7'}}>
 
                         <Typography fontWeight={600} fontSize="20px" lineHeight="30px">
                             AdminJobsPage Summary
                         </Typography>
 
                         <Typography variant="body1" color="#475467" mt={1}>
-                            We are seeking a highly skilled Senior Business Analyst (Blockchain) to join our dynamic team in Bangkok.
-                            You will serve as the bridge between our blockchain product team and business stakeholders. This role is
-                            ideal for a tech-savvy, business-oriented analyst who understands both decentralized technologies and
+                            We are seeking a highly skilled Senior Business Analyst (Blockchain) to join our dynamic
+                            team in Bangkok.
+                            You will serve as the bridge between our blockchain product team and business stakeholders.
+                            This role is
+                            ideal for a tech-savvy, business-oriented analyst who understands both decentralized
+                            technologies and
                             enterprise needs.
                         </Typography>
 
@@ -357,7 +366,7 @@ const JobDetailsGrid: FunctionComponent = () => {
                                 <Typography fontWeight={600} fontSize="20px" lineHeight="30px" mt={2}>
                                     How to Apply
                                 </Typography>
-                                <List sx={{ margin: 0 }}>
+                                <List sx={{margin: 0}}>
                                     {/* Combined item: "Click 'Apply Now' or submit your resume..." with email */}
                                     <ListItem
                                         sx={{
@@ -384,8 +393,8 @@ const JobDetailsGrid: FunctionComponent = () => {
                                         <ListItemText
                                             primary={
                                                 <Box>
-                                                    <Box sx={{ display: 'flex' }}>
-                                                        <Typography variant="body1" sx={{ color: '#475467' }}>
+                                                    <Box sx={{display: 'flex'}}>
+                                                        <Typography variant="body1" sx={{color: '#475467'}}>
                                                             Click “
                                                         </Typography>
                                                         <Typography
@@ -398,11 +407,11 @@ const JobDetailsGrid: FunctionComponent = () => {
                                                         >
                                                             Apply Now
                                                         </Typography>
-                                                        <Typography variant="body1" sx={{ color: '#475467' }}>
+                                                        <Typography variant="body1" sx={{color: '#475467'}}>
                                                             ” or submit your resume and portfolio to:
                                                         </Typography>
                                                     </Box>
-                                                    <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                                    <Box sx={{display: 'flex', alignItems: 'center', gap: '8px'}}>
                                                         <img
                                                             alt=""
                                                             src="email.svg"
@@ -477,19 +486,20 @@ const JobDetailsGrid: FunctionComponent = () => {
                         )}
                     </CardContent>
 
-                    <Divider />
-                    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1, mb: 1 }}>
-                        <Typography variant="body1" fontWeight={600} sx={{ color: '#217799' }}>
+                    <Divider/>
+                    <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1, mb: 1}}>
+                        <Typography variant="body1" fontWeight={600} sx={{color: '#217799'}}>
                             {showMore ? 'Show less' : 'Show more'}
                         </Typography>
-                        <IconButton sx={{ color: '#217799' }} onClick={() => setShowMore(!showMore)}>
-                            {showMore ? <Image src="/showless.svg" alt="" height={20} width={20} /> : <Image src="/showMore.svg" alt="" height={24} width={24} />}
+                        <IconButton sx={{color: '#217799'}} onClick={() => setShowMore(!showMore)}>
+                            {showMore ? <Image src="/showless.svg" alt="" height={20} width={20}/> :
+                                <Image src="/showMore.svg" alt="" height={24} width={24}/>}
                         </IconButton>
                     </Box>
                 </Card>
             </Box>
 
-        </Box >
+        </Box>
     );
 };
 

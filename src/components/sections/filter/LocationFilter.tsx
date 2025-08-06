@@ -25,7 +25,7 @@ interface LocationProps {
     onChange?: (locations: string[]) => void; // Change to array
 }
 
-const Location = React.memo<LocationProps>(({
+const LocationFilter = React.memo<LocationProps>(({
                                                 disabled = false,
                                                 value = [],
                                                 onChange,
@@ -113,7 +113,7 @@ const Location = React.memo<LocationProps>(({
         location.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
-    Location.displayName = 'locations';
+    LocationFilter.displayName = 'locations';
 
     return (
         <ThemeProvider theme={theme}>
@@ -363,4 +363,4 @@ const Location = React.memo<LocationProps>(({
     );
 });
 
-export default Location;
+export default LocationFilter;

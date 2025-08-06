@@ -12,7 +12,7 @@ interface SuggestedJobCardProps {
 }
 
 const SuggestedJobCard: React.FC<SuggestedJobCardProps> = ({
-                                                               jobTitle = 'Social Media Manager (KOL Specialist)',
+                                                               jobTitle = 'Social MediaPage Manager (KOL Specialist)',
                                                                company = 'Starfluence Global',
                                                                location = 'Remote',
                                                                salary = '700 – 1,200',

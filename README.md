@@ -264,7 +264,7 @@ This project aims to enhance the recruitment experience by providing a comprehen
 								</tr>
 								<tr style='border-bottom: 1px solid #eee;'>
 									<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/components/taskPage/maincontent.tsx'>maincontent.tsx</a></b></td>
-									<td style='padding: 8px;'>- MainContent serves as a central component of the task page, providing users with an interactive dashboard for job searching and management<br>- It features a search and filter interface, displays popular job categories, and showcases trending job opportunities<br>- Additionally, it encourages user engagement through options to upload CVs and create profiles, enhancing the overall user experience within the application.</td>
+									<td style='padding: 8px;'>- HomeContent serves as a central component of the task page, providing users with an interactive dashboard for job searching and management<br>- It features a search and filter interface, displays popular job categories, and showcases trending job opportunities<br>- Additionally, it encourages user engagement through options to upload CVs and create profiles, enhancing the overall user experience within the application.</td>
 								</tr>
 							</table>
 						</blockquote>
@@ -439,7 +439,7 @@ This project aims to enhance the recruitment experience by providing a comprehen
 									<td style='padding: 8px;'>- DistanceFilter component facilitates user interaction by allowing the selection of a distance value through a visually appealing dialog interface<br>- It enhances the overall user experience by providing a dropdown list of predefined distance options, which can be easily selected and displayed in a text field<br>- This component integrates seamlessly into the broader application architecture, contributing to a cohesive and intuitive filtering mechanism for distance-related queries.</td>
 								</tr>
 								<tr style='border-bottom: 1px solid #eee;'>
-									<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/components/filterPage/locationFilter.tsx'>locationFilter.tsx</a></b></td>
+									<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/components/filterPage/locationFilter.tsx'>LocationFilter.tsx</a></b></td>
 									<td style='padding: 8px;'>- LocationFilter component enhances user experience by providing an interactive interface for selecting geographical locations<br>- It features a dialog that allows users to choose regions, countries, and provinces, facilitating precise location input<br>- This component integrates seamlessly within the broader application architecture, ensuring consistent styling and functionality while leveraging Material-UI for a polished look and feel<br>- Its design promotes usability and accessibility, making location selection intuitive for users.</td>
 								</tr>
 								<tr style='border-bottom: 1px solid #eee;'>
@@ -447,31 +447,31 @@ This project aims to enhance the recruitment experience by providing a comprehen
 									<td style='padding: 8px;'>- Location component facilitates the selection of geographical regions, countries, and provinces within a user-friendly interface<br>- It allows users to dynamically filter and add new countries and provinces based on their selected region, enhancing data organization and accessibility<br>- By integrating with an external API, it ensures up-to-date information while providing a seamless experience for users to navigate through various geographical entities.</td>
 								</tr>
 								<tr style='border-bottom: 1px solid #eee;'>
-									<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/components/filterPage/industries.tsx'>industries.tsx</a></b></td>
+									<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/components/filterPage/industries.tsx'>Industries.tsx</a></b></td>
 									<td style='padding: 8px;'>- IndustriesFilter component provides a user-friendly interface for selecting industry categories within a dialog<br>- It enhances the overall user experience by allowing users to easily browse and select from a predefined list of industries, which can be displayed in a text field<br>- This functionality integrates seamlessly into the broader application architecture, facilitating efficient filtering and categorization of industry-related data.</td>
 								</tr>
 								<tr style='border-bottom: 1px solid #eee;'>
-									<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/components/filterPage/calendar.tsx'>calendar.tsx</a></b></td>
+									<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/components/filterPage/calendar.tsx'>DatePickerMenu.tsx</a></b></td>
 									<td style='padding: 8px;'>- Provides a user-friendly date range selection interface within a calendar format, enabling users to easily navigate through months and select specific dates<br>- It visually indicates selected date ranges and predefined options like Today or Last week, enhancing the overall user experience<br>- This component integrates seamlessly into the broader application architecture, facilitating date-related functionalities essential for data filtering and reporting.</td>
 								</tr>
 								<tr style='border-bottom: 1px solid #eee;'>
-									<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/components/filterPage/salaryFilter.tsx'>salaryFilter.tsx</a></b></td>
+									<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/components/filterPage/salaryFilter.tsx'>SalaryFilter.tsx</a></b></td>
 									<td style='padding: 8px;'>- SalaryFilter component enables users to set and adjust a salary range through an interactive slider and input fields<br>- It provides a user-friendly interface for filtering data based on salary criteria, allowing for easy input and modification<br>- Additionally, it includes a reset functionality to revert to default values, enhancing the overall user experience within the filter page of the application.</td>
 								</tr>
 								<tr style='border-bottom: 1px solid #eee;'>
-									<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/components/filterPage/jobRole.tsx'>jobFunction.tsx</a></b></td>
+									<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/components/filterPage/jobRole.tsx'>JobRoleFilter.tsx</a></b></td>
 									<td style='padding: 8px;'>- JobRoleFilter component enhances user experience by providing an interactive dialog for selecting job functions within the application<br>- It allows users to easily browse and select from a list of industries, updating the input field accordingly<br>- This functionality integrates seamlessly into the overall architecture, facilitating efficient job role filtering and improving the applications usability for users seeking specific job categories.</td>
 								</tr>
 								<tr style='border-bottom: 1px solid #eee;'>
-									<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/components/filterPage/jobSubRole.tsx'>jobSubfunction.tsx</a></b></td>
+									<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/components/filterPage/jobSubRole.tsx'>JobSubRoleFilter.tsx</a></b></td>
 									<td style='padding: 8px;'>- JobSubRoleFilter component facilitates the selection of job sub-functions within a user-friendly dialog interface<br>- It enhances the user experience by allowing users to easily browse and select from a predefined list of job roles<br>- This component integrates seamlessly into the overall project architecture, contributing to a dynamic filtering system that improves job search functionality and enhances user engagement.</td>
 								</tr>
 								<tr style='border-bottom: 1px solid #eee;'>
-									<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/components/filterPage/filterPage.tsx'>filterPage.tsx</a></b></td>
+									<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/components/filterPage/filterPage.tsx'>FilterPage.tsx</a></b></td>
 									<td style='padding: 8px;'>- FilterPage component facilitates a dynamic and user-friendly interface for job seekers to refine their search criteria<br>- It allows users to set parameters such as post date range, location, industries, job roles, experience levels, salary ranges, employment types, and work arrangements<br>- By providing intuitive controls and reset options, it enhances the overall user experience, enabling efficient job filtering within the application.</td>
 								</tr>
 								<tr style='border-bottom: 1px solid #eee;'>
-									<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/components/filterPage/checkboxGroup.tsx'>checkboxGroup.tsx</a></b></td>
+									<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/components/filterPage/checkboxGroup.tsx'>CheckboxGroup.tsx</a></b></td>
 									<td style='padding: 8px;'>- CheckboxGroup component facilitates the creation of a dynamic selection interface, allowing users to choose from a list of types through checkboxes<br>- It maintains the state of selected options, ensuring that only valid selections are preserved when the available types change<br>- This enhances user experience by providing a clear and interactive way to filter content based on user preferences within the application.</td>
 								</tr>
 							</table>
@@ -567,7 +567,7 @@ This project aims to enhance the recruitment experience by providing a comprehen
 								</tr>
 							</thead>
 								<tr style='border-bottom: 1px solid #eee;'>
-									<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/components/common/cta.tsx'>cta.tsx</a></b></td>
+									<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/components/common/cta.tsx'>CTA.tsx</a></b></td>
 									<td style='padding: 8px;'>- Provides a Call-to-Action (CTA) component designed to enhance user engagement within the application<br>- It features two prominent buttons for uploading a CV and creating a profile, each accompanied by descriptive text and icons<br>- This component plays a crucial role in guiding users towards key actions, thereby improving the overall user experience and facilitating interactions with the platform.</td>
 								</tr>
 							</table>
@@ -587,7 +587,7 @@ This project aims to enhance the recruitment experience by providing a comprehen
 								</tr>
 							</thead>
 								<tr style='border-bottom: 1px solid #eee;'>
-									<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/components/home/homePage.tsx'>homePage.tsx</a></b></td>
+									<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/components/home/homePage.tsx'>HomePage.tsx</a></b></td>
 									<td style='padding: 8px;'>- Facilitates the rendering of the home page within the application, integrating user session management and responsive design<br>- It organizes the layout into a sidebar navigation and main content area, ensuring a cohesive user experience<br>- The component leverages Material-UI for styling and responsiveness, adapting to various screen sizes while maintaining a structured and visually appealing interface.</td>
 								</tr>
 								<tr style='border-bottom: 1px solid #eee;'>
@@ -596,7 +596,7 @@ This project aims to enhance the recruitment experience by providing a comprehen
 								</tr>
 								<tr style='border-bottom: 1px solid #eee;'>
 									<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/components/home/mainContent.tsx'>dashboardUser.tsx</a></b></td>
-									<td style='padding: 8px;'>- MainContent serves as a central component of the application, providing users with an interactive dashboard for job searching and application management<br>- It features a search and filter interface, displays popular and trending job listings, and encourages user engagement through options to upload CVs and create profiles<br>- This component enhances the overall user experience by facilitating easy navigation and access to job opportunities within the platform.</td>
+									<td style='padding: 8px;'>- HomeContent serves as a central component of the application, providing users with an interactive dashboard for job searching and application management<br>- It features a search and filter interface, displays popular and trending job listings, and encourages user engagement through options to upload CVs and create profiles<br>- This component enhances the overall user experience by facilitating easy navigation and access to job opportunities within the platform.</td>
 								</tr>
 								<tr style='border-bottom: 1px solid #eee;'>
 									<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/components/home/sideBarNavigation.tsx'>SidebarNavigation.tsx</a></b></td>

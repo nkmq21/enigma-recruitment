@@ -4,7 +4,7 @@ import {
     Box,
     CircularProgress
 } from "@mui/material";
-import { JobListPage } from "../home/JobCard";
+import { JobListPage } from "../../components/common/JobCard";
 import { Job } from "enigma/types/models";
 import { useSearchParams } from "next/navigation";
 

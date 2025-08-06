@@ -176,7 +176,7 @@ export const SidebarNavigation = ({
             href: '/admin/web-settings',
         },
         {
-            text: 'Media',
+            text: 'MediaPage',
             icon: <Image src='/homeIcon.svg' alt='media' width={24} height={24} />,
             href: '/admin/media',
         },
