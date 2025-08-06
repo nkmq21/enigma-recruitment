@@ -1,3 +1,4 @@
+"use client";
 import * as React from "react";
 import { Box, ThemeProvider } from "@mui/material";
 import { MainContent } from "enigma/components/sections/admin/statistics/MainContent";

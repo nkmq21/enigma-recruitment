@@ -1,13 +1,14 @@
+"use client";
 import * as React from "react";
 import {Box, ThemeProvider} from "@mui/material";
-import {MainContent} from "../../../components/sections/admin/media/MainContent";
+import {MainContent} from "enigma/components/sections/admin/media/MainContent";
 import Image from "next/image";
 import theme from "enigma/styles/theme";
 import {SidebarNavigation} from "enigma/components/common/SidebarNavigation";
 import {useSidebar} from "enigma/context/SidebarContext";
 import {Session} from "next-auth";
 
-export default function Media({session}: { session: Session | null }) {
+export default function AdminMediaPage({session}: { session: Session | null }) {
     const { isCollapsed } = useSidebar();
     const sidebarWidth = isCollapsed ? '6%' : '18%';
     return (

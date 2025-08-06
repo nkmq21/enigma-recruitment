@@ -1,3 +1,4 @@
+// TODO: Implement delete function
 import React from 'react';
 import {
     Box,
@@ -12,7 +13,6 @@ import { User } from "enigma/types/models";
 import DeleteButton from './UserDetailsActionButtons';
 
 const UserDetailsHeader = ({ user }: { user: User | null | undefined }) => {
-
     const handleDelete = (itemId: string | number) => {
         console.log(`Deleting item with ID: ${itemId}`);
         // Add your delete logic here (e.g., API call)

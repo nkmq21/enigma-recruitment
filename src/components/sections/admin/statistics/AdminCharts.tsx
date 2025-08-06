@@ -67,7 +67,7 @@ const AdminCharts = () => {
                     justifyContent: 'flex-start',
                 }}
             >
-                {/* Application Status Card (Pie Chart) */}
+                {/* Left chart: Application Status Card (Pie Chart) */}
                 <Card
                     sx={{
                         boxShadow: '0px 1px 2px rgba(16, 24, 40, 0.05)',
@@ -144,7 +144,7 @@ const AdminCharts = () => {
                         </Button>
                     </Box>
                 </Card>
-                {/* Number of AdminJobsPage Postings Card (Bar Chart) */}
+                {/* Right chart: Number of Job Postings Card (Bar Chart) */}
                 <Card
                     sx={{
                         boxShadow: '0px 1px 2px rgba(16, 24, 40, 0.05)',
@@ -209,7 +209,7 @@ const AdminCharts = () => {
                                 ]}
                                 yAxis={[
                                     {
-                                        label: 'Number of AdminJobsPage Posts',
+                                        label: 'Number of Job Posts',
                                         min: 0,
                                         max: 200, // Max dựa trên pending lớn nhất (180)
                                         tickNumber: 6, // 200, 160, 120, 80, 40, 0

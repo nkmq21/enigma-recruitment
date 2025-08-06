@@ -7,7 +7,7 @@ import {Session} from "next-auth";
 import {MainContent} from "enigma/components/sections/admin/users/MainContent";
 import {useSidebar} from "enigma/context/SidebarContext";
 
-export default function UserManagement({session, users, totalUsers, currentPage, pageSize}: {
+export default function AdminJobsPage({session, users, totalUsers, currentPage, pageSize}: {
     session: Session | null,
     users: Array<{
         id: number;

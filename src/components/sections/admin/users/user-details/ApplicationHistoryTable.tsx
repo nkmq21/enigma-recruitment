@@ -28,7 +28,7 @@ const ApplicationHistoryTable = ({applications}: {applications: JobApplicationWi
             <Table sx={{ minWidth: '700px' }}>
                 <TableHead>
                     <TableRow>
-                        {['AdminJobsPage Title', 'Location', 'Applied Date', 'View Submitted CV', 'AdminJobsPage State', 'Application State', 'Action'].map((header, idx) => (
+                        {['Job Title', 'Location', 'Applied Date', 'View Submitted CV', 'Job State', 'Application State', 'Action'].map((header, idx) => (
                             <TableCell
                                 key={header}
                                 sx={{

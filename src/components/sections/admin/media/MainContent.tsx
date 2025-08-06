@@ -10,8 +10,7 @@ import {
 import { SearchHistoryChip } from "./SearchHistoryChip";
 import Image from "next/image";
 import BigHeaderLogo from "enigma/components/common/HeaderLogo";
-import SearchBar from "enigma/ui/searchBar";
-import { FilterSortBar } from "enigma/ui/filterSortBar";
+import SearchBar from "enigma/components/ui/SearchBar";
 import SectionTitle from "enigma/components/ui/SectionTitle";
 import BlogCard from "enigma/ui/blogCard";
 import MediaCTA from "./MediaCTA";
@@ -87,7 +86,6 @@ export const MainContent = () => {
                 }}
             >
                 <SearchBar placeholder="Search by type (media/news/blog), publish date, and author." />
-                <FilterSortBar />
             </Box>
 
             <SearchHistoryChip />

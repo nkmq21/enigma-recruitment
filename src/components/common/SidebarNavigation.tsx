@@ -114,7 +114,7 @@ export const SidebarNavigation = ({session}: { session: Session | null }) => {
                             href: '/profile/cvs',
                         },
                         {
-                            text: 'AdminJobsPage Applications',
+                            text: 'Job Applications',
                             href: '/profile/applications',
                         },
                         {
@@ -148,7 +148,7 @@ export const SidebarNavigation = ({session}: { session: Session | null }) => {
             href: '/admin/users',
         },
         {
-            text: 'AdminJobsPage Management',
+            text: 'Jobs Management',
             icon: <Image src='/bagicon.svg' alt='job management' width={24} height={24}/>,
             href: '/admin/jobs',
         },

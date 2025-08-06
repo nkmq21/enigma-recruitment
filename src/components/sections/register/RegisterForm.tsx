@@ -1,7 +1,7 @@
 "use client";
 import React, {useActionState, useState} from 'react';
 import BigHeaderLogo from "enigma/components/common/HeaderLogo"
-import { useRouter } from 'next/navigation';
+import {useRouter} from 'next/navigation';
 import {
     Box,
     Typography,
@@ -49,7 +49,7 @@ const GoogleButton = styled(Button)({
     },
 });
 
-export const SignUpForm: React.FC = () => {
+export const RegisterForm: React.FC = () => {
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState("");
@@ -95,7 +95,7 @@ export const SignUpForm: React.FC = () => {
     return (
         <Box
             sx={{
-                minWidth: { xs: '100%', md: '480px' },
+                minWidth: {xs: '100%', md: '480px'},
                 display: 'flex',
                 flexDirection: 'column',
                 flex: 1,
@@ -103,7 +103,7 @@ export const SignUpForm: React.FC = () => {
                 fontFamily: 'Inter, -apple-system, Roboto, Helvetica, sans-serif',
             }}
         >
-            <BigHeaderLogo />
+            <BigHeaderLogo/>
             <Container
                 sx={{
                     display: 'flex',
@@ -112,10 +112,10 @@ export const SignUpForm: React.FC = () => {
                     alignItems: 'center',
                     flex: 1,
                     py: 5,
-                    px: { xs: 3, md: 4 },
+                    px: {xs: 3, md: 4},
                 }}
             >
-                <Box sx={{ maxWidth: '360px', width: '100%' }}>
+                <Box sx={{maxWidth: '360px', width: '100%'}}>
                     <Typography
                         variant="h1"
                         sx={{
@@ -129,10 +129,10 @@ export const SignUpForm: React.FC = () => {
                         Sign up
                     </Typography>
 
-                    <Box sx={{ mt: 4, width: '100%' }}>
+                    <Box sx={{mt: 4, width: '100%'}}>
                         <Box component="form"
                              onSubmit={form.handleSubmit(onSubmit)}
-                             sx={{ width: '100%', gap: 2.5, display: 'flex', flexDirection: 'column' }}
+                             sx={{width: '100%', gap: 2.5, display: 'flex', flexDirection: 'column'}}
                         >
                             <TextField
                                 fullWidth
@@ -166,7 +166,7 @@ export const SignUpForm: React.FC = () => {
                                 helperText={form.formState.errors.email?.message}
                                 required
                             />
-                            <Box sx={{ width: '100%' }}>
+                            <Box sx={{width: '100%'}}>
                                 <TextField
                                     fullWidth
                                     label="Password"
@@ -196,12 +196,14 @@ export const SignUpForm: React.FC = () => {
                             {success && <Typography color="success">{success}</Typography>}
                         </Box>
 
-                        <Box sx={{ mt: 3, display: 'flex', flexDirection: 'column', gap: 2 }}>
+                        <Box sx={{mt: 3, display: 'flex', flexDirection: 'column', gap: 2}}>
                             <form action={dispatchGoogle}>
                                 <GoogleButton
                                     variant="outlined"
                                     type="submit"
-                                    startIcon={<img src="https://cdn.builder.io/api/v1/image/assets/TEMP/a41ff4463df85b4add89eb89c936d7f3a16142da?placeholderIfAbsent=true&apiKey=8ef08a3c60b44d4ba008c3e63d84c943" alt="Google logo" style={{ width: 24, height: 24 }} />}
+                                    startIcon={<img
+                                        src="https://cdn.builder.io/api/v1/image/assets/TEMP/a41ff4463df85b4add89eb89c936d7f3a16142da?placeholderIfAbsent=true&apiKey=8ef08a3c60b44d4ba008c3e63d84c943"
+                                        alt="Google logo" style={{width: 24, height: 24}}/>}
                                 >
                                     Sign up with Google
                                 </GoogleButton>
@@ -283,7 +285,9 @@ export const SignUpForm: React.FC = () => {
                         bottom: '30px',
                     }}
                 >
-                    <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/be78fa20679878760d04b59e9cf722db6d7941a1?placeholderIfAbsent=true&apiKey=8ef08a3c60b44d4ba008c3e63d84c943" alt="Email icon" style={{ width: 16, height: 16 }} />
+                    <img
+                        src="https://cdn.builder.io/api/v1/image/assets/TEMP/be78fa20679878760d04b59e9cf722db6d7941a1?placeholderIfAbsent=true&apiKey=8ef08a3c60b44d4ba008c3e63d84c943"
+                        alt="Email icon" style={{width: 16, height: 16}}/>
                     <Typography
                         sx={{
                             color: '#475467',

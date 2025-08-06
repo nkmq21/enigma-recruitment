@@ -1,9 +1,9 @@
 import React from 'react';
 import { Box } from '@mui/material';
-import { SignUpForm } from './signUpForm';
-import { TestimonialSection } from './testimonialSection';
+import { RegisterForm } from 'enigma/components/sections/register/RegisterForm';
+import { RegisterHero } from 'enigma/components/sections/register/RegisterHero';
 
-export const SignUpPage: React.FC = () => {
+export const RegisterPage: React.FC = () => {
     return (
         <Box component="main"
             sx={{
@@ -12,8 +12,6 @@ export const SignUpPage: React.FC = () => {
                 display: 'flex',
                 flexDirection: 'column',
             }}>
-
-
             <Box
                 sx={{
                     display: 'flex',
@@ -26,11 +24,11 @@ export const SignUpPage: React.FC = () => {
                     },
                 }}
             >
-                <SignUpForm />
-                <TestimonialSection />
+                <RegisterForm />
+                <RegisterHero />
             </Box>
         </Box >
     );
 };
 
-export default SignUpPage;
+export default RegisterPage;
