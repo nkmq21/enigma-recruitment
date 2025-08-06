@@ -174,28 +174,28 @@ export const MainContent = () => {
     );
 };
 
-const FeatureCard = ({
-    icon,
-    title,
-    subtitle,
-}: {
-    icon: React.ReactNode;
-    title: string;
-    subtitle: string;
-}) => (
-    <Box sx={{ mb: 2, width: "100% " }}>
-        <Card>
-            <CardContent sx={{ display: "flex", gap: 2, alignItems: "center" }}>
-                <IconButton sx={{ bgcolor: "#D6F1F7", color: "primary.main" }}>
-                    {icon}
-                </IconButton>
-                <Box>
-                    <Typography variant="h6">{title}</Typography>
-                    <Typography variant="body2" color="text.secondary">
-                        {subtitle}
-                    </Typography>
-                </Box>
-            </CardContent>
-        </Card>
-    </Box>
-);
+// const FeatureCard = ({
+//     icon,
+//     title,
+//     subtitle,
+// }: {
+//     icon: React.ReactNode;
+//     title: string;
+//     subtitle: string;
+// }) => (
+//     <Box sx={{ mb: 2, width: "100% " }}>
+//         <Card>
+//             <CardContent sx={{ display: "flex", gap: 2, alignItems: "center" }}>
+//                 <IconButton sx={{ bgcolor: "#D6F1F7", color: "primary.main" }}>
+//                     {icon}
+//                 </IconButton>
+//                 <Box>
+//                     <Typography variant="h6">{title}</Typography>
+//                     <Typography variant="body2" color="text.secondary">
+//                         {subtitle}
+//                     </Typography>
+//                 </Box>
+//             </CardContent>
+//         </Card>
+//     </Box>
+// );
