@@ -1,5 +1,5 @@
-import React, { useEffect, useCallback } from 'react';
-import { FunctionComponent, useRef, useState } from 'react';
+import React, {useEffect, useCallback} from 'react';
+import {FunctionComponent, useRef, useState} from 'react';
 import {
     Box,
     Typography,
@@ -12,26 +12,26 @@ import {
 } from '@mui/material';
 import theme from 'enigma/styles/theme';
 import Image from 'next/image';
-import { Close, ArrowDropDown } from '@mui/icons-material';
-import CheckboxGroup from './checkboxGroup';
-import SalaryFilter from './salaryFilter';
-import DatePickerMenu from './calendar';
-import Location from './locationFilter';
-import IndustriesFilter from './industries';
-import JobRoleFilter from './jobFunction';
-import JobSubRoleFilter from './jobSubfunction';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import {Close, ArrowDropDown} from '@mui/icons-material';
+import {usePathname, useRouter, useSearchParams} from 'next/navigation';
+import DatePickerMenu from "enigma/components/sections/filter/DatePickerMenu";
+import LocationFilter from "enigma/components/sections/filter/LocationFilter";
+import Industries from "enigma/components/sections/filter/Industries";
+import JobRoleFilter from "enigma/components/sections/filter/JobRoleFilter";
+import JobSubRoleFilter from "enigma/components/sections/filter/JobSubRoleFilter";
+import SalaryFilter from "enigma/components/sections/filter/SalaryFilter";
+import CheckboxGroup from "enigma/components/sections/filter/CheckboxGroup";
 
 // Reusable ResetButton component
 const ResetButton: FunctionComponent<{
     filterName: string;
     onReset: (filterName: string) => void;
-}> = ({ filterName, onReset }) => (
+}> = ({filterName, onReset}) => (
     <Button
         variant="text"
         size="small"
         onClick={() => onReset(filterName)}
-        sx={{ p: 0, justifyContent: 'end', mb: 0.5 }}
+        sx={{p: 0, justifyContent: 'end', mb: 0.5}}
     >
         Reset
     </Button>
@@ -41,7 +41,7 @@ interface SlideOutMenuProps {
     onClose: () => void;
 }
 
-const SlideOutMenu: FunctionComponent<SlideOutMenuProps> = ({ onClose }) => {
+const SlideOutMenu: FunctionComponent<SlideOutMenuProps> = ({onClose}) => {
     const router = useRouter();
     const currentPath = usePathname();
     const searchParams = useSearchParams()!;
@@ -52,7 +52,7 @@ const SlideOutMenu: FunctionComponent<SlideOutMenuProps> = ({ onClose }) => {
         industries: searchParams.get('industries')?.split(',').filter(Boolean) || [] as string[],
         selectedJobFunctions: searchParams.get('jobFunctions')?.split(',').filter(Boolean) || [] as string[],
         jobSubfunctions: searchParams.get('jobSubfunctions')?.split(',').filter(Boolean) || [] as string[],
-        salaryRange: { min: '', max: '' },
+        salaryRange: {min: '', max: ''},
         EmploymentType: searchParams.get('employment_type')?.split(',').filter(Boolean) || [] as string[],
     });
 
@@ -64,7 +64,7 @@ const SlideOutMenu: FunctionComponent<SlideOutMenuProps> = ({ onClose }) => {
             industries: searchParams.get('industries')?.split(',').filter(Boolean) || [],
             selectedJobFunctions: searchParams.get('jobFunctions')?.split(',').filter(Boolean) || [],
             jobSubfunctions: searchParams.get('jobSubfunctions')?.split(',').filter(Boolean) || [],
-            salaryRange: { min: '', max: '' },
+            salaryRange: {min: '', max: ''},
             EmploymentType: searchParams.get('employment_type')?.split(',').filter(Boolean) || [],
         })
     }, [searchParams])
@@ -132,17 +132,17 @@ const SlideOutMenu: FunctionComponent<SlideOutMenuProps> = ({ onClose }) => {
         const params = new URLSearchParams(searchParams.toString());
         switch (filterName) {
             case 'Post Date Range':
-                setFilterValues(prev => ({ ...prev, postDateRange: '' }));
+                setFilterValues(prev => ({...prev, postDateRange: ''}));
                 params.delete('postDateRange');
                 if (postDateRangeRef.current) postDateRangeRef.current.value = '';
                 break;
             case 'Location':
-                setFilterValues(prev => ({ ...prev, selectedLocations: [] }));
+                setFilterValues(prev => ({...prev, selectedLocations: []}));
                 params.delete('locations');
                 if (locationCountryRef.current) locationCountryRef.current.value = '';
                 break;
             case 'Industries':
-                setFilterValues(prev => ({ ...prev, industries: [] }));
+                setFilterValues(prev => ({...prev, industries: []}));
                 params.delete('industries');
                 if (industriesRef.current) industriesRef.current.value = '';
                 break;
@@ -226,7 +226,7 @@ const SlideOutMenu: FunctionComponent<SlideOutMenuProps> = ({ onClose }) => {
                 sx={{
                     width: '100%',
                     p: '0 14px',
-                    bgcolor: 'white',
+                    backgroundColor: '#fff',
                     borderRadius: 3,
                     boxShadow: 3,
                     borderLeft: '1px solid #e4e7ec',
@@ -251,22 +251,22 @@ const SlideOutMenu: FunctionComponent<SlideOutMenuProps> = ({ onClose }) => {
                 }}
             >
                 {/* Header */}
-                <Box sx={{ p: 3, display: 'flex', alignItems: 'center', gap: 2, }}>
+                <Box sx={{p: 3, display: 'flex', alignItems: 'center', gap: 2,}}>
                     <Typography variant="h6" fontWeight={600} color='#101828'>
                         Filters by
                     </Typography>
-                    <IconButton sx={{ ml: 'auto' }} onClick={onClose}>
-                        <Close />
+                    <IconButton sx={{ml: 'auto'}} onClick={onClose}>
+                        <Close/>
                     </IconButton>
                 </Box>
 
-                {/* ApplyDialog */}
-                <Box sx={{ p: 3, display: 'flex', flexDirection: 'column', gap: 3, flex: 1 }}>
+                {/* Content */}
+                <Box sx={{p: 3, display: 'flex', flexDirection: 'column', gap: 3, flex: 1}}>
                     {/* Date posted */}
                     <Box>
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.5 }}>
+                        <Box sx={{display: 'flex', justifyContent: 'space-between', mb: 0.5}}>
                             <Typography variant='body2' fontWeight={500} color='#31373d'>Post Date Range</Typography>
-                            <ResetButton onReset={handleReset} filterName="Post Date Range" />
+                            <ResetButton onReset={handleReset} filterName="Post Date Range"/>
                         </Box>
                         <TextField
                             fullWidth
@@ -278,10 +278,10 @@ const SlideOutMenu: FunctionComponent<SlideOutMenuProps> = ({ onClose }) => {
                             InputProps={{
                                 readOnly: true,
                                 startAdornment: <Image src='/calendar.svg' alt='calendar' height={20} width={20}
-                                    style={{ marginRight: '10px' }} />,
+                                                       style={{marginRight: '10px'}}/>,
                                 endAdornment:
                                     <IconButton>
-                                        <ArrowDropDown sx={{ color: 'grey.600' }} />
+                                        <ArrowDropDown sx={{color: 'grey.600'}}/>
                                     </IconButton>,
                             }}
                             onClick={handleDatePickerOpen}
@@ -320,12 +320,12 @@ const SlideOutMenu: FunctionComponent<SlideOutMenuProps> = ({ onClose }) => {
 
                     {/* Location */}
                     <Box>
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
+                        <Box sx={{display: 'flex', justifyContent: 'space-between', mb: 1}}>
                             <Typography variant='body2' fontWeight={500} color='#31373d'>Location</Typography>
-                            <ResetButton filterName="Location" onReset={handleReset} />
+                            <ResetButton filterName="Location" onReset={handleReset}/>
                         </Box>
-                        <Box sx={{ display: 'flex', gap: 2 }}>
-                            <Location
+                        <Box sx={{display: 'flex', gap: 2}}>
+                            <LocationFilter
                                 disabled={false}
                                 value={filterValues.selectedLocations}
                                 onChange={handleLocationChange}
@@ -335,11 +335,11 @@ const SlideOutMenu: FunctionComponent<SlideOutMenuProps> = ({ onClose }) => {
 
                     {/* Industries */}
                     <Box>
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
+                        <Box sx={{display: 'flex', justifyContent: 'space-between', mb: 1}}>
                             <Typography variant='body2' fontWeight={500} color='#31373d'>Industries</Typography>
-                            <ResetButton filterName="Industries" onReset={handleReset} />
+                            <ResetButton filterName="Industries" onReset={handleReset}/>
                         </Box>
-                        <IndustriesFilter
+                        <Industries
                             value={filterValues.industries}
                             onChange={handleIndustryChange}
                             disabled={false}
@@ -348,11 +348,11 @@ const SlideOutMenu: FunctionComponent<SlideOutMenuProps> = ({ onClose }) => {
 
                     {/* AdminJobsPage Role */}
                     <Box>
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
+                        <Box sx={{display: 'flex', justifyContent: 'space-between', mb: 1}}>
                             <Typography variant='body2' fontWeight={500} color='#31373d'>AdminJobsPage Role</Typography>
-                            <ResetButton filterName="AdminJobsPage Role" onReset={handleReset} />
+                            <ResetButton filterName="AdminJobsPage Role" onReset={handleReset}/>
                         </Box>
-                        <Box sx={{ display: 'flex', gap: 2 }}>
+                        <Box sx={{display: 'flex', gap: 2}}>
                             <JobRoleFilter
                                 value={filterValues.selectedJobFunctions}
                                 onChange={handleJobFunctionChange}
@@ -370,14 +370,14 @@ const SlideOutMenu: FunctionComponent<SlideOutMenuProps> = ({ onClose }) => {
 
                     {/* Salary Range */}
                     <Box>
-                        <SalaryFilter />
+                        <SalaryFilter/>
                     </Box>
 
                     {/* Employment Type */}
                     <Box>
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
+                        <Box sx={{display: 'flex', justifyContent: 'space-between', mb: 1}}>
                             <Typography variant='body2' fontWeight={500} color='#31373d'>Employment Type</Typography>
-                            <ResetButton filterName="Employment Type" onReset={handleReset} />
+                            <ResetButton filterName="Employment Type" onReset={handleReset}/>
                         </Box>
                         <CheckboxGroup
                             onChange={handleEmploymentTypeChange}
@@ -385,10 +385,7 @@ const SlideOutMenu: FunctionComponent<SlideOutMenuProps> = ({ onClose }) => {
                             types={['Permanent', 'Contract', 'Temporary']}
                         />
                     </Box>
-
                 </Box>
-
-                {/* Footer */}
                 <Box
                     sx={{
                         borderTop: '1px solid #e4e7ec',
@@ -402,21 +399,21 @@ const SlideOutMenu: FunctionComponent<SlideOutMenuProps> = ({ onClose }) => {
                         Save filter
                     </Button>
                     <DialogActions>
-                        <Box sx={{ display: 'flex', gap: 2 }}>
+                        <Box sx={{display: 'flex', gap: 2}}>
                             <Button variant="outlined"
-                                sx={{
-                                    color: "#344054",
-                                    borderColor: '#D0D5DD',
-                                    borderRadius: '8px'
-                                }}
-                                onClick={onClose}>
+                                    sx={{
+                                        color: "#344054",
+                                        borderColor: '#D0D5DD',
+                                        borderRadius: '8px'
+                                    }}
+                                    onClick={onClose}>
                                 Cancel
                             </Button>
                             <Button variant="contained"
-                                sx={{
-                                    borderColor: ' rgba(255, 255, 255, 0.12)'
-                                }}
-                                onClick={handleApplyFilters}>
+                                    sx={{
+                                        borderColor: ' rgba(255, 255, 255, 0.12)'
+                                    }}
+                                    onClick={handleApplyFilters}>
                                 Apply
                             </Button>
                         </Box>

@@ -3,7 +3,7 @@ import * as React from "react";
 import SectionTitle from "enigma/components/ui/SectionTitle";
 import BigHeaderLogo from "enigma/components/common/HeaderLogo";
 import SearchBar from "enigma/ui/searchBar";
-import CTA from "enigma/components/common/cta";
+import CTA from "enigma/components/common/CTA";
 import {
     Box,
     Typography,

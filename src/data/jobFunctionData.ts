@@ -26,11 +26,11 @@ export const JOB_FUNCTION: JobFunctionData[] = [
         ]
     },
     {
-        jobFunctions: 'Advertising, Arts & Media',
+        jobFunctions: 'Advertising, Arts & MediaPage',
         jobSubfunctions: [
             'Agency Account Management', 'Art Direction', 'Editing & Publishing',
             'Event Management', 'Journalism & Writing', 'Management',
-            'Media Strategy, Planning & Buying', 'Performing Arts', 'Photography',
+            'MediaPage Strategy, Planning & Buying', 'Performing Arts', 'Photography',
             'Programming & Production', 'Promotions', 'Others'
         ]
     },
