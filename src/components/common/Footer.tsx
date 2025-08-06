@@ -35,7 +35,7 @@ const Footer = () => {
                         />
                     </Box>
 
-                    {/* Content Section */}
+                    {/* ApplyDialog Section */}
                     <Box
                         sx={{
                             flex: 1,

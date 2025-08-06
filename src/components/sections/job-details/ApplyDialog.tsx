@@ -1,5 +1,4 @@
 "use client";
-import { FunctionComponent } from "react";
 import {
     Box,
     Typography,
@@ -14,22 +13,54 @@ import {
     CardContent,
     Stack,
     ThemeProvider,
+    IconButton
 } from "@mui/material";
-import theme from 'enigma/styles/theme';
 import Image from "next/image";
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import {Close} from '@mui/icons-material';
+import theme from "enigma/styles/theme";
+import React from "react";
 
-const Content: FunctionComponent = () => {
+interface ContentProps {
+    handleClose: () => void;
+}
+
+const ApplyDialog: React.FC<ContentProps> = ({handleClose}) => {
     return (
         <ThemeProvider theme={theme}>
-            <Card sx={{ borderRadius: 4, p: 4, display: "flex", flexDirection: "column", gap: 6 }}>
-                <Typography variant="h5" fontWeight={600}>
-                    $Senior Business Analyst (Blockchain)
-                </Typography>
-                <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
+            <Card sx={{
+                borderRadius: 4, p: 4,
+                display: "flex",
+                flexDirection: "column", gap: 6,
+                overflowX: 'hidden',
+                overflowY: 'auto',
+                scrollbarWidth: 'thin',
+                scrollbarColor: '#2494b6 #f1f1f1',
+                // Webkit scrollbar styles
+                '&::-webkit-scrollbar': {
+                    width: '8px',
+                },
+                '&::-webkit-scrollbar-track': {
+                    background: '#2494b6',
+                    borderRadius: '10px',
+                },
+                '&::-webkit-scrollbar-thumb': {
+                    background: '#2494b6',
+                    borderRadius: '10px',
+                },
+            }}>
+                <Box sx={{display: 'flex'}}>
+                    <Typography variant="h5" fontWeight={600}>
+                        $Senior Business Analyst (Blockchain)
+                    </Typography>
+                    <IconButton sx={{ml: 'auto'}} onClick={handleClose}>
+                        <Close/>
+                    </IconButton>
+                </Box>
+                <Box sx={{display: "flex", flexDirection: "column", gap: 3}}>
                     {/* Full Name */}
                     <Box>
-                        <Typography variant="body2" fontWeight={500} gutterBottom >
+                        <Typography variant="body2" fontWeight={500} gutterBottom>
                             Full Name <Typography component="span" color="#236785">*</Typography>
                         </Typography>
 
@@ -51,9 +82,9 @@ const Content: FunctionComponent = () => {
                     </Box>
 
                     {/* Email and Phone Number */}
-                    <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap" }}>
-                        <Box sx={{ width: '50%' }}>
-                            <Typography variant="body2" fontWeight={500} gutterBottom >
+                    <Box sx={{display: "flex", gap: 2, flexWrap: "wrap"}}>
+                        <Box sx={{width: '50%'}}>
+                            <Typography variant="body2" fontWeight={500} gutterBottom>
                                 Email <Typography component="span" color="#236785">*</Typography>
                             </Typography>
                             <TextField
@@ -63,7 +94,7 @@ const Content: FunctionComponent = () => {
                                 sx={{
                                     flex: 1, width: '100%',
                                     "& .MuiInputLabel-asterisk":
-                                        { color: "#236785" },
+                                        {color: "#236785"},
                                     "& .MuiOutlinedInput-root": {
                                         borderRadius: "8px",
                                     },
@@ -71,7 +102,7 @@ const Content: FunctionComponent = () => {
                             />
                         </Box>
 
-                        <Box sx={{ flex: 1, }}>
+                        <Box sx={{flex: 1,}}>
                             <FormControl
                                 fullWidth
                                 variant="outlined"
@@ -147,7 +178,7 @@ const Content: FunctionComponent = () => {
                     </Box>
                     <Box>
                         {/* LinkedIn Profile */}
-                        <Typography variant="body2" fontWeight={500} gutterBottom >
+                        <Typography variant="body2" fontWeight={500} gutterBottom>
                             LinkedIn Profile <Typography component="span" color="#667085"> (optional)</Typography>
                         </Typography>
                         <TextField
@@ -161,7 +192,7 @@ const Content: FunctionComponent = () => {
                                         padding: '10px 14px 10px 0', // Padding giống AddOn
                                         borderRight: '1px solid #d0d5dd',
                                     }}>
-                                        <Typography variant="body1"  >
+                                        <Typography variant="body1">
                                             http://
                                         </Typography>
                                     </Box>
@@ -198,7 +229,7 @@ const Content: FunctionComponent = () => {
 
                     <Box>
                         {/* Description */}
-                        <Typography variant="body2" fontWeight={500} gutterBottom >
+                        <Typography variant="body2" fontWeight={500} gutterBottom>
                             Description <Typography component="span" color="#236785">*</Typography>
                         </Typography>
                         <TextField
@@ -232,14 +263,14 @@ const Content: FunctionComponent = () => {
                             }}
                         >
                             <CardContent>
-                                <Image src="/resumeIcon.svg" alt="resume" width={24} height={24} />
+                                <Image src="/resumeIcon.svg" alt="resume" width={24} height={24}/>
                                 <Stack spacing={0.3}>
-                                    <Box sx={{ display: "flex", justifyContent: "center", gap: '5px' }}>
-                                        <Button variant="text" sx={{ textTransform: "none", p: 0 }}>
+                                    <Box sx={{display: "flex", justifyContent: "center", gap: '5px'}}>
+                                        <Button variant="text" sx={{textTransform: "none", p: 0}}>
                                             Click to upload Resume
                                         </Button>
                                         <Typography variant="body2" color="text.secondary"
-                                            sx={{ alignSelf: 'center' }}>
+                                                    sx={{alignSelf: 'center'}}>
                                             or drag and drop
                                         </Typography>
                                     </Box>
@@ -259,7 +290,7 @@ const Content: FunctionComponent = () => {
                             defaultValue="Business Analyst Resume"
                             startAdornment={
                                 <InputAdornment position="start">
-                                    <img src="fileResume.svg" alt="PDF" style={{ width: 20 }} />
+                                    <img src="fileResume.svg" alt="PDF" style={{width: 20}}/>
                                 </InputAdornment>
                             }
                         >
@@ -277,10 +308,16 @@ const Content: FunctionComponent = () => {
                     </FormControl>
                 </Box>
                 {/* Navigation Actions */}
-                <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 2 }}>
+                <Box sx={{display: "flex", justifyContent: "flex-end", gap: 2}}>
                     <Button
                         variant="outlined"
-                        sx={{ borderRadius: 2, textTransform: "none", width: 148, borderColor: '#D0D5DD', color: '#344054' }}
+                        sx={{
+                            borderRadius: 2,
+                            textTransform: "none",
+                            width: 148,
+                            borderColor: '#D0D5DD',
+                            color: '#344054'
+                        }}
                     >
                         Save draft
                     </Button>
@@ -291,16 +328,16 @@ const Content: FunctionComponent = () => {
                             textTransform: "none",
                             width: 148,
                             bgcolor: "#2494b6",
-                            "&:hover": { bgcolor: "#1c7a99" },
+                            "&:hover": {bgcolor: "#1c7a99"},
                         }}
                     >
                         Submit
                     </Button>
                 </Box>
             </Card>
-        </ThemeProvider >
+        </ThemeProvider>
 
     );
 };
 
-export default Content;
+export default ApplyDialog;

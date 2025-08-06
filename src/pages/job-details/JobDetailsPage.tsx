@@ -1,13 +1,14 @@
-// TODO: Refactor this file to use the new layout system
+"use client";
 import React from 'react';
-import { Box, ThemeProvider } from '@mui/material';
-import { SidebarNavigation } from 'enigma/components/common/SidebarNavigation';
+import {Box, ThemeProvider} from '@mui/material';
+import {MainContent} from '../../components/sections/job-details/MainContent';
 import theme from 'enigma/styles/theme';
-import { DetailContent } from './detailContent';
+import {SidebarNavigation} from 'enigma/components/common/SidebarNavigation';
+import {Session} from 'next-auth';
 
-const JobDetailPage: React.FC = () => {
+export default function JobDetailsPage({ session }: { session: Session | null }){
     const [isCollapsed, setIsCollapsed] = React.useState(false);
-    const sidebarWidth = isCollapsed ? '6%' : '19%';
+    const sidebarWidth = isCollapsed ? '6%' : '18%';
     return (
         <ThemeProvider theme={theme}>
             <Box component="main" sx={{
@@ -15,24 +16,23 @@ const JobDetailPage: React.FC = () => {
                 alignItems: "flex-start",
                 justifyContent: "flex-start",
             }}>
+                <SidebarNavigation session={session} isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
                 <Box
                     sx={{
                         display: 'flex',
                         flex: 1,
                         width: '100%',
                         flexWrap: 'wrap',
-                        bgcolor: '#FFF',
+                        marginLeft: { sm: sidebarWidth },
                         '@media (max-width: 991px)': {
                             maxWidth: '100%',
+                            marginLeft: '0',
                         },
                     }}
                 >
-                    <SidebarNavigation session={null} isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
-                    <DetailContent />
+                    <MainContent session={session}/>
                 </Box>
             </Box>
-        </ThemeProvider >
+        </ThemeProvider>
     );
 };
-
-export default JobDetailPage;

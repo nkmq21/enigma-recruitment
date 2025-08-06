@@ -6,7 +6,6 @@ import {
 } from "@mui/material";
 
 export const SearchHistoryChip = () => {
-
     const popularJobs = [
         "Blog posts",
         "Tran Thi B",
@@ -28,11 +27,11 @@ export const SearchHistoryChip = () => {
 
         }
         }>
-            <Typography fontSize='20px' lineHeight='30px' color="#98a2b3" sx={{ mb: 1 }}>
+            <Typography fontSize='20px' lineHeight='30px' color="#98a2b3" sx={{mb: 1}}>
                 Search History:
             </Typography>
 
-            <Box sx={{ display: "flex", gap: 1.5, flexWrap: "wrap" }}>
+            <Box sx={{display: "flex", gap: 1.5, flexWrap: "wrap"}}>
                 {popularJobs.map((job, index) => (
                     <Chip
                         key={index}
@@ -45,10 +44,10 @@ export const SearchHistoryChip = () => {
                             '&:hover': {
                                 backgroundColor: '#2494B620' // 20% opacity
                             }
-                        }} />
+                        }}
+                    />
                 ))}
             </Box>
-        </Box >
+        </Box>
     );
 };
-

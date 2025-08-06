@@ -1,3 +1,4 @@
+// TODO: Change project view to CV view and separate it to a smaller component
 import React from 'react';
 import {
     Box,
@@ -22,7 +23,7 @@ export const toDisplayValue = (value: string | number | Date | null | undefined)
     return value ?? "None";
 };
 
-const SectionDetails = ({user}: {user: User | null | undefined}) => {
+const UserDetailsGrid = ({user}: {user: User | null | undefined}) => {
     return (
         <Box
             sx={{
@@ -443,4 +444,4 @@ const SectionDetails = ({user}: {user: User | null | undefined}) => {
     );
 };
 
-export default SectionDetails;
+export default UserDetailsGrid;

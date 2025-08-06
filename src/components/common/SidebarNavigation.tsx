@@ -1,7 +1,7 @@
 import * as React from "react";
-import { useState, useEffect } from "react";
+import {useState, useEffect} from "react";
 import BigHeaderLogo from "./HeaderLogo";
-import { SmallHeaderLogo } from "./HeaderLogo";
+import {SmallHeaderLogo} from "./HeaderLogo";
 import {
     Box,
     List,
@@ -19,10 +19,11 @@ import {
 } from '@mui/material';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ExpandLess } from '@mui/icons-material';
-import { signOut } from 'next-auth/react';
-import { Session } from 'next-auth';
-import { usePathname } from 'next/navigation';
+import {ExpandLess} from '@mui/icons-material';
+import {signOut} from 'next-auth/react';
+import {Session} from 'next-auth';
+import {usePathname} from 'next/navigation';
+import {useSidebar} from "enigma/context/SidebarContext";
 
 interface NavItem {
     text: string;
@@ -32,29 +33,15 @@ interface NavItem {
     subItems?: { text: string; href: string; icon?: React.ReactNode }[];
 }
 
-export const SidebarNavigation = ({
-    session,
-    isCollapsed,
-    setIsCollapsed,
-}: {
-    session: Session | null;
-    isCollapsed: boolean;
-    setIsCollapsed: React.Dispatch<React.SetStateAction<boolean>>;
-}) => {
+export const SidebarNavigation = ({session}: { session: Session | null }) => {
     const theme = useTheme();
+    const {isCollapsed, toggleSidebar} = useSidebar();
     const [isSessionValid, setIsSessionValid] = useState(false);
     const [name, setName] = useState<string | null>(null);
     const [email, setEmail] = useState<string | null>(null);
     const [image, setImage] = useState<string | undefined>('/Avatar.png');
     const currentUrl = usePathname();
     const [openDropdown, setOpenDropdown] = useState<string | null>(null);
-
-    // const handleLogin = async () => {
-    //     if (session) setIsSessionValid(true);
-    //     setName(session?.user?.name as string);
-    //     setEmail(session?.user?.email as string);
-    //     setImage(session?.user?.image as string);
-    // };
 
     // Check if the session is valid and set the state accordingly
     useEffect(() => {
@@ -72,12 +59,7 @@ export const SidebarNavigation = ({
         setName(null);
         setEmail(null);
         setImage('');
-        await signOut({ redirectTo: '/' });
-    };
-
-    // State để theo dõi trạng thái slider (đóng/mở)
-    const toggleSidebar = () => {
-        setIsCollapsed((prev) => !prev);
+        await signOut({redirectTo: '/'});
     };
 
     const handleToggleDropdown = (text: string) => {
@@ -87,13 +69,13 @@ export const SidebarNavigation = ({
     const publicItems: NavItem[] = [
         {
             text: 'Home',
-            icon: <Image src='/homeIcon.svg' alt='home' width={24} height={24} />,
+            icon: <Image src='/homeIcon.svg' alt='home' width={24} height={24}/>,
             href: "/home",
         },
         {
             text: 'Career Tools',
-            icon: <Image src='/tool.svg' alt='career tool' width={24} height={24} />,
-            icon1: <Image src='/arrowSlide.svg' alt='arrow' width={24} height={24} />,
+            icon: <Image src='/tool.svg' alt='career tool' width={24} height={24}/>,
+            icon1: <Image src='/arrowSlide.svg' alt='arrow' width={24} height={24}/>,
             href: '/#',
             subItems: [
                 {
@@ -112,15 +94,15 @@ export const SidebarNavigation = ({
         },
         {
             text: 'Open Jobs',
-            icon: <Image src='/bagicon.svg' alt='home' width={24} height={24} />,
+            icon: <Image src='/bagicon.svg' alt='home' width={24} height={24}/>,
             href: "/jobs",
         },
         ...(session?.user
             ? [
                 {
                     text: 'Profile',
-                    icon: <Image src='/profile.svg' alt='profile' width={24} height={24} />,
-                    icon1: <Image src='/arrowSlide.svg' alt='arrow' width={24} height={24} />,
+                    icon: <Image src='/profile.svg' alt='profile' width={24} height={24}/>,
+                    icon1: <Image src='/arrowSlide.svg' alt='arrow' width={24} height={24}/>,
                     href: '/#',
                     subItems: [
                         {
@@ -147,7 +129,7 @@ export const SidebarNavigation = ({
             ? [
                 {
                     text: 'Admin Panel',
-                    icon: <Image src='/homeIcon.svg' alt='admin panel' width={24} height={24} />,
+                    icon: <Image src='/homeIcon.svg' alt='admin panel' width={24} height={24}/>,
                     href: '/admin',
                 },
             ]
@@ -157,32 +139,32 @@ export const SidebarNavigation = ({
     const adminItems: NavItem[] = [
         {
             text: 'Dashboard',
-            icon: <Image src='/homeIcon.svg' alt='home' width={24} height={24} />,
+            icon: <Image src='/homeIcon.svg' alt='home' width={24} height={24}/>,
             href: '/admin',
         },
         {
             text: 'User Management',
-            icon: <Image src='/homeIcon.svg' alt='user management' width={24} height={24} />,
+            icon: <Image src='/homeIcon.svg' alt='user management' width={24} height={24}/>,
             href: '/admin/users',
         },
         {
             text: 'AdminJobsPage Management',
-            icon: <Image src='/bagicon.svg' alt='job management' width={24} height={24} />,
+            icon: <Image src='/bagicon.svg' alt='job management' width={24} height={24}/>,
             href: '/admin/jobs',
         },
         {
             text: 'Website Settings',
-            icon: <Image src='/settings.svg' alt='settings' width={24} height={24} />,
+            icon: <Image src='/settings.svg' alt='settings' width={24} height={24}/>,
             href: '/admin/web-settings',
         },
         {
             text: 'Media',
-            icon: <Image src='/homeIcon.svg' alt='media' width={24} height={24} />,
+            icon: <Image src='/homeIcon.svg' alt='media' width={24} height={24}/>,
             href: '/admin/media',
         },
         {
             text: 'Home',
-            icon: <Image src='/homeIcon.svg' alt='home' width={24} height={24} />,
+            icon: <Image src='/homeIcon.svg' alt='home' width={24} height={24}/>,
             href: '/home',
         },
     ];
@@ -190,11 +172,11 @@ export const SidebarNavigation = ({
     const footerItems: NavItem[] = [
         {
             text: 'Contact Us',
-            icon: <Image src='/support.svg' alt='support' width={24} height={24} />,
+            icon: <Image src='/support.svg' alt='support' width={24} height={24}/>,
         },
         {
             text: 'Settings',
-            icon: <Image src='/setting.svg' alt='setting' width={24} height={24} />,
+            icon: <Image src='/setting.svg' alt='setting' width={24} height={24}/>,
         },
     ];
 
@@ -208,7 +190,7 @@ export const SidebarNavigation = ({
                     height: '100vh',
                     flexShrink: 0,
                     borderRight: `1px solid ${theme.palette.divider}`,
-                    display: { xs: 'none', sm: 'flex' },
+                    display: {xs: 'none', sm: 'flex'},
                     flexDirection: 'column',
                     backgroundColor: theme.palette.background.paper,
                     width: isCollapsed ? '6%' : '18%',
@@ -232,7 +214,7 @@ export const SidebarNavigation = ({
                         borderBottom: `1px solid ${theme.palette.divider}`
                     }}
                 >
-                    {isCollapsed ? <SmallHeaderLogo /> : <BigHeaderLogo />}
+                    {isCollapsed ? <SmallHeaderLogo/> : <BigHeaderLogo/>}
                     {!isCollapsed && (
                         <IconButton
                             onClick={toggleSidebar}
@@ -252,7 +234,7 @@ export const SidebarNavigation = ({
                             }}
                             aria-label='Toggle sidebar'
                         >
-                            <Image src='/showbar.svg' alt='collapse' width={24} height={24} />
+                            <Image src='/showbar.svg' alt='collapse' width={24} height={24}/>
                         </IconButton>
                     )}
                     {isCollapsed && (
@@ -273,37 +255,10 @@ export const SidebarNavigation = ({
                             }}
                             aria-label='Toggle sidebar'
                         >
-                            <Image src='/showbar1.svg' alt='expand' width={24} height={24} />
+                            <Image src='/showbar1.svg' alt='expand' width={24} height={24}/>
                         </IconButton>
                     )}
                 </Box>
-
-                {/* Search bar */}
-                {/*{!isCollapsed && (*/}
-                {/*    <Box sx={{ px: 2, mt: 2 }}>*/}
-                {/*        <Paper*/}
-                {/*            component='form'*/}
-                {/*            sx={{*/}
-                {/*                p: '2px 6px',*/}
-                {/*                display: 'flex',*/}
-                {/*                alignItems: 'center',*/}
-                {/*                borderRadius: 2,*/}
-                {/*            }}*/}
-                {/*        >*/}
-                {/*            <InputBase sx={{ ml: 1, flex: 1 }} placeholder='Search' />*/}
-                {/*            <IconButton sx={{ bgcolor: '#2494B6', color: 'white', p: 0.7, m: 0.5 }}>*/}
-                {/*                <Search />*/}
-                {/*            </IconButton>*/}
-                {/*        </Paper>*/}
-                {/*    </Box>*/}
-                {/*)}*/}
-                {/*{isCollapsed && (*/}
-                {/*    <Box sx={{ px: 2.2 }}>*/}
-                {/*        <IconButton sx={{ bgcolor: '#2494B6', color: 'white', p: 1.5, m: 0.5 }}>*/}
-                {/*            <Search />*/}
-                {/*        </IconButton>*/}
-                {/*    </Box>*/}
-                {/*)}*/}
 
                 {/* Navigation options */}
                 <Box
@@ -354,8 +309,8 @@ export const SidebarNavigation = ({
                                                         '&:hover': {
                                                             backgroundColor: '#f2f4f7', // Hover background color
                                                             color: '#2494b6', // Hover text color
-                                                            '& .MuiListItemIcon-root': { color: '#2494b6' }, // Hover icon color
-                                                            '& .MuiListItemText-primary': { color: '#2494b6' }, // Hover text color
+                                                            '& .MuiListItemIcon-root': {color: '#2494b6'}, // Hover icon color
+                                                            '& .MuiListItemText-primary': {color: '#2494b6'}, // Hover text color
                                                         },
                                                     }}
                                                 >
@@ -383,7 +338,7 @@ export const SidebarNavigation = ({
                                                                 }}
                                                             >
                                                                 {openDropdown === item.text ? (
-                                                                    <ExpandLess sx={{ width: 24, height: 24 }} />
+                                                                    <ExpandLess sx={{width: 24, height: 24}}/>
                                                                 ) : (
                                                                     item.icon1
                                                                 )}
@@ -413,7 +368,7 @@ export const SidebarNavigation = ({
                                                                         '&:hover': {
                                                                             backgroundColor: '#f2f4f7', // Hover background color
                                                                             color: '#2494b6', // Hover text color
-                                                                            '& .MuiListItemText-primary': { color: '#2494b6' }, // Ensure text color on hover
+                                                                            '& .MuiListItemText-primary': {color: '#2494b6'}, // Ensure text color on hover
                                                                         },
                                                                     }}
                                                                 >
@@ -447,7 +402,7 @@ export const SidebarNavigation = ({
                                                     '&:hover': {
                                                         backgroundColor: '#f2f4f7', // Hover background color
                                                         color: '#2494b6', // Hover text color
-                                                        '& .MuiListItemText-primary': { color: '#2494b6' }, // Ensure text color on hover
+                                                        '& .MuiListItemText-primary': {color: '#2494b6'}, // Ensure text color on hover
                                                     },
                                                 }}
                                             >
@@ -460,9 +415,9 @@ export const SidebarNavigation = ({
                                                 </ListItemIcon>
                                                 {!isCollapsed && (
                                                     <>
-                                                        <ListItemText primary={item.text} sx={{ color: '#344054' }} />
+                                                        <ListItemText primary={item.text} sx={{color: '#344054'}}/>
                                                         {item.icon1 && (
-                                                            <ListItemIcon sx={{ color: '#344054', minWidth: 0 }}>
+                                                            <ListItemIcon sx={{color: '#344054', minWidth: 0}}>
                                                                 {item.icon1}
                                                             </ListItemIcon>
                                                         )}
@@ -488,15 +443,16 @@ export const SidebarNavigation = ({
                                                         justifyContent: isCollapsed ? 'center' : 'flex-start',
                                                     }}
                                                 >
-                                                    <ListItemIcon sx={{ color: '#344054', minWidth: isCollapsed ? 0 : 40 }}>
+                                                    <ListItemIcon
+                                                        sx={{color: '#344054', minWidth: isCollapsed ? 0 : 40}}>
                                                         {item.icon}
                                                     </ListItemIcon>
                                                     {!isCollapsed && (
                                                         <>
-                                                            <ListItemText primary={item.text} sx={{ color: '#344054' }} />
-                                                            <ListItemIcon sx={{ color: '#344054', minWidth: 0 }}>
+                                                            <ListItemText primary={item.text} sx={{color: '#344054'}}/>
+                                                            <ListItemIcon sx={{color: '#344054', minWidth: 0}}>
                                                                 {openDropdown === item.text ? (
-                                                                    <ExpandLess sx={{ width: 24, height: 24 }} />
+                                                                    <ExpandLess sx={{width: 24, height: 24}}/>
                                                                 ) : (
                                                                     item.icon1
                                                                 )}
@@ -507,7 +463,12 @@ export const SidebarNavigation = ({
                                             </ListItem>
                                             {!isCollapsed && (
                                                 <Collapse in={openDropdown === item.text} timeout='auto' unmountOnExit>
-                                                    <List sx={{ pl: 4, display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                                                    <List sx={{
+                                                        pl: 4,
+                                                        display: 'flex',
+                                                        flexDirection: 'column',
+                                                        gap: '4px'
+                                                    }}>
                                                         {item.subItems.map((subItem, subIndex) => (
                                                             <ListItem key={subIndex} disablePadding>
                                                                 <ListItemButton
@@ -517,11 +478,12 @@ export const SidebarNavigation = ({
                                                                         borderRadius: 2,
                                                                         padding: '8px 12px',
                                                                         color: '#344054',
-                                                                        '&:hover': { backgroundColor: '#F5F5F5' },
+                                                                        '&:hover': {backgroundColor: '#F5F5F5'},
                                                                     }}
                                                                 >
                                                                     {subItem.icon && (
-                                                                        <ListItemIcon sx={{ minWidth: '24px', color: '#344054' }}>
+                                                                        <ListItemIcon
+                                                                            sx={{minWidth: '24px', color: '#344054'}}>
                                                                             {subItem.icon}
                                                                         </ListItemIcon>
                                                                     )}
@@ -552,14 +514,14 @@ export const SidebarNavigation = ({
                                                     justifyContent: isCollapsed ? 'center' : 'flex-start',
                                                 }}
                                             >
-                                                <ListItemIcon sx={{ color: '#344054', minWidth: isCollapsed ? 0 : 40 }}>
+                                                <ListItemIcon sx={{color: '#344054', minWidth: isCollapsed ? 0 : 40}}>
                                                     {item.icon}
                                                 </ListItemIcon>
                                                 {!isCollapsed && (
                                                     <>
-                                                        <ListItemText primary={item.text} sx={{ color: '#344054' }} />
+                                                        <ListItemText primary={item.text} sx={{color: '#344054'}}/>
                                                         {item.icon1 && (
-                                                            <ListItemIcon sx={{ color: '#344054', minWidth: 0 }}>
+                                                            <ListItemIcon sx={{color: '#344054', minWidth: 0}}>
                                                                 {item.icon1}
                                                             </ListItemIcon>
                                                         )}
@@ -575,9 +537,9 @@ export const SidebarNavigation = ({
                 </Box>
 
                 {/* Bottom section */}
-                <Box sx={{ py: isCollapsed ? 1 : 1 }}>
-                    <Box sx={{ mt: 0, flexGrow: 0 }}>
-                        <List sx={{ borderBottom: `1px solid ${theme.palette.divider}` }}>
+                <Box sx={{py: isCollapsed ? 1 : 1}}>
+                    <Box sx={{mt: 0, flexGrow: 0}}>
+                        <List sx={{borderBottom: `1px solid ${theme.palette.divider}`}}>
                             {footerItems.map((item, index) => (
                                 <ListItemButton
                                     key={index}
@@ -588,21 +550,21 @@ export const SidebarNavigation = ({
                                         justifyContent: isCollapsed ? 'center' : 'flex-start',
                                     }}
                                 >
-                                    <ListItemIcon sx={{ color: '#344054', minWidth: isCollapsed ? 0 : 40 }}>
+                                    <ListItemIcon sx={{color: '#344054', minWidth: isCollapsed ? 0 : 40}}>
                                         {item.icon}
                                     </ListItemIcon>
-                                    {!isCollapsed && <ListItemText primary={item.text} sx={{ color: '#344054' }} />}
+                                    {!isCollapsed && <ListItemText primary={item.text} sx={{color: '#344054'}}/>}
                                 </ListItemButton>
                             ))}
                         </List>
 
                         {!isCollapsed ? (
                             !isSessionValid ? (
-                                <Box sx={{ mt: 2, m: 2, pt: 2 }}>
+                                <Box sx={{mt: 2, m: 2, pt: 2}}>
                                     <Button
                                         variant='contained'
                                         fullWidth
-                                        sx={{ mb: 1, bgcolor: '#2494B6' }}
+                                        sx={{mb: 1, bgcolor: '#2494B6'}}
                                         href='/register'
                                     >
                                         Sign up
@@ -626,30 +588,30 @@ export const SidebarNavigation = ({
                                     <Avatar
                                         alt={`Profile picture of ${name}`}
                                         src={image}
-                                        sx={{ width: 40, height: 40 }}
+                                        sx={{width: 40, height: 40}}
                                     />
-                                    <Box sx={{ flexGrow: 1 }}>
-                                        <Typography variant='body2' color='#101828' sx={{ fontWeight: 600 }}>
+                                    <Box sx={{flexGrow: 1}}>
+                                        <Typography variant='body2' color='#101828' sx={{fontWeight: 600}}>
                                             {name}
                                         </Typography>
-                                        <Typography variant='body2' color='#475467' sx={{ fontWeight: 400 }}>
+                                        <Typography variant='body2' color='#475467' sx={{fontWeight: 400}}>
                                             {email}
                                         </Typography>
                                     </Box>
                                     <IconButton
                                         onClick={handleSignOut}
-                                        sx={{ background: 'none', border: 'none', padding: 0 }}
+                                        sx={{background: 'none', border: 'none', padding: 0}}
                                     >
-                                        <Image src='/exit.svg' alt='exit' width={24} height={24} />
+                                        <Image src='/exit.svg' alt='exit' width={24} height={24}/>
                                     </IconButton>
                                 </Box>
                             )
                         ) : (
-                            <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3 }}>
+                            <Box sx={{display: 'flex', justifyContent: 'center', mt: 3}}>
                                 <Avatar
                                     alt={`Profile picture of ${name}`}
                                     src={image}
-                                    sx={{ width: 40, height: 40 }}
+                                    sx={{width: 40, height: 40}}
                                 />
                             </Box>
                         )}

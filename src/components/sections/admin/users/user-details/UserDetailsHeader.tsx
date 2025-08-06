@@ -9,9 +9,9 @@ import {
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import Image from 'next/image';
 import { User } from "enigma/types/models";
-import DeleteButton from './buttonDialog';
+import DeleteButton from './UserDetailsActionButtons';
 
-const PageHeader = ({ user }: { user: User | null | undefined }) => {
+const UserDetailsHeader = ({ user }: { user: User | null | undefined }) => {
 
     const handleDelete = (itemId: string | number) => {
         console.log(`Deleting item with ID: ${itemId}`);
@@ -53,7 +53,7 @@ const PageHeader = ({ user }: { user: User | null | undefined }) => {
                     marginTop: '-40px',
                 }}
             >
-                {/* Avatar and Content */}
+                {/* Avatar and ApplyDialog */}
                 <Box
                     sx={{
                         alignSelf: 'stretch',
@@ -94,7 +94,7 @@ const PageHeader = ({ user }: { user: User | null | undefined }) => {
                             <Image src={'/tickBlue.svg'} alt='' width={32} height={32} />
                         </Box>
                     </Box>
-                    {/* Content */}
+                    {/* ApplyDialog */}
                     <Box
                         sx={{
                             flex: 1,
@@ -201,4 +201,4 @@ const PageHeader = ({ user }: { user: User | null | undefined }) => {
     );
 };
 
-export default PageHeader;
+export default UserDetailsHeader;

@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from "react";
+import { useState } from "react";
 import {
     Box,
     Typography,
@@ -16,23 +16,24 @@ import {
 } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Image from "next/image";
-import ApplyNowDialog from "../../../../../pages/admin/jobs/job-details/buttonAdmin";
+import ActionButtons from "enigma/components/sections/job-details/JobDetailsActionButtons";
 import TagChips from "enigma/ui/badge";
+import { Session } from "next-auth";
 
-const JobDetailsGrid: FunctionComponent = () => {
+const JobDetailsGrid = ({session} : {session: Session | null}) => {
     const tags = ['ERP/CRM Systems', 'Fintech', 'Documentation Skills'];
     const [showMore, setShowMore] = useState(false);
     return (
 
         <Box sx={{ display: "flex", flexDirection: "column", gap: 3, p: 2, }}>
-            {/* AdminJobsPage Details Section */}
+            {/* Job Details Section */}
             <Box>
                 <Card sx={{ borderRadius: 4, boxShadow: 'none', }}>
                     <CardMedia
                         component="img"
                         height="291"
                         image="bannerJobDetail.svg"
-                        alt="AdminJobsPage Banner"
+                        alt="Job Banner"
                         sx={{ borderRadius: "8px", objectFit: "cover" }}
                     />
 
@@ -73,8 +74,8 @@ const JobDetailsGrid: FunctionComponent = () => {
                             <Typography variant="h5" fontWeight={600}>
                                 Senior Business Analyst (Blockchain)
                             </Typography>
-                            {/* applay buttton */}
-                            <ApplyNowDialog role="admin" />
+                            {/* apply buttton */}
+                            <ActionButtons role={session?.user?.role?.toLowerCase() as string} />
 
                         </Box>
                         <Typography variant="body2" color="#6941c6" mt={1}>
@@ -98,7 +99,6 @@ const JobDetailsGrid: FunctionComponent = () => {
                             <Stack direction="row" spacing={1} flexWrap="wrap" gap={1}>
                                 <TagChips tags={tags} salary="" showSalary={false} />
                             </Stack>
-
                         </Box>
                     </CardContent>
 

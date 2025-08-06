@@ -1,3 +1,4 @@
+// TODO: Implement this
 import React, { useState } from 'react';
 import {
     Box,
@@ -38,7 +39,7 @@ const barChartData = [
     { month: 'Dec', pending: 90, approved: 50 },
 ];
 
-const ChartAdmin = () => {
+const AdminCharts = () => {
     const theme = useTheme();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -237,4 +238,4 @@ const ChartAdmin = () => {
     );
 };
 
-export default ChartAdmin;
+export default AdminCharts;

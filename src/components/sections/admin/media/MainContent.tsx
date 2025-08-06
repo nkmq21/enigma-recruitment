@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState } from "react"; // Added missing import
+import { useState } from "react";
 import {
     Box,
     Typography,
@@ -7,14 +7,14 @@ import {
     Button,
     Container,
 } from "@mui/material";
-import { SearchHistoryChip } from "./searchHistoryJob";
+import { SearchHistoryChip } from "./SearchHistoryChip";
 import Image from "next/image";
 import BigHeaderLogo from "enigma/components/common/HeaderLogo";
 import SearchBar from "enigma/ui/searchBar";
 import { FilterSortBar } from "enigma/ui/filterSortBar";
 import SectionTitle from "enigma/components/ui/SectionTitle";
 import BlogCard from "enigma/ui/blogCard";
-import CTAmedia from "./CTA";
+import MediaCTA from "./MediaCTA";
 
 // Sample data (replace with your actual data source)
 const tableData = Array.from({ length: 50 }, (_, i) => ({
@@ -92,7 +92,7 @@ export const MainContent = () => {
 
             <SearchHistoryChip />
             <SectionTitle title="New Article or Media" showOptions />
-            <CTAmedia />
+            <MediaCTA />
 
             <SectionTitle title="List of Contents" showOptions1 showOptions />
             <Container maxWidth="lg">

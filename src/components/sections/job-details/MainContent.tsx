@@ -1,5 +1,5 @@
 import * as React from "react";
-import JobDetailsGrid from "../../../../components/sections/admin/jobs/job-details/JobDetailsGrid";
+import JobDetailsGrid from "enigma/components/sections/job-details/JobDetailsGrid";
 import {
     Box,
     Typography,
@@ -8,8 +8,9 @@ import {
 import BigHeaderLogo from "enigma/components/common/HeaderLogo";
 import SectionTitle from "enigma/components/ui/SectionTitle";
 import SuggestedJobCard from "enigma/components/ui/SuggestedJobCard";
+import { Session } from "next-auth";
 
-export const MainContent = () => {
+export const MainContent = ({session} : {session: Session | null}) => {
     return (
         <Box component="main" sx={{
             flexGrow: 1,
@@ -41,7 +42,7 @@ export const MainContent = () => {
                         pr: 2,
                     },
                 }}>
-                    <JobDetailsGrid />
+                    <JobDetailsGrid session={session}/>
                 </Box>
 
                 {/* Right Column */}
@@ -56,7 +57,6 @@ export const MainContent = () => {
                     </Box>
                 </Box>
             </Box >
-
         </Box >
     );
 };

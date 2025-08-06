@@ -1,7 +1,7 @@
 // src/app/(auth)/admin/users/page.tsx
 
 import {auth} from "enigma/auth";
-import UserManagement from "enigma/pages/admin/users/userManager";
+import UserManagement from "enigma/pages/admin/users/AdminUsersPage";
 import {getPaginatedUsers} from "enigma/services/userServices";
 
 type Params = Promise<{ page?: string }>;

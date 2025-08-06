@@ -1,4 +1,4 @@
-// src/components/admin/user/dashboardUser.tsx
+// src/components/admin/user/UsersTable.tsx
 'use client';
 import React, { useEffect, useState } from 'react';
 import {
@@ -18,7 +18,7 @@ interface DashboardUserProps {
     pageSize: number;
 }
 
-const DashboardUser: React.FC<DashboardUserProps> = ({
+const UsersTable: React.FC<DashboardUserProps> = ({
                                                          users: initialUsers,
                                                          totalUsers: initialTotalUsers,
                                                          currentPage: initialPage,
@@ -175,4 +175,4 @@ const DashboardUser: React.FC<DashboardUserProps> = ({
     );
 };
 
-export default DashboardUser;
+export default UsersTable;

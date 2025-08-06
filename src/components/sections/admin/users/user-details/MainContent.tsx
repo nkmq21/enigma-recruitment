@@ -1,10 +1,10 @@
 import * as React from "react";
-import PageHeader from "./headerDetails";
-import SectionDetail from "./sectionDetails";
+import UserDetailsHeader from "./UserDetailsHeader";
 import { Box, Typography } from "@mui/material";
 import {JobApplicationWithFlatJob} from "enigma/services/jobApplicationServices";
-import DashboardDetails from "./dashboardDetails";
+import ApplicationHistoryTable from "./ApplicationHistoryTable";
 import {User} from "enigma/types/models";
+import UserDetailsGrid from "./UserDetailsGrid";
 
 export const MainContent = ({user, applications}: {
     user: User | null,
@@ -17,15 +17,14 @@ export const MainContent = ({user, applications}: {
             flexDirection: 'column',
             gap: 1,
         }}>
-            <PageHeader user={user}/>
-            <SectionDetail user={user}/>
+            <UserDetailsHeader user={user}/>
+            <UserDetailsGrid user={user}/>
 
             <Typography fontSize={'18px'} lineHeight={'28px'} fontWeight={600} color="#101828" sx={{ ml: 3 }}>
                 History of applications
             </Typography>
-
             <Box sx={{ p: 3 }}>
-                <DashboardDetails applications={applications}/>
+                <ApplicationHistoryTable applications={applications}/>
             </Box>
         </Box>
     );

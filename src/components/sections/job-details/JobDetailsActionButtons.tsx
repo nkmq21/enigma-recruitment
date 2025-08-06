@@ -1,10 +1,11 @@
+// TODO: Implement these buttons
 import React, { useState } from 'react';
 import { Button, Dialog, Stack } from '@mui/material';
 import { Share, Edit, Delete } from '@mui/icons-material';
-import Content from './content';
-import DeleteButton from 'enigma/pages/admin/users/userDetails/buttonDialog';
+import ApplyDialog from './ApplyDialog';
+import DeleteButton from 'enigma/components/sections/admin/users/user-details/UserDetailsActionButtons';
 
-// Define the props interface for Content
+// Define the props interface for ApplyDialog
 interface ContentProps {
     handleClose: () => void;
     jobId?: string; // Optional props based on previous context
@@ -13,14 +14,14 @@ interface ContentProps {
 }
 
 // Define props for ApplyNowDialog
-interface ApplyNowDialogProps {
+interface ActionButtonsProps {
     contentProps?: Omit<ContentProps, 'handleClose'>; // Exclude handleClose since it's passed separately
-    role: 'admin' | 'seeker'; // Role prop to determine button rendering
+    role: string; // Role prop to determine button rendering
     onEdit?: () => void; // Optional handler for Edit button (for admins)
     onDelete?: () => void; // Optional handler for Delete button (for admins)
 }
 
-const ApplyNowDialog: React.FC<ApplyNowDialogProps> = ({
+const ActionButtons: React.FC<ActionButtonsProps> = ({
     contentProps,
     role,
     onEdit,
@@ -28,7 +29,6 @@ const ApplyNowDialog: React.FC<ApplyNowDialogProps> = ({
     const [open, setOpen] = useState(false);
 
     const handleDelete = (itemId: string | number) => {
-        console.log(`Deleting item with ID: ${itemId}`);
         // Add your delete logic here (e.g., API call)
     };
 
@@ -88,10 +88,10 @@ const ApplyNowDialog: React.FC<ApplyNowDialogProps> = ({
                     },
                 }}
             >
-                <Content handleClose={handleClose} {...contentProps} />
+                <ApplyDialog handleClose={handleClose} {...contentProps} />
             </Dialog>
         </>
     );
 };
 
-export default ApplyNowDialog;
+export default ActionButtons;

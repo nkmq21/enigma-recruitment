@@ -6,12 +6,12 @@ import {
     Divider,
     IconButton,
 } from "@mui/material";
-import MoreVertIcon from '@mui/icons-material/MoreVert'; // Thay cho dots-vertical.svg
-import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward'; // Thay cho arrow-up.svg
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import BigHeaderLogo from "enigma/components/common/HeaderLogo";
 import SectionTitle from "enigma/components/ui/SectionTitle";
 import Image from "next/image";
-import DashboardUser from "./dashboardUser";
+import UsersTable from "./UsersTable";
 import {UserProps} from "enigma/services/userServices";
 
 interface DashboardUserProps {
@@ -46,8 +46,7 @@ export const MainContent: React.FC<DashboardUserProps> = ({
                 User Management
             </Typography>
 
-            {/* Popular Jobs */}
-
+            {/* User metrics */}
             <Typography sx={{ fontSize: '20px', lineHeight: '30px', mb: 4 }} fontWeight={600} gutterBottom color="#101828">
                 Overview of User Metrics
             </Typography>
@@ -427,8 +426,9 @@ export const MainContent: React.FC<DashboardUserProps> = ({
                     </Box>
                 </Card>
             </Box>
-            <SectionTitle title="All Users Overview" shopBage showOptions showOptions1 />
-            <DashboardUser users={users} totalUsers={totalUsers} currentPage={currentPage} pageSize={pageSize}/>
+            {/* List of all users */}
+            <SectionTitle title="All Users" shopBage showOptions showOptions1 />
+            <UsersTable users={users} totalUsers={totalUsers} currentPage={currentPage} pageSize={pageSize}/>
         </Box >
     );
 };

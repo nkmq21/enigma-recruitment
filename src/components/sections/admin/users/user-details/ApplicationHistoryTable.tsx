@@ -14,7 +14,7 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import Link from 'next/link';
 import {JobApplicationWithFlatJob} from "enigma/services/jobApplicationServices";
 
-const DashboardDetails = ({applications}: {applications: JobApplicationWithFlatJob[] | null}) => {
+const ApplicationHistoryTable = ({applications}: {applications: JobApplicationWithFlatJob[] | null}) => {
     return (
         <TableContainer
             sx={{
@@ -116,4 +116,4 @@ const DashboardDetails = ({applications}: {applications: JobApplicationWithFlatJ
     );
 };
 
-export default DashboardDetails;
+export default ApplicationHistoryTable;

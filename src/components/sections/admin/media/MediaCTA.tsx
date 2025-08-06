@@ -1,5 +1,4 @@
 import * as React from "react";
-import { useState } from "react"; // Added missing import
 import {
     Box,
     Typography,
@@ -7,17 +6,10 @@ import {
     Button,
     Container,
 } from "@mui/material";
-import { SearchHistoryChip } from "./searchHistoryJob";
 import Image from "next/image";
-import BigHeaderLogo from "enigma/components/common/HeaderLogo";
-import SearchBar from "enigma/ui/searchBar";
-import { FilterSortBar } from "enigma/ui/filterSortBar";
-import SectionTitle from "enigma/components/ui/SectionTitle";
-import BlogCard from "enigma/ui/blogCard";
 
 
-export const CTAmedia = () => {
-
+export const MediaCTA = () => {
     return (
         <Box
             sx={{
@@ -125,4 +117,4 @@ export const CTAmedia = () => {
     );
 };
 
-export default CTAmedia;
+export default MediaCTA;
