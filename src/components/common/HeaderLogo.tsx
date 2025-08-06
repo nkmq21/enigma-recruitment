@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Box, IconButton } from "@mui/material";
+import { Box } from "@mui/material";
 
 const BigHeaderLogo = () => {
     const href = '/';
@@ -18,6 +18,9 @@ const BigHeaderLogo = () => {
                 <Box
                     sx={{
                         margin: 3,
+                        width: "100%",
+                        maxWidth: "100%",
+                        overflow: "hidden",
                         '@media (max-width: 991px)': {
                             margin: 2,
                             ml: 2
@@ -29,25 +32,31 @@ const BigHeaderLogo = () => {
                         alt="Career Logo"
                         width={135 * 1.5}
                         height={28 * 1.5}
+                        style={{
+                            width: "100%",
+                            height: "auto",
+                            maxWidth: "100%",
+                            objectFit: "contain"
+                        }}
                     />
                 </Box>
-                <IconButton
-                    sx={{
-                        display: 'none',
-                        p: 0,
-                        '@media (max-width: 991px)': {
-                            display: 'grid',
-                            marginRight: -4
-                        },
-                    }}
-                >
-                    <Image
-                        src="/slidebar.svg"
-                        alt="Slide bar"
-                        width={135}
-                        height={28}
-                    />
-                </IconButton>
+                {/*<IconButton*/}
+                {/*    sx={{*/}
+                {/*        display: 'none',*/}
+                {/*        p: 0,*/}
+                {/*        '@media (max-width: 991px)': {*/}
+                {/*            display: 'grid',*/}
+                {/*            marginRight: -4*/}
+                {/*        },*/}
+                {/*    }}*/}
+                {/*>*/}
+                {/*    <Image*/}
+                {/*        src="/slidebar.svg"*/}
+                {/*        alt="Slide bar"*/}
+                {/*        width={135}*/}
+                {/*        height={28}*/}
+                {/*    />*/}
+                {/*</IconButton>*/}
             </Box>
         </Link>
     );

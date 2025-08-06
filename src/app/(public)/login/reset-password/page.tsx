@@ -1,7 +1,7 @@
 import React from 'react';
 import { ResetPasswordPage } from "enigma/pages/login/reset-password/ResetPasswordPage";
 
-export default function ResetPasswordPage() {
+export default function Page() {
     return <ResetPasswordPage />;
 }
 

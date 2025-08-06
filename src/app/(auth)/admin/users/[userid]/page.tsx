@@ -2,7 +2,7 @@
 
 import React from "react";
 import {auth} from "enigma/auth";
-import UserDetails from "enigma/pages/admin/users/userDetails/userDetails";
+import AdminUserDetailsPage from "enigma/pages/admin/users/user-details/AdminUserDetailsPage";
 import { getUser } from "enigma/services/userServices";
 import {getJobApplicationsByUserId, JobApplicationWithFlatJob} from "enigma/services/jobApplicationServices";
 import {User} from "enigma/types/models";
@@ -17,7 +17,7 @@ export default async function UserDetailsPage({params}: {params: Params}) {
         getJobApplicationsByUserId(userid),
     ]);
     return (
-        <UserDetails session={session} user={user as User} applications={applications as JobApplicationWithFlatJob[]}/>
+        <AdminUserDetailsPage session={session} user={user as User} applications={applications as JobApplicationWithFlatJob[]}/>
     );
 }
 
