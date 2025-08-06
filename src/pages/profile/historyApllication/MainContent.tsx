@@ -5,10 +5,9 @@ import {
     Typography,
     Divider,
 } from "@mui/material";
-import DashBoardProfile from "./saveJobCard";
+import DashBoardProfile from "./DashBoardProfile";
 import BigHeaderLogo from "enigma/components/common/HeaderLogo";
-import { FilterSortBar } from "enigma/ui/filterSortBar";
-import SearchBar from "enigma/ui/searchBar";
+import SearchBar from "enigma/components/ui/SearchBar";
 
 export const MainContent = () => {
 
@@ -37,7 +36,6 @@ export const MainContent = () => {
                 flexDirection: { xs: 'column', sm: 'row' },
             }}>
                 <SearchBar placeholder="Search by type (media/news/blog), publish date, and author." />
-                <FilterSortBar />
             </Box>
             <DashBoardProfile />
         </Box >
