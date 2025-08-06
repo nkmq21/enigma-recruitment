@@ -35,7 +35,8 @@ interface NavItem {
 
 export const SidebarNavigation = ({session}: { session: Session | null }) => {
     const theme = useTheme();
-    const {isCollapsed, toggleSidebar} = useSidebar();
+    const {isDesktopCollapsed, toggleDesktopSidebar, isMobileMenuOpen, toggleMobileMenu} = useSidebar();
+    const [isMobile, setIsMobile] = useState(false);
     const [isSessionValid, setIsSessionValid] = useState(false);
     const [name, setName] = useState<string | null>(null);
     const [email, setEmail] = useState<string | null>(null);
@@ -52,6 +53,20 @@ export const SidebarNavigation = ({session}: { session: Session | null }) => {
             setImage(session?.user?.image || '/Avatar.png');
         }
     }, [session]);
+
+    // Detect screen size
+    useEffect(() => {
+        const checkIsMobile = () => {
+            setIsMobile(window.innerWidth <= 991);
+        };
+        checkIsMobile();
+        window.addEventListener("resize", checkIsMobile);
+
+        return () => window.removeEventListener("resize", checkIsMobile);
+    }, []);
+
+    // Use a different collapse state based on screen size
+    const isCollapsed = isMobile ? false : isDesktopCollapsed;
 
     // Set the session to be invalid and remove all data when signing out
     const handleSignOut = async () => {
@@ -190,19 +205,27 @@ export const SidebarNavigation = ({session}: { session: Session | null }) => {
                     height: '100vh',
                     flexShrink: 0,
                     borderRight: `1px solid ${theme.palette.divider}`,
-                    display: {xs: 'none', sm: 'flex'},
+                    display: "flex",
                     flexDirection: 'column',
                     backgroundColor: theme.palette.background.paper,
                     width: isCollapsed ? '6%' : '18%',
                     zIndex: 1000,
-                    transition: 'width 0.3s ease, top 0.3s ease, max-height 0.3s ease',
-                    willChange: 'top, max-height, width',
+                    transition: 'width 0.15s ease, transform 0.15s ease', // Updated the time from 0.3s to 0.15s for faster response
+                    willChange: 'width, transform',
+                    // Desktop styles
+                    '@media (min-width: 992px)': {
+                        width: isCollapsed ? '6%' : '18%',
+                        transform: 'translateX(0)'
+                    },
+                    // Mobile styles
                     '@media (max-width: 991px)': {
-                        display: 'none',
+                        width: "280px",
+                        transform: isMobileMenuOpen ? "translateX(0)" : "translateX(-100%)",
+                        boxShadow: isMobileMenuOpen ? '2px 0 10px rgba(0, 0, 0, 0.1)' : 'none'
                     },
                 }}
             >
-                {/* Top section (logo, search bar) */}
+                {/* Top section (logo) */}
                 <Box
                     sx={{
                         display: 'flex',
@@ -211,14 +234,41 @@ export const SidebarNavigation = ({session}: { session: Session | null }) => {
                         p: isCollapsed ? 2 : 0,
                         pt: 2,
                         transition: 'padding 0.7s ease',
-                        borderBottom: `1px solid ${theme.palette.divider}`
+                        borderBottom: `1px solid ${theme.palette.divider}`,
+                        position: "relative",
+                        width: "100%",
+                        boxSizing: "border-box"
                     }}
                 >
-                    {isCollapsed ? <SmallHeaderLogo/> : <BigHeaderLogo/>}
-                    {!isCollapsed && (
+                    <Box
+                        sx={{
+                            flex: 1,
+                            maxWidth: isCollapsed ? "100%" : "calc(100% - 60px)", // Leave some space for collapse button
+                        }}
+                    >
+                        {isCollapsed ? <SmallHeaderLogo/> : <BigHeaderLogo/>}
+                    </Box>
+
+                    {/* Mobile close button inside sidebar */}
+                    {/*<IconButton*/}
+                    {/*    onClick={toggleMobileMenu}*/}
+                    {/*    sx={{*/}
+                    {/*        display: {xs: 'flex', sm: 'none'},*/}
+                    {/*        position: 'absolute',*/}
+                    {/*        right: 16,*/}
+                    {/*        top: 16,*/}
+                    {/*    }}*/}
+                    {/*    aria-label='Close mobile menu'*/}
+                    {/*>*/}
+                    {/*    <Image src='/showbar.svg' alt='close' width={24} height={24}/>*/}
+                    {/*</IconButton>*/}
+
+                    {/* Desktop collapse button */}
+                    {!isDesktopCollapsed && (
                         <IconButton
-                            onClick={toggleSidebar}
+                            onClick={toggleDesktopSidebar}
                             sx={{
+                                display: {xs: 'none', sm: 'flex'},
                                 position: 'absolute',
                                 left: '92%',
                                 border: '1px solid #D0D5DD',
@@ -237,10 +287,11 @@ export const SidebarNavigation = ({session}: { session: Session | null }) => {
                             <Image src='/showbar.svg' alt='collapse' width={24} height={24}/>
                         </IconButton>
                     )}
-                    {isCollapsed && (
+                    {isDesktopCollapsed && (
                         <IconButton
-                            onClick={toggleSidebar}
+                            onClick={toggleDesktopSidebar}
                             sx={{
+                                display: {xs: 'none', sm: 'flex'},
                                 position: 'absolute',
                                 left: '77%',
                                 border: '1px solid #D0D5DD',
