@@ -3,11 +3,11 @@ import React from 'react';
 import { Box, ThemeProvider } from '@mui/material';
 import { SidebarNavigation } from 'enigma/components/common/SidebarNavigation';
 import theme from 'enigma/styles/theme';
-import { DetailContent } from './detailContent';
+import { DetailContent } from '../../components/sections/job-details/detailContent';
 
 const JobDetailPage: React.FC = () => {
     const [isCollapsed, setIsCollapsed] = React.useState(false);
-    const sidebarWidth = isCollapsed ? '6%' : '19%';
+    // const sidebarWidth = isCollapsed ? '6%' : '19%';
     return (
         <ThemeProvider theme={theme}>
             <Box component="main" sx={{
