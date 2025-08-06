@@ -1,11 +1,14 @@
-// src/contexts/SidebarContext.tsx
+// src/context/SidebarContext.tsx
 "use client";
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, ReactNode, useCallback } from 'react';
 
 interface SidebarContextType {
-    isCollapsed: boolean;
-    toggleSidebar: () => void;
-    setIsCollapsed: (collapsed: boolean) => void;
+    isDesktopCollapsed: boolean;
+    toggleDesktopSidebar: () => void;
+    setIsDesktopCollapsed: (collapsed: boolean) => void;
+    isMobileMenuOpen: boolean;
+    toggleMobileMenu: () => void;
+    setIsMobileMenuOpen: (open: boolean) => void;
 }
 
 const SidebarContext = createContext<SidebarContextType | undefined>(undefined);
@@ -19,12 +22,21 @@ export const useSidebar = () => {
 };
 
 export const SidebarProvider = ({ children }: { children: ReactNode }) => {
-    const [isCollapsed, setIsCollapsed] = useState(false);
+    const [isDesktopCollapsed, setIsDesktopCollapsed] = useState(false);
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-    const toggleSidebar = () => setIsCollapsed(prev => !prev);
+    const toggleDesktopSidebar = useCallback(() => setIsDesktopCollapsed(prev => !prev), []);
+    const toggleMobileMenu = useCallback(() => setIsMobileMenuOpen(prev => !prev), []);
 
     return (
-        <SidebarContext.Provider value={{ isCollapsed, toggleSidebar, setIsCollapsed }}>
+        <SidebarContext.Provider value={{
+            isDesktopCollapsed,
+            toggleDesktopSidebar,
+            setIsDesktopCollapsed,
+            isMobileMenuOpen,
+            toggleMobileMenu,
+            setIsMobileMenuOpen
+        }}>
             {children}
         </SidebarContext.Provider>
     );
