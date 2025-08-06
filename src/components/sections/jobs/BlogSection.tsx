@@ -208,11 +208,11 @@ const BuildingYourApi = styled(Typography)({
     fontSize: "20px",
     color: "#101828",
 });
-
-const IconWrap = styled("img")({
-    width: "24px",
-    height: "28px",
-});
+//
+// const IconWrap = styled("img")({
+//     width: "24px",
+//     height: "28px",
+// });
 
 const SupportingText1 = styled(Typography)({
     alignSelf: "stretch",
