@@ -18,13 +18,13 @@ import { PopularJobChip } from "enigma/ui/popularChip";
 export const MainContent = () => {
     const router = useRouter();
     const searchParams = useSearchParams()!;
-    const popularJobs = [
-        "Digital Marketer",
-        "Software Developer",
-        "Tour Guide",
-        "English Teacher",
-        "Hotel Receptionist",
-    ];
+    // const popularJobs = [
+    //     "Digital Marketer",
+    //     "Software Developer",
+    //     "Tour Guide",
+    //     "English Teacher",
+    //     "Hotel Receptionist",
+    // ];
 
     return (
         <Box component="main" sx={{

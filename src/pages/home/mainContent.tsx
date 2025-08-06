@@ -3,7 +3,7 @@ import SuggestedJobCard from "enigma/components/ui/SuggestedJobCard";
 import SectionTitle from "enigma/components/ui/SectionTitle";
 import Image from 'next/image';
 import BigHeaderLogo from "enigma/components/common/HeaderLogo";
-import { JobCard } from "./JobCard";
+import { JobCard } from "enigma/components/ui/JobCard";
 import {
     Box,
     Typography,
@@ -14,7 +14,7 @@ import {
     IconButton,
     Divider,
 } from "@mui/material";
-import SearchBar from "enigma/ui/searchBar";
+import SearchBar from "enigma/components/ui/SearchBar";
 
 export const MainContent = () => {
     const jobData = [1, 2, 3, 4];
@@ -174,28 +174,28 @@ export const MainContent = () => {
     );
 };
 
-const FeatureCard = ({
-    icon,
-    title,
-    subtitle,
-}: {
-    icon: React.ReactNode;
-    title: string;
-    subtitle: string;
-}) => (
-    <Box sx={{ mb: 2, width: "100% " }}>
-        <Card>
-            <CardContent sx={{ display: "flex", gap: 2, alignItems: "center" }}>
-                <IconButton sx={{ bgcolor: "#D6F1F7", color: "primary.main" }}>
-                    {icon}
-                </IconButton>
-                <Box>
-                    <Typography variant="h6">{title}</Typography>
-                    <Typography variant="body2" color="text.secondary">
-                        {subtitle}
-                    </Typography>
-                </Box>
-            </CardContent>
-        </Card>
-    </Box>
-);
+// const FeatureCard = ({
+//     icon,
+//     title,
+//     subtitle,
+// }: {
+//     icon: React.ReactNode;
+//     title: string;
+//     subtitle: string;
+// }) => (
+//     <Box sx={{ mb: 2, width: "100% " }}>
+//         <Card>
+//             <CardContent sx={{ display: "flex", gap: 2, alignItems: "center" }}>
+//                 <IconButton sx={{ bgcolor: "#D6F1F7", color: "primary.main" }}>
+//                     {icon}
+//                 </IconButton>
+//                 <Box>
+//                     <Typography variant="h6">{title}</Typography>
+//                     <Typography variant="body2" color="text.secondary">
+//                         {subtitle}
+//                     </Typography>
+//                 </Box>
+//             </CardContent>
+//         </Card>
+//     </Box>
+// );
