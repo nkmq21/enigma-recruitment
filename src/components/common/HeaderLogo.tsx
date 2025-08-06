@@ -40,23 +40,6 @@ const BigHeaderLogo = () => {
                         }}
                     />
                 </Box>
-                {/*<IconButton*/}
-                {/*    sx={{*/}
-                {/*        display: 'none',*/}
-                {/*        p: 0,*/}
-                {/*        '@media (max-width: 991px)': {*/}
-                {/*            display: 'grid',*/}
-                {/*            marginRight: -4*/}
-                {/*        },*/}
-                {/*    }}*/}
-                {/*>*/}
-                {/*    <Image*/}
-                {/*        src="/slidebar.svg"*/}
-                {/*        alt="Slide bar"*/}
-                {/*        width={135}*/}
-                {/*        height={28}*/}
-                {/*    />*/}
-                {/*</IconButton>*/}
             </Box>
         </Link>
     );
