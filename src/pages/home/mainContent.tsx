@@ -3,7 +3,7 @@ import SuggestedJobCard from "enigma/components/ui/SuggestedJobCard";
 import SectionTitle from "enigma/components/ui/SectionTitle";
 import Image from 'next/image';
 import BigHeaderLogo from "enigma/components/common/HeaderLogo";
-import { JobCard } from "./JobCard";
+import { JobCard } from "enigma/components/ui/JobCard";
 import {
     Box,
     Typography,
@@ -14,7 +14,7 @@ import {
     IconButton,
     Divider,
 } from "@mui/material";
-import SearchBar from "enigma/ui/searchBar";
+import SearchBar from "enigma/components/ui/SearchBar";
 
 export const MainContent = () => {
     const jobData = [1, 2, 3, 4];

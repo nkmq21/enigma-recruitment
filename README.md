@@ -233,7 +233,7 @@ This project aims to enhance the recruitment experience by providing a comprehen
 							<td style='padding: 8px;'>- Provides a reusable email template component designed for user account confirmation within the application<br>- It generates a personalized greeting and a confirmation link, enhancing user engagement and streamlining the onboarding process<br>- The component supports both React and HTML formats, ensuring versatility in rendering across different contexts within the codebase architecture.</td>
 						</tr>
 						<tr style='border-bottom: 1px solid #eee;'>
-							<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/components/featureText.tsx'>featureText.tsx</a></b></td>
+							<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/components/featureText.tsx'>FeatureText.tsx</a></b></td>
 							<td style='padding: 8px;'>- FeatureText component showcases a series of feature cards that highlight various services offered, such as management, engineering, and HR solutions<br>- Each card presents an icon, title, and description, effectively communicating the value propositions to users<br>- Positioned within a responsive layout, it enhances the overall user experience by providing clear and visually appealing information about the projects offerings.</td>
 						</tr>
 						<tr style='border-bottom: 1px solid #eee;'>
@@ -363,11 +363,11 @@ This project aims to enhance the recruitment experience by providing a comprehen
 									<td style='padding: 8px;'>- Showcases a visually appealing testimonial section within the landing page of the application<br>- It presents user feedback in a structured format, enhancing user engagement and credibility<br>- By integrating styled components, it ensures a responsive design that aligns with the overall aesthetic of the platform, ultimately contributing to a positive user experience and promoting the platforms value through authentic user stories.</td>
 								</tr>
 								<tr style='border-bottom: 1px solid #eee;'>
-									<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/components/landing/faqSection.tsx'>faqSection.tsx</a></b></td>
+									<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/components/landing/faqSection.tsx'>FaqSection.tsx</a></b></td>
 									<td style='padding: 8px;'>- Provides a user-friendly FAQ section that enhances the overall user experience by addressing common questions related to the product and billing<br>- Utilizing an accordion layout, it allows users to easily navigate through inquiries, promoting engagement and clarity<br>- This component is integral to the landing page, ensuring that users have quick access to essential information, thereby fostering trust and satisfaction with the platform.</td>
 								</tr>
 								<tr style='border-bottom: 1px solid #eee;'>
-									<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/components/landing/featureSection.tsx'>featureSection.tsx</a></b></td>
+									<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/components/landing/featureSection.tsx'>FeatureSection.tsx</a></b></td>
 									<td style='padding: 8px;'>- FeaturesSection serves as a visually engaging component within the landing page of the project, showcasing the core functions and values of the organization<br>- By presenting a clear and inviting message, it fosters a connection with users, emphasizing the teams shared values and expertise<br>- This component enhances the overall user experience by providing essential information in a structured and appealing format.</td>
 								</tr>
 								<tr style='border-bottom: 1px solid #eee;'>
@@ -379,8 +379,8 @@ This project aims to enhance the recruitment experience by providing a comprehen
 									<td style='padding: 8px;'>- Creates a comprehensive landing page that serves as the initial user interface for the application<br>- It integrates various components such as navigation, content sections, social proof, and a footer, all styled with a consistent theme<br>- This structure enhances user engagement and provides essential information, guiding visitors through the features and offerings of the project while ensuring a visually appealing experience.</td>
 								</tr>
 								<tr style='border-bottom: 1px solid #eee;'>
-									<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/components/landing/landingContent.tsx'>landingContent.tsx</a></b></td>
-									<td style='padding: 8px;'>- LandingContent component serves as a visually engaging introduction to the application, designed to attract users by showcasing its core features<br>- It highlights the platforms ability to help users track job applications and build their CVs, while providing clear calls to action for signing up and starting the job search<br>- The layout is responsive, ensuring an optimal experience across various devices, enhancing user engagement and accessibility.</td>
+									<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/components/landing/landingContent.tsx'>JobsContent.tsx</a></b></td>
+									<td style='padding: 8px;'>- JobsContent component serves as a visually engaging introduction to the application, designed to attract users by showcasing its core features<br>- It highlights the platforms ability to help users track job applications and build their CVs, while providing clear calls to action for signing up and starting the job search<br>- The layout is responsive, ensuring an optimal experience across various devices, enhancing user engagement and accessibility.</td>
 								</tr>
 								<tr style='border-bottom: 1px solid #eee;'>
 									<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/components/landing/socialLanding.tsx'>socialLanding.tsx</a></b></td>

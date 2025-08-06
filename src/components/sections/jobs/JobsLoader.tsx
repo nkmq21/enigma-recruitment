@@ -4,11 +4,11 @@ import {
     Box,
     CircularProgress
 } from "@mui/material";
-import { JobListPage } from "../../components/ui/JobCard";
+import { JobListPage } from "../../ui/JobCard";
 import { Job } from "enigma/types/models";
 import { useSearchParams } from "next/navigation";
 
-export default function LoadingData() {
+export default function JobsLoader() {
     const [jobs, setJobs] = React.useState<Job[]>([]);
     const [loading, setLoading] = React.useState(true);
     const searchParams = useSearchParams()!;
