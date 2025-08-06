@@ -8,7 +8,7 @@ import {
 import DashBoardProfile from "./saveJobCard";
 import BigHeaderLogo from "enigma/components/common/HeaderLogo";
 import { FilterSortBar } from "enigma/ui/filterSortBar";
-import SearchBar from "enigma/ui/searchBar";
+import SearchBar from "enigma/components/ui/SearchBar";
 
 export const MainContent = () => {
 
