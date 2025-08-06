@@ -5,9 +5,10 @@ import {MainContent} from '../../components/sections/job-details/MainContent';
 import theme from 'enigma/styles/theme';
 import {SidebarNavigation} from 'enigma/components/common/SidebarNavigation';
 import {Session} from 'next-auth';
+import { useSidebar} from "enigma/context/SidebarContext";
 
 export default function JobDetailsPage({ session }: { session: Session | null }){
-    const [isCollapsed, setIsCollapsed] = React.useState(false);
+    const {isCollapsed} = useSidebar();
     const sidebarWidth = isCollapsed ? '6%' : '18%';
     return (
         <ThemeProvider theme={theme}>
@@ -16,7 +17,7 @@ export default function JobDetailsPage({ session }: { session: Session | null })
                 alignItems: "flex-start",
                 justifyContent: "flex-start",
             }}>
-                <SidebarNavigation session={session} isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
+                <SidebarNavigation session={session}/>
                 <Box
                     sx={{
                         display: 'flex',
