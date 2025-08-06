@@ -1,4 +1,3 @@
-"use client";
 import React from 'react';
 import {
     Card,
@@ -190,7 +189,7 @@ const JobCard: React.FC<JobCardProps> = ({
     );
 }
 
-type AdminJobsPage = {
+type Job = {
     job_id: string;
     job_title: string;
     description: string;
@@ -212,7 +211,7 @@ const JobListPage: React.FC<JobListPageProps> = ({ jobs }) => {
     const jobData = jobs?.length ? jobs : [
         {
             job_id: "1",
-            job_title: "Social Media Manager (KOL Specialist)",
+            job_title: "Social MediaPage Manager (KOL Specialist)",
             description: "Lead digital marketing strategies for a growing e-commerce platform. Develop and execute campaigns to enhance brand visibility, collaborate with Key Opinion Leaders (KOLs) to boost engagement, and optimize content for multiple social media channels.",
             salary_range_start: 1200,
             salary_range_end: 1500,
