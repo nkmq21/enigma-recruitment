@@ -1,12 +1,11 @@
-// TODO: Implement the save jobs page functionality
 import * as React from "react";
-import { Box, ThemeProvider } from "@mui/material";
-import { MainContent } from "./mainContent";
+import {Box, ThemeProvider} from "@mui/material";
+import {MediaContent} from "../../components/sections/media/MediaContent";
 import Image from "next/image";
 import theme from "enigma/styles/theme";
-import { SidebarNavigation } from "enigma/components/common/SidebarNavigation";
+// import { SidebarNavigation } from "enigma/components/common/SidebarNavigation";
 
-export default function Media() {
+export default function MediaPage() {
     return (
         <ThemeProvider theme={theme}>
             <Box component="main" sx={{
@@ -26,13 +25,13 @@ export default function Media() {
                     },
                 }}>
                     <Image src="/Background.svg" alt='' width={1920} height={1440}
-                        style={{
-                            position: 'fixed',
-                            top: 0,
-                            zIndex: -1, // Place the image behind all other content
-                            height: 'auto', // Optional: Maintain aspect ratio
-                        }} />
-                    <MainContent />
+                           style={{
+                               position: 'fixed',
+                               top: 0,
+                               zIndex: -1,
+                               height: 'auto',
+                           }}/>
+                    <MediaContent/>
                 </Box>
             </Box>
         </ThemeProvider>

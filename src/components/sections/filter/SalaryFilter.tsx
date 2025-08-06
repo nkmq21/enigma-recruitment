@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useRef, useState } from 'react';
+import React, {FunctionComponent, useRef, useState} from 'react';
 import {
     Box,
     Typography,
@@ -9,18 +9,18 @@ import {
 } from '@mui/material'
 import Image from 'next/image';
 import theme from 'enigma/styles/theme';
-import { ArrowDropDown } from '@mui/icons-material';
+import {ArrowDropDown} from '@mui/icons-material';
 
 // Define ResetButton component
 const ResetButton: FunctionComponent<{
     filterName: string;
     onReset: (filterName: string) => void;
-}> = ({ filterName, onReset }) => (
+}> = ({filterName, onReset}) => (
     <Button
         variant="text"
         size="small"
         onClick={() => onReset(filterName)}
-        sx={{ p: 0, justifyContent: 'end', mb: 0.5 }}
+        sx={{p: 0, justifyContent: 'end', mb: 0.5}}
     >
         Reset
     </Button>
@@ -52,23 +52,23 @@ const SalaryFilter: FunctionComponent = () => {
     };
 
     // Handle TextField change
-    const handleTextFieldChange = (index: number) => (event: React.ChangeEvent<HTMLInputElement>) => {
-        const inputValue = event.target.value.replace(/[^0-9]/g, ''); // Allow only numbers
-        const newValue = [...value];
-        const numValue = inputValue ? Math.min(parseInt(inputValue), 2000) : 0; // Cap at max 2000
-        newValue[index] = numValue;
-
-        // Ensure min <= max
-        if (index === 0 && numValue > newValue[1]) {
-            newValue[1] = numValue;
-            if (salaryToRef.current) salaryToRef.current.value = numValue.toString();
-        } else if (index === 1 && numValue < newValue[0]) {
-            newValue[0] = numValue;
-            if (salaryFromRef.current) salaryFromRef.current.value = numValue.toString();
-        }
-
-        setValue(newValue);
-    };
+    // const handleTextFieldChange = (index: number) => (event: React.ChangeEvent<HTMLInputElement>) => {
+    //     const inputValue = event.target.value.replace(/[^0-9]/g, ''); // Allow only numbers
+    //     const newValue = [...value];
+    //     const numValue = inputValue ? Math.min(parseInt(inputValue), 2000) : 0; // Cap at max 2000
+    //     newValue[index] = numValue;
+    //
+    //     // Ensure min <= max
+    //     if (index === 0 && numValue > newValue[1]) {
+    //         newValue[1] = numValue;
+    //         if (salaryToRef.current) salaryToRef.current.value = numValue.toString();
+    //     } else if (index === 1 && numValue < newValue[0]) {
+    //         newValue[0] = numValue;
+    //         if (salaryFromRef.current) salaryFromRef.current.value = numValue.toString();
+    //     }
+    //
+    //     setValue(newValue);
+    // };
 
     // Handle reset
     const handleReset = () => {
@@ -81,19 +81,20 @@ const SalaryFilter: FunctionComponent = () => {
 
     return (
         <ThemeProvider theme={theme}>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
+            <Box sx={{display: 'flex', justifyContent: 'space-between', mb: 1}}>
                 <Typography variant='body2' fontWeight={500} color='#31373d'>Salary Range</Typography>
-                <ResetButton filterName="Salary Range" onReset={handleReset} />
+                <ResetButton filterName="Salary Range" onReset={handleReset}/>
             </Box>
-            <Box sx={{ display: 'flex', gap: 2, mb: 2 }}>
+            <Box sx={{display: 'flex', gap: 2, mb: 2}}>
                 <TextField
                     fullWidth
                     variant="outlined"
                     placeholder="From"
                     inputRef={salaryFromRef}
                     InputProps={{
-                        startAdornment: <Image src='/salaryMoney.svg' alt='industries' height={20} width={20} style={{ marginRight: '10px' }} />,
-                        endAdornment: <ArrowDropDown sx={{ color: 'grey.600' }} />,
+                        startAdornment: <Image src='/salaryMoney.svg' alt='industries' height={20} width={20}
+                                               style={{marginRight: '10px'}}/>,
+                        endAdornment: <ArrowDropDown sx={{color: 'grey.600'}}/>,
                     }}
                     sx={{
                         "& .MuiInputLabel-asterisk": {
@@ -110,7 +111,7 @@ const SalaryFilter: FunctionComponent = () => {
                     placeholder="To"
                     inputRef={salaryToRef}
                     InputProps={{
-                        endAdornment: <ArrowDropDown sx={{ color: 'grey.600' }} />,
+                        endAdornment: <ArrowDropDown sx={{color: 'grey.600'}}/>,
                     }}
                     sx={{
                         "& .MuiInputLabel-asterisk": {
@@ -127,9 +128,9 @@ const SalaryFilter: FunctionComponent = () => {
                 onChange={handleChange}
                 min={0}
                 max={2000}
-                sx={{ color: 'primary.main' }}
+                sx={{color: 'primary.main'}}
             />
-            <Box sx={{ position: 'relative', height: '20px' }}>
+            <Box sx={{position: 'relative', height: '20px'}}>
                 {/* Nhãn cho giá trị min */}
                 <Typography
                     variant='body1'

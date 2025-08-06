@@ -42,7 +42,7 @@ const HorizontalTabs: FunctionComponent = () => {
                     }}
                 />
                 <Tab
-                    label="Media"
+                    label="MediaPage"
                     sx={{
                         textTransform: 'none',
                         fontSize: '16px',

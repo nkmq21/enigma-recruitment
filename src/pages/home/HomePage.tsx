@@ -2,7 +2,7 @@
 import * as React from "react";
 import { Box } from "@mui/material";
 import { SidebarNavigation } from "enigma/components/common/SidebarNavigation";
-import { MainContent } from "./mainContent";
+import { HomeContent } from "../../components/sections/home/HomeContent";
 import { Session } from "next-auth";
 
 export default function HomePage({ session }: { session: Session | null }) {
@@ -33,7 +33,7 @@ export default function HomePage({ session }: { session: Session | null }) {
                     }
                 }}
             >
-                <MainContent />
+                <HomeContent />
             </Box>
         </Box>
     );

@@ -27,7 +27,7 @@ interface IndustriesFilterProps {
     onDialogClose?: () => void;
 }
 
-const IndustriesFilter: FunctionComponent<IndustriesFilterProps> = ({
+const Industries: FunctionComponent<IndustriesFilterProps> = ({
     disabled = false,
     value = [],
     onChange,
@@ -335,4 +335,4 @@ const IndustriesFilter: FunctionComponent<IndustriesFilterProps> = ({
     );
 };
 
-export default IndustriesFilter;
+export default Industries;
