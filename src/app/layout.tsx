@@ -1,6 +1,8 @@
 import type {Metadata} from "next";
 import {Geist, Geist_Mono} from "next/font/google";
 import "./globals.css";
+import {SidebarProvider} from "enigma/context/SidebarContext";
+import React from "react";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -15,19 +17,17 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
     title: "Enigma Recruitment",
     description: "Enigma Recruitment - Your gateway to the best jobs opportunities",
-    
+
 };
 
-export default function RootLayout({
-                                       children,
-                                   }: Readonly<{
-    children: React.ReactNode;
-}>) {
+export default function RootLayout({children}: Readonly<{ children: React.ReactNode; }>) {
     return (
         <html lang="en">
-        <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        {children}
-        </body>
+            <body className={`${geistSans.variable} ${geistMono.variable}`}>
+                <SidebarProvider>
+                    {children}
+                </SidebarProvider>
+            </body>
         </html>
     );
 }

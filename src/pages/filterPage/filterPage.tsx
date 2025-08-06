@@ -260,7 +260,7 @@ const SlideOutMenu: FunctionComponent<SlideOutMenuProps> = ({ onClose }) => {
                     </IconButton>
                 </Box>
 
-                {/* Content */}
+                {/* ApplyDialog */}
                 <Box sx={{ p: 3, display: 'flex', flexDirection: 'column', gap: 3, flex: 1 }}>
                     {/* Date posted */}
                     <Box>
