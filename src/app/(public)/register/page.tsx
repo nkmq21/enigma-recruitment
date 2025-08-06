@@ -1,10 +1,10 @@
 // src/app/(public)/register/page.tsx
 import React from 'react';
-import SignUpPage from "enigma/pages/signUp/signUpPage";
+import RegisterPage from "enigma/pages/register/RegisterPage";
 
-export default function RegisterPage() {
+export default function Page() {
     return (
-        <SignUpPage/>
+        <RegisterPage/>
     );
 }
 
