@@ -1,4 +1,4 @@
-import { Table, TableBody, TableCell, TableHead, TableRow, Typography, Avatar, Chip, Box } from '@mui/material';
+import { Table, TableBody, TableCell, TableHead, TableRow, Typography, Chip, Box } from '@mui/material';
 import Image from 'next/image';
 
 const sampleData = [

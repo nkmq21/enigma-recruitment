@@ -8,9 +8,9 @@ import {
     Typography,
     Divider,
 } from "@mui/material";
-import SearchBar from "enigma/ui/searchBar";
 import {PopularJob} from "enigma/components/common/PopularJob";
 import CTA from "enigma/components/common/CTA";
+import SearchBar from "enigma/components/ui/SearchBar";
 
 export const HomeContent = () => {
     const jobData = [1, 2, 3, 4];
