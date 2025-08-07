@@ -1,7 +1,7 @@
 "use client";
 import * as React from "react";
 import {Box, ThemeProvider} from "@mui/material";
-import {MainContent} from "./MainContent";
+import {MainContent} from "../../../components/sections/profile/saveJob/MainContent";
 import Image from "next/image";
 import theme from "enigma/styles/theme";
 import {SidebarNavigation} from "enigma/components/common/SidebarNavigation";

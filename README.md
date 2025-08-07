@@ -259,11 +259,11 @@ This project aims to enhance the recruitment experience by providing a comprehen
 								</tr>
 							</thead>
 								<tr style='border-bottom: 1px solid #eee;'>
-									<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/components/taskPage/taskPage.tsx'>taskPage.tsx</a></b></td>
+									<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/components/taskPage/taskPage.tsx'>TaskPage.tsx</a></b></td>
 									<td style='padding: 8px;'>- Facilitates the rendering of the task page within the application, integrating a sidebar navigation and main content area<br>- It establishes a responsive layout that adapts to various screen sizes, ensuring a user-friendly experience<br>- By leveraging Material-UI components, it enhances the visual consistency and accessibility of the interface, contributing to the overall architecture of the project by promoting modularity and reusability.</td>
 								</tr>
 								<tr style='border-bottom: 1px solid #eee;'>
-									<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/components/taskPage/maincontent.tsx'>maincontent.tsx</a></b></td>
+									<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/components/taskPage/maincontent.tsx'>MainContent.tsx</a></b></td>
 									<td style='padding: 8px;'>- MainContent serves as a central component of the task page, providing users with an interactive dashboard for job searching and management<br>- It features a search and filter interface, displays popular job categories, and showcases trending job opportunities<br>- Additionally, it encourages user engagement through options to upload CVs and create profiles, enhancing the overall user experience within the application.</td>
 								</tr>
 							</table>

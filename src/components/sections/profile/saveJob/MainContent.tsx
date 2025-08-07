@@ -7,8 +7,7 @@ import {
 } from "@mui/material";
 import CardComponent from "./CardComponent";
 import BigHeaderLogo from "enigma/components/common/HeaderLogo";
-import SearchBar from "enigma/ui/searchBar";
-import {FilterSortBar} from "enigma/ui/filterSortBar";
+import SearchBar from "enigma/components/ui/SearchBar";
 
 export const MainContent = () => {
 
