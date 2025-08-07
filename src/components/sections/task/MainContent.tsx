@@ -2,7 +2,6 @@
 import * as React from "react";
 import SectionTitle from "enigma/components/ui/SectionTitle";
 import BigHeaderLogo from "enigma/components/common/HeaderLogo";
-import SearchBar from "enigma/ui/searchBar";
 import CTA from "enigma/components/common/CTA";
 import {
     Box,
@@ -12,19 +11,12 @@ import {
 } from "@mui/material";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
-import LoadingData from "./loadingData";
 import { PopularJobChip } from "enigma/ui/popularChip";
+import SearchBar from "enigma/components/ui/SearchBar";
 
 export const MainContent = () => {
     const router = useRouter();
     const searchParams = useSearchParams()!;
-    // const popularJobs = [
-    //     "Digital Marketer",
-    //     "Software Developer",
-    //     "Tour Guide",
-    //     "English Teacher",
-    //     "Hotel Receptionist",
-    // ];
 
     return (
         <Box component="main" sx={{
@@ -152,12 +144,22 @@ export const MainContent = () => {
                 }}>
                     {/* Step Section */}
                     <SectionTitle title="Step Into Your Future" showOptions />
-                    <CTA />
+                    <Box sx={{
+                        display: 'flex', gap: 2, mt: 2, mb: 3, justifyContent: 'space-between',
+                        '@media (max-width: 991px)': {
+                            flexDirection: 'column',
+                        },
+                    }}>
+                        <CTA imgAlt="profile" imgSrc="/create.svg" subtitle="Attract premium employers instantly"
+                             title="Create Your Profile"/>
+                        <CTA imgAlt="upload" imgSrc="/folder.svg" subtitle="Stand out with your expertise"
+                             title="Upload CV"/>
+                    </Box>
 
                     {/* Trending Jobs */}
                     <SectionTitle title="Trending Jobs This Week" showOptions1 showOptions />
 
-                    <LoadingData />
+                    {/*<LoadingData />*/}
 
                 </Box>
             </Box>

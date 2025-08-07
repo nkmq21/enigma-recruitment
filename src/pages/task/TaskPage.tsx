@@ -1,7 +1,7 @@
 "use client";
 import * as React from "react";
 import {Box} from "@mui/material";
-import {MainContent} from "./maincontent";
+import {MainContent} from "../../components/sections/task/MainContent";
 import {SidebarNavigation} from "enigma/components/common/SidebarNavigation";
 import {Session} from "next-auth";
 

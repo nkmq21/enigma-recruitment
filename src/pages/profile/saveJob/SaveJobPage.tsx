@@ -1,13 +1,13 @@
 "use client";
 import * as React from "react";
 import {Box, ThemeProvider} from "@mui/material";
-import {MainContent} from "./MainContent";
+import {MainContent} from "../../../components/sections/profile/saveJob/MainContent";
 import Image from "next/image";
 import theme from "enigma/styles/theme";
 import {SidebarNavigation} from "enigma/components/common/SidebarNavigation";
 import {Session} from "next-auth";
 
-export default function HistoryApplicationPage({session}: {session: Session | null}) {
+export default function SaveJobPage({session}: { session: Session | null }) {
     const [isCollapsed, setIsCollapsed] = React.useState(false);
     const sidebarWidth = isCollapsed ? '6%' : '18%';
     return (
@@ -17,7 +17,7 @@ export default function HistoryApplicationPage({session}: {session: Session | nu
                 alignItems: "flex-start",
                 justifyContent: "flex-start",
             }}>
-                <SidebarNavigation session={session} isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
+                <SidebarNavigation session={session} isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed}/>
                 <Box sx={{
                     pt: 10,
                     width: '100%',
@@ -25,7 +25,6 @@ export default function HistoryApplicationPage({session}: {session: Session | nu
                     marginLeft: { sm: sidebarWidth },
                     '@media (max-width: 991px)': {
                         maxWidth: '100%',
-                        pt: 0,
                         marginLeft: '0'
                     },
                 }}>

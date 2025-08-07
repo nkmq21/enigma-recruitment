@@ -1,5 +1,5 @@
 import {auth} from "enigma/auth";
-import HistoryApplicationPage from "enigma/pages/profile/historyApllication/HistoryApplicationPage";
+import HistoryApplicationPage from "enigma/pages/profile/historyApplication/HistoryApplicationPage";
 
 export default async function CvsPage() {
     const session = await auth();
