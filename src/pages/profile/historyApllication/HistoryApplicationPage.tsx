@@ -6,9 +6,11 @@ import Image from "next/image";
 import theme from "enigma/styles/theme";
 import {SidebarNavigation} from "enigma/components/common/SidebarNavigation";
 import {Session} from "next-auth";
+import {useSidebar} from "enigma/context/SidebarContext";
 
 export default function HistoryApplicationPage({session}: {session: Session | null}) {
-    const [isCollapsed, setIsCollapsed] = React.useState(false);
+    // const [isCollapsed, setIsCollapsed] = React.useState(false);
+    const {isCollapsed} = useSidebar();
     const sidebarWidth = isCollapsed ? '6%' : '18%';
     return (
         <ThemeProvider theme={theme}>
@@ -17,7 +19,7 @@ export default function HistoryApplicationPage({session}: {session: Session | nu
                 alignItems: "flex-start",
                 justifyContent: "flex-start",
             }}>
-                <SidebarNavigation session={session} isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
+                <SidebarNavigation session={session}/>
                 <Box sx={{
                     pt: 10,
                     width: '100%',
