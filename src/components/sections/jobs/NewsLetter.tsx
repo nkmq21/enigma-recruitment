@@ -43,7 +43,7 @@ const NewsletterCTA: React.FC = () => {
                                 mb: { xs: 4, lg: 6 },
                             }}
                         >
-                            We'd love to hear from you. Please fill out this form or choose an appropriate option.
+                            We would love to hear from you. Please fill out this form or choose an appropriate option.
                         </Typography>
 
                         <Box
