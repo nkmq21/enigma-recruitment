@@ -9,10 +9,10 @@ import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import { useRouter } from 'next/navigation';
-import {UserProps} from "enigma/services/userServices";
+import type {User} from "enigma/types/models";
 
 interface DashboardUserProps {
-    users: UserProps[];       // initial data
+    users: User[];       // initial data
     totalUsers: number;       // initial total
     currentPage: number;      // initial page
     pageSize: number;
@@ -27,7 +27,7 @@ const UsersTable: React.FC<DashboardUserProps> = ({
     const router = useRouter();
 
     // Local state
-    const [users, setUsers] = useState<UserProps[]>(initialUsers);
+    const [users, setUsers] = useState<User[]>(initialUsers);
     const [totalUsers, setTotalUsers] = useState(initialTotalUsers);
     const [currentPage, setCurrentPage] = useState(initialPage);
     const [loading, setLoading] = useState(false);

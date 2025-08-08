@@ -1,4 +1,4 @@
-// src/services/jobServices.ts
+// src/services/jobService.ts
 import { Job } from 'enigma/types/models';
 import { prisma } from '../../prisma/prisma';
 

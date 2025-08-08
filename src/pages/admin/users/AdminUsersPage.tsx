@@ -7,19 +7,11 @@ import {Session} from "next-auth";
 import {MainContent} from "enigma/components/sections/admin/users/MainContent";
 import {useSidebar} from "enigma/context/SidebarContext";
 import Image from "next/image";
+import type {User} from "enigma/types/models";
 
 export default function AdminJobsPage({session, users, totalUsers, currentPage, pageSize}: {
     session: Session | null,
-    users: Array<{
-        id: number;
-        email: string;
-        name: string;
-        role: string;
-        status: string;
-        image: string | null;
-        dob: Date | null;
-        address: string | null;
-    }>,
+    users: Array<User>,
     totalUsers: number,
     currentPage: number,
     pageSize: number

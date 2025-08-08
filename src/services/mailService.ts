@@ -4,7 +4,7 @@ import { VerifyEmail, ForgotEmail } from "enigma/components/emailTemplates";
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 export const sendVerificationEmail = async (email: string, name: string, token: string) => {
-    // TODO: Check FRONTEND_URL in production, change sender email after setting up DNS records
+    // Check FRONTEND_URL in production, change sender email after setting up DNS records
     const confirmLink = `${process.env.FRONTEND_URL}/login/new-verification?token=${token}`;
     await resend.emails.send({
         from: "noreply@help.enigma-recruitment.com",
@@ -15,7 +15,7 @@ export const sendVerificationEmail = async (email: string, name: string, token: 
 }
 
 export const sendResetPasswordEmail = async (email: string, name: string, token: string) => {
-    // TODO: Check FRONTEND_URL in production, change sender email after setting up DNS records
+    // Check FRONTEND_URL in production, change sender email after setting up DNS records
     const confirmLink = `${process.env.FRONTEND_URL}/login/reset-password/change-password?token=${token}`;
     await resend.emails.send({
         from: "noreply@help.enigma-recruitment.com",

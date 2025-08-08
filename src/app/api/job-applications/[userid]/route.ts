@@ -1,7 +1,7 @@
 // src/app/api/jobs-applications/[userid]/route.ts
 import {NextResponse} from 'next/server';
 import {auth} from 'enigma/auth';
-import {getJobApplicationsByUserId} from "enigma/services/jobApplicationServices";
+import {getJobApplicationsByUserId} from "enigma/services/jobApplicationService";
 
 type Params = Promise<{ userid: string }>;
 

@@ -10,11 +10,11 @@ import {
     Container,
     styled,
 } from '@mui/material';
-import {register, loginGoogle} from "enigma/services/userServices";
 import {z} from 'zod';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {RegisterSchema} from "enigma/schemas";
 import {useForm} from "react-hook-form";
+import {loginGoogle, register} from "enigma/services/authService";
 
 const PrimaryButton = styled(Button)({
     backgroundColor: '#2494B6',

@@ -1,4 +1,4 @@
-// src/services/jobApplicationServices.ts
+// src/services/jobApplicationService.ts
 import {prisma} from "../../prisma/prisma";
 export type JobApplicationWithFlatJob = {
     application_id: number

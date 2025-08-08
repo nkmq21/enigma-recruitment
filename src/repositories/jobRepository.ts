@@ -1,4 +1,5 @@
-import { Job, Prisma } from '@prisma/client';
+import { Prisma } from '@prisma/client';
+import type {Job} from "enigma/types/models";
 import { prisma } from '../../prisma/prisma';
 
 export class JobRepository {

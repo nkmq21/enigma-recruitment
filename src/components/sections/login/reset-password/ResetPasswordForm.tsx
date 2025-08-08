@@ -8,7 +8,8 @@ import {ResetPasswordSchema} from "enigma/schemas";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import { z } from "zod";
-import {resetPass} from "enigma/services/userServices";
+
+import {resetPass} from "enigma/services/authService";
 
 export const ResetPasswordForm: React.FC = () => {
     const [error, setError] = useState<string | null>(null);

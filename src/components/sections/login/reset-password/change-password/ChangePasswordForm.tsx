@@ -8,8 +8,8 @@ import {ChangePasswordSchema} from "enigma/schemas";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import { z } from "zod";
-import {changePass} from "enigma/services/userServices";
 import {useRouter, useSearchParams} from "next/navigation";
+import {changePass} from "enigma/services/authService";
 
 export const ChangePasswordForm: React.FC = () => {
     const router = useRouter();
