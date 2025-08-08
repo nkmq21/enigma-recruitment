@@ -12,7 +12,7 @@ import {
 } from '@mui/material';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import Link from 'next/link';
-import {JobApplicationWithFlatJob} from "enigma/services/jobApplicationServices";
+import {JobApplicationWithFlatJob} from "enigma/services/jobApplicationService";
 
 const ApplicationHistoryTable = ({applications}: {applications: JobApplicationWithFlatJob[] | null}) => {
     return (

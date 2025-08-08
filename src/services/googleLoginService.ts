@@ -1,6 +1,5 @@
-// src/services/googleLoginServices.ts
+// src/services/googleLoginService.ts
 "use server";
-
 import {AuthError} from "next-auth";
 import { signIn } from "enigma/auth";
 

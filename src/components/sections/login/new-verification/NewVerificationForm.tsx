@@ -3,8 +3,8 @@ import * as React from "react";
 import BigHeaderLogo from "enigma/components/common/HeaderLogo";
 import { Box, Button, Container, Stack, Typography, Divider } from '@mui/material';
 import { useSearchParams } from "next/navigation";
-import { newVerification } from "enigma/services/userServices";
 import {useCallback, useEffect, useState} from "react";
+import {newVerification} from "enigma/services/authService";
 
 export const NewVerificationForm: React.FC = () => {
     const [error, setError] = useState<string>("");

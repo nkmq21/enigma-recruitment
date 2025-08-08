@@ -621,31 +621,31 @@ This project aims to enhance the recruitment experience by providing a comprehen
 						</tr>
 					</thead>
 						<tr style='border-bottom: 1px solid #eee;'>
-							<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/services/jobServices.ts'>jobServices.ts</a></b></td>
+							<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/services/jobServices.ts'>jobService.ts</a></b></td>
 							<td style='padding: 8px;'>- AdminJobsPage services facilitate the retrieval of job-related data within the application<br>- They enable fetching specific job details by ID, while also providing access to distinct active job locations and a sorted list of industry names<br>- This functionality supports the overall architecture by ensuring that users can efficiently access and filter job information, enhancing the user experience and data management capabilities of the project.</td>
 						</tr>
 						<tr style='border-bottom: 1px solid #eee;'>
-							<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/services/jobApplicationServices.ts'>jobApplicationServices.ts</a></b></td>
+							<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/services/jobApplicationServices.ts'>jobApplicationService.ts</a></b></td>
 							<td style='padding: 8px;'>- Facilitates the retrieval of job application data from the server, ensuring that users can access up-to-date information<br>- By making a GET request to the designated API endpoint, it handles the response and manages errors effectively<br>- This service plays a crucial role in the overall architecture by providing essential data for the application, enhancing user experience and functionality.</td>
 						</tr>
 						<tr style='border-bottom: 1px solid #eee;'>
-							<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/services/userServices.ts'>userServices.ts</a></b></td>
+							<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/services/userServices.ts'>userService.ts</a></b></td>
 							<td style='padding: 8px;'>- User services facilitate user management within the application, enabling functionalities such as user registration, login, email verification, password creation, and account retrieval<br>- By integrating with a database and authentication mechanisms, these services ensure secure user interactions and data integrity, while also handling error management and user feedback throughout the authentication process<br>- This architecture supports a seamless user experience in managing their accounts.</td>
 						</tr>
 						<tr style='border-bottom: 1px solid #eee;'>
-							<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/services/mailServices.ts'>mailServices.ts</a></b></td>
+							<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/services/mailServices.ts'>mailService.ts</a></b></td>
 							<td style='padding: 8px;'>- Facilitates the sending of verification emails within the Enigma Recruitment project<br>- By leveraging the Resend service, it constructs personalized email messages that include a confirmation link for users to verify their accounts<br>- This functionality enhances user onboarding and security, ensuring that new users can confirm their email addresses effectively as part of the overall application architecture.</td>
 						</tr>
 						<tr style='border-bottom: 1px solid #eee;'>
-							<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/services/verificationTokenServices.ts'>verificationTokenServices.ts</a></b></td>
+							<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/services/verificationTokenServices.ts'>verificationTokenService.ts</a></b></td>
 							<td style='padding: 8px;'>- Verification token services manage the creation and retrieval of verification tokens associated with user email addresses<br>- By generating unique tokens and ensuring their validity, these services facilitate secure email verification processes<br>- Additionally, they handle the cleanup of existing tokens to maintain data integrity, ultimately enhancing user authentication and account security within the broader application architecture.</td>
 						</tr>
 						<tr style='border-bottom: 1px solid #eee;'>
-							<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/services/cvServices.ts'>cvServices.ts</a></b></td>
+							<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/services/cvServices.ts'>cvService.ts</a></b></td>
 							<td style='padding: 8px;'>- Provides core functionalities for managing and processing curriculum vitae (CV) data within the application<br>- It serves as a crucial component of the overall architecture, enabling seamless integration of CV-related services, enhancing user experience by facilitating efficient data handling and manipulation<br>- This service plays a vital role in ensuring that CV information is accurately processed and readily accessible throughout the system.</td>
 						</tr>
 						<tr style='border-bottom: 1px solid #eee;'>
-							<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/services/googleLoginServices.ts'>googleLoginServices.ts</a></b></td>
+							<td style='padding: 8px;'><b><a href='https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/master/src/services/googleLoginServices.ts'>googleLoginService.ts</a></b></td>
 							<td style='padding: 8px;'>- GoogleAuthenticate facilitates user authentication through Google within the application, enhancing the login process<br>- By integrating with the authentication framework, it manages the sign-in flow and handles potential errors, ensuring a smooth user experience<br>- This service plays a crucial role in the overall architecture by streamlining user access and maintaining security during the login process.</td>
 						</tr>
 					</table>

@@ -1,115 +1,25 @@
-// src/services/userServices.ts
+// src/services/authService.ts
 "use server";
-
-import Cookies from 'js-cookie'
 import {
-    RegisterSchema,
-    LoginSchema,
+    ChangePasswordSchema,
     CreatePasswordSchema,
-    ResetPasswordSchema,
-    ChangePasswordSchema
+    LoginSchema,
+    RegisterSchema,
+    ResetPasswordSchema
 } from "enigma/schemas";
-import bcrypt from "bcryptjs";
 import {prisma} from "../../prisma/prisma";
-import * as z from "zod";
+import bcrypt from "bcryptjs";
 import {signIn} from "enigma/auth";
 import {AuthError} from "next-auth";
-import * as vts from "./verificationTokenServices";
-import * as rpts from "./resetPasswordTokenServices";
-import {sendResetPasswordEmail, sendVerificationEmail} from "enigma/services/mailServices";
-import {User} from "enigma/types/models";
-import {getResetPasswordTokenByToken} from "./resetPasswordTokenServices";
-
-export interface UserProps {
-    id: number;
-    email: string;
-    name: string;
-    role: string;
-    status: string;
-    image: string | null;
-    dob: Date | null;
-    address: string | null;
-}
-
-export interface PaginatedUsers {
-    users: Array<UserProps>;
-    total: number;
-}
-
-export async function getPaginatedUsers(page: number = 1, pageSize: number = 10): Promise<PaginatedUsers> {
-    const skip = (page - 1) * pageSize;
-    const users = await prisma.user.findMany({
-        skip,
-        take: pageSize,
-        select: {
-            id: true,
-            email: true,
-            name: true,
-            role: true,
-            status: true,
-            image: true,
-            dob: true,
-            address: true,
-        }
-    });
-    if (!users) {
-    }
-    const total = await prisma.user.count();
-    return {users, total};
-}
-
-export const getUsers = async () => {
-    try {
-        const users = await prisma.user.findMany({
-            select: {
-                id: true,
-                email: true,
-                name: true,
-                role: true,
-                status: true,
-                image: true,
-                dob: true,
-                address: true,
-            },
-        });
-        if (!users) {
-            return null;
-        }
-        return users as User[];
-    } catch (error) {
-        return null;
-    }
-}
-
-export const getUser = async (id: string) => {
-    try {
-        const user = await prisma.user.findUnique({
-            where: {id: parseInt(id)}
-        });
-        if (!user) {
-            return null;
-        }
-        return user;
-    } catch (error) {
-        return null;
-    }
-}
-
-export const getAccount = async (userId: string)  => {
-    // Fetch the user account from the database if they log in with 3rd party services
-    try {
-        const account = await prisma.account.findFirst({
-            where: {userId: parseInt(userId)}
-        });
-        if (!account) {
-            return null;
-        }
-        return account;
-    } catch (error) {
-        return null;
-    }
-
-}
+import {sendResetPasswordEmail, sendVerificationEmail} from "enigma/services/mailService";
+import * as _resetPasswordTokenService from "enigma/services/resetPasswordTokenService";
+import * as _verificationTokenService from "enigma/services/verificationTokenService";
+import * as _userRepository from "enigma/repositories/userRepository";
+import * as _verificationTokenRepository from "enigma/repositories/verificationTokenRepository";
+import * as _resetPasswordTokenRepository from "enigma/repositories/resetPasswordTokenRepository";
+import * as _tokenUtils from "enigma/utils/tokenUtils";
+import Cookies from "js-cookie";
+import {z} from "zod";
 
 export const login = async (data: z.infer<typeof LoginSchema>) => {
     // Validate the data using the LoginSchema
@@ -120,21 +30,19 @@ export const login = async (data: z.infer<typeof LoginSchema>) => {
     // Destructure the validated data
     const {email, password} = validatedData;
     // Check if the user exists
-    const existingUser = await prisma.user.findFirst({
-        where: {email: email.toLowerCase()}
-    });
+    const existingUser = await _userRepository.getUserByEmail(email);
     if (!existingUser || !existingUser.password || !existingUser.email) {
         return {error: "Invalid credentials"};
     }
 
     // Resend confirmation email in login page
     if (!existingUser.emailVerified) {
-        const verificationToken = await vts.createVerificationToken(email);
+        const verificationToken = await _verificationTokenService.createVerificationToken(email);
         if (verificationToken) {
             await sendVerificationEmail(verificationToken?.email, existingUser.name, verificationToken?.token);
             return {error: "Please confirm your email address. A new confirmation email has been sent."};
         } else {
-            return {error: "Error creating new-verification token"};
+            return {error: "Error creating verification token"};
         }
     }
     // Attempt to sign in using signIn() from Auth.js
@@ -173,25 +81,20 @@ export async function loginGoogle() {
 
 export async function newVerification(token: string) {
     // Check if the token is valid
-    const existingToken = await vts.getVerificationTokenByToken(token);
+    const existingToken = await _verificationTokenRepository.getVerificationTokenByToken(token);
     if (!existingToken) {
         return {error: "Token not found!"};
     }
     // Check if the token is expired
-    const tokenExpired = new Date(existingToken.expires) < new Date();
-    if (tokenExpired) {
+    if (_tokenUtils.isTokenExpired(existingToken.expires)) {
         return {error: "Token expired!"};
     }
     // Check if the user exists with the email in the token
-    const existingUser = await prisma.user.findFirst({
-        where: {email: existingToken.email}
-    });
+    const existingUser = await _userRepository.getUserByEmail(existingToken.email);
     if (!existingUser) {
         return {error: "Email not found!"};
     }
-    // If new-verification is complete, update emailVerified column
-    // and update email column with the email in the token
-    // in case the user changes their email address in profile page
+    // If verification is complete, update emailVerified column
     await prisma.user.update({
         where: {id: existingUser.id},
         data: {
@@ -199,16 +102,14 @@ export async function newVerification(token: string) {
             email: existingToken.email
         }
     });
-    // Delete the new-verification token after successful new-verification
-    await prisma.verificationToken.delete({
-        where: {identifier: existingToken.identifier}
-    });
-    console.info("userServices.new-verification: User email verified successfully");
+    // Delete the verification token after successful verification
+    await _verificationTokenRepository.deleteVerificationToken(existingToken.identifier);
+    console.info("authService.newVerification: User email verified successfully");
     return {success: "Email verified successfully!"};
 }
 
 export const resetPass = async (data: z.infer<typeof ResetPasswordSchema>) => {
-    // Validate the data using the LoginSchema
+    // Validate the data using the ResetPasswordSchema
     const validatedData = ResetPasswordSchema.parse(data);
     if (!validatedData) {
         return {error: "Invalid data"};
@@ -216,15 +117,13 @@ export const resetPass = async (data: z.infer<typeof ResetPasswordSchema>) => {
     // Destructure the validated data
     const {email} = validatedData;
     // Check if the user exists
-    const existingUser = await prisma.user.findFirst({
-        where: {email: email.toLowerCase()}
-    });
+    const existingUser = await _userRepository.getUserByEmail(email.toLowerCase());
     if (!existingUser) {
         return {success: "Success! If your email exists in our system, you should receive a reset password link in your inbox soon!"};
     }
 
     // Send reset password email
-    const resetPasswordToken = await rpts.createResetPasswordToken(email);
+    const resetPasswordToken = await _resetPasswordTokenService.createResetPasswordToken(email);
     if (resetPasswordToken) {
         await sendResetPasswordEmail(resetPasswordToken?.email, existingUser.name, resetPasswordToken?.token);
         return {success: "Success! If your email exists in our system, you should receive a reset password link in your inbox soon!"};
@@ -243,17 +142,14 @@ export const changePass = async (data: z.infer<typeof ChangePasswordSchema>, tok
     if (password !== confirmPassword) {
         return {error: "Confirm password does not match! Please enter again."}
     }
-    const existingToken = await getResetPasswordTokenByToken(token);
+    const existingToken = await _resetPasswordTokenRepository.getResetPasswordTokenByToken(token);
     if (!existingToken) {
         return {error: "Invalid token. You have already changed your password with this token."};
     }
-    const isExpired = new Date(existingToken.expires) < new Date();
-    if (isExpired) {
+    if (_tokenUtils.isTokenExpired(existingToken.expires)) {
         return {error: "Token expired."};
     }
-    const existingUser = await prisma.user.findUnique({
-        where: {email: existingToken.email}
-    })
+    const existingUser = await _userRepository.getUserByEmail(existingToken.email);
     if (!existingUser) {
         return {error: "Email does not exist."};
     }
@@ -262,9 +158,7 @@ export const changePass = async (data: z.infer<typeof ChangePasswordSchema>, tok
         where: {id: existingUser.id},
         data: {password: hashedPassword}
     });
-    await prisma.resetPasswordToken.delete({
-        where: {identifier: existingToken.identifier}
-    });
+    await _resetPasswordTokenRepository.deleteResetPasswordToken(existingToken.identifier);
     return {success: "Success! Password reset successfully! Redirecting you back to login..."};
 }
 
@@ -276,14 +170,12 @@ export async function createPass(email: string, data: z.infer<typeof CreatePassw
     // Destructure the validated data
     const {password, confirmPassword} = validatedData;
     // Check if the user exists
-    const existingUser = await prisma.user.findFirst({
-        where: {email: email.toLowerCase()}
-    });
-    if (!existingUser || !existingUser.password || !existingUser.email) {
+    const existingUser = await _userRepository.getUserByEmail(email.toLowerCase());
+    if (!existingUser || !existingUser.email) {
         return {error: "Invalid credentials"};
     }
 
-    // Attempt to sign in using signIn() from Auth.js
+    // Attempt to create password and sign in
     try {
         await prisma.user.update({
             where: {email: email.toLowerCase()},
@@ -323,9 +215,7 @@ export const register = async (data: z.infer<typeof RegisterSchema>) => {
         // Hash the password
         const hashedPassword = await bcrypt.hash(password, 10);
         // Check if the user already exists
-        const existingUser = await prisma.user.findFirst({
-            where: {email: email},
-        });
+        const existingUser = await _userRepository.getUserByEmail(email);
         if (existingUser) {
             return {error: "User already exists"};
         }
@@ -337,12 +227,12 @@ export const register = async (data: z.infer<typeof RegisterSchema>) => {
                 name: name,
             },
         });
-        // Create a new-verification token
-        const verificationToken = await vts.createVerificationToken(email);
-        // Send the new-verification email
+        // Create a verification token
+        const verificationToken = await _verificationTokenService.createVerificationToken(email);
+        // Send the verification email
         if (verificationToken) {
             await sendVerificationEmail(verificationToken?.email, name, verificationToken?.token);
-            return {success: "User created successfully, email new-verification sent!", user: user};
+            return {success: "User created successfully, email verification sent!", user: user};
         } else {
             return {error: "Error when registering, please try again."};
         }

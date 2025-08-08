@@ -1,6 +1,6 @@
 'use client';
-import { logout } from 'enigma/services/userServices';
 import {signOut} from "enigma/auth";
+import {logout} from "enigma/services/authService";
 
 export default async function LogoutButton() {
     const handleLogout = async () => {

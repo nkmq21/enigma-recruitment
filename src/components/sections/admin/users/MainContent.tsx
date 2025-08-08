@@ -7,11 +7,11 @@ import {
 import BigHeaderLogo from "enigma/components/common/HeaderLogo";
 import SectionTitle from "enigma/components/ui/SectionTitle";
 import UsersTable from "./UsersTable";
-import {UserProps} from "enigma/services/userServices";
+import type {User} from "enigma/types/models";
 import MetricsCard from "enigma/components/ui/MetricsCard";
 
 interface DashboardUserProps {
-    users: UserProps[];       // initial data
+    users: User[];       // initial data
     totalUsers: number;       // initial total
     currentPage: number;      // initial page
     pageSize: number;
@@ -54,12 +54,9 @@ export const MainContent: React.FC<DashboardUserProps> = ({
                     flexDirection: 'row',
                 },
             }}>
-                {/* Card 1 */}
-                <MetricsCard type="users" title="Total Users" value={999} percentageChange={10} />
-                {/* Card 2: Active Users */}
-                <MetricsCard type="active-users" title="Active Users" value={1292} percentageChange={20} />
-                {/* Card 3: Verified Users */}
-                <MetricsCard type="verified-users" title="Verified Users" value={800} percentageChange={15} />
+                <MetricsCard type="users" title="Total Users" value={totalUsers} percentageChange={100} />
+                <MetricsCard type="active-users" title="Active Users" value={users.filter(u => u.status === 'active').length} percentageChange={100} />
+                <MetricsCard type="verified-users" title="Verified Users" value={users.filter(u => u.emailVerified).length} percentageChange={100} />
             </Box>
             {/* List of all users */}
             <SectionTitle title="All Users" shopBage showOptions showOptions1 />

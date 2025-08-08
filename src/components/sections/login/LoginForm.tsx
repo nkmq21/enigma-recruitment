@@ -4,11 +4,11 @@ import {useActionState, useState} from "react";
 import BigHeaderLogo from "enigma/components/common/HeaderLogo";
 import {Box, Button, Checkbox, Container, FormControlLabel, Stack, TextField, Typography,} from '@mui/material';
 import {useRouter} from "next/navigation";
-import {login, loginGoogle} from "enigma/services/userServices";
 import {z} from "zod";
 import {useForm} from "react-hook-form";
 import {LoginSchema} from "enigma/schemas";
 import {zodResolver} from "@hookform/resolvers/zod";
+import {login, loginGoogle} from "enigma/services/authService";
 
 export const LoginForm: React.FC = () => {
     const [error, setError] = useState<string | null>(null);

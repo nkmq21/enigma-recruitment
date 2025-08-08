@@ -1,7 +1,7 @@
 import * as React from "react";
 import UserDetailsHeader from "./UserDetailsHeader";
 import { Box, Typography } from "@mui/material";
-import {JobApplicationWithFlatJob} from "enigma/services/jobApplicationServices";
+import {JobApplicationWithFlatJob} from "enigma/services/jobApplicationService";
 import ApplicationHistoryTable from "./ApplicationHistoryTable";
 import {User} from "enigma/types/models";
 import UserDetailsGrid from "./UserDetailsGrid";

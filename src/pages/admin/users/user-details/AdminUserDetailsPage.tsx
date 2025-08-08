@@ -2,11 +2,11 @@
 import * as React from "react";
 import {Box, IconButton, ThemeProvider} from "@mui/material";
 import { SidebarNavigation } from "enigma/components/common/SidebarNavigation";
-import { MainContent } from "../../../../components/sections/admin/users/user-details/MainContent";
+import { MainContent } from "enigma/components/sections/admin/users/user-details/MainContent";
 import theme from "enigma/styles/theme";
 import {Session} from "next-auth";
 import {User} from "enigma/types/models";
-import {JobApplicationWithFlatJob} from "enigma/services/jobApplicationServices";
+import {JobApplicationWithFlatJob} from "enigma/services/jobApplicationService";
 import {useSidebar} from "enigma/context/SidebarContext";
 import Image from "next/image";
 

@@ -16,7 +16,7 @@ import {ThemeProvider} from '@emotion/react';
 import theme from 'enigma/styles/theme';
 import Image from 'next/image';
 import {ArrowDropDown, Close} from '@mui/icons-material';
-import {FilterService} from 'enigma/services/jobServices';
+import {FilterService} from 'enigma/services/jobService';
 import {useSearchParams} from 'next/navigation';
 
 interface LocationProps {
