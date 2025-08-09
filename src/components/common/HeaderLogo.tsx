@@ -4,14 +4,14 @@ import Image from "next/image";
 import {Box} from "@mui/material";
 
 const BigHeaderLogo = () => {
-    const href = '/';
+    const href = "/";
     return (
         <Link href={href}>
             <Box
                 sx={{
-                    '@media (max-width: 991px)': {
-                        display: 'flex',
-                        justifyContent: 'space-between',
+                    "@media (max-width: 991px)": {
+                        display: "flex",
+                        justifyContent: "space-between",
                     },
                 }}
             >
@@ -21,9 +21,9 @@ const BigHeaderLogo = () => {
                         width: "100%",
                         maxWidth: "100%",
                         overflow: "hidden",
-                        '@media (max-width: 991px)': {
+                        "@media (max-width: 991px)": {
                             margin: 2,
-                            ml: 2
+                            ml: 2,
                         },
                     }}
                 >
@@ -33,10 +33,9 @@ const BigHeaderLogo = () => {
                         width={135 * 1.5}
                         height={28 * 1.5}
                         style={{
-                            //width: "100%",
                             height: "auto",
                             maxWidth: "100%",
-                            objectFit: "contain"
+                            objectFit: "contain",
                         }}
                     />
                 </Box>
@@ -46,22 +45,21 @@ const BigHeaderLogo = () => {
 };
 
 export const SmallHeaderLogo = () => {
-    const href = '/';
+    const href = "/";
     return (
         <Link href={href}>
             <Box>
-                <Box>
-                    <Image
-                        src="/logoPic.svg"
-                        alt="Career Logo"
-                        width={135}
-                        height={28}
-                    />
+                <Box
+                    sx={{
+                        width: "100%",
+                        overflow: "hidden",
+                    }}
+                >
+                    <Image src="/logoPic.svg" alt="Career Logo" width={60} height={28}/>
                 </Box>
             </Box>
         </Link>
     );
-
 };
 
 export default BigHeaderLogo;

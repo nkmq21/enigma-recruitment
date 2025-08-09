@@ -2,9 +2,9 @@ import type {Metadata} from "next";
 import {Geist, Geist_Mono} from "next/font/google";
 import "./globals.css";
 import {SidebarProvider} from "enigma/context/SidebarContext";
+import {RouteProgressProvider} from "enigma/context/RouteProgressContext";
+import RouteProgressBar from "enigma/components/common/RouteProgressBar";
 import React from "react";
-import {ToastContainer} from "enigma/components/ui/ToastContainer";
-import {ToastProvider} from "enigma/context/ToastContext";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -26,12 +26,12 @@ export default function RootLayout({children}: Readonly<{ children: React.ReactN
     return (
         <html lang="en">
         <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <SidebarProvider>
-            {/*<ToastProvider>*/}
+        <RouteProgressProvider>
+            <RouteProgressBar/>
+            <SidebarProvider>
                 {children}
-            {/*    <ToastContainer />*/}
-            {/*</ToastProvider>*/}
-        </SidebarProvider>
+            </SidebarProvider>
+        </RouteProgressProvider>
         </body>
         </html>
     );
