@@ -24,6 +24,7 @@ import {signOut} from 'next-auth/react';
 import {Session} from 'next-auth';
 import {usePathname} from 'next/navigation';
 import {useSidebar} from "enigma/context/SidebarContext";
+import ResponsiveLink from "enigma/components/common/ResponsiveLink";
 
 interface NavItem {
     text: string;
@@ -40,6 +41,10 @@ export const SidebarNavigation = ({session}: { session: Session | null }) => {
     const isMobile = useMediaQuery(theme.breakpoints.down("mdx"))
     const maybeCloseMobile = () => {
         if (isMobileMenuOpen && isMobile) toggleMobileMenu();
+    };
+    const handleDesktopToggle = () => {
+        if (isMobile) return;
+        toggleDesktopSidebar();
     };
     const isCollapsed = isMobile ? false : isDesktopCollapsed;
     // Session and user information
@@ -227,24 +232,12 @@ export const SidebarNavigation = ({session}: { session: Session | null }) => {
                         {isCollapsed ? <SmallHeaderLogo/> : <BigHeaderLogo/>}
                     </Box>
 
-                    {/* Mobile close button inside sidebar */}
-                    {/*<IconButton*/}
-                    {/*    onClick={toggleMobileMenu}*/}
-                    {/*    sx={{*/}
-                    {/*        display: {xs: 'flex', sm: 'none'},*/}
-                    {/*        position: 'absolute',*/}
-                    {/*        right: 16,*/}
-                    {/*        top: 16,*/}
-                    {/*    }}*/}
-                    {/*    aria-label='Close mobile menu'*/}
-                    {/*>*/}
-                    {/*    <Image src='/showbar.svg' alt='close' width={24} height={24}/>*/}
-                    {/*</IconButton>*/}
-
                     {/* Desktop collapse button */}
                     {!isDesktopCollapsed && (
                         <IconButton
-                            onClick={toggleDesktopSidebar}
+                            onClick={handleDesktopToggle}
+                            disabled={isMobile}
+                            aria-disabled={isMobile}
                             sx={{
                                 display: {xs: 'none', mdx: 'flex'},
                                 position: 'absolute',
@@ -267,7 +260,9 @@ export const SidebarNavigation = ({session}: { session: Session | null }) => {
                     )}
                     {isDesktopCollapsed && (
                         <IconButton
-                            onClick={toggleDesktopSidebar}
+                            onClick={handleDesktopToggle}
+                            disabled={isMobile}
+                            aria-disabled={isMobile}
                             sx={{
                                 display: {xs: 'none', mdx: 'flex'},
                                 position: 'absolute',
@@ -387,7 +382,7 @@ export const SidebarNavigation = ({session}: { session: Session | null }) => {
                                                         {item.subItems.map((subItem, subIndex) => (
                                                             <ListItem key={subIndex} disablePadding>
                                                                 <ListItemButton
-                                                                    component={Link}
+                                                                    component={ResponsiveLink}
                                                                     href={subItem.href}
                                                                     onClick={maybeCloseMobile}
                                                                     sx={{
@@ -421,7 +416,7 @@ export const SidebarNavigation = ({session}: { session: Session | null }) => {
                                     ) : (
                                         <ListItem disablePadding>
                                             <ListItemButton
-                                                component={Link}
+                                                component={ResponsiveLink}
                                                 href={item.href as string}
                                                 onClick={maybeCloseMobile}
                                                 sx={{
@@ -503,7 +498,7 @@ export const SidebarNavigation = ({session}: { session: Session | null }) => {
                                                         {item.subItems.map((subItem, subIndex) => (
                                                             <ListItem key={subIndex} disablePadding>
                                                                 <ListItemButton
-                                                                    component={Link}
+                                                                    component={ResponsiveLink}
                                                                     href={subItem.href}
                                                                     sx={{
                                                                         borderRadius: 2,
@@ -536,7 +531,7 @@ export const SidebarNavigation = ({session}: { session: Session | null }) => {
                                     ) : (
                                         <ListItem disablePadding>
                                             <ListItemButton
-                                                component={Link}
+                                                component={ResponsiveLink}
                                                 href={item.href as string}
                                                 sx={{
                                                     borderRadius: 2,
