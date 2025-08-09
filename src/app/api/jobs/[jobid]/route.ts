@@ -10,7 +10,7 @@ export async function GET(request: Request, {params}: {params: Params}) {
     try {
         const {jobid} = await params;
         if (!jobid) {
-            return NextResponse.json({error: "Invalid job id"}, {status: 400});
+            return NextResponse.json({error: "Invalid jobs id"}, {status: 400});
         }
 
         const job = await prisma.job.findUnique({

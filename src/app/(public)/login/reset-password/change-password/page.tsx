@@ -1,8 +1,8 @@
 import React from 'react';
-import { ConfirmPasss } from 'enigma/components/login/reset-password/confirmPass';
+import { ChangePasswordPage } from 'enigma/pages/login/reset-password/change-password/ChangePasswordPage';
 
-export default function ChangePasswordPage() {
-    return <ConfirmPasss />;
+export default function Page() {
+    return <ChangePasswordPage />;
 }
 
 export async function generateMetadata() {

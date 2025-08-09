@@ -3,21 +3,52 @@ export interface User {
     id: number;
     email: string;
     name: string;
-    password: string;
+    password: string | null;
     role: string;
     status: string;
-    image?: string;
-    dob?: Date;
-    address?: string;
-    emailVerified?: Date;
+    image?: string | null;
+    dob?: Date | null;
+    address?: string | null;
+    emailVerified?: Date | null;
 }
 
 export interface UserRegister {
     email: string;
     name: string;
-    image?: string;
-    dob?: Date;
-    address?: string;
+    password: string | null;
+    image?: string | null;
+    dob?: Date | null;
+    address?: string | null;
+    emailVerified?: Date | null;
+}
+
+export interface Account {
+    id: string;
+    userId: number;
+    type: string;
+    provider: string;
+    providerAccountId: string;
+    refresh_token?: string | null;
+    access_token?: string | null;
+    expires_at?: number | null;
+    token_type?: string | null;
+    scope?: string | null;
+    id_token?: string | null;
+    session_state?: string | null;
+}
+
+export interface VerificationToken {
+    identifier: string;
+    email: string;
+    token: string;
+    expires: Date;
+}
+
+export interface ResetPasswordToken {
+    identifier: string;
+    email: string;
+    token: string;
+    expires: Date;
 }
 
 export interface Industry {

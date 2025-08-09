@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { JobRepository } from "enigma/repositories/jobRepository";
+import { findByFilter, JobSearchFilters } from "enigma/repositories/jobRepository";
+import { searchJobs } from 'enigma/services/jobService';
 
 export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
@@ -28,18 +29,31 @@ export async function GET(request: NextRequest) {
 
     //TODO: other filter params will continue from here
 
+    const filters: JobSearchFilters = {
+        query,
+        status,
+        locations,
+        jobFunctions,
+        jobSubfunctions,
+        industries,
+        employment_type,
+        postDateRange,
+        page,
+        limit
+    };
+
     try {
         //fetch filter options
-        const jobRepository = new JobRepository();
         //TODO: add other filter params to the search method below
-        const { jobs, total } = await jobRepository.findBySearch(query, status, locations, jobFunctions, jobSubfunctions, industries, employment_type, postDateRange, page, limit);
+        const result = await searchJobs(filters);
 
-        return NextResponse.json({
-            jobs,
-            meta: {
-                total, page, limit
-            }
-        })
+        // if (!result.error) {
+        //     return NextResponse.json(
+        //         { error: result.error || result.message },
+        //         { status: 400 }
+        //     );
+        // }
+        return NextResponse.json(result.data)
     } catch (error) {
         console.error('Error fetching jobs:', error);
         return NextResponse.json(

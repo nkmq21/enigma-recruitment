@@ -20,7 +20,7 @@ INSERT INTO industries VALUES
 INSERT INTO job_functions
 VALUES ('ACC', 'Accounting'),
        ('AOS', 'Administration & Office Support'),
-       ('ADM', 'Advertising, Arts & Media'),
+       ('ADM', 'Advertising, Arts & MediaPage'),
        ('BAF', 'Banking & Financial Services'),
        ('CCS', 'Call Center & Customer Services'),
        ('CEO', 'CEO & General Management'),
@@ -89,14 +89,14 @@ VALUES
 ('RDC', 'Records Management & Document Control', 'AOS'),
 ('OTR', 'Others', 'AOS'),
 
--- Advertising, Arts & Media
+-- Advertising, Arts & MediaPage
 ('AAM', 'Agency Account Management', 'ADM'),
 ('ARD', 'Art Direction', 'ADM'),
 ('EDP', 'Editing & Publishing', 'ADM'),
 ('EVM', 'Event Management', 'ADM'),
 ('JOW', 'Journalism & Writing', 'ADM'),
 ('MGT', 'Management', 'ADM'),
-('MES', 'Media Strategy, Planning & Buying', 'ADM'),
+('MES', 'MediaPage Strategy, Planning & Buying', 'ADM'),
 ('PEA', 'Performing Arts', 'ADM'),
 ('PHO', 'Photography', 'ADM'),
 ('PRP', 'Programming & Production', 'ADM'),
@@ -536,7 +536,7 @@ VALUES ('AER_ICT_231', 'IT Specialist', 'Support aerospace IT systems.', 75000.0
         '2025-06-28 15:00:00+07', '2025-07-25', 'FUR', 'CON', 'EST', 'Phitsanulok', 'active', 'contract'),
        ('IME_ENG_252', 'Process Engineer', 'Optimize industrial processes.', 70000.00, 95000.00,
         '2025-06-28 12:00:00+07', '2025-07-30', 'IME', 'ENG', 'PRE', 'Songkhla', 'active', 'permanent'),
-       ('JRY_MAC_253', 'Social Media Manager', 'Manage jewelry social media.', 50000.00, 75000.00,
+       ('JRY_MAC_253', 'Social MediaPage Manager', 'Manage jewelry social media.', 50000.00, 75000.00,
         '2025-06-28 09:00:00+07', '2025-07-15', 'JRY', 'MAC', 'DSM', 'Chachoengsao', 'prioritized', 'permanent'),
        ('LAP_AOS_254', 'Client Administrator', 'Support packaging client services.', 35000.00, 50000.00,
         '2025-06-28 06:00:00+07', '2025-07-20', 'LAP', 'AOS', 'CSA', 'Nakhon Pathom', 'active', 'temporary'),
@@ -648,7 +648,7 @@ VALUES ('AER_ICT_231', 'IT Specialist', 'Support aerospace IT systems.', 75000.0
         '2025-07-30', 'AER', 'AOS', 'OFM', 'Ratchaburi', 'active', 'temporary'),
        ('AUT_SAL_310', 'Business Development Executive', 'Expand automotive market.', 60000.00, 85000.00,
         '2025-06-17 03:00:00+07', '2025-07-15', 'AUT', 'SAL', 'NBD', 'Sukhothai', 'prioritized', 'permanent'),
-       ('APF_MAC_311', 'Social Media Specialist', 'Manage apparel social media.', 50000.00, 75000.00,
+       ('APF_MAC_311', 'Social MediaPage Specialist', 'Manage apparel social media.', 50000.00, 75000.00,
         '2025-06-16 15:00:00+07', '2025-07-20', 'APF', 'MAC', 'DSM', 'Trang', 'active', 'permanent'),
        ('CHE_ENG_312', 'Lean Engineer', 'Implement lean manufacturing.', 70000.00, 95000.00, '2025-06-16 12:00:00+07',
         '2025-07-25', 'CHE', 'ENG', 'LEE', 'Phuket', 'active', 'permanent'),

@@ -1,8 +1,7 @@
 // src/app/api/users/[userid]/route.ts
 import {NextResponse} from 'next/server';
-import {prisma} from '../../../../../prisma/prisma';
 import {auth} from 'enigma/auth';
-import {getUser} from "enigma/services/userServices";
+import {getUser} from "enigma/services/userService";
 
 type Params = Promise<{ userid: string }>;
 
@@ -20,11 +19,11 @@ export async function GET(request: Request, {params}: {params: Params}) {
                 {status: 401}
             );
         }
-        const user = await getUser(String(id));
-        if (!user) {
+        const user = await getUser(String(id), "id");
+        if (!user || user.error || !user.data) {
             return NextResponse.json({error: 'No users found!'});
         }
-        return NextResponse.json(user);
+        return NextResponse.json(user.data);
     } catch (error) {
         console.error('Error fetching users:', error);
         return NextResponse.json(

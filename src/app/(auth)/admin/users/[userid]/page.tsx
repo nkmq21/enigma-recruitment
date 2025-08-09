@@ -1,23 +1,27 @@
-// src/app/(auth)/admin/users/[userid]
-
+// src/app/(auth)/admin/users/[userid]/page.tsx
 import React from "react";
 import {auth} from "enigma/auth";
-import UserDetails from "enigma/components/admin/user/userDetails/userDetails";
-import { getUser } from "enigma/services/userServices";
-import {getJobApplicationsByUserId, JobApplicationWithFlatJob} from "enigma/services/jobApplicationServices";
-import {User} from "enigma/types/models";
+import AdminUserDetailsPage from "enigma/pages/admin/users/user-details/AdminUserDetailsPage";
+import { getUser } from "enigma/services/userService";
+import {getJobApplicationsByUserId, JobApplicationWithFlatJob} from "enigma/services/jobApplicationService";
 
 type Params = Promise<{ userid: string }>;
 
 export default async function UserDetailsPage({params}: {params: Params}) {
     const session = await auth();
     const {userid} = await params;
-    const [user, applications] = await Promise.all([
-        getUser(userid),
+
+    const [userResult, applications] = await Promise.all([
+        getUser(userid, "id"),
         getJobApplicationsByUserId(userid),
     ]);
+
+    if (!userResult.data) {
+        return <div>User not found</div>;
+    }
+
     return (
-        <UserDetails session={session} user={user as User} applications={applications as JobApplicationWithFlatJob[]}/>
+        <AdminUserDetailsPage session={session} user={userResult.data} applications={applications as JobApplicationWithFlatJob[]}/>
     );
 }
 

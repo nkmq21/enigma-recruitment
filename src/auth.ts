@@ -2,7 +2,7 @@ import NextAuth from "next-auth"
 import {PrismaAdapter} from "@auth/prisma-adapter";
 import {prisma} from "../prisma/prisma";
 import authConfig from "./auth.config";
-import {getAccount, getUser} from "enigma/services/userServices";
+import {getAccount, getUser} from "enigma/services/userService";
 
 export const {handlers: {GET, POST}, signIn, signOut, auth} = NextAuth({
     adapter: PrismaAdapter(prisma),
@@ -12,19 +12,19 @@ export const {handlers: {GET, POST}, signIn, signOut, auth} = NextAuth({
         async jwt({token}) {
             if (!token.sub) return token;
             // Check if the user exists in the database, token sub is ID of the user
-            const existingUser = await getUser(token.sub);
-            if (!existingUser) return token;
+            const existingUser = await getUser(token.sub, "id");
+            if (!existingUser || !existingUser.data || existingUser.error) return token;
             // Check if the user has an account in the database if they use 3rd party services
-            const existingAccount = await getAccount(String(existingUser.id));
+            const existingAccount = await getAccount(String(existingUser.data?.id));
             // If the user has an account, set the token to be an oauth token
-            token.isOauth = !!existingAccount;
+            token.isOauth = !!existingAccount.data;
             // Set the token name to be the user's name in case
             // they log in with 3rd party services with a different name.
             // You can also append the token with other user data
-            token.name = existingUser.name;
-            token.email = existingUser.email;
-            token.image = existingUser.image;
-            token.role = existingUser.role || 'seeker';
+            token.name = existingUser.data?.name;
+            token.email = existingUser.data?.email;
+            token.image = existingUser.data?.image;
+            token.role = existingUser.data?.role || 'seeker';
             return token;
         },
         async session({token, session}) {
@@ -50,9 +50,9 @@ export const {handlers: {GET, POST}, signIn, signOut, auth} = NextAuth({
                 return true;
             }
             // Check if the user exists in the database
-            const existingUser = await getUser(String(user.id));
+            const existingUser = await getUser(String(user.id), "id");
             // Check if the user email is verified
-            if (!existingUser?.emailVerified) {
+            if (!existingUser?.data?.emailVerified) {
                 return false;
             }
             // TODO: 2FA check
