@@ -3,8 +3,6 @@ import {Geist, Geist_Mono} from "next/font/google";
 import "./globals.css";
 import {SidebarProvider} from "enigma/context/SidebarContext";
 import React from "react";
-import {ToastContainer} from "enigma/components/ui/ToastContainer";
-import {ToastProvider} from "enigma/context/ToastContext";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -26,12 +24,9 @@ export default function RootLayout({children}: Readonly<{ children: React.ReactN
     return (
         <html lang="en">
         <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <SidebarProvider>
-            {/*<ToastProvider>*/}
+            <SidebarProvider>
                 {children}
-            {/*    <ToastContainer />*/}
-            {/*</ToastProvider>*/}
-        </SidebarProvider>
+            </SidebarProvider>
         </body>
         </html>
     );
