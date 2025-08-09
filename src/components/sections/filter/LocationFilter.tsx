@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useRef, useMemo} from 'react';
+import React, { useEffect, useState, useRef, useMemo } from 'react';
 import {
     Box,
     Typography,
@@ -12,12 +12,12 @@ import {
     Chip,
     Stack
 } from '@mui/material';
-import {ThemeProvider} from '@emotion/react';
+import { ThemeProvider } from '@emotion/react';
 import theme from 'enigma/styles/theme';
 import Image from 'next/image';
-import {ArrowDropDown, Close} from '@mui/icons-material';
-import {FilterService} from 'enigma/services/jobService';
-import {useSearchParams} from 'next/navigation';
+import { ArrowDropDown, Close } from '@mui/icons-material';
+import { FilterService } from 'enigma/services/jobService';
+import { useSearchParams } from 'next/navigation';
 
 interface LocationProps {
     disabled?: boolean;
@@ -26,10 +26,10 @@ interface LocationProps {
 }
 
 const LocationFilter = React.memo<LocationProps>(({
-                                                disabled = false,
-                                                value = [],
-                                                onChange,
-                                            }) => {
+    disabled = false,
+    value = [],
+    onChange,
+}) => {
     const filterService = useMemo(() => new FilterService(), []);
     const [locationList, setLocationList] = useState<string[]>([]);
     const [open, setOpen] = useState(false);
@@ -88,7 +88,7 @@ const LocationFilter = React.memo<LocationProps>(({
             ? selectedLocations.filter(p => p !== province) // Remove if already selected
             : [...selectedLocations, province]; // Add if not selected
 
-        console.log('After toggle:', {newSelectedLocations});
+        console.log('After toggle:', { newSelectedLocations });
 
         setSelectedLocations(newSelectedLocations);
     };
@@ -117,7 +117,7 @@ const LocationFilter = React.memo<LocationProps>(({
 
     return (
         <ThemeProvider theme={theme}>
-            <Box sx={{width: '100%'}}>
+            <Box sx={{ width: '100%' }}>
                 <TextField
                     fullWidth
                     variant="outlined"
@@ -128,13 +128,13 @@ const LocationFilter = React.memo<LocationProps>(({
                     disabled={disabled}
                     InputProps={{
                         startAdornment: <Image src='/location.svg' alt='location' height={20} width={20}
-                                               style={{marginRight: '10px'}}/>,
-                        endAdornment: <ArrowDropDown sx={{color: disabled ? 'grey.400' : 'grey.600'}}/>,
+                            style={{ marginRight: '10px' }} />,
+                        endAdornment: <ArrowDropDown sx={{ color: disabled ? 'grey.400' : 'grey.600' }} />,
                         readOnly: true, // Prevent typing in the field
                     }}
                     sx={{
-                        "& .MuiInputLabel-asterisk": {color: "#236785"},
-                        "& .MuiOutlinedInput-root": {borderRadius: "8px"},
+                        "& .MuiInputLabel-asterisk": { color: "#236785" },
+                        "& .MuiOutlinedInput-root": { borderRadius: "8px" },
                         opacity: disabled ? 0.6 : 1,
                         cursor: disabled ? 'not-allowed' : 'pointer',
                     }}
@@ -142,14 +142,14 @@ const LocationFilter = React.memo<LocationProps>(({
 
                 {/* Selected Locations Chips */}
                 {selectedLocations.length > 0 && (
-                    <Stack direction="row" spacing={1} sx={{mt: 1, flexWrap: 'wrap', gap: 1}}>
+                    <Stack direction="row" spacing={1} sx={{ mt: 1, flexWrap: 'wrap', gap: 1 }}>
                         {selectedLocations.slice(0, 3).map((location) => (
                             <Chip
                                 key={location}
                                 label={location}
                                 size="small"
                                 onDelete={() => handleRemoveLocation(location)}
-                                deleteIcon={<Close sx={{fontSize: 16}}/>}
+                                deleteIcon={<Close sx={{ fontSize: 16 }} />}
                                 sx={{
                                     backgroundColor: '#e3f2fd',
                                     color: '#1976d2',
@@ -167,7 +167,7 @@ const LocationFilter = React.memo<LocationProps>(({
                                 label={`+${selectedLocations.length - 3} more`}
                                 size="small"
                                 variant="outlined"
-                                sx={{color: '#666'}}
+                                sx={{ color: '#666' }}
                             />
                         )}
                     </Stack>
@@ -183,7 +183,7 @@ const LocationFilter = React.memo<LocationProps>(({
                         borderRadius: '12px',
                         overflow: 'hidden',
                         p: 2,
-                        maxHeight: {xs: '400px', sm: '600px'},
+                        maxHeight: { xs: '400px', sm: '600px' },
                         bgcolor: '#fff',
                     },
                 }}
@@ -196,7 +196,7 @@ const LocationFilter = React.memo<LocationProps>(({
                         display: 'flex',
                         flexDirection: 'column',
                         color: '#262d34',
-                        width: {xs: '300px', sm: '400px'},
+                        width: { xs: '300px', sm: '400px' },
                     }}
                 >
                     <Box
@@ -220,7 +220,7 @@ const LocationFilter = React.memo<LocationProps>(({
                             <Typography sx={{
                                 fontWeight: 600,
                                 color: '#262d34',
-                                fontSize: {xs: '13px', sm: '16px'},
+                                fontSize: { xs: '13px', sm: '16px' },
                             }}>
                                 Select Locations ({selectedLocations.length} selected)
                             </Typography>
@@ -231,7 +231,7 @@ const LocationFilter = React.memo<LocationProps>(({
                                     sx={{
                                         color: '#d32f2f',
                                         textTransform: 'none',
-                                        fontSize: {xs: '10px', sm: '14px'},
+                                        fontSize: { xs: '10px', sm: '14px' },
                                         padding: '4px 8px',
                                     }}
                                 >
@@ -252,10 +252,10 @@ const LocationFilter = React.memo<LocationProps>(({
                                     borderRadius: '8px',
                                     border: '1px solid #d0d5dd',
                                     boxShadow: '0px 1px 2px rgba(16, 24, 40, 0.05)',
-                                    fontSize: {xs: '12px', sm: '14px'},
+                                    fontSize: { xs: '12px', sm: '14px' },
                                     color: '#667085',
                                 },
-                                '& .MuiInputBase-input': {padding: '10px 14px'},
+                                '& .MuiInputBase-input': { padding: '10px 14px' },
                             }}
                         />
 
@@ -270,13 +270,13 @@ const LocationFilter = React.memo<LocationProps>(({
                                 overflow: 'auto',
                                 scrollbarColor: '#2494b6 #f1f1f1',
                                 scrollbarWidth: 'thin',
-                                '&::-webkit-scrollbar': {width: '8px'},
-                                '&::-webkit-scrollbar-track': {background: '#f1f1f1', borderRadius: '10px'},
-                                '&::-webkit-scrollbar-thumb': {background: '#2494b6', borderRadius: '10px'},
+                                '&::-webkit-scrollbar': { width: '8px' },
+                                '&::-webkit-scrollbar-track': { background: '#f1f1f1', borderRadius: '10px' },
+                                '&::-webkit-scrollbar-thumb': { background: '#2494b6', borderRadius: '10px' },
                             }}
                         >
                             {filteredLocations.length === 0 ? (
-                                <Typography textAlign="center" color="textSecondary" sx={{py: 2}}>
+                                <Typography textAlign="center" color="textSecondary" sx={{ py: 2 }}>
                                     {searchTerm ? 'No locations found' : 'Loading locations...'}
                                 </Typography>
                             ) : (
@@ -301,7 +301,7 @@ const LocationFilter = React.memo<LocationProps>(({
                                                 checked={isSelected}
                                                 // onChange={() => handleProvinceToggle(province)}
                                                 sx={{
-                                                    padding: {xs: '2px', sm: '4px'},
+                                                    padding: { xs: '2px', sm: '4px' },
                                                     marginRight: '8px',
                                                     color: '#2494b6',
                                                     '&.Mui-checked': {
@@ -312,7 +312,7 @@ const LocationFilter = React.memo<LocationProps>(({
                                             <ListItemText
                                                 primary={location}
                                                 primaryTypographyProps={{
-                                                    fontSize: {xs: '12px', sm: '14px'},
+                                                    fontSize: { xs: '12px', sm: '14px' },
                                                     lineHeight: '20px',
                                                     fontFamily: '"Inter", sans-serif',
                                                     fontWeight: isSelected ? 600 : 400,
@@ -326,7 +326,7 @@ const LocationFilter = React.memo<LocationProps>(({
                         </List>
 
                         {/* Action Buttons */}
-                        <Box sx={{display: 'flex', gap: 2, mt: 2}}>
+                        <Box sx={{ display: 'flex', gap: 2, mt: 2 }}>
                             <Button
                                 variant="outlined"
                                 onClick={handleCloseLocation}
