@@ -64,7 +64,6 @@ export default function AdminUserDetailsPage({session, user, applications}: {
                     />
                 )}
                 <Box sx={{
-                    pt: 10,
                     width: '100%',
                     position: 'relative',
                     marginLeft: {sm: sidebarWidth},
