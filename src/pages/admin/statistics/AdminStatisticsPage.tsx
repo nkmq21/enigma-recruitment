@@ -1,14 +1,15 @@
 "use client";
 import * as React from "react";
 import {Box, IconButton, ThemeProvider} from "@mui/material";
-import { MainContent } from "enigma/components/sections/admin/statistics/MainContent";
+import {MainContent} from "enigma/components/sections/admin/statistics/MainContent";
 import Image from "next/image";
 import theme from "enigma/styles/theme";
-import { SidebarNavigation } from "enigma/components/common/SidebarNavigation";
+import {SidebarNavigation} from "enigma/components/common/SidebarNavigation";
 import {useSidebar} from "enigma/context/SidebarContext";
-import { Session } from "next-auth";
+import {Session} from "next-auth";
+import BigHeaderLogo from "enigma/components/common/HeaderLogo";
 
-export default function StatisticAdmin({ session }: { session: Session | null }) {
+export default function StatisticAdmin({session}: { session: Session | null }) {
     // 18% for expanded sidebar, 6% for collapsed sidebar
     const {isDesktopCollapsed, toggleMobileMenu, isMobileMenuOpen} = useSidebar();
     const sidebarWidth = isDesktopCollapsed ? '6%' : '18%';
@@ -19,27 +20,29 @@ export default function StatisticAdmin({ session }: { session: Session | null })
                 alignItems: "flex-start",
                 justifyContent: "flex-start",
             }}>
-                {/* Expand sidebar in mobile view */}
+                {/* Mobile open button */}
                 <IconButton
                     onClick={toggleMobileMenu}
                     sx={{
-                        position: 'fixed',
+                        position: "fixed",
                         top: 16,
                         right: 16,
                         zIndex: 1001,
-                        display: {xs: "flex", sm: "none"},
+                        display: {xs: "flex", mdx: "none"},
                         backgroundColor: "white",
                         boxShadow: 2,
                         transition: "transform 0.1s ease, background-color 0.1s ease", // Add quick feedback
                         "&:hover": {
-                            backgroundColor: theme.palette.grey[100]
-                        }
+                            backgroundColor: theme.palette.grey[100],
+                        },
                     }}
                     aria-label="Toggle mobile menu"
                 >
                     <Image src="/showbar1.svg" alt="Menu Icon Expand" width={24} height={24}/>
                 </IconButton>
+
                 <SidebarNavigation session={session}/>
+
                 {/* Mobile overlay */}
                 {isMobileMenuOpen && (
                     <Box
@@ -52,29 +55,46 @@ export default function StatisticAdmin({ session }: { session: Session | null })
                             bottom: 0,
                             backgroundColor: 'rgba(0, 0, 0, 0.5)',
                             zIndex: 999,
-                            display: { xs: 'block', sm: 'none' },
+                            display: {xs: 'block', sm: 'none'},
                         }}
                     />
                 )}
-                <Box sx={{
-                    pt: 5,
-                    width: '100%',
-                    position: 'relative',
-                    marginLeft: { sm: sidebarWidth },
-                    '@media (max-width: 991px)': {
-                        maxWidth: '100%',
-                        marginLeft: '0',
-                        pt: 0,
-                    },
-                }}>
-                    <Image src="/Background.svg" alt='' width={1920} height={1440}
+                <Box
+                    sx={{
+                        pt: 5,
+                        width: "100%",
+                        maxWidth: "100%",
+                        position: "relative",
+                        ml: {xs: 0, mdx: sidebarWidth},
+                        [theme.breakpoints.down("mdx")]: {
+                            pt: 1
+                        }
+                    }}
+                >
+                    <Image
+                        src="/Background.svg"
+                        alt=""
+                        width={"1920"}
+                        height={"1440"}
                         style={{
-                            position: 'fixed',
+                            position: "absolute",
                             top: 0,
-                            zIndex: -1,
-                            height: 'auto',
-                        }} />
-                    <MainContent />
+                            zIndex: -1, // Place the image behind all other content
+                            height: "auto", // Optional: Maintain aspect ratio
+                        }}
+                    />
+                    <Box
+                        sx={{
+                            display: "none",
+                            [theme.breakpoints.down("mdx")]: {
+                                display: "block",
+                                zIndex: 1
+                            }
+                        }}
+                    >
+                        <BigHeaderLogo/>
+                    </Box>
+                    <MainContent/>
                 </Box>
             </Box>
         </ThemeProvider>

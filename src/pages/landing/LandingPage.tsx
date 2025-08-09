@@ -6,7 +6,7 @@ import Footer from "enigma/components/common/Footer";
 import theme from "enigma/styles/theme";
 import BigHeaderLogo from "enigma/components/common/HeaderLogo";
 import Image from "next/image";
-import MainContent from "../../components/sections/landing/MainContent";
+import MainContent from "enigma/components/sections/landing/MainContent";
 import {Session} from "next-auth";
 import {useSidebar} from "enigma/context/SidebarContext";
 
@@ -42,12 +42,7 @@ const LandingPage = ({session}: { session: Session | null }) => {
                     }}
                     aria-label="Toggle mobile menu"
                 >
-                    <Image
-                        src="/showbar1.svg"
-                        alt="Menu Icon Expand"
-                        width={24}
-                        height={24}
-                    />
+                    <Image src="/showbar1.svg" alt="Menu Icon Expand" width={24} height={24}/>
                 </IconButton>
 
                 <SidebarNavigation session={session}/>
@@ -70,11 +65,14 @@ const LandingPage = ({session}: { session: Session | null }) => {
                 )}
                 <Box
                     sx={{
-                        pt: 5,
+                        pt: 10,
                         width: "100%",
                         maxWidth: "100%",
                         position: "relative",
-                        ml: {xs: 0, mdx: sidebarWidth}
+                        ml: {xs: 0, mdx: sidebarWidth},
+                        [theme.breakpoints.down("mdx")]: {
+                            pt: 1
+                        }
                     }}
                 >
                     <Image
@@ -91,15 +89,14 @@ const LandingPage = ({session}: { session: Session | null }) => {
                     />
                     <Box
                         sx={{
-                            display: {
-                                md: "none",
-                                sm: "block",
-                                zIndex: 1,
-                            },
+                            display: "none",
+                            [theme.breakpoints.down("mdx")]: {
+                                display: "block",
+                                zIndex: 1
+                            }
                         }}
                     >
                         <BigHeaderLogo/>
-                        <Divider sx={{mb: 3, width: "100%"}}/>
                     </Box>
                     <MainContent/>
                     <Footer/>
