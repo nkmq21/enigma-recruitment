@@ -5,7 +5,7 @@ declare module '@mui/material/styles' {
         xs: true;
         sm: true;
         md: true;
-        mdx: true; // Custom breakpoint
+        mdx: true; 
         lg: true;
         xl: true;
     }
