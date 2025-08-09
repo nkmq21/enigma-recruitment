@@ -35,24 +35,15 @@ interface NavItem {
 
 export const SidebarNavigation = ({session}: { session: Session | null }) => {
     const theme = useTheme();
-    const {isDesktopCollapsed, toggleDesktopSidebar, isMobileMenuOpen, toggleMobileMenu} = useSidebar();
+    const {isDesktopCollapsed, toggleDesktopSidebar, isMobileMenuOpen} = useSidebar();
     const [isMobile, setIsMobile] = useState(false);
-    const [isSessionValid, setIsSessionValid] = useState(false);
-    const [name, setName] = useState<string | null>(null);
-    const [email, setEmail] = useState<string | null>(null);
-    const [image, setImage] = useState<string | undefined>('/Avatar.png');
+    const user = session?.user ?? null;
+    const isLoggedIn = !!user;
+    const name = user?.name ?? user?.email ?? "Guest";
+    const email = user?.email ?? "";
+    const image = user?.image ?? '/Avatar.png';
     const currentUrl = usePathname();
     const [openDropdown, setOpenDropdown] = useState<string | null>(null);
-
-    // Check if the session is valid and set the state accordingly
-    useEffect(() => {
-        if (session) {
-            setIsSessionValid(true);
-            setName(session?.user?.name as string);
-            setEmail(session?.user?.email as string);
-            setImage(session?.user?.image || '/Avatar.png');
-        }
-    }, [session]);
 
     // Detect screen size
     useEffect(() => {
@@ -70,10 +61,6 @@ export const SidebarNavigation = ({session}: { session: Session | null }) => {
 
     // Set the session to be invalid and remove all data when signing out
     const handleSignOut = async () => {
-        setIsSessionValid(false);
-        setName(null);
-        setEmail(null);
-        setImage('');
         await signOut({redirectTo: '/'});
     };
 
@@ -610,7 +597,7 @@ export const SidebarNavigation = ({session}: { session: Session | null }) => {
                         </List>
 
                         {!isCollapsed ? (
-                            !isSessionValid ? (
+                            !isLoggedIn ? (
                                 <Box sx={{mt: 2, m: 2, pt: 2}}>
                                     <Button
                                         variant='contained'
