@@ -171,7 +171,7 @@ export default function OurServices() {
                                     },
                                 }}
                             >
-                                Learn more
+                                Contact us
                             </Button>
                         </Box>
 
