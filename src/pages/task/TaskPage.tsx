@@ -1,38 +1,105 @@
 "use client";
 import * as React from "react";
-import {Box} from "@mui/material";
+import {Box, ThemeProvider, IconButton} from "@mui/material";
+import theme from "enigma/styles/theme";
 import {MainContent} from "../../components/sections/task/MainContent";
 import {SidebarNavigation} from "enigma/components/common/SidebarNavigation";
 import {Session} from "next-auth";
+import {useSidebar} from "enigma/context/SidebarContext";
+import Image from "next/image";
+import BigHeaderLogo from "enigma/components/common/HeaderLogo";
 
 export default function TaskPage({session}: { session: Session | null }) {
     // 18% for expanded sidebar, 6% for collapsed sidebar
-    const [isCollapsed, setIsCollapsed] = React.useState(false);
-    const sidebarWidth = isCollapsed ? '6%' : '18%';
+    const {isDesktopCollapsed, toggleMobileMenu, isMobileMenuOpen} = useSidebar();
+    const sidebarWidth = isDesktopCollapsed ? "6%" : "18%";
     return (
-        <Box
-            sx={{
-                display: "flex",
-                alignItems: "flex-start",
-                justifyContent: "flex-start",
-                marginBottom: "134px",
-            }}
-        >
-            <SidebarNavigation session={session} isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed}/>
+        <ThemeProvider theme={theme}>
             <Box
+                component="main"
                 sx={{
-                    flex: 1,
-                    width: '100%',
-                    bgcolor: '#FFF',
-                    marginLeft: {sm: sidebarWidth},
-                    '@media (max-width: 991px)': {
-                        marginLeft: '0',
-                        width: '100%',
-                    },
+                    display: "flex",
+                    alignItems: "flex-start",
+                    justifyContent: "flex-start",
                 }}
             >
-                <MainContent/>
+                {/* Mobile open button */}
+                <IconButton
+                    onClick={toggleMobileMenu}
+                    sx={{
+                        position: "fixed",
+                        top: 16,
+                        right: 16,
+                        zIndex: 1001,
+                        display: {xs: "flex", mdx: "none"},
+                        backgroundColor: "white",
+                        boxShadow: 2,
+                        transition: "transform 0.1s ease, background-color 0.1s ease", // Add quick feedback
+                        "&:hover": {
+                            backgroundColor: theme.palette.grey[100],
+                        },
+                    }}
+                    aria-label="Toggle mobile menu"
+                >
+                    <Image src="/showbar1.svg" alt="Menu Icon Expand" width={24} height={24}/>
+                </IconButton>
+
+                <SidebarNavigation session={session}/>
+
+                {/* Mobile overlay */}
+                {isMobileMenuOpen && (
+                    <Box
+                        onClick={toggleMobileMenu}
+                        sx={{
+                            position: "fixed",
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                            backgroundColor: "rgba(0, 0, 0, 0.5)",
+                            zIndex: 999,
+                            display: {xs: "block", mdx: "none"},
+                        }}
+                    />
+                )}
+                <Box
+                    sx={{
+                        pt: 10,
+                        width: "100%",
+                        maxWidth: "100%",
+                        position: "relative",
+                        ml: {xs: 0, mdx: sidebarWidth},
+                        [theme.breakpoints.down("mdx")]: {
+                            pt: 1
+                        }
+                    }}
+                >
+                    <Image
+                        src="/Background.svg"
+                        alt=""
+                        width={"1920"}
+                        height={"1440"}
+                        style={{
+                            position: "absolute",
+                            top: 0,
+                            zIndex: -1, // Place the image behind all other content
+                            height: "auto", // Optional: Maintain aspect ratio
+                        }}
+                    />
+                    <Box
+                        sx={{
+                            display: "none",
+                            [theme.breakpoints.down("mdx")]: {
+                                display: "block",
+                                zIndex: 1
+                            }
+                        }}
+                    >
+                        <BigHeaderLogo/>
+                    </Box>
+                    <MainContent/>
+                </Box>
             </Box>
-        </Box>
+        </ThemeProvider>
     );
 }

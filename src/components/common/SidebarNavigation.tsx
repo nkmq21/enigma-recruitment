@@ -1,5 +1,5 @@
 import * as React from "react";
-import {useState, useEffect} from "react";
+import {useState} from "react";
 import BigHeaderLogo from "./HeaderLogo";
 import {SmallHeaderLogo} from "./HeaderLogo";
 import {
@@ -15,7 +15,7 @@ import {
     Avatar,
     Typography,
     ThemeProvider,
-    Collapse,
+    Collapse, useMediaQuery,
 } from '@mui/material';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -35,50 +35,29 @@ interface NavItem {
 
 export const SidebarNavigation = ({session}: { session: Session | null }) => {
     const theme = useTheme();
+    // Sidebar collapse logic
     const {isDesktopCollapsed, toggleDesktopSidebar, isMobileMenuOpen, toggleMobileMenu} = useSidebar();
-    const [isMobile, setIsMobile] = useState(false);
-    const [isSessionValid, setIsSessionValid] = useState(false);
-    const [name, setName] = useState<string | null>(null);
-    const [email, setEmail] = useState<string | null>(null);
-    const [image, setImage] = useState<string | undefined>('/Avatar.png');
-    const currentUrl = usePathname();
-    const [openDropdown, setOpenDropdown] = useState<string | null>(null);
-
-    // Check if the session is valid and set the state accordingly
-    useEffect(() => {
-        if (session) {
-            setIsSessionValid(true);
-            setName(session?.user?.name as string);
-            setEmail(session?.user?.email as string);
-            setImage(session?.user?.image || '/Avatar.png');
-        }
-    }, [session]);
-
-    // Detect screen size
-    useEffect(() => {
-        const checkIsMobile = () => {
-            setIsMobile(window.innerWidth <= 991);
-        };
-        checkIsMobile();
-        window.addEventListener("resize", checkIsMobile);
-
-        return () => window.removeEventListener("resize", checkIsMobile);
-    }, []);
-
-    // Use a different collapse state based on screen size
+    const isMobile = useMediaQuery(theme.breakpoints.down("mdx"))
+    const maybeCloseMobile = () => {
+        if (isMobileMenuOpen && isMobile) toggleMobileMenu();
+    };
     const isCollapsed = isMobile ? false : isDesktopCollapsed;
+    // Session and user information
+    const user = session?.user ?? null;
+    const isLoggedIn = !!user;
+    const name = user?.name ?? user?.email ?? "Guest";
+    const email = user?.email ?? "";
+    const image = user?.image ?? '/Avatar.png';
+    const currentUrl = usePathname();
+    // State to manage the open dropdown menu
+    const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+    const handleToggleDropdown = (text: string) => {
+        setOpenDropdown((prev) => (prev === text ? null : text));
+    };
 
     // Set the session to be invalid and remove all data when signing out
     const handleSignOut = async () => {
-        setIsSessionValid(false);
-        setName(null);
-        setEmail(null);
-        setImage('');
         await signOut({redirectTo: '/'});
-    };
-
-    const handleToggleDropdown = (text: string) => {
-        setOpenDropdown((prev) => (prev === text ? null : text));
     };
 
     const publicItems: NavItem[] = [
@@ -208,17 +187,16 @@ export const SidebarNavigation = ({session}: { session: Session | null }) => {
                     display: "flex",
                     flexDirection: 'column',
                     backgroundColor: theme.palette.background.paper,
-                    width: isCollapsed ? '6%' : '18%',
                     zIndex: 1000,
-                    transition: 'width 0.15s ease, transform 0.15s ease', // Updated the time from 0.3s to 0.15s for faster response
+                    transition: 'width 0.15s ease, transform 0.15s ease',
                     willChange: 'width, transform',
-                    // Desktop styles
-                    '@media (min-width: 992px)': {
+                    // Desktop styles (> 991px)
+                    [theme.breakpoints.up("mdx")]: {
                         width: isCollapsed ? '6%' : '18%',
                         transform: 'translateX(0)'
                     },
-                    // Mobile styles
-                    '@media (max-width: 991px)': {
+                    // Mobile styles (< 991px)
+                    [theme.breakpoints.down("mdx")]: {
                         width: "280px",
                         transform: isMobileMenuOpen ? "translateX(0)" : "translateX(-100%)",
                         boxShadow: isMobileMenuOpen ? '2px 0 10px rgba(0, 0, 0, 0.1)' : 'none'
@@ -268,7 +246,7 @@ export const SidebarNavigation = ({session}: { session: Session | null }) => {
                         <IconButton
                             onClick={toggleDesktopSidebar}
                             sx={{
-                                display: {xs: 'none', sm: 'flex'},
+                                display: {xs: 'none', mdx: 'flex'},
                                 position: 'absolute',
                                 left: '92%',
                                 border: '1px solid #D0D5DD',
@@ -291,7 +269,7 @@ export const SidebarNavigation = ({session}: { session: Session | null }) => {
                         <IconButton
                             onClick={toggleDesktopSidebar}
                             sx={{
-                                display: {xs: 'none', sm: 'flex'},
+                                display: {xs: 'none', mdx: 'flex'},
                                 position: 'absolute',
                                 left: '77%',
                                 border: '1px solid #D0D5DD',
@@ -411,6 +389,7 @@ export const SidebarNavigation = ({session}: { session: Session | null }) => {
                                                                 <ListItemButton
                                                                     component={Link}
                                                                     href={subItem.href}
+                                                                    onClick={maybeCloseMobile}
                                                                     sx={{
                                                                         borderRadius: 2,
                                                                         padding: '8px 12px',
@@ -444,6 +423,7 @@ export const SidebarNavigation = ({session}: { session: Session | null }) => {
                                             <ListItemButton
                                                 component={Link}
                                                 href={item.href as string}
+                                                onClick={maybeCloseMobile}
                                                 sx={{
                                                     borderRadius: 2,
                                                     my: 1,
@@ -610,7 +590,7 @@ export const SidebarNavigation = ({session}: { session: Session | null }) => {
                         </List>
 
                         {!isCollapsed ? (
-                            !isSessionValid ? (
+                            !isLoggedIn ? (
                                 <Box sx={{mt: 2, m: 2, pt: 2}}>
                                     <Button
                                         variant='contained'
