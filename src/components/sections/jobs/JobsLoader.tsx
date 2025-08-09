@@ -7,10 +7,22 @@ import {
 import { JobListPage } from "enigma/components/common/JobCard";
 import { Job } from "enigma/types/models";
 import { useSearchParams } from "next/navigation";
+import { GenericResponse, PageginatedResponse } from "enigma/types/DTOs";
+
+interface JobsApiResponse {
+    items: Job[],
+    meta: {
+        total: number,
+        page: number,
+        limit: number,
+        totalPages: number,
+    }
+}
 
 export default function JobsLoader() {
     const [jobs, setJobs] = React.useState<Job[]>([]);
     const [loading, setLoading] = React.useState(true);
+    const [meta, setMeta] = React.useState<JobsApiResponse['meta'] | null>(null);
     const searchParams = useSearchParams()!;
 
     React.useEffect(() => {
@@ -66,20 +78,23 @@ export default function JobsLoader() {
                     throw new Error('failed to fetch jobs');
                 }
 
-                const data = await response.json();
-                if (data.jobs) {
-                    // Make sure each jobs has the required properties
-                    const transformedJobs = data.jobs.map((job: Job) => ({
+                const data: JobsApiResponse = await response.json();
+                if (data.items && Array.isArray(data.items)) {
+                    // Make sure each job has the required properties
+                    const transformedJobs = data.items.map((job: Job) => ({
                         ...job,
-                        // Ensure the jobs has industry object with industry_name
                         industry: job.industry || { industry_name: "" },
-                        // Convert any string dates to Date objects if needed
-                        close_date: job.close_date ? new Date(job.close_date) : new Date()
+                        job_function: job.job_function || { job_function_name: "" },
+                        subfunction: job.subfunction || { job_subfunction_name: "" },
+                        close_date: job.close_date ? new Date(job.close_date) : new Date(),
+                        created_date: job.created_date ? new Date(job.created_date) : new Date()
                     }));
                     setJobs(transformedJobs);
+                    setMeta(data.meta);
                 } else {
                     console.error('the response have unexpected data', data);
                     setJobs([]);
+                    setMeta(null);
                 }
             } catch (error) {
                 console.error("jobs fetch failed: ", error);
@@ -132,13 +147,22 @@ export default function JobsLoader() {
                         </Typography>
                     </Box>
                 ) : jobs.length > 0 ? (
-                    <JobListPage jobs={jobs} />
+                    <>
+                        <JobListPage jobs={jobs} />
+                        {meta && (
+                            <Box sx={{ mt: 2, textAlign: 'center', color: '#475467' }}>
+                                <Typography variant="body2">
+                                    Showing {jobs.length} of {meta.total} jobs
+                                    (Page {meta.page} of {meta.totalPages})
+                                </Typography>
+                            </Box>
+                        )}
+                    </>
                 ) : (
                     <Box sx={{ textAlign: 'center', py: 4, color: '#475467' }}>
                         <Typography variant="body1">No jobs found matching your criteria.</Typography>
                     </Box>
                 )}
-
             </Box>
         </Box>
 

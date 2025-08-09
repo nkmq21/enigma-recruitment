@@ -1,33 +1,112 @@
 // src/services/jobService.ts
 import { Job } from 'enigma/types/models';
 import { prisma } from '../../prisma/prisma';
+import { GenericResponse, PageginatedResponse } from 'enigma/types/DTOs';
+import { findByFilter, findById, findByStatus, JobSearchFilters } from 'enigma/repositories/jobRepository';
 
-export async function getJob(jobid: string): Promise<Job> {
-    const response = await fetch(`/api/jobs/${jobid}`, {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json' }
-    });
-
-    if (!response.ok) {
-        throw new Error('Failed to fetch users');
+export async function getJobById(jobId: string): Promise<GenericResponse<Job>> {
+    try {
+        if (!jobId) {
+            return {
+                error: 'job id is required'
+            };
+        }
+        const job = await findById(jobId);
+        if (!job) {
+            return {
+                error: 'job not found'
+            }
+        }
+        return {
+            success: 'got the right job',
+            data: job
+        }
+    } catch (error) {
+        console.error('error with get job by id', error);
+        return {
+            error: 'failed to retrieve the job',
+        };
     }
-
-    return response.json();
 }
 
-export async function JobLocation() {
-    const jobLocation = await prisma.job.findMany({
-        where: {
-            status: "active",
-        },
-        select: {
-            location: true,
-        },
-        distinct: ['location'],
-    });
+export async function getJobsByStatus(
+    status: string[],
+    page: number,
+    limit: number,
+): Promise<GenericResponse<PageginatedResponse<Job>>> {
+    page = 1;
+    limit = 20;
+    try {
+        if (!status || status.length === 0) {
+            return {
+                error: 'status is required'
+            };
+        }
+        if (page < 1 || limit < 1) {
+            return {
+                error: 'page and limit must be a positive number'
+            };
+        }
+        const { jobs, total } = await findByStatus(status, page, limit);
+        const totalPages = Math.ceil(total / limit);
+        return {
+            success: 'retrieved jobs by status success',
+            data: {
+                items: jobs,
+                meta: {
+                    total,
+                    page,
+                    limit,
+                    totalPages
+                }
+            }
+        };
+    } catch (error) {
+        console.error('error in get job via status: ', error);
+        return {
+            error: 'failed to retrieve jobs by status'
+        };
+    }
+}
 
-    //map to string[]
-    return jobLocation.map((job) => job.location);
+export async function searchJobs(filters: JobSearchFilters): Promise<GenericResponse<PageginatedResponse<Job>>> {
+    try {
+        if (!filters.status || filters.status.length === 0) {
+            return {
+                error: 'status is required'
+            };
+        }
+        if (filters.page < 1 || filters.limit < 1) {
+            return {
+                error: 'page and limit must be a positive number'
+            };
+        }
+
+        if (filters.limit > 30) {
+            filters.limit = 30;
+        }
+
+        const { jobs, total } = await findByFilter(filters);
+        const totalPages = Math.ceil(total / filters.limit);
+        return {
+            success: 'search job success',
+            data: {
+                items: jobs,
+                meta: {
+                    total,
+                    page: filters.page,
+                    limit: filters.limit,
+                    totalPages
+                }
+            },
+            message: total > 0 ? 'jobs found' : 'no job match the criteria'
+        };
+    } catch (error) {
+        console.error('search job failed: ', error);
+        return {
+            error: 'failed to search job'
+        };
+    }
 }
 
 export class FilterService {
@@ -79,3 +158,4 @@ export class FilterService {
     }
 
 }
+
