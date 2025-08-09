@@ -6,8 +6,8 @@ import CTA from "enigma/components/common/CTA";
 import { Box, Typography, Chip, Divider } from "@mui/material";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
-import { PopularJobChip } from "enigma/ui/popularChip";
 import SearchBar from "enigma/components/ui/SearchBar";
+import { PopularJobChip } from "./popularChip";
 
 export const MainContent = () => {
   const router = useRouter();

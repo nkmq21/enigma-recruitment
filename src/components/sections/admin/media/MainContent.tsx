@@ -3,12 +3,12 @@ import { useState } from "react";
 import { Box, Typography, Divider, Container } from "@mui/material";
 import SectionTitle from "enigma/components/ui/SectionTitle";
 import CTA from "enigma/components/common/CTA";
-import BlogCard from "enigma/ui/blogCard";
 import Pagination from "enigma/components/ui/Pagination";
 import BigHeaderLogo from "enigma/components/common/HeaderLogo";
 import SearchBar from "enigma/components/ui/SearchBar";
 import { SearchHistoryChip } from "enigma/components/sections/admin/media/SearchHistoryChip";
 import HorizontalTabs from "enigma/components/sections/admin/media/HorizontalTabs";
+import BlogCard from "enigma/components/ui/BlogCard";
 
 // Sample data (replace with your actual data source)
 const tableData = Array.from({ length: 50 }, (_, i) => ({
