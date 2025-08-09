@@ -12,6 +12,16 @@ export interface User {
     emailVerified?: Date | null;
 }
 
+export interface UserRegister {
+    email: string;
+    name: string;
+    password: string | null;
+    image?: string | null;
+    dob?: Date | null;
+    address?: string | null;
+    emailVerified?: Date | null;
+}
+
 export interface Account {
     id: string;
     userId: number;
@@ -28,6 +38,13 @@ export interface Account {
 }
 
 export interface VerificationToken {
+    identifier: string;
+    email: string;
+    token: string;
+    expires: Date;
+}
+
+export interface ResetPasswordToken {
     identifier: string;
     email: string;
     token: string;

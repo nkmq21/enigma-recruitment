@@ -23,7 +23,6 @@ export const MainContent: React.FC<DashboardUserProps> = ({
                                 currentPage,
                                 pageSize
                             }) => {
-
     return (
         <Box component="main" sx={{
             flexGrow: 1,
@@ -59,7 +58,7 @@ export const MainContent: React.FC<DashboardUserProps> = ({
                 <MetricsCard type="verified-users" title="Verified Users" value={users.filter(u => u.emailVerified).length} percentageChange={100} />
             </Box>
             {/* List of all users */}
-            <SectionTitle title="All Users" shopBage showOptions showOptions1 />
+            <SectionTitle title="All Users" />
             <UsersTable users={users} totalUsers={totalUsers} currentPage={currentPage} pageSize={pageSize}/>
         </Box >
     );

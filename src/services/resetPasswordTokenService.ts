@@ -3,6 +3,8 @@
 import * as tokenUtils from "enigma/utils/tokenUtils";
 import * as _resetPasswordTokenRepository from "enigma/repositories/resetPasswordTokenRepository";
 import {prisma} from "../../prisma/prisma";
+import {GenericResponse} from "enigma/types/DTOs";
+import {ResetPasswordToken} from "enigma/types/models";
 
 export const createResetPasswordToken = async (email: string) => {
     try {
@@ -30,10 +32,34 @@ export const createResetPasswordToken = async (email: string) => {
     }
 }
 
-export const getResetPasswordTokenByToken = async (token: string) => {
+export async function getResetPasswordToken(input: string, type: "token" | "email"): Promise<GenericResponse<ResetPasswordToken>> {
     try {
-        return await _resetPasswordTokenRepository.getResetPasswordTokenByToken(token);
+        const result = type === "token"
+            ? await _resetPasswordTokenRepository.getResetPasswordTokenByToken(input)
+            : await _resetPasswordTokenRepository.getResetPasswordTokenByEmail(input);
+        if (!result) {
+            return {error: `Reset password token not found for ${type}: ${input}`};
+        }
+        return {data: result};
     } catch (error) {
-        return null;
+        return {error: error instanceof Error
+            ? `Database error: ${error.message}`
+            : 'An unexpected error occurred.'};
+    }
+}
+
+export async function deleteResetPasswordToken(input: string, type: "token" | "email"): Promise<GenericResponse<void>> {
+    try {
+        const result = type === "token"
+            ? await _resetPasswordTokenRepository.deleteResetPasswordTokenByToken(input)
+            : await _resetPasswordTokenRepository.deleteResetPasswordTokenByEmail(input);
+        if (!result) {
+            return {error: `Reset password token not found or could not be deleted for ${type}: ${input}`};
+        }
+        return {data: undefined};
+    } catch (error) {
+        return {error: error instanceof Error
+            ? `Database error: ${error.message}`
+            : 'An unexpected error occurred.'};
     }
 }

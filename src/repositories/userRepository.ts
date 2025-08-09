@@ -1,6 +1,6 @@
 // src/repositories/userRepository.ts
 "use server";
-import type {User, Account} from "enigma/types/models";
+import type {User, Account, UserRegister} from "enigma/types/models";
 import {prisma} from "../../prisma/prisma";
 import type {GenericResponse, PaginatedUsers} from "enigma/types/DTOs";
 
@@ -72,6 +72,50 @@ export async function getUserByEmail(email: string): Promise<GenericResponse<Use
         if (!user) {
             return {error: `User with email ${email} not found.`};
         }
+        return {data: user};
+    } catch (error) {
+        return {error: error instanceof Error
+                ? `Database error: ${error.message}`
+                : 'An unexpected error occurred.'};
+    }
+}
+
+export async function updateUserById(id: string, data: Partial<User>): Promise<GenericResponse<User>> {
+    try {
+        const user = await prisma.user.update({
+            where: {id: parseInt(id)},
+            data
+        });
+        return {data: user};
+    } catch (error) {
+        return {error: error instanceof Error
+                ? `Database error: ${error.message}`
+                : 'An unexpected error occurred.'};
+    }
+}
+
+export async function updateUserByEmail(email: string, data: Partial<User>): Promise<GenericResponse<User>> {
+    try {
+        const user = await prisma.user.update({
+            where: {email: email.toLowerCase()},
+            data
+        });
+        return {data: user};
+    } catch (error) {
+        return {error: error instanceof Error
+                ? `Database error: ${error.message}`
+                : 'An unexpected error occurred.'};
+    }
+}
+
+export async function createUser(data: UserRegister): Promise<GenericResponse<User>> {
+    try {
+        const user = await prisma.user.create({
+            data: {
+                ...data,
+                email: data.email.toLowerCase() // Ensure email is stored in lowercase
+            }
+        });
         return {data: user};
     } catch (error) {
         return {error: error instanceof Error

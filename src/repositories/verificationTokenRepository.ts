@@ -25,3 +25,9 @@ export async function deleteVerificationTokenByToken(identifier: string) {
         where: { identifier }
     });
 }
+
+export async function deleteVerificationTokenByEmail(email: string) {
+    return prisma.verificationToken.deleteMany({
+        where: { email }
+    });
+}

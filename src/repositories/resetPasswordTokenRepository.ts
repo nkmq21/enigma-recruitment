@@ -20,8 +20,14 @@ export async function getResetPasswordTokenByEmail(email: string) {
     });
 }
 
-export async function deleteResetPasswordToken(identifier: string) {
+export async function deleteResetPasswordTokenByToken(identifier: string) {
     return prisma.resetPasswordToken.delete({
         where: { identifier }
+    });
+}
+
+export async function deleteResetPasswordTokenByEmail(email: string) {
+    return prisma.resetPasswordToken.deleteMany({
+        where: { email }
     });
 }
