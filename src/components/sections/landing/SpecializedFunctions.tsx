@@ -133,7 +133,7 @@ const SpecializedFunctions: React.FC = () => {
                                         }}
                                     />
                                     <Typography
-                                        variant="h5"
+                                        variant="body1"
                                         sx={{cursor: 'pointer'}}
                                     >
                                         {feature.title}
