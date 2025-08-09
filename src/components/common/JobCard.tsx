@@ -109,6 +109,14 @@ const JobCard: React.FC<JobCardProps> = ({
                             overflow: 'hidden',
                             textOverflow: 'ellipsis',
                             whiteSpace: 'nowrap',
+                            cursor: 'pointer',
+                            '&:hover': {
+                                textDecoration: 'underline',
+                                color: '#236785', // Change color on hover
+                            },
+                        }}
+                        onClick={() => {
+                            window.location.href = `/jobs/${job?.job_id}`;
                         }}
                     >
                         {title}

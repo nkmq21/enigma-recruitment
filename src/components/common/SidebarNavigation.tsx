@@ -18,7 +18,6 @@ import {
     Collapse, useMediaQuery,
 } from '@mui/material';
 import Image from 'next/image';
-import Link from 'next/link';
 import {ExpandLess} from '@mui/icons-material';
 import {signOut} from 'next-auth/react';
 import {Session} from 'next-auth';
