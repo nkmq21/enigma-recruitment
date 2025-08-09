@@ -103,7 +103,7 @@ export async function newVerification(token: string) {
         }
     });
     // Delete the verification token after successful verification
-    await _verificationTokenRepository.deleteVerificationToken(existingToken.identifier);
+    await _verificationTokenRepository.deleteVerificationTokenByToken(existingToken.identifier);
     console.info("authService.newVerification: User email verified successfully");
     return {success: "Email verified successfully!"};
 }
