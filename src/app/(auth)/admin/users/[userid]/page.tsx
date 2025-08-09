@@ -1,4 +1,4 @@
-// src/app/(auth)/admin/users/[userid]
+// src/app/(auth)/admin/users/[userid]/page.tsx
 import React from "react";
 import {auth} from "enigma/auth";
 import AdminUserDetailsPage from "enigma/pages/admin/users/user-details/AdminUserDetailsPage";
@@ -16,16 +16,10 @@ export default async function UserDetailsPage({params}: {params: Params}) {
         getJobApplicationsByUserId(userid),
     ]);
 
-    if (userResult.error || !userResult.data) {
-        return (
-            <div className="flex items-center justify-center h-screen">
-                <div className="text-center">
-                    <h1 className="text-2xl font-bold">User Not Found</h1>
-                    <p className="mt-4 text-gray-600">{userResult.error ?? "User not found"}</p>
-                </div>
-            </div>
-        );
+    if (!userResult.data) {
+        return <div>User not found</div>;
     }
+
     return (
         <AdminUserDetailsPage session={session} user={userResult.data} applications={applications as JobApplicationWithFlatJob[]}/>
     );

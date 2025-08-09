@@ -18,6 +18,7 @@ export default function AdminUserDetailsPage({session, user, applications}: {
     // 18% for expanded sidebar, 6% for collapsed sidebar
     const {isDesktopCollapsed, toggleMobileMenu, isMobileMenuOpen} = useSidebar();
     const sidebarWidth = isDesktopCollapsed ? '6%' : '18%';
+
     return (
         <ThemeProvider theme={theme}>
             <Box component="main" sx={{
