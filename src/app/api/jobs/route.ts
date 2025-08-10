@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { findByFilter, JobSearchFilters } from "enigma/repositories/jobRepository";
+import { JobSearchFilters } from "enigma/repositories/jobRepository";
 import { searchJobs } from 'enigma/services/jobService';
 
 export async function GET(request: NextRequest) {

@@ -1,6 +1,6 @@
 // src/types/models.ts
 export interface User {
-    id: number;
+    id: string;
     email: string;
     name: string;
     password: string | null;
@@ -24,7 +24,7 @@ export interface UserRegister {
 
 export interface Account {
     id: string;
-    userId: number;
+    userId: string;
     type: string;
     provider: string;
     providerAccountId: string;
@@ -92,8 +92,8 @@ export interface Job {
 }
 
 export interface Cv {
-    cv_id: number;
-    user_id: number;
+    cv_id: string;
+    user_id: string;
     cv_url: string;
     uploaded_time: Date;
     cv_title?: string;
@@ -101,9 +101,9 @@ export interface Cv {
 }
 
 export interface JobApplication {
-    application_id: number;
-    user_id: number;
-    cv_id: number;
+    application_id: string;
+    user_id: string;
+    cv_id: string;
     applied_time: Date;
     status: string;
     job: {
