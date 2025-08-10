@@ -3,7 +3,7 @@ import { Box, Button } from "@mui/material";
 import Image from "next/image";
 import Dialog from "@mui/material/Dialog";
 import { useState } from "react";
-import SlideOutMenu from "enigma/pages/filter/FilterPage";
+import SlideOutMenu from "enigma/components/pages/filter/FilterPage";
 
 export function FilterSortBar() {
   const [open, setOpen] = useState(false);

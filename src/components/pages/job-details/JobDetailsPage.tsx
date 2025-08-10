@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { Box, IconButton, ThemeProvider } from "@mui/material";
-import { MainContent } from "../../components/sections/job-details/MainContent";
+import { MainContent } from "../../sections/job-details/MainContent";
 import theme from "enigma/styles/theme";
 import { SidebarNavigation } from "enigma/components/common/SidebarNavigation";
 import { Session } from "next-auth";

@@ -1,5 +1,5 @@
 import React, {Suspense} from 'react';
-import ChangePasswordPage from 'enigma/pages/login/reset-password/change-password/ChangePasswordPage';
+import ChangePasswordPage from 'enigma/components/pages/login/reset-password/change-password/ChangePasswordPage';
 
 export default function Page() {
     return (

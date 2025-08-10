@@ -1,6 +1,6 @@
 // src/app/(auth)/admin/users/page.tsx
 import { auth } from "enigma/auth";
-import AdminUsersPage from "enigma/pages/admin/users/AdminUsersPage";
+import AdminUsersPage from "enigma/components/pages/admin/users/AdminUsersPage";
 import { getPaginatedUsers } from "enigma/services/userService";
 import React from "react";
 
