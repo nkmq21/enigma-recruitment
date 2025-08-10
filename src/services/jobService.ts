@@ -2,6 +2,9 @@
 import { Job } from 'enigma/types/models';
 import { GenericResponse, PageginatedResponse } from 'enigma/types/DTOs';
 import { findByFilter, findById, findByStatus, JobSearchFilters } from 'enigma/repositories/jobRepository';
+import { Prisma, PrismaClient } from '@prisma/client';
+
+const prisma = new PrismaClient();
 
 export async function getJob(jobid: string): Promise<Job> {
     const response = await fetch(`/api/jobs/${jobid}`, {

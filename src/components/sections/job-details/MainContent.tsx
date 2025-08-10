@@ -4,8 +4,15 @@ import { Box, Typography } from "@mui/material";
 import SectionTitle from "enigma/components/ui/SectionTitle";
 import SuggestedJobCard from "enigma/components/ui/SuggestedJobCard";
 import { Session } from "next-auth";
+import { Job } from "enigma/types/models";
 
-export const MainContent = ({ session }: { session: Session | null }) => {
+
+interface MainContentProps {
+  session: Session | null;
+  job: Job
+}
+
+export const MainContent = ({ session, job }: MainContentProps) => {
   return (
     <Box
       component="main"
@@ -43,7 +50,7 @@ export const MainContent = ({ session }: { session: Session | null }) => {
             },
           }}
         >
-          <JobDetailsGrid session={session} />
+          <JobDetailsGrid session={session} job={job} />
         </Box>
 
         {/* Right Column */}
