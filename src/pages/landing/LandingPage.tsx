@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import {Box, ThemeProvider, Divider, IconButton} from "@mui/material";
+import {Box, ThemeProvider, IconButton} from "@mui/material";
 import {SidebarNavigation} from "enigma/components/common/SidebarNavigation";
 import Footer from "enigma/components/common/Footer";
 import theme from "enigma/styles/theme";
@@ -42,7 +42,12 @@ const LandingPage = ({session}: { session: Session | null }) => {
                     }}
                     aria-label="Toggle mobile menu"
                 >
-                    <Image src="/showbar1.svg" alt="Menu Icon Expand" width={24} height={24}/>
+                    <Image
+                        src="/showbar1.svg"
+                        alt="Menu Icon Expand"
+                        width={24}
+                        height={24}
+                    />
                 </IconButton>
 
                 <SidebarNavigation session={session}/>
@@ -71,8 +76,8 @@ const LandingPage = ({session}: { session: Session | null }) => {
                         position: "relative",
                         ml: {xs: 0, mdx: sidebarWidth},
                         [theme.breakpoints.down("mdx")]: {
-                            pt: 1
-                        }
+                            pt: 1,
+                        },
                     }}
                 >
                     <Image
@@ -92,8 +97,8 @@ const LandingPage = ({session}: { session: Session | null }) => {
                             display: "none",
                             [theme.breakpoints.down("mdx")]: {
                                 display: "block",
-                                zIndex: 1
-                            }
+                                zIndex: 1,
+                            },
                         }}
                     >
                         <BigHeaderLogo/>
