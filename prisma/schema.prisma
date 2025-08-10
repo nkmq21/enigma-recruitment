@@ -1,4 +1,3 @@
-// schema.prisma - Version 6 - Updated 14/5/2025 6:29 PM
 generator client {
   provider        = "prisma-client-js"
   previewFeatures = ["postgresqlExtensions"]
@@ -7,11 +6,11 @@ generator client {
 datasource db {
   provider   = "postgresql"
   url        = env("DATABASE_URL")
-  extensions = [pg_trgm]
+  extensions = [citext(schema: "extensions"), pg_trgm, postgis(schema: "extensions"), uuid_ossp(map: "uuid-ossp", schema: "extensions")]
 }
 
 model User {
-  id            Int              @id @default(autoincrement())
+  id            String           @id @default(dbgenerated("public.uuid_generate_v7()")) @db.Uuid
   email         String           @unique @db.VarChar(255)
   name          String
   password      String?
@@ -31,16 +30,16 @@ model User {
 
 model Account {
   id                String  @id @default(cuid())
-  userId            Int     @map("user_id")
+  userId            String  @map("user_id") @db.Uuid
   type              String
   provider          String
   providerAccountId String  @map("provider_account_id")
-  refresh_token     String? @db.Text
-  access_token      String? @db.Text
+  refresh_token     String?
+  access_token      String?
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String? @db.Text
+  id_token          String?
   session_state     String?
   user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -48,11 +47,10 @@ model Account {
   @@map("accounts")
 }
 
-// manage login session
 model Session {
   id           String   @id @default(cuid())
   sessionToken String   @unique @map("session_token")
-  userId       Int      @map("user_id")
+  userId       String   @map("user_id") @db.Uuid
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -61,9 +59,9 @@ model Session {
 
 model VerificationToken {
   identifier String   @id @default(cuid())
-  email      String
   token      String   @unique
   expires    DateTime
+  email      String
 
   @@unique([email, token])
   @@map("verification_tokens")
@@ -113,7 +111,6 @@ model Job {
   description        String
   salary_range_start Float
   salary_range_end   Float
-  created_date       DateTime         @default(now()) @db.Timestamp()
   close_date         DateTime         @db.Date
   industry_id        String           @db.VarChar(3)
   job_function_id    String           @db.VarChar(3)
@@ -121,6 +118,7 @@ model Job {
   location           String
   status             String           @default("active")
   employment_type    String
+  created_date       DateTime         @db.Date
   applications       JobApplication[]
   industry           Industry         @relation(fields: [industry_id], references: [industry_id])
   job_function       JobFunction      @relation(fields: [job_function_id], references: [job_function_id])
@@ -130,8 +128,8 @@ model Job {
 }
 
 model Cv {
-  cv_id         Int              @id @default(autoincrement())
-  user_id       Int
+  cv_id         String           @id @default(dbgenerated("public.uuid_generate_v7()")) @db.Uuid
+  user_id       String           @db.Uuid
   cv_url        String
   uploaded_time DateTime         @default(now()) @db.Timestamp(6)
   cv_title      String?
@@ -143,10 +141,10 @@ model Cv {
 }
 
 model JobApplication {
-  application_id Int      @id @default(autoincrement())
+  application_id String   @id @default(dbgenerated("public.uuid_generate_v7()")) @db.Uuid
   job_id         String   @db.VarChar(11)
-  user_id        Int
-  cv_id          Int
+  user_id        String   @db.Uuid
+  cv_id          String   @db.Uuid
   applied_time   DateTime @default(now()) @db.Timestamp(6)
   status         String   @default("pending")
   cv             Cv       @relation(fields: [cv_id], references: [cv_id])
@@ -156,37 +154,12 @@ model JobApplication {
   @@map("job_applications")
 }
 
-enum Role {
-  seeker
-  moderator
-  admin
-}
-
-enum UserStatus {
-  deactivated
-  active
-}
-
-enum JobStatus {
-  deactivated
-  active
-  prioritized
-}
-
-enum EmploymentType {
-  permanent
-  contract
-  temporary
-}
-
-enum ApplicationStatus {
-  pending
-  reviewed
-  rejected
-  hired
-}
-
-enum CvStatus {
-  deactivated
-  active
+/// This table has subclasses and requires additional setup for migrations. Visit https://pris.ly/d/table-inheritance for more info.
+model tenants {
+  id         String    @id @default(dbgenerated("public.uuid_generate_v7()")) @db.Uuid
+  name       String?
+  created    DateTime  @default(dbgenerated("LOCALTIMESTAMP")) @db.Timestamp(6)
+  updated    DateTime  @default(dbgenerated("LOCALTIMESTAMP")) @db.Timestamp(6)
+  deleted    DateTime? @db.Timestamp(6)
+  compute_id String?   @db.Uuid
 }
