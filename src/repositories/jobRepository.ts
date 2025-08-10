@@ -2,7 +2,6 @@ import { Prisma } from '@prisma/client';
 import type { Job } from "enigma/types/models";
 import { prisma } from '../../prisma/prisma';
 
-
 export interface JobSearchFilters {
     query?: string;
     status: string[];
@@ -14,7 +13,7 @@ export interface JobSearchFilters {
     postDateRange: string;
     page: number;
     limit: number;
-};
+}
 
 export async function findById(jobId: string): Promise<Job | null> {
     try {
@@ -33,7 +32,35 @@ export async function findById(jobId: string): Promise<Job | null> {
         console.error('error find job with the id', error);
         return null;
     }
-};
+}
+
+// export async function getJob(jobid: string): Promise<Job> {
+//     const response = await fetch(/api/jobs/${jobid}, {
+//         method: 'GET',
+//             headers: { 'Content-Type': 'application/json' }
+//     });
+//
+//     if (!response.ok) {
+//         throw new Error('Failed to fetch users');
+//     }
+//
+//     return response.json();
+// }
+
+export async function JobLocation() {
+    const jobLocation = await prisma.job.findMany({
+        where: {
+            status: "active",
+        },
+        select: {
+            location: true,
+        },
+        distinct: ['location'],
+    });
+
+    //map to string[]
+    return jobLocation.map((job) => job.location);
+}
 
 export async function findByStatus(status: string[], page: number, limit: number): Promise<{ jobs: Job[], total: number }> {
     const skip = (page - 1) * limit;

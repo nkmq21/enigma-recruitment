@@ -53,8 +53,6 @@ jobs:
             **/README.md
             **/*.sql
             **/.env*
-            **/yarn.lock
-            **/package-lock.json
             **/.gitignore
             **/.eslintrc*
             **/tsconfig.json

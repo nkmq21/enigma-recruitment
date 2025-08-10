@@ -1,3 +1,4 @@
+"use client";
 import * as React from "react";
 import {useState} from "react";
 import BigHeaderLogo from "./HeaderLogo";
@@ -21,7 +22,7 @@ import Image from 'next/image';
 import {ExpandLess} from '@mui/icons-material';
 import {signOut} from 'next-auth/react';
 import {Session} from 'next-auth';
-import {usePathname} from 'next/navigation';
+import {usePathname, useRouter} from 'next/navigation';
 import {useSidebar} from "enigma/context/SidebarContext";
 import ResponsiveLink from "enigma/components/common/ResponsiveLink";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
@@ -37,6 +38,7 @@ interface NavItem {
 
 export const SidebarNavigation = ({session}: { session: Session | null }) => {
     const theme = useTheme();
+    const router = useRouter();
     // Sidebar collapse logic
     const {isDesktopCollapsed, toggleDesktopSidebar, isMobileMenuOpen, toggleMobileMenu} = useSidebar();
     const isMobile = useMediaQuery(theme.breakpoints.down("mdx"))
@@ -63,7 +65,8 @@ export const SidebarNavigation = ({session}: { session: Session | null }) => {
 
     // Set the session to be invalid and remove all data when signing out
     const handleSignOut = async () => {
-        await signOut({redirectTo: '/'});
+        await signOut({redirect: true});
+        router.push("/");
     };
 
     const publicItems: NavItem[] = [
@@ -622,10 +625,18 @@ export const SidebarNavigation = ({session}: { session: Session | null }) => {
                                         sx={{width: 40, height: 40}}
                                     />
                                     <Box sx={{flexGrow: 1, textOverflow: "ellipsis", overflow: "hidden"}}>
-                                        <Typography variant='body2' color='#101828' sx={{fontWeight: 600, textOverflow: "ellipsis", overflow: "hidden"}}>
+                                        <Typography variant='body2' color='#101828' sx={{
+                                            fontWeight: 600,
+                                            textOverflow: "ellipsis",
+                                            overflow: "hidden"
+                                        }}>
                                             {name}
                                         </Typography>
-                                        <Typography variant='body2' color='#475467' sx={{fontWeight: 400, textOverflow: "ellipsis", overflow: "hidden"}}>
+                                        <Typography variant='body2' color='#475467' sx={{
+                                            fontWeight: 400,
+                                            textOverflow: "ellipsis",
+                                            overflow: "hidden"
+                                        }}>
                                             {email}
                                         </Typography>
                                     </Box>
@@ -639,12 +650,12 @@ export const SidebarNavigation = ({session}: { session: Session | null }) => {
                             )
                         ) : (
                             !isLoggedIn ? (
-                                <Box sx={{ pt: 2 }}>
+                                <Box sx={{pt: 2}}>
                                     <Button fullWidth href="/register">
-                                        <HowToRegIcon />
+                                        <HowToRegIcon/>
                                     </Button>
                                     <Button href="/login" fullWidth>
-                                        <AccountCircleIcon />
+                                        <AccountCircleIcon/>
                                     </Button>
                                 </Box>
                             ) : (
