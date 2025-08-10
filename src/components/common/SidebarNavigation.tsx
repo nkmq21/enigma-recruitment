@@ -609,17 +609,16 @@ export const SidebarNavigation = ({session}: { session: Session | null }) => {
                                         borderRadius: 1,
                                     }}
                                 >
-                                    {/* TODO: change the icon when they are not signed in */}
                                     <Avatar
                                         alt={`Profile picture of ${name}`}
                                         src={image}
                                         sx={{width: 40, height: 40}}
                                     />
-                                    <Box sx={{flexGrow: 1}}>
-                                        <Typography variant='body2' color='#101828' sx={{fontWeight: 600}}>
+                                    <Box sx={{flexGrow: 1, textOverflow: "ellipsis", overflow: "hidden"}}>
+                                        <Typography variant='body2' color='#101828' sx={{fontWeight: 600, textOverflow: "ellipsis", overflow: "hidden"}}>
                                             {name}
                                         </Typography>
-                                        <Typography variant='body2' color='#475467' sx={{fontWeight: 400}}>
+                                        <Typography variant='body2' color='#475467' sx={{fontWeight: 400, textOverflow: "ellipsis", overflow: "hidden"}}>
                                             {email}
                                         </Typography>
                                     </Box>
@@ -632,13 +631,29 @@ export const SidebarNavigation = ({session}: { session: Session | null }) => {
                                 </Box>
                             )
                         ) : (
-                            <Box sx={{display: 'flex', justifyContent: 'center', mt: 3}}>
-                                <Avatar
-                                    alt={`Profile picture of ${name}`}
-                                    src={image}
-                                    sx={{width: 40, height: 40}}
-                                />
-                            </Box>
+                            !isLoggedIn ? (
+                                <Box sx={{mt: 2, m: 2, pt: 2}}>
+                                    <Button
+                                        variant='contained'
+                                        fullWidth
+                                        sx={{mb: 1, bgcolor: '#2494B6'}}
+                                        href='/register'
+                                    >
+
+                                    </Button>
+                                    <Button href='/login' variant='outlined' fullWidth>
+
+                                    </Button>
+                                </Box>
+                            ) : (
+                                <Box sx={{display: 'flex', justifyContent: 'center', mt: 3}}>
+                                    <Avatar
+                                        alt={`Profile picture of ${name}`}
+                                        src={image}
+                                        sx={{width: 40, height: 40}}
+                                    />
+                                </Box>
+                            )
                         )}
                     </Box>
                 </Box>
