@@ -24,6 +24,8 @@ import {Session} from 'next-auth';
 import {usePathname} from 'next/navigation';
 import {useSidebar} from "enigma/context/SidebarContext";
 import ResponsiveLink from "enigma/components/common/ResponsiveLink";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import HowToRegIcon from "@mui/icons-material/HowToReg";
 
 interface NavItem {
     text: string;
@@ -637,17 +639,12 @@ export const SidebarNavigation = ({session}: { session: Session | null }) => {
                             )
                         ) : (
                             !isLoggedIn ? (
-                                <Box sx={{mt: 2, m: 2, pt: 2}}>
-                                    <Button
-                                        variant='contained'
-                                        fullWidth
-                                        sx={{mb: 1, bgcolor: '#2494B6'}}
-                                        href='/register'
-                                    >
-
+                                <Box sx={{ pt: 2 }}>
+                                    <Button fullWidth href="/register">
+                                        <HowToRegIcon />
                                     </Button>
-                                    <Button href='/login' variant='outlined' fullWidth>
-
+                                    <Button href="/login" fullWidth>
+                                        <AccountCircleIcon />
                                     </Button>
                                 </Box>
                             ) : (
