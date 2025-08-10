@@ -24,14 +24,21 @@ const JobDetailsGrid = ({ session }: { session: Session | null }) => {
   const tags = ["ERP/CRM Systems", "Fintech", "Documentation Skills"];
   const [showMore, setShowMore] = useState(false);
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", gap: 3, p: 2 }}>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        gap: 3,
+        p: 2,
+      }}
+    >
       {/* Job Details Section */}
-      <Box>
+      <Box sx={{}}>
         <Card sx={{ borderRadius: 4, boxShadow: "none" }}>
           <CardMedia
             component="img"
             height="291"
-            image="bannerJobDetail.svg"
+            image="/bannerJobDetail.svg"
             alt="Job Banner"
             sx={{ borderRadius: "8px", objectFit: "cover" }}
           />
@@ -99,14 +106,14 @@ const JobDetailsGrid = ({ session }: { session: Session | null }) => {
               sx={{ mt: 2, display: "flex", flexDirection: "column", gap: 1 }}
             >
               <Stack direction="row" spacing={1.5} alignItems="center">
-                <Image src="wallet.svg" alt="wallet" width={24} height={24} />
+                <Image src="/wallet.svg" alt="wallet" width={24} height={24} />
                 <Typography variant="body2">
                   $60.00 - $70.00 Per Hour
                 </Typography>
               </Stack>
               <Stack direction="row" spacing={1.5} alignItems="center">
                 <Image
-                  src="location1.svg"
+                  src="/location1.svg"
                   alt="location"
                   width={24}
                   height={24}
@@ -115,7 +122,7 @@ const JobDetailsGrid = ({ session }: { session: Session | null }) => {
               </Stack>
               <Stack direction="row" spacing={1.5} alignItems="center">
                 <Image
-                  src="bagBlack.svg"
+                  src="/bagBlack.svg"
                   alt="experiment"
                   width={24}
                   height={24}
