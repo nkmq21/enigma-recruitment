@@ -1,8 +1,12 @@
-import React from 'react';
-import { ChangePasswordPage } from 'enigma/pages/login/reset-password/change-password/ChangePasswordPage';
+import React, {Suspense} from 'react';
+import ChangePasswordPage from 'enigma/components/pages/login/reset-password/change-password/ChangePasswordPage';
 
 export default function Page() {
-    return <ChangePasswordPage />;
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <ChangePasswordPage />;
+        </Suspense>
+    );
 }
 
 export async function generateMetadata() {

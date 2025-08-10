@@ -1,7 +1,7 @@
 "use client";
 import * as React from "react";
-import { LoginForm } from "../../components/sections/login/LoginForm";
-import { LoginHero } from "../../components/sections/login/LoginHero";
+import { LoginForm } from "../../sections/login/LoginForm";
+import { LoginHero } from "../../sections/login/LoginHero";
 import { ThemeProvider, Box, Grid } from '@mui/material';
 import theme from "enigma/styles/theme";
 

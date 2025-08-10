@@ -1,15 +1,11 @@
-// src/context/SidebarContext.tsx
 "use client";
 import React, { createContext, useContext, useState, ReactNode, useCallback, useEffect } from "react";
-import { usePathname } from "next/navigation";
 
 interface SidebarContextType {
-    // Desktop
     isDesktopCollapsed: boolean;
     toggleDesktopSidebar: () => void;
     setIsDesktopCollapsed: (collapsed: boolean) => void;
 
-    // Mobile
     isMobileMenuOpen: boolean;
     openMobileMenu: () => void;
     closeMobileMenu: () => void;
@@ -26,51 +22,47 @@ export const useSidebar = () => {
 
 const DESKTOP_COLLAPSE_KEY = "sidebar:collapsed";
 
-export const SidebarProvider = ({ children }: { children: ReactNode }) => {
-    // Desktop collapsed state, persisted
+export const SidebarProvider = ({
+                                    children,
+                                    route,
+                                }: {
+    children: ReactNode;
+    route?: string;
+}) => {
     const [isDesktopCollapsed, setIsDesktopCollapsed] = useState(false);
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-    // Restore on mount
+    // restore/persist desktop state
     useEffect(() => {
         try {
             const raw = localStorage.getItem(DESKTOP_COLLAPSE_KEY);
             if (raw != null) setIsDesktopCollapsed(raw === "1");
         } catch {}
     }, []);
-
-    // Persist on change
     useEffect(() => {
         try {
             localStorage.setItem(DESKTOP_COLLAPSE_KEY, isDesktopCollapsed ? "1" : "0");
         } catch {}
     }, [isDesktopCollapsed]);
 
-    const toggleDesktopSidebar = useCallback(() => {
-        setIsDesktopCollapsed((prev) => !prev);
-    }, []);
-
-    // Mobile drawer state
-    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const toggleDesktopSidebar = useCallback(() => setIsDesktopCollapsed(p => !p), []);
     const openMobileMenu = useCallback(() => setIsMobileMenuOpen(true), []);
     const closeMobileMenu = useCallback(() => setIsMobileMenuOpen(false), []);
-    const toggleMobileMenu = useCallback(() => setIsMobileMenuOpen((p) => !p), []);
+    const toggleMobileMenu = useCallback(() => setIsMobileMenuOpen(p => !p), []);
 
-    // Close on route change
-    const pathname = usePathname();
+    // Close mobile on route change
     useEffect(() => {
-        setIsMobileMenuOpen(false);
-    }, [pathname]);
+        if (route !== undefined) setIsMobileMenuOpen(false);
+    }, [route]);
 
-    // Close on Esc + lock scroll while open
+    // Esc + scroll lock
     useEffect(() => {
         if (!isMobileMenuOpen) {
             document.body.style.overflow = "";
             return;
         }
         document.body.style.overflow = "hidden";
-        const onKey = (e: KeyboardEvent) => {
-            if (e.key === "Escape") setIsMobileMenuOpen(false);
-        };
+        const onKey = (e: KeyboardEvent) => e.key === "Escape" && setIsMobileMenuOpen(false);
         window.addEventListener("keydown", onKey);
         return () => {
             window.removeEventListener("keydown", onKey);

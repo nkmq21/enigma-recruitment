@@ -249,12 +249,6 @@ export function VerifyEmail(name: string, verificationUrl: string) {
 }
 
 export function ForgotEmail(name: string, verificationUrl: string) {
-    // Function to shorten URL
-    const shortenUrl = (url: string, maxLength = 50) => {
-        if (url.length <= maxLength) return url;
-        return `${url.substring(0, maxLength - 3)}...`;
-    };
-
     return (
         <div
             style={{
@@ -279,11 +273,11 @@ export function ForgotEmail(name: string, verificationUrl: string) {
             >
                 <tbody>
                 <tr>
-                    <td style={{ padding: '15px' }}>
+                    <td style={{padding: '15px'}}>
                         <img
                             src="https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/d1d456e827ae4fc0a39d211ba32bbbabc0583f8f/public/Logo2.svg"
                             alt="Career Logo"
-                            style={{ width: '135px', height: '28px', display: 'block' }}
+                            style={{width: '135px', height: '28px', display: 'block'}}
                         />
                     </td>
                 </tr>
@@ -300,14 +294,14 @@ export function ForgotEmail(name: string, verificationUrl: string) {
                     </td>
                 </tr>
                 <tr>
-                    <td style={{ padding: '16px', textAlign: 'center' }}>
+                    <td style={{padding: '16px', textAlign: 'center'}}>
                         {/* Icon and Title */}
-                        <div style={{ marginBottom: '16px' }}>
-                            {/* Todo sua icon */}
+                        <div style={{marginBottom: '16px'}}>
+                            {/* TODO: sua icon */}
                             <img
                                 src="https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/d1d456e827ae4fc0a39d211ba32bbbabc0583f8f/public/lock-icon.svg"
                                 alt="Lock Icon"
-                                style={{ width: '50px', height: '50px', display: 'block', margin: '0 auto' }}
+                                style={{width: '50px', height: '50px', display: 'block', margin: '0 auto'}}
                             />
                             <h3
                                 style={{
@@ -349,8 +343,8 @@ export function ForgotEmail(name: string, verificationUrl: string) {
                                 marginBottom: '24px',
                             }}
                         >
-                Link expires in 1 hour
-              </span>
+                            Link expires in 1 hour
+                        </span>
 
                         {/* Verification Button */}
                         <a
@@ -374,7 +368,6 @@ export function ForgotEmail(name: string, verificationUrl: string) {
                         >
                             Reset a New Password
                         </a>
-
                         <p
                             style={{
                                 fontSize: '16px',
@@ -417,40 +410,18 @@ export function ForgotEmail(name: string, verificationUrl: string) {
                         >
                             <tbody>
                             <tr>
-                                <td style={{ padding: '0', textAlign: 'left' }}>
-                      <span
-                          style={{
-                              fontSize: '14px',
-                              lineHeight: '20px',
-                              color: '#2494b6',
-                              wordBreak: 'break-word',
-                              display: 'inline-block',
-                          }}
-                      >
-                        {shortenUrl(verificationUrl)}
-                      </span>
-                                </td>
-                                <td style={{ padding: '0', textAlign: 'right' }}>
-                                    <a
-                                        href={verificationUrl}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
+                                <td style={{padding: '0', textAlign: 'left'}}>
+                                    <span
                                         style={{
-                                            display: 'inline-block',
-                                            padding: '4px 8px',
                                             fontSize: '14px',
                                             lineHeight: '20px',
-                                            fontWeight: '600',
                                             color: '#2494b6',
-                                            backgroundColor: 'transparent',
-                                            border: 'none',
-                                            borderRadius: '8px',
-                                            textDecoration: 'none',
-                                            cursor: 'pointer',
+                                            wordBreak: 'break-word',
+                                            display: 'inline-block',
                                         }}
                                     >
-                                        Copy
-                                    </a>
+                                        {verificationUrl}
+                                    </span>
                                 </td>
                             </tr>
                             </tbody>

@@ -1,18 +1,18 @@
 "use client";
 import * as React from "react";
-import {Box, ThemeProvider, IconButton, Divider} from "@mui/material";
+import {Box, ThemeProvider, IconButton} from "@mui/material";
+import theme from "enigma/styles/theme";
+import {MainContent} from "../../sections/task/MainContent";
 import {SidebarNavigation} from "enigma/components/common/SidebarNavigation";
-import {HomeContent} from "../../components/sections/home/HomeContent";
 import {Session} from "next-auth";
 import {useSidebar} from "enigma/context/SidebarContext";
-import theme from "enigma/styles/theme";
 import Image from "next/image";
 import BigHeaderLogo from "enigma/components/common/HeaderLogo";
 
-export default function HomePage({session}: { session: Session | null }) {
+export default function TaskPage({session}: { session: Session | null }) {
     // 18% for expanded sidebar, 6% for collapsed sidebar
     const {isDesktopCollapsed, toggleMobileMenu, isMobileMenuOpen} = useSidebar();
-    const sidebarWidth = isDesktopCollapsed ? '6%' : '18%';
+    const sidebarWidth = isDesktopCollapsed ? "6%" : "18%";
     return (
         <ThemeProvider theme={theme}>
             <Box
@@ -64,7 +64,7 @@ export default function HomePage({session}: { session: Session | null }) {
                 )}
                 <Box
                     sx={{
-                        pt: 5,
+                        pt: 10,
                         width: "100%",
                         maxWidth: "100%",
                         position: "relative",
@@ -97,7 +97,7 @@ export default function HomePage({session}: { session: Session | null }) {
                     >
                         <BigHeaderLogo/>
                     </Box>
-                    <HomeContent/>
+                    <MainContent/>
                 </Box>
             </Box>
         </ThemeProvider>

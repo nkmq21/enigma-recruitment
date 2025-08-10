@@ -1,5 +1,6 @@
+// TODO: Faulty route
 import { NextRequest, NextResponse } from 'next/server';
-import { JobLocation } from 'enigma/services/jobService';
+import { JobLocation } from 'enigma/repositories/jobRepository';
 
 export async function GET(request: NextRequest) {
     try {

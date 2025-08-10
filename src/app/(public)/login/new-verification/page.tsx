@@ -1,5 +1,5 @@
 import React, {Suspense} from 'react';
-import NewVerificationPage from 'enigma/pages/login/new-verification/NewVerificationPage';
+import NewVerificationPage from 'enigma/components/pages/login/new-verification/NewVerificationPage';
 
 const Page = () => {
     return (
