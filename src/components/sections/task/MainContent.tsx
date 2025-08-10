@@ -7,7 +7,7 @@ import { Box, Typography, Chip, Divider } from "@mui/material";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import SearchBar from "enigma/components/ui/SearchBar";
-import { PopularJobChip } from "./popularChip";
+import { PopularJobChip } from "./PopularChip";
 
 export const MainContent = () => {
   const router = useRouter();

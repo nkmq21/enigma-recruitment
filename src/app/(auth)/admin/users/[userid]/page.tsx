@@ -1,7 +1,7 @@
 // src/app/(auth)/admin/users/[userid]/page.tsx
 import React from "react";
 import {auth} from "enigma/auth";
-import AdminUserDetailsPage from "enigma/pages/admin/users/user-details/AdminUserDetailsPage";
+import AdminUserDetailsPage from "enigma/components/pages/admin/users/user-details/AdminUserDetailsPage";
 import { getUser } from "enigma/services/userService";
 import {getJobApplicationsByUserId, JobApplicationWithFlatJob} from "enigma/services/jobApplicationService";
 

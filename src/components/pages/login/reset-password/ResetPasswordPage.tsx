@@ -5,7 +5,7 @@ import { LoginHero } from "enigma/components/sections/login/LoginHero";
 import { ThemeProvider, Box, Grid } from '@mui/material';
 import theme from 'enigma/styles/theme';
 
-export function ResetPasswordPage() {
+export default function ResetPasswordPage() {
     return (
         <ThemeProvider theme={theme}>
             <Box

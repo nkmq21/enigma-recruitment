@@ -1,6 +1,6 @@
 // src/app/(public)/register/page.tsx
 import React from 'react';
-import RegisterPage from "enigma/pages/register/RegisterPage";
+import RegisterPage from "enigma/components/pages/register/RegisterPage";
 
 export default function Page() {
     return (

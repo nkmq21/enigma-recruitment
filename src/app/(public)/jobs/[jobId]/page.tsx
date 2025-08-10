@@ -4,8 +4,7 @@ import { auth } from "enigma/auth";
 import '@fontsource/inter/400.css';
 import '@fontsource/inter/500.css';
 import '@fontsource/inter/600.css';
-import JobDetailsPage from "enigma/pages/job-details/JobDetailsPage";
-import {getJobById} from "enigma/services/jobService";
+import JobDetailsPage from "enigma/components/pages/job-details/JobDetailsPage";
 
 export default async function Page({ searchParams }: { searchParams: Promise<{ jobId?: string }> }) {
     const session = await auth();

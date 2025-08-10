@@ -1,6 +1,5 @@
 // src/services/jobService.ts
 import { Job } from 'enigma/types/models';
-import { prisma } from '../../prisma/prisma';
 import { GenericResponse, PageginatedResponse } from 'enigma/types/DTOs';
 import { findByFilter, findById, findByStatus, JobSearchFilters } from 'enigma/repositories/jobRepository';
 
