@@ -47,4 +47,4 @@ jobs:
           password: ${{secrets.CPANEL_PASSWORD}}
           protocol: ${{secrets.CPANEL_PROTOCOL}}
           state-name: .ftp-deploy-sync-state.json
-          local-dir: .next/standalone
+          local-dir: .next/standalone/
