@@ -4,9 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build",
-    "start": "NODE_ENV=production node server.ts",
-    "lint": "next lint"
+    "build": "prisma generate && next build",
+    "start": "next start -p 3000",
+    "start:standalone": "node .next/standalone/server.js"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.9.1",

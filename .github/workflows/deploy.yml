@@ -33,6 +33,12 @@ jobs:
           npm i
           npm run build
 
+      - name: Copy standalone builds
+        run: |
+          mkdir -p .next/standalone/.next
+          cp -r .next/static .next/standalone/.next/static
+          cp -r public .next/standalone/public 2>/dev/null || true
+
       - name: Sync files
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
@@ -40,28 +46,5 @@ jobs:
           username: ${{secrets.CPANEL_USERNAME}}
           password: ${{secrets.CPANEL_PASSWORD}}
           protocol: ${{secrets.CPANEL_PROTOCOL}}
-          local-dir: ./
-          exclude: |
-            **/.git*
-            **/.idea*
-            **/.idea/**
-            **/.git*/**
-            **/node_modules
-            **/node_modules/**
-            **/node_modules/.cache/**
-            **/.next/cache/**
-            **/README.md
-            **/*.sql
-            **/.env*
-            **/.gitignore
-            **/.eslintrc*
-            **/tsconfig.json
-            **/*.log
-            **/coverage/**
-            **/.nyc_output/**
-            **/tests/**
-            **/__tests__/**
-            **/*.test.js
-            **/*.test.ts
-            **/*.spec.js
-            **/*.spec.ts
+          state-name: .ftp-deploy-sync-state.json
+          local-dir: .next/standalone/
