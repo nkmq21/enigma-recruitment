@@ -1,12 +1,5 @@
 import React, { useState } from "react";
-import {
-  Box,
-  Container,
-  Typography,
-  CardContent,
-  Card,
-  styled,
-} from "@mui/material";
+import { Box, Container, Typography, Card, CardContent } from "@mui/material";
 
 const features = [
   {
@@ -53,46 +46,30 @@ const features = [
   },
 ];
 
-const FeatureCard = styled(Card)({
-  boxShadow: "none",
-  textAlign: "center",
-  width: "100%",
-  transition: "margin 0.3s ease", // Smooth transition for margin changes
-});
-
-const DescriptionBox = styled(Box)(({ theme }) => ({
-  color: "#404A7C",
-  borderRadius: theme.shape.borderRadius,
-  marginTop: theme.spacing(1),
-  transition: "opacity 0.3s ease, transform 0.3s ease, max-height 0.3s ease",
-  maxWidth: "100%",
-  marginLeft: "auto",
-  marginRight: "auto",
-  textAlign: "center",
-  opacity: 0,
-  maxHeight: 0,
-  overflow: "hidden",
-  transform: "scale(0.8)",
-  "&.visible": {
-    opacity: 1,
-    maxHeight: "100px", // Adjust based on content height
-    transform: "scale(1)",
-  },
-}));
-
 const SpecializedFunctions: React.FC = () => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+
+  // Mỗi phần tử lưu cả original index để hover/keys ổn định
+  const columns: { item: (typeof features)[number]; idx: number }[][] = [
+    [],
+    [],
+    [],
+  ];
+  features.forEach((item, i) => {
+    columns[i % 3].push({ item, idx: i });
+  });
+
+  // Nếu hàng cuối chỉ còn 1 item -> đưa nó sang cột giữa (col 1)
+  if (features.length % 3 === 1) {
+    const moved = columns[0].pop();
+    if (moved) columns[1].push(moved);
+  }
+
   return (
-    <Box sx={{ py: 10, bgcolor: "background.default" }}>
+    <Box sx={{ py: 5, bgcolor: "background.default" }}>
       <Container maxWidth="lg">
         <Box sx={{ textAlign: "center", mb: 7 }}>
-          <Typography
-            variant="h2"
-            gutterBottom
-            sx={{
-              color: "#101828",
-            }}
-          >
+          <Typography variant="h2" gutterBottom sx={{ color: "#101828" }}>
             Functions We Specialize In
           </Typography>
           <Typography
@@ -106,58 +83,76 @@ const SpecializedFunctions: React.FC = () => {
             Our shared values keep us connected and guide us as one team.
           </Typography>
         </Box>
+
+        {/* 3 fixed columns; mỗi cột là 1 stack độc lập */}
         <Box
           sx={{
-            display: "flex",
-            flexWrap: "wrap",
-            gap: 2,
-            justifyContent: "center",
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr 1fr", // luôn 3 item/hàng
+            gap: 1,
           }}
         >
-          {features.map((feature, index) => (
-            <Box
-              key={index}
-              sx={{
-                flex: "1 1 calc(33.333% - 16px)",
-                maxWidth: "calc(33.333% - 16px)",
-                minWidth: { xs: "250px", md: "200px" },
-                transition: "gap 0.3s ease",
-                marginBottom: hoveredIndex === index ? "48px" : "0px", // Increase margin-bottom on hover
-              }}
-            >
-              <FeatureCard
-                onMouseEnter={() => setHoveredIndex(index)}
-                onMouseLeave={() => setHoveredIndex(null)}
-              >
-                <CardContent>
-                  <Box
-                    component="img"
-                    src={feature.icon}
-                    sx={{
-                      backgroundColor: "rgba(255, 255, 255, 0.6)",
-                      border: "1px solid rgba(255, 255, 255, 0.8)",
-                      width: 48,
-                      height: 48,
-                      mb: 2,
-                      cursor: "pointer",
-                    }}
-                  />
-                  <Typography
-                    variant="body1"
-                    fontWeight={600}
-                    sx={{ cursor: "pointer" }}
-                  >
-                    {feature.title}
-                  </Typography>
-                  <DescriptionBox
-                    className={hoveredIndex === index ? "visible" : ""}
-                  >
-                    <Typography variant="body1">
-                      {feature.description}
+          {columns.map((col, colIdx) => (
+            <Box key={colIdx}>
+              {col.map(({ item, idx }, indexInCol) => (
+                <Card
+                  key={idx}
+                  sx={{
+                    boxShadow: "none",
+                    textAlign: "center",
+                    width: "100%",
+                    mb: 2,
+                  }}
+                  onMouseEnter={() => setHoveredIndex(idx)}
+                  onMouseLeave={() => setHoveredIndex(null)}
+                >
+                  <CardContent>
+                    <Box
+                      component="img"
+                      src={item.icon}
+                      alt={item.title}
+                      sx={{
+                        backgroundColor: "rgba(255, 255, 255, 0.6)",
+                        border: "1px solid rgba(255, 255, 255, 0.8)",
+                        width: 48,
+                        height: 48,
+                        mb: 2,
+                        cursor: "pointer",
+                      }}
+                    />
+                    <Typography
+                      variant="body1"
+                      fontWeight={600}
+                      sx={{ cursor: "pointer" }}
+                    >
+                      {item.title}
                     </Typography>
-                  </DescriptionBox>
-                </CardContent>
-              </FeatureCard>
+
+                    {/* Chỉ cột hiện tại bị đẩy xuống khi expand */}
+                    <Box
+                      sx={{
+                        color: "#404A7C",
+                        borderRadius: 1,
+                        mt: 1,
+                        transition:
+                          "opacity 0.3s ease, transform 0.3s ease, max-height 0.3s ease",
+                        maxWidth: "100%",
+                        mx: "auto",
+                        textAlign: "center",
+                        opacity: hoveredIndex === idx ? 1 : 0,
+                        maxHeight: hoveredIndex === idx ? 160 : 0,
+                        overflow: "hidden",
+                        transform:
+                          hoveredIndex === idx ? "scale(1)" : "scale(0.98)",
+                      }}
+                    >
+                      <Typography variant="body1">
+                        {item.description}
+                      </Typography>
+                    </Box>
+                  </CardContent>
+                </Card>
+              ))}
             </Box>
           ))}
         </Box>
