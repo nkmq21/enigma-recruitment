@@ -590,11 +590,16 @@ export const SidebarNavigation = ({session}: { session: Session | null }) => {
                                         variant='contained'
                                         fullWidth
                                         sx={{mb: 1, bgcolor: '#2494B6'}}
+                                        component={ResponsiveLink}
                                         href='/register'
                                     >
                                         Sign up
                                     </Button>
-                                    <Button href='/login' variant='outlined' fullWidth>
+                                    <Button
+                                        component={ResponsiveLink}
+                                        href='/login'
+                                        variant='outlined'
+                                        fullWidth>
                                         Sign in
                                     </Button>
                                 </Box>
