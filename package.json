@@ -5,8 +5,8 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "prisma generate && next build",
-    "start": "node .next/standalone/server.js",
-    "start:standalone": "node .next/standalone/server.js"
+    "start": "next start",
+    "lint": "next lint"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.9.1",
@@ -25,9 +25,8 @@
     "js-cookie": "^3.0.5",
     "jsonwebtoken": "^9.0.2",
     "jwt-decode": "^4.0.0",
-    "mui": "^0.0.1",
     "next": "^15.3.3",
-    "next-auth": "5.0.0-beta.20",
+    "next-auth": "5.0.0-beta.29",
     "prisma": "^6.7.0",
     "react": "^19.1.0",
     "react-dom": "^19.0.0",

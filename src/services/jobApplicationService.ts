@@ -1,9 +1,9 @@
 // src/services/jobApplicationService.ts
 import {prisma} from "../../prisma/prisma";
 export type JobApplicationWithFlatJob = {
-    application_id: number
-    user_id: number
-    cv_id: number | null
+    application_id: string
+    user_id: string
+    cv_id: string | null
     applied_time: Date
     status: string
     job: {
@@ -61,10 +61,9 @@ export async function getJobApplications() {
 }
 
 export async function getJobApplicationsByUserId(id: string): Promise<JobApplicationWithFlatJob[] | null> {
-    const userid = parseInt(id);
     try {
         const applications = await prisma.jobApplication.findMany({
-            where: {user_id: userid},
+            where: {user_id: id},
             select: {
                 application_id: true,
                 user_id: true,

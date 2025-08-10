@@ -1,3 +1,4 @@
+// src/auth.config.ts
 import Google from "next-auth/providers/google";
 import Credentials from "next-auth/providers/credentials";
 import {NextAuthConfig} from "next-auth";
