@@ -8,8 +8,14 @@ import {Session} from 'next-auth';
 import {useSidebar} from "enigma/context/SidebarContext";
 import Image from "next/image";
 import BigHeaderLogo from "enigma/components/common/HeaderLogo";
+import {Job} from 'enigma/types/models';
 
-export default function JobDetailsPage({ session }: { session: Session | null }){
+interface JobDetailsPageProps {
+    session: Session | null;
+    job: Job;
+}
+
+export default function JobDetailsPage({session, job}: JobDetailsPageProps) {
     // 18% for expanded sidebar, 6% for collapsed sidebar
     const {isDesktopCollapsed, toggleMobileMenu, isMobileMenuOpen} = useSidebar();
     const sidebarWidth = isDesktopCollapsed ? '6%' : '18%';
@@ -55,7 +61,7 @@ export default function JobDetailsPage({ session }: { session: Session | null })
                             bottom: 0,
                             backgroundColor: 'rgba(0, 0, 0, 0.5)',
                             zIndex: 999,
-                            display: { xs: 'block', sm: 'none' },
+                            display: {xs: 'block', sm: 'none'},
                         }}
                     />
                 )}
@@ -94,7 +100,7 @@ export default function JobDetailsPage({ session }: { session: Session | null })
                     >
                         <BigHeaderLogo/>
                     </Box>
-                    <MainContent session={session}/>
+                    <MainContent session={session} job={job}/>
                 </Box>
             </Box>
         </ThemeProvider>

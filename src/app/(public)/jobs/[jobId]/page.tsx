@@ -5,12 +5,20 @@ import '@fontsource/inter/400.css';
 import '@fontsource/inter/500.css';
 import '@fontsource/inter/600.css';
 import JobDetailsPage from "enigma/pages/job-details/JobDetailsPage";
+import {getJobById} from "enigma/services/jobService";
 
 export default async function Page({ searchParams }: { searchParams: Promise<{ jobId?: string }> }) {
     const session = await auth();
     const {jobId} = await searchParams;
+
+    const job = await getJobById(jobId);
+
+    if (!job) {
+        return <div>Job not found</div>;
+    }
+
     return (
-        <JobDetailsPage session={session} />
+        <JobDetailsPage session={session} job={job.data}/>
     );
 }
 
