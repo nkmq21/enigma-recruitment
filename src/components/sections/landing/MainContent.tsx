@@ -22,7 +22,7 @@ export default function MainContent() {
                     <CustomBadge label="Just launched"/>
                     <Box display="flex" alignItems="center" gap={1}>
                         <Typography variant="body2" color="textPrimary" sx={{fontWeight: 500}}>
-                            Track all your job applications
+                            Welcome to Enigma Recruitment!
                         </Typography>
                         <img
                             src="https://cdn.builder.io/api/v1/image/assets/8ef08a3c60b44d4ba008c3e63d84c943/11ac935d905e3e50d23ff902e18c2034defa7a84?placeholderIfAbsent=true"
@@ -54,11 +54,19 @@ export default function MainContent() {
                 </Container>
             </Box>
             {/* Image Section */}
-            <Container maxWidth="lg" sx={{textAlign: 'center', my: '-10%'}}>
-                <Box component="img" src="landing_page_guy.png" alt="Landing page guy" sx={{
-                    width: {xs: '100%', md: 1024},
-                    height: {xs: '100%', md: 1024},
-                }}/>
+            <Container maxWidth="lg" sx={{textAlign: 'center', mt: -4}}>
+                <Box sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    maxWidth: 1024,
+                    mx: 'auto'
+                }}>
+                    <Box component="img" src="landing_page_guy_2.png" alt="Landing page guy" sx={{
+                        width: {xs: '100%', mdx: '75%'},
+                        height: {xs: '100%', mdx: '75%'},
+                    }}/>
+                </Box>
             </Container>
             {/* Section - Our Services */}
             <OurServices/>

@@ -1,22 +1,17 @@
 "use client";
 import * as React from "react";
 import { Box, Typography, IconButton, Stack } from '@mui/material';
+import {images} from 'enigma/data/heroImageData';
 
 export function LoginHero() {
-    const images = [
-        'https://cdn.builder.io/api/v1/image/assets/8ef08a3c60b44d4ba008c3e63d84c943/6f20382ab67e61a198aff83ce7a85cea38a0370c?placeholderIfAbsent=true',
-        'https://cdn.builder.io/api/v1/image/assets/8ef08a3c60b44d4ba008c3e63d84c943/6f20382ab67e61a198aff83ce7a85cea38a0370c?placeholderIfAbsent=true',
-        'https://cdn.builder.io/api/v1/image/assets/8ef08a3c60b44d4ba008c3e63d84c943/6f20382ab67e61a198aff83ce7a85cea38a0370c?placeholderIfAbsent=true',
-        // Thêm các URL hình ảnh khác
-    ];
     const [currentImage, setCurrentImage] = React.useState(0);
     React.useEffect(() => {
         const interval = setInterval(() => {
             setCurrentImage((prev) => (prev + 1) % images.length);
-        }, 5000); // Chuyển đổi sau 3 giây
+        }, 5000); // Chuyển đổi sau 5 giây
 
         return () => clearInterval(interval); // Dọn dẹp interval khi component unmount
-    }, [images.length]);
+    }, []);
 
     return (
         <Box
@@ -127,7 +122,7 @@ export function LoginHero() {
                                     lineHeight: '28px',
                                 }}
                             >
-                                Log in to access suitable positions, track your application status, and connect with top employers. 85% of active users receive interview invitations within the first month
+                                Log in to access suitable positions, track your application status, and connect with top opportunities through Enigma Recruitment.
                             </Typography>
                         </Stack>
                         <Box sx={{ mt: 4 }}>
