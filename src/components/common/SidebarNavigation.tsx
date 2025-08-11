@@ -73,6 +73,11 @@ export const SidebarNavigation = ({session}: { session: Session | null }) => {
         {
             text: 'Home',
             icon: <Image src='/homeIcon.svg' alt='home' width={24} height={24}/>,
+            href: "/",
+        },
+        {
+            text: 'Dashboard',
+            icon: <Image src='/dashboard.svg' alt='home' width={24} height={24}/>,
             href: "/home",
         },
         {

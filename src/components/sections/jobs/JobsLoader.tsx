@@ -7,22 +7,12 @@ import {
 import { JobListPage } from "enigma/components/common/JobCard";
 import { Job } from "enigma/types/models";
 import { useSearchParams } from "next/navigation";
-import { GenericResponse, PageginatedResponse } from "enigma/types/DTOs";
-
-interface JobsApiResponse {
-    items: Job[],
-    meta: {
-        total: number,
-        page: number,
-        limit: number,
-        totalPages: number,
-    }
-}
+import { PaginatedResponse } from "enigma/types/DTOs";
 
 export default function JobsLoader() {
     const [jobs, setJobs] = React.useState<Job[]>([]);
     const [loading, setLoading] = React.useState(true);
-    const [meta, setMeta] = React.useState<JobsApiResponse['meta'] | null>(null);
+    const [meta, setMeta] = React.useState<PaginatedResponse<Job>['meta'] | null>(null);
     const searchParams = useSearchParams()!;
 
     React.useEffect(() => {
@@ -78,7 +68,7 @@ export default function JobsLoader() {
                     throw new Error('failed to fetch jobs');
                 }
 
-                const data: JobsApiResponse = await response.json();
+                const data: PaginatedResponse<Job> = await response.json();
                 if (data.items && Array.isArray(data.items)) {
                     // Make sure each job has the required properties
                     const transformedJobs = data.items.map((job: Job) => ({

@@ -2,21 +2,9 @@
 "use server";
 import {Account, User, UserRegister} from "enigma/types/models";
 import * as _userRepository from "enigma/repositories/userRepository";
-import type {GenericResponse, PaginatedUsers} from "enigma/types/DTOs";
+import type {GenericResponse, PaginatedResponse} from "enigma/types/DTOs";
 
-export interface UserProps {
-    id: number;
-    email: string;
-    name: string;
-    role: string;
-    status: string;
-    image: string | null;
-    dob: Date | null;
-    address: string | null;
-    emailVerified?: Date;
-}
-
-export async function getPaginatedUsers(page: number = 1, pageSize: number = 10): Promise<GenericResponse<PaginatedUsers>> {
+export async function getPaginatedUsers(page: number = 1, pageSize: number = 10): Promise<GenericResponse<PaginatedResponse<User>>> {
     const result = await _userRepository.getPaginatedUsers(page, pageSize);
     if (result.error) {
         return {error: result.error};

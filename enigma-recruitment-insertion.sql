@@ -1,7 +1,3 @@
-INSERT INTO users (email, user_name, password, role, status, img_url, dob, address)
-VALUES ('nigga@gmail.com', 'nigga', 'nigga', 'admin', 'active', 'img_url', '2005-05-19', 'nigeria');
-// PASSWORD IS NOT HASHED
-
 INSERT INTO industries VALUES 
 ('AER', 'Aerospace'),
 ('AUT', 'Automotive'),

@@ -29,7 +29,7 @@ export async function GET(request: NextRequest) {
 
         // Call service layer
         const result = await getPaginatedUsers(page, limit);
-        if (!result.data || result.error || !result.data.users) {
+        if (!result.data || result.error || !result.data.items) {
             return NextResponse.json(
                 { error: result.error || 'Failed to fetch users' },
                 { status: 500 }
@@ -37,11 +37,11 @@ export async function GET(request: NextRequest) {
         }
 
         return NextResponse.json({
-            users: result.data.users,
-            tota: result.data.total,
+            users: result.data.items,
+            tota: result.data.meta.total,
             page,
             limit,
-            totalPages: Math.ceil(result.data.total / limit)
+            totalPages: Math.ceil(result.data.meta.total / limit)
         });
     } catch (error) {
         console.error('Error in getUsersController:', error);

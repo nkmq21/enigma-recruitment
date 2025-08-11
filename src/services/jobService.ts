@@ -1,6 +1,6 @@
 // src/services/jobService.ts
 import { Job } from 'enigma/types/models';
-import { GenericResponse, PageginatedResponse } from 'enigma/types/DTOs';
+import { GenericResponse, PaginatedResponse } from 'enigma/types/DTOs';
 import { findByFilter, findById, findByStatus, JobSearchFilters } from 'enigma/repositories/jobRepository';
 import { Prisma, PrismaClient } from '@prisma/client';
 
@@ -63,7 +63,7 @@ export async function getJobsByStatus(
     status: string[],
     page: number,
     limit: number,
-): Promise<GenericResponse<PageginatedResponse<Job>>> {
+): Promise<GenericResponse<PaginatedResponse<Job>>> {
     page = 1;
     limit = 20;
     try {
@@ -99,7 +99,7 @@ export async function getJobsByStatus(
     }
 }
 
-export async function searchJobs(filters: JobSearchFilters): Promise<GenericResponse<PageginatedResponse<Job>>> {
+export async function searchJobs(filters: JobSearchFilters): Promise<GenericResponse<PaginatedResponse<Job>>> {
     try {
         if (!filters.status || filters.status.length === 0) {
             return {
