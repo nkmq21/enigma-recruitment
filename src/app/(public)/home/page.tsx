@@ -5,6 +5,7 @@ import { auth } from "enigma/auth";
 
 export default async function Home() {
     const session = await auth();
+
     return (
         <HomePage session={session} />
     );

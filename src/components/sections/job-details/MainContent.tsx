@@ -1,11 +1,19 @@
 import * as React from "react";
 import JobDetailsGrid from "enigma/components/sections/job-details/JobDetailsGrid";
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, Button } from "@mui/material";
 import SectionTitle from "enigma/components/ui/SectionTitle";
 import SuggestedJobCard from "enigma/components/ui/SuggestedJobCard";
 import { Session } from "next-auth";
+import { Job } from "enigma/types/models";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
-export const MainContent = ({ session }: { session: Session | null }) => {
+interface MainContentProps {
+  session: Session | null;
+  job: Job;
+  onBackToJobs?: () => void;
+}
+
+export const MainContent = ({ session, job, onBackToJobs }: MainContentProps) => {
   return (
     <Box
       component="main"
@@ -20,8 +28,26 @@ export const MainContent = ({ session }: { session: Session | null }) => {
         },
       }}
     >
+      {/* Back Button */}
+      <Button
+        onClick={onBackToJobs}
+        startIcon={<ArrowBackIcon />}
+        sx={{
+          mb: 2,
+          color: "#667085",
+          textTransform: "none",
+          fontSize: "14px",
+          fontWeight: 500,
+          "&:hover": {
+            backgroundColor: "rgba(102, 112, 133, 0.1)",
+          },
+        }}
+      >
+        Back to Jobs
+      </Button>
+
       <Typography variant="h4" component="h1" gutterBottom color="#101828">
-        Job Details
+        {job.job_title}
       </Typography>
 
       <Box
@@ -43,7 +69,7 @@ export const MainContent = ({ session }: { session: Session | null }) => {
             },
           }}
         >
-          <JobDetailsGrid session={session} />
+          <JobDetailsGrid session={session} job={job} />
         </Box>
 
         {/* Right Column */}

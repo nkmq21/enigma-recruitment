@@ -2,6 +2,37 @@
 import { Job } from 'enigma/types/models';
 import { GenericResponse, PaginatedResponse } from 'enigma/types/DTOs';
 import { findByFilter, findById, findByStatus, JobSearchFilters } from 'enigma/repositories/jobRepository';
+import { Prisma, PrismaClient } from '@prisma/client';
+
+const prisma = new PrismaClient();
+
+export async function getJob(jobid: string): Promise<Job> {
+    const response = await fetch(`/api/jobs/${jobid}`, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' }
+    });
+
+    if (!response.ok) {
+        throw new Error('Failed to fetch users');
+    }
+
+    return response.json();
+}
+
+export async function JobLocation() {
+    const jobLocation = await prisma.job.findMany({
+        where: {
+            status: "active",
+        },
+        select: {
+            location: true,
+        },
+        distinct: ['location'],
+    });
+
+    //map to string[]
+    return jobLocation.map((job) => job.location);
+}
 
 export async function getJobById(jobId: string): Promise<GenericResponse<Job>> {
     try {
