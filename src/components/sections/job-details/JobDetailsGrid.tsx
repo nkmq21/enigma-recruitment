@@ -1,4 +1,4 @@
-import {useState} from "react";
+import { useState } from "react";
 import {
     Box,
     Typography,
@@ -17,29 +17,30 @@ import {
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Image from "next/image";
 import ActionButtons from "enigma/components/sections/job-details/JobDetailsActionButtons";
-import {Session} from "next-auth";
+import { Session } from "next-auth";
 import TagChips from "enigma/components/ui/TagChips";
-import {Job} from 'enigma/types/models';
+import { Job } from 'enigma/types/models';
+import { toDisplayValue } from "enigma/utils/dateFormat";
 
 interface JobDetailsGridProps {
     session: Session | null;
     job: Job;
 }
 
-const JobDetailsGrid = ({session, job}: JobDetailsGridProps) => {
+const JobDetailsGrid = ({ session, job }: JobDetailsGridProps) => {
     const tags = ["ERP/CRM Systems", "Fintech", "Documentation Skills"];
     const [showMore, setShowMore] = useState(false);
     return (
-        <Box sx={{display: "flex", flexDirection: "column", gap: 3, p: 2}}>
+        <Box sx={{ display: "flex", flexDirection: "column", gap: 3, p: 2 }}>
             {/* Job Details Section */}
             <Box>
-                <Card sx={{borderRadius: 4, boxShadow: "none"}}>
+                <Card sx={{ borderRadius: 4, boxShadow: "none" }}>
                     <CardMedia
                         component="img"
                         height="291"
                         image="bannerJobDetail.svg"
                         alt="Job Banner"
-                        sx={{borderRadius: "8px", objectFit: "cover"}}
+                        sx={{ borderRadius: "8px", objectFit: "cover" }}
                     />
 
                     <CardContent>
@@ -54,11 +55,11 @@ const JobDetailsGrid = ({session, job}: JobDetailsGridProps) => {
                                 borderBottom: "1px solid #f2f4f7",
                             }}
                         >
-                            <Box sx={{display: "flex", alignItems: "center", gap: 2}}>
+                            <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
                                 <img
                                     src="/logoCompany.svg"
                                     alt="Company Logo"
-                                    style={{width: 43}}
+                                    style={{ width: 43 }}
                                 />
                                 <Box>
                                     <Typography variant="h6" fontWeight={500}>
@@ -66,15 +67,15 @@ const JobDetailsGrid = ({session, job}: JobDetailsGridProps) => {
                                     </Typography>
                                 </Box>
                             </Box>
-                            <Box sx={{display: "flex"}}>
+                            <Box sx={{ display: "flex" }}>
                                 <IconButton size="medium">
-                                    <MoreVertIcon fontSize="medium"/>
+                                    <MoreVertIcon fontSize="medium" />
                                 </IconButton>
                                 <IconButton>
-                                    <Image src="/bookmark.svg" alt="" height={24} width={24}/>
+                                    <Image src="/bookmark.svg" alt="" height={24} width={24} />
                                 </IconButton>
                                 <IconButton>
-                                    <Image src="/share.png" alt="" height={24} width={24}/>
+                                    <Image src="/share.png" alt="" height={24} width={24} />
                                 </IconButton>
                             </Box>
                         </Box>
@@ -89,7 +90,7 @@ const JobDetailsGrid = ({session, job}: JobDetailsGridProps) => {
                             }}
                         >
                             <Typography variant="h5" fontWeight={600}>
-                                Senior Business Analyst (Blockchain)
+                                {job.job_title}
                             </Typography>
                             {/* apply buttton */}
                             <ActionButtons
@@ -97,17 +98,17 @@ const JobDetailsGrid = ({session, job}: JobDetailsGridProps) => {
                             />
                         </Box>
                         <Typography variant="body2" color="#6941c6" mt={1}>
-                            Submission deadline May 31, 2025 • 21 applicants
+                            Submission deadline {toDisplayValue(job.close_date)} • 21 applicants
                         </Typography>
 
                         {/* AdminJobsPage Metadata */}
                         <Box
-                            sx={{mt: 2, display: "flex", flexDirection: "column", gap: 1}}
+                            sx={{ mt: 2, display: "flex", flexDirection: "column", gap: 1 }}
                         >
                             <Stack direction="row" spacing={1.5} alignItems="center">
-                                <Image src="wallet.svg" alt="wallet" width={24} height={24}/>
+                                <Image src="wallet.svg" alt="wallet" width={24} height={24} />
                                 <Typography variant="body2">
-                                    $60.00 - $70.00 Per Hour
+                                    ${job.salary_range_start} - ${job.salary_range_end}
                                 </Typography>
                             </Stack>
                             <Stack direction="row" spacing={1.5} alignItems="center">
@@ -117,7 +118,7 @@ const JobDetailsGrid = ({session, job}: JobDetailsGridProps) => {
                                     width={24}
                                     height={24}
                                 />
-                                <Typography variant="body2">Din Daeng, Bangkok</Typography>
+                                <Typography variant="body2">{job.location}</Typography>
                             </Stack>
                             <Stack direction="row" spacing={1.5} alignItems="center">
                                 <Image
@@ -126,10 +127,10 @@ const JobDetailsGrid = ({session, job}: JobDetailsGridProps) => {
                                     width={24}
                                     height={24}
                                 />
-                                <Chip label="Permanent" variant="outlined" size="small"/>
+                                <Chip label={job.employment_type} variant="outlined" size="small" />
                             </Stack>
                             <Stack direction="row" spacing={1} flexWrap="wrap" gap={1}>
-                                <TagChips tags={tags} salary="" showSalary={false}/>
+                                <TagChips tags={tags} salary="" showSalary={false} />
                             </Stack>
                         </Box>
                     </CardContent>
@@ -148,18 +149,13 @@ const JobDetailsGrid = ({session, job}: JobDetailsGridProps) => {
                     />
 
                     {/* AdminJobsPage Summary and Responsibilities */}
-                    <CardContent sx={{bgcolor: "#fff", borderTop: "3px solid #f2f4f7"}}>
+                    <CardContent sx={{ bgcolor: "#fff", borderTop: "3px solid #f2f4f7" }}>
                         <Typography fontWeight={600} fontSize="20px" lineHeight="30px">
                             AdminJobsPage Summary
                         </Typography>
 
                         <Typography variant="body1" color="#475467" mt={1}>
-                            We are seeking a highly skilled Senior Business Analyst
-                            (Blockchain) to join our dynamic team in Bangkok. You will serve
-                            as the bridge between our blockchain product team and business
-                            stakeholders. This role is ideal for a tech-savvy,
-                            business-oriented analyst who understands both decentralized
-                            technologies and enterprise needs.
+                            {job.description}
                         </Typography>
 
                         {/* Key Responsibilities */}
@@ -416,7 +412,7 @@ const JobDetailsGrid = ({session, job}: JobDetailsGridProps) => {
                                 >
                                     How to Apply
                                 </Typography>
-                                <List sx={{margin: 0}}>
+                                <List sx={{ margin: 0 }}>
                                     {/* Combined item: "Click 'Apply Now' or submit your resume..." with email */}
                                     <ListItem
                                         sx={{
@@ -443,10 +439,10 @@ const JobDetailsGrid = ({session, job}: JobDetailsGridProps) => {
                                         <ListItemText
                                             primary={
                                                 <Box>
-                                                    <Box sx={{display: "flex"}}>
+                                                    <Box sx={{ display: "flex" }}>
                                                         <Typography
                                                             variant="body1"
-                                                            sx={{color: "#475467"}}
+                                                            sx={{ color: "#475467" }}
                                                         >
                                                             Click “
                                                         </Typography>
@@ -462,7 +458,7 @@ const JobDetailsGrid = ({session, job}: JobDetailsGridProps) => {
                                                         </Typography>
                                                         <Typography
                                                             variant="body1"
-                                                            sx={{color: "#475467"}}
+                                                            sx={{ color: "#475467" }}
                                                         >
                                                             ” or submit your resume and portfolio to:
                                                         </Typography>
@@ -548,7 +544,7 @@ const JobDetailsGrid = ({session, job}: JobDetailsGridProps) => {
                         )}
                     </CardContent>
 
-                    <Divider/>
+                    <Divider />
                     <Box
                         sx={{
                             display: "flex",
@@ -561,18 +557,18 @@ const JobDetailsGrid = ({session, job}: JobDetailsGridProps) => {
                         <Typography
                             variant="body1"
                             fontWeight={600}
-                            sx={{color: "#217799"}}
+                            sx={{ color: "#217799" }}
                         >
                             {showMore ? "Show less" : "Show more"}
                         </Typography>
                         <IconButton
-                            sx={{color: "#217799"}}
+                            sx={{ color: "#217799" }}
                             onClick={() => setShowMore(!showMore)}
                         >
                             {showMore ? (
-                                <Image src="/showless.svg" alt="" height={20} width={20}/>
+                                <Image src="/showless.svg" alt="" height={20} width={20} />
                             ) : (
-                                <Image src="/showMore.svg" alt="" height={24} width={24}/>
+                                <Image src="/showMore.svg" alt="" height={24} width={24} />
                             )}
                         </IconButton>
                     </Box>

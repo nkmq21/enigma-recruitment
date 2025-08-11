@@ -9,6 +9,7 @@ import { useSidebar } from "enigma/context/SidebarContext";
 import Image from "next/image";
 import BigHeaderLogo from "enigma/components/common/HeaderLogo";
 import { Job } from "enigma/types/models";
+import { useRouter } from "next/navigation";
 
 interface JobDetailsPageProps {
   session: Session | null;
@@ -16,10 +17,18 @@ interface JobDetailsPageProps {
 }
 
 export default function JobDetailsPage({ session, job }: JobDetailsPageProps) {
+  const router = useRouter();
   // 18% for expanded sidebar, 6% for collapsed sidebar
-  const { isDesktopCollapsed, toggleMobileMenu, isMobileMenuOpen } =
-    useSidebar();
+  const { isDesktopCollapsed, toggleMobileMenu, isMobileMenuOpen } = useSidebar();
   const sidebarWidth = isDesktopCollapsed ? "6%" : "18%";
+  const handleBackToJobs = () => {
+    const referrer = document.referrer;
+    if (referrer && referrer.includes(window.location.origin + '/jobs')) {
+      router.back();
+    } else {
+      router.push('/jobs');
+    }
+  };
   return (
     <ThemeProvider theme={theme}>
       <Box
@@ -109,7 +118,7 @@ export default function JobDetailsPage({ session, job }: JobDetailsPageProps) {
           >
             <BigHeaderLogo />
           </Box>
-          <MainContent session={session} job={job} />
+          <MainContent session={session} job={job} onBackToJobs={handleBackToJobs} />
         </Box>
       </Box>
     </ThemeProvider>

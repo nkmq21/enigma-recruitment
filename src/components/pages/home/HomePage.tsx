@@ -8,14 +8,8 @@ import {useSidebar} from "enigma/context/SidebarContext";
 import theme from "enigma/styles/theme";
 import Image from "next/image";
 import BigHeaderLogo from "enigma/components/common/HeaderLogo";
-import {Job} from 'enigma/types/models';
 
-interface JobDetailsPageProps {
-    session: Session | null;
-    job: Job;
-}
-
-export default function JobDetailsPage({session, job}: JobDetailsPageProps) {
+export default function HomePage({session}: { session: Session | null }) {
     // 18% for expanded sidebar, 6% for collapsed sidebar
     const {isDesktopCollapsed, toggleMobileMenu, isMobileMenuOpen} = useSidebar();
     const sidebarWidth = isDesktopCollapsed ? '6%' : '18%';
@@ -108,4 +102,4 @@ export default function JobDetailsPage({session, job}: JobDetailsPageProps) {
             </Box>
         </ThemeProvider>
     );
-};
+}
