@@ -268,10 +268,13 @@ export default function MainContent({session}: { session: Session | null }) {
                             </FormControl>
                         </Paper>
                         <Box sx={{
-                            maxHeight: {xs: "none", mdx: "calc(100vh - 160px)"},
+                            maxHeight: {
+                                xs: "none",
+                                mdx: "calc(100vh - 100px)"
+                            },
                             overflowY: {xs: "visible", mdx: "auto"},
                             pr: {mdx: 1},
-                            WebkitOverflowScrolling: "touch",
+                            WebkitOverflowScrolling: "touch"
                         }}>
                             <Stack spacing={3}>
                                 {/* Personal Info */}

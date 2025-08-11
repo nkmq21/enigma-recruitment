@@ -1,16 +1,12 @@
-import { FunctionComponent, useState } from 'react';
-import { Box, Container, Typography, Avatar, Button, Link } from '@mui/material';
+import {FunctionComponent, useState} from 'react';
+import {Box, Container, Typography, Avatar, Button, Link} from '@mui/material';
 
 const OurTeam: FunctionComponent = () => {
     const teamMembers = [
-        { name: 'Amélie Laurent', role: 'Founder & CEO' },
-        { name: 'Nikolas Gibbons', role: 'Engineering Manager' },
-        { name: 'Sienna Hewitt', role: 'Product Manager' },
-        { name: 'Lily-Rose Chedjou', role: 'Frontend Developer' },
-        { name: 'Zahra Christensen', role: 'Backend Developer' },
-        { name: 'Caitlyn King', role: 'Product Designer' },
-        { name: 'Zaid Schwartz', role: 'UX Researcher' },
-        { name: 'Marco Kelly', role: 'Customer Success' },
+        {name: 'Daniel', role: 'Managing Director', avatar: '/daniel.jpeg'},
+        {name: 'Anyarin', role: 'Operations Manager', avatar: '/anyarin.jpeg'},
+        {name: 'Cath', role: 'Recruitment Consultant', avatar: '/phattarakan.jpeg'},
+        {name: 'Pichaya', role: 'Recruitment Consultant', avatar: '/pichaya.jpeg'}
     ];
 
     const [email, setEmail] = useState('');
@@ -23,19 +19,20 @@ const OurTeam: FunctionComponent = () => {
     };
 
     return (
-        <Box sx={{ py: 9, bgcolor: '#fff', textAlign: 'center', zIndex: 3 }}>
+        <Box sx={{py: 9, bgcolor: '#fff', textAlign: 'center', zIndex: 3}}>
             <Container maxWidth="lg">
                 <Typography variant="body1" fontWeight={600} color="#2494b6">
                     We’re hiring!
                 </Typography>
-                <Typography variant="h2" fontWeight={600} color="#101828" sx={{ mt: 1 }}>
+                <Typography variant="h2" fontWeight={600} color="#101828" sx={{mt: 1}}>
                     Meet our team
                 </Typography>
-                <Typography variant="body1" color="#475467" sx={{ mt: 2, maxWidth: 768, mx: 'auto' }}>
-                    Our philosophy is simple — hire a team of diverse, passionate people and foster a culture that empowers you to do your best work.
+                <Typography variant="body1" color="#475467" sx={{mt: 2, maxWidth: 768, mx: 'auto'}}>
+                    Our philosophy is simple — hire a team of diverse, passionate people and foster a culture that
+                    empowers you to do your best work.
                 </Typography>
 
-                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 4, justifyContent: 'center', mt: 6 }}>
+                <Box sx={{display: 'flex', flexWrap: 'wrap', gap: 4, justifyContent: 'center', mt: 6}}>
                     {teamMembers.map((member, index) => (
                         <Box
                             key={index}
@@ -48,8 +45,19 @@ const OurTeam: FunctionComponent = () => {
                                 gap: 2,
                             }}
                         >
-                            <Avatar sx={{ width: 96, height: 96 }} src="/Avatar5.png" />
-                            <Box sx={{ textAlign: 'center' }}>
+                            <Avatar
+                                sx={{
+                                    width: 96,
+                                    height: 96,
+                                    "&:hover": {
+                                        transition: "transform 0.3s ease-in-out",
+                                        transform: "scale(1.25)"
+                                    },
+                                    transition: "transform 0.3s ease-in-out",
+                                    transform: "scale(1)"
+                                }}
+                                src={member.avatar}/>
+                            <Box sx={{textAlign: 'center'}}>
                                 <Typography variant="h6" color="#101828" fontWeight={600}>
                                     {member.name}
                                 </Typography>
@@ -61,15 +69,23 @@ const OurTeam: FunctionComponent = () => {
                     ))}
                 </Box>
 
-                <Box sx={{ mt: 8, bgcolor: '#d6f1f7', borderRadius: 4, p: 4, textAlign: 'left' }}>
-                    <Typography fontSize="20px" lineHeight="30px" color="#101828" fontWeight={600} sx={{ maxWidth: 664, mx: 'auto' }}>
+                <Box sx={{mt: 8, bgcolor: '#d6f1f7', borderRadius: 4, p: 4, textAlign: 'left'}}>
+                    <Typography fontSize="20px" lineHeight="30px" color="#101828" fontWeight={600}
+                                sx={{maxWidth: 664, mx: 'auto'}}>
                         Ready to collaborate?
                     </Typography>
-                    <Typography fontSize="18px" lineHeight="28px" color="#475467" sx={{ mt: 1, maxWidth: 664, mx: 'auto' }}>
-                        Think your services or expertise could add value to our team? We’d love to learn more about you — just fill out the form and we’ll be in touch soon.
+                    <Typography fontSize="18px" lineHeight="28px" color="#475467"
+                                sx={{mt: 1, maxWidth: 664, mx: 'auto'}}>
+                        Think your services or expertise could add value to our team? We’d love to learn more about you
+                        — just fill out the form and we’ll be in touch soon.
                     </Typography>
-                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2, mt: 2, mx: 'auto', maxWidth: 664 }}>
-                        <Box sx={{ flex: '1 1 300px', display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+                    <Box sx={{display: 'flex', flexWrap: 'wrap', gap: 2, mt: 2, mx: 'auto', maxWidth: 664}}>
+                        <Box sx={{
+                            flex: '1 1 300px',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'flex-start'
+                        }}>
                             <Box
                                 component="input"
                                 type="email"
@@ -107,7 +123,7 @@ const OurTeam: FunctionComponent = () => {
                             {error && (
                                 <Typography
                                     variant="body2"
-                                    sx={{ color: '#d32f2f', fontSize: '14px', mt: 0.5, fontFamily: 'Inter, sans-serif' }}
+                                    sx={{color: '#d32f2f', fontSize: '14px', mt: 0.5, fontFamily: 'Inter, sans-serif'}}
                                 >
                                     Please enter a valid email
                                 </Typography>
@@ -147,7 +163,7 @@ const OurTeam: FunctionComponent = () => {
                             Join the team
                         </Button>
                     </Box>
-                    <Typography variant="body2" color="#475467" sx={{ mt: 1, maxWidth: 664, mx: 'auto' }}>
+                    <Typography variant="body2" color="#475467" sx={{mt: 1, maxWidth: 664, mx: 'auto'}}>
                         We care about your data in our <Link href="#" color="#475467">privacy policy</Link>.
                     </Typography>
                 </Box>
