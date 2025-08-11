@@ -54,11 +54,19 @@ export default function MainContent() {
                 </Container>
             </Box>
             {/* Image Section */}
-            <Container maxWidth="lg" sx={{textAlign: 'center', my: '-10%'}}>
-                <Box component="img" src="landing_page_guy.png" alt="Landing page guy" sx={{
-                    width: {xs: '100%', md: 1024},
-                    height: {xs: '100%', md: 1024},
-                }}/>
+            <Container maxWidth="lg" sx={{textAlign: 'center', mt: -4}}>
+                <Box sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    maxWidth: 1024,
+                    mx: 'auto'
+                }}>
+                    <Box component="img" src="landing_page_guy_2.png" alt="Landing page guy" sx={{
+                        width: {xs: '100%', mdx: '75%'},
+                        height: {xs: '100%', mdx: '75%'},
+                    }}/>
+                </Box>
             </Container>
             {/* Section - Our Services */}
             <OurServices/>

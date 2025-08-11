@@ -1,5 +1,5 @@
-import { useRef, useEffect } from 'react';
-import { Box, Container, Typography, Button } from '@mui/material';
+import {useRef, useEffect, useState} from 'react';
+import {Box, Container, Typography, Button} from '@mui/material';
 
 export default function OurServices() {
     const features = [
@@ -26,6 +26,19 @@ export default function OurServices() {
 
     const containerRef = useRef<HTMLDivElement>(null);
     const verticalBarRef = useRef<HTMLDivElement>(null);
+    const leftContentRef = useRef<HTMLDivElement>(null);
+    const [leftContentHeight, setLeftContentHeight] = useState(0);
+
+    useEffect(() => {
+        const updateHeight = () => {
+            if (leftContentRef.current) {
+                setLeftContentHeight(leftContentRef.current.offsetHeight);
+            }
+        };
+        updateHeight();
+        window.addEventListener('resize', updateHeight);
+        return () => window.removeEventListener('resize', updateHeight);
+    }, []);
 
     useEffect(() => {
         const container = containerRef.current;
@@ -33,7 +46,7 @@ export default function OurServices() {
 
         const handleMouseEnter = (event: { currentTarget: any; }) => {
             const box = event.currentTarget;
-            const { offsetTop, offsetHeight } = box;
+            const {offsetTop, offsetHeight} = box;
             if (verticalBar) {
                 verticalBar.style.height = `${offsetHeight}px`;
                 verticalBar.style.transform = `translateY(${offsetTop}px)`;
@@ -45,7 +58,7 @@ export default function OurServices() {
             if (container && verticalBar) {
                 const firstBox = container.children[0];
                 if (firstBox) {
-                    const { offsetTop, offsetHeight } = firstBox as HTMLElement;
+                    const {offsetTop, offsetHeight} = firstBox as HTMLElement;
                     verticalBar.style.height = `${offsetHeight}px`;
                     verticalBar.style.transform = `translateY(${offsetTop}px)`;
                 } else {
@@ -77,8 +90,8 @@ export default function OurServices() {
     }, []);
 
     return (
-        <Box sx={{ width: '100%' }}>
-            <Box sx={{ py: 8, bgcolor: '#fff', zIndex: 4, textAlign: 'start' }}>
+        <Box sx={{width: '100%'}}>
+            <Box sx={{py: 8, bgcolor: '#fff', zIndex: 4, alignItems: 'flex-start', textAlign: 'start'}}>
                 <Container maxWidth="lg">
                     <Box
                         sx={{
@@ -93,7 +106,7 @@ export default function OurServices() {
                             sx={{
                                 display: 'flex',
                                 flexDirection: 'column',
-                                align617Items: 'flex-start',
+                                alignItems: 'flex-start',
                                 gap: 1.5,
                             }}
                         >
@@ -111,43 +124,46 @@ export default function OurServices() {
                                 color: '#475467',
                             }}
                         >
-                            Honest, transparent hiring partnerships that grow with you. Trusted by businesses who want the best
+                            Honest, transparent hiring partnerships that grow with you. Trusted by businesses who want
+                            the best
                             recruitment service.
                         </Typography>
                     </Box>
 
-                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 4, mt: 6 }}>
+                    <Box sx={{display: 'flex', flexWrap: 'wrap', gap: 4, mt: 6, alignItems: 'flex-start'}}>
                         <Box
-                            ref={containerRef}
-                            sx={{ flex: '1 1 320px', maxWidth: 560, position: 'relative' }}
+                            ref={leftContentRef}
+                            sx={{flex: '1 1 320px', maxWidth: 560, position: 'relative'}}
                         >
-                            {features.map((feature, index) => (
-                                <Box
-                                    key={index}
-                                    sx={{
-                                        p: '16px 0 16px 24px',
-                                        display: 'flex',
-                                        flexDirection: 'column',
-                                        gap: 2,
-                                        alignItems: 'flex-start',
-                                        position: 'relative',
-                                    }}
-                                >
-                                    <Typography
-                                        fontWeight={600}
+                            <Box ref={containerRef}>
+                                {features.map((feature, index) => (
+                                    <Box
+                                        key={index}
                                         sx={{
-                                            fontSize: '20px',
-                                            lineHeight: '30px',
-                                            color: '#101828',
+                                            p: '16px 0 16px 24px',
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                            gap: 2,
+                                            alignItems: 'flex-start',
+                                            position: 'relative',
                                         }}
                                     >
-                                        {feature.title}
-                                    </Typography>
-                                    <Typography variant="body1" color="#475467">
-                                        {feature.description}
-                                    </Typography>
-                                </Box>
-                            ))}
+                                        <Typography
+                                            fontWeight={600}
+                                            sx={{
+                                                fontSize: '20px',
+                                                lineHeight: '30px',
+                                                color: '#101828',
+                                            }}
+                                        >
+                                            {feature.title}
+                                        </Typography>
+                                        <Typography variant="body1" color="#475467">
+                                            {feature.description}
+                                        </Typography>
+                                    </Box>
+                                ))}
+                            </Box>
                             <Box
                                 ref={verticalBarRef}
                                 sx={{
@@ -161,7 +177,7 @@ export default function OurServices() {
                             />
                             <Button
                                 color="primary"
-                                endIcon={<Box component="img" src="/arrowRight.svg" alt="" />}
+                                endIcon={<Box component="img" src="/arrowRight.svg" alt=""/>}
                                 sx={{
                                     backgroundColor: '#40b0d0',
                                     color: '#fff',
@@ -176,11 +192,13 @@ export default function OurServices() {
                         </Box>
 
                         <Box sx={{
-                            flex: '1 1 320px', maxWidth: 776,
-                            display: { xs: 'none', md: 'flex' },
-                            justifyContent: 'center', alignItems: 'center', position: 'relative'
+                            flex: '1 1 320px',
+                            height: leftContentHeight > 0 ? `${leftContentHeight}px` : 'auto',
+                            display: {xs: 'none', mdx: 'flex'},
+                            justifyContent: 'center', alignItems: 'center', position: 'relative',
                         }}>
-                            <Box component="img" src="/Screen.png" alt="" sx={{ width: '100%' }} />
+                            <Box component="img" src="/our-services.png" alt=""
+                                 sx={{width: '100%', height: '100%', objectFit: "contain", aspectRatio: "512/900"}}/>
                         </Box>
                     </Box>
                 </Container>

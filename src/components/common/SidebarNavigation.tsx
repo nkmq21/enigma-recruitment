@@ -88,11 +88,11 @@ export const SidebarNavigation = ({session}: { session: Session | null }) => {
             subItems: [
                 {
                     text: 'Build your CV',
-                    href: `${session?.user ? '/profile/cvs' : '/login'}`,
+                    href: `${session?.user ? '/profile/cvs/builder' : '/login'}`,
                 },
                 {
                     text: 'Industry News',
-                    href: '/#',
+                    href: '/blogs',
                 },
                 {
                     text: 'Development',

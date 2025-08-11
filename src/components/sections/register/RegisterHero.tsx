@@ -2,23 +2,18 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
 import {RegisterHeroReviews} from './RegisterHeroReviews';
+import {images} from 'enigma/data/heroImageData';
 
 export const RegisterHero: React.FC = () => {
-    const images = [
-        'https://cdn.builder.io/api/v1/image/assets/8ef08a3c60b44d4ba008c3e63d84c943/6f20382ab67e61a198aff83ce7a85cea38a0370c?placeholderIfAbsent=true',
-        'https://cdn.builder.io/api/v1/image/assets/8ef08a3c60b44d4ba008c3e63d84c943/6f20382ab67e61a198aff83ce7a85cea38a0370c?placeholderIfAbsent=true',
-        'https://cdn.builder.io/api/v1/image/assets/8ef08a3c60b44d4ba008c3e63d84c943/6f20382ab67e61a198aff83ce7a85cea38a0370c?placeholderIfAbsent=true',
-        // Thêm các URL hình ảnh khác
-    ];
     const [currentImage, setCurrentImage] = React.useState(0);
 
     React.useEffect(() => {
         const interval = setInterval(() => {
             setCurrentImage((prev) => (prev + 1) % images.length);
-        }, 5000); // Chuyển đổi sau 3 giây
+        }, 5000); // Chuyển đổi sau 5 giây
 
         return () => clearInterval(interval); // Dọn dẹp interval khi component unmount
-    }, [images.length]);
+    }, []);
 
     return (
         <Box

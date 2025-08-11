@@ -27,23 +27,17 @@ const features = [
       "Our talent pool includes professionals skilled in procurement, warehousing, distribution, and global logistics coordination.",
   },
   {
-    icon: "https://cdn.builder.io/api/v1/image/assets/TEMP/11293236a2c6abb2cb6a80e7dee3249cd2c13036?placeholderIfAbsent=true&apiKey=8ef08a3c60b44d4ba008c3e63d84c943",
-    title: "Finance and Accounting",
+    icon: "https://cdn.builder.io/api/v1/image/assets/TEMP/05c217cfea2deb76f5f046da59de481124171f7f?placeholderIfAbsent=true&apiKey=8ef08a3c60b44d4ba008c3e63d84c943",
+    title: "Shared Services",
     description:
-      "We help businesses find finance experts who oversee financial reporting, cost control, budgeting, and regulatory compliance.",
+      "Our team aids companies search for HR, Marketing, Finance and sales adding value to your business processes.",
   },
   {
     icon: "https://cdn.builder.io/api/v1/image/assets/TEMP/512fadec40729828eb17f1b11e110eea67ddc3b8?placeholderIfAbsent=true&apiKey=8ef08a3c60b44d4ba008c3e63d84c943",
     title: "Purchasing and Planning",
     description:
       "We recruit planners and buyers who forecast demand, manage suppliers, and streamline procurement workflows for efficiency.",
-  },
-  {
-    icon: "https://cdn.builder.io/api/v1/image/assets/TEMP/05c217cfea2deb76f5f046da59de481124171f7f?placeholderIfAbsent=true&apiKey=8ef08a3c60b44d4ba008c3e63d84c943",
-    title: "HR & Administration",
-    description:
-      "We connect HR professionals who shape culture, manage talent, and ensure legal compliance.",
-  },
+  }
 ];
 
 const SpecializedFunctions: React.FC = () => {
