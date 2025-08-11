@@ -22,7 +22,7 @@ export default function MainContent() {
                     <CustomBadge label="Just launched"/>
                     <Box display="flex" alignItems="center" gap={1}>
                         <Typography variant="body2" color="textPrimary" sx={{fontWeight: 500}}>
-                            Track all your job applications
+                            Welcome to Enigma Recruitment!
                         </Typography>
                         <img
                             src="https://cdn.builder.io/api/v1/image/assets/8ef08a3c60b44d4ba008c3e63d84c943/11ac935d905e3e50d23ff902e18c2034defa7a84?placeholderIfAbsent=true"

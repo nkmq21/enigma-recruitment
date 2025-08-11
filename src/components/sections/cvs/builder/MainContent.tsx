@@ -49,6 +49,7 @@ export default function MainContent({session}: { session: Session | null }) {
     const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
     const [message, setMessage] = useState<string>("");
     const [showPreview, setShowPreview] = useState(false);
+    const [loading, setLoading] = useState(false);
     const isLgUp = useMediaQuery(theme.breakpoints.up("lg"));
     const isMdxUp = useMediaQuery(theme.breakpoints.up("mdx"));
     const isBetweenMdxAndLg = isMdxUp && !isLgUp;
@@ -191,6 +192,7 @@ export default function MainContent({session}: { session: Session | null }) {
     // ---------- Export ----------
     const handleExportPdf = async () => {
         try {
+            setLoading(true);
             const response = await fetch("/api/cvs/builder", {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
@@ -205,6 +207,7 @@ export default function MainContent({session}: { session: Session | null }) {
             if (!response.ok || !result?.data?.url) {
                 setDownloadUrl(null);
                 setMessage(result?.error || "Conversion failed");
+                setLoading(false);
                 return;
             }
             setDownloadUrl(result.data.url);
@@ -216,6 +219,7 @@ export default function MainContent({session}: { session: Session | null }) {
                     ? `Ready • File name: ${result.data.filename} • File size: ${fileSize} • Expires ${new Date(result.data.expires_after).toLocaleString()}`
                     : "Ready"
             );
+            setLoading(false);
         } catch (error: any) {
             setDownloadUrl(null);
             setMessage(error?.message || "Failed to export PDF");
@@ -264,10 +268,13 @@ export default function MainContent({session}: { session: Session | null }) {
                             </FormControl>
                         </Paper>
                         <Box sx={{
-                            maxHeight: {xs: "none", mdx: "calc(100vh - 160px)"},
+                            maxHeight: {
+                                xs: "none",
+                                mdx: "calc(100vh - 100px)"
+                            },
                             overflowY: {xs: "visible", mdx: "auto"},
                             pr: {mdx: 1},
-                            WebkitOverflowScrolling: "touch",
+                            WebkitOverflowScrolling: "touch"
                         }}>
                             <Stack spacing={3}>
                                 {/* Personal Info */}
@@ -349,11 +356,9 @@ export default function MainContent({session}: { session: Session | null }) {
                             position: {xs: "static", mdx: "sticky"},
                             top: 24,
                             alignSelf: "flex-start",
-
                             width: "100%",
                             display: {xs: "block", mdx: "flex"},
                             justifyContent: "center",
-
                             px: {mdx: 1}
                         }}>
                             <CvBuilderPreview template={selectedTemplate} data={deferredData}/>
@@ -390,9 +395,10 @@ export default function MainContent({session}: { session: Session | null }) {
                         <Button
                             variant="contained"
                             onClick={handleExportPdf}
+                            disabled={loading}
                             sx={{bgcolor: "#2494B6", "&:hover": {bgcolor: "#1e7a96"}}}
                         >
-                            Export PDF
+                            {loading ? "Exporting..." : "Export PDF"}
                         </Button>
                     </Stack>
                     {/* Message area */}

@@ -1,6 +1,6 @@
 "use client";
-import { memo, useDeferredValue, useMemo } from "react";
-import { Box, Paper } from "@mui/material";
+import {memo, useDeferredValue, useMemo} from "react";
+import {Box, Paper} from "@mui/material";
 import Handlebars from "handlebars";
 
 // tiny in-memory cache so we compile each template only once
@@ -24,10 +24,8 @@ function CvBuilderPreview({
 }) {
     // Defer low-priority updates (keeps inputs responsive)
     const deferred = useDeferredValue(data);
-
     // Compile once per template, reuse compiled function
     const compile = useMemo(() => getCompiled(template), [template]);
-
     // Compute HTML as derived data (no setState + effect)
     const html = useMemo(() => compile(deferred), [compile, deferred]);
 
@@ -44,14 +42,13 @@ function CvBuilderPreview({
             <Box
                 sx={{
                     "& .page": {
-                        transform: "scale(0.85)", // a little bigger than before
-                        transformOrigin: "top center",
-                        margin: "0 auto",
+                        zoom: .9,
+                        m: 3,
                     },
-                    // let the preview grow; no inner scroll
                     overflow: "visible",
+                    pb: 0
                 }}
-                dangerouslySetInnerHTML={{ __html: html }}
+                dangerouslySetInnerHTML={{__html: html}}
             />
         </Paper>
     );
