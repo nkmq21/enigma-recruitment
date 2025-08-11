@@ -10,7 +10,7 @@ const features = [
   },
   {
     icon: "https://cdn.builder.io/api/v1/image/assets/TEMP/89b601568bae0fd13231273135b9081303f00664?placeholderIfAbsent=true&apiKey=8ef08a3c60b44d4ba008c3e63d84c943",
-    title: "Production and Operations Engineering",
+    title: "Production and Operations",
     description:
       "We place engineers and supervisors who optimize production lines, ensure workflow efficiency, and maintain high operational output.",
   },
