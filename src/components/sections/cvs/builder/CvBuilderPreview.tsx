@@ -44,12 +44,11 @@ function CvBuilderPreview({
             <Box
                 sx={{
                     "& .page": {
-                        transform: "scale(0.85)", // a little bigger than before
-                        transformOrigin: "top center",
-                        margin: "0 auto",
+                        zoom: .9,
+                        m: 3,
                     },
-                    // let the preview grow; no inner scroll
                     overflow: "visible",
+                    pb: 0
                 }}
                 dangerouslySetInnerHTML={{ __html: html }}
             />
