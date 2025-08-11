@@ -22,7 +22,7 @@ const OurTeam: FunctionComponent = () => {
         <Box sx={{py: 9, bgcolor: '#fff', textAlign: 'center', zIndex: 3}}>
             <Container maxWidth="lg">
                 <Typography variant="body1" fontWeight={600} color="#2494b6">
-                    We’re hiring!
+                    Our People
                 </Typography>
                 <Typography variant="h2" fontWeight={600} color="#101828" sx={{mt: 1}}>
                     Meet our team

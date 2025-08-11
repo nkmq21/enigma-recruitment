@@ -3,6 +3,7 @@ import {Geist, Geist_Mono} from "next/font/google";
 import "./globals.css";
 import React from "react";
 import Providers from "enigma/app/Providers";
+import {SpeedInsights} from "@vercel/speed-insights/next";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -25,6 +26,7 @@ export default function RootLayout({children}: Readonly<{ children: React.ReactN
         <html lang="en">
         <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <Providers>
+            <SpeedInsights/>
             {children}
         </Providers>
         </body>
