@@ -136,8 +136,26 @@ model Cv {
   status        String?          @default("active")
   user          User             @relation(fields: [user_id], references: [id])
   applications  JobApplication[]
+  CvDocument    CvDocument[]
 
   @@map("cvs")
+}
+
+model CvDocument {
+  id          String   @id @default(dbgenerated("public.uuid_generate_v7()")) @db.Uuid
+  cv_id       String   @db.Uuid
+  templateKey String
+  data        Json
+  version     Int      @default(1)
+  isLatest    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  cv Cv @relation(fields: [cv_id], references: [cv_id])
+
+  @@index([cv_id, isLatest])
+  @@index([cv_id, updatedAt])
+  @@map("cv_documents")
 }
 
 model JobApplication {
