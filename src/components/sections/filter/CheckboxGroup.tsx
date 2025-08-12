@@ -1,6 +1,6 @@
-import {FunctionComponent, useEffect, useState} from 'react';
-import {FormGroup, FormControlLabel, Checkbox, Box} from '@mui/material';
-import {useSearchParams} from "next/navigation";
+import { FunctionComponent, useEffect, useState } from 'react';
+import { FormGroup, FormControlLabel, Checkbox, Box } from '@mui/material';
+import { useSearchParams } from "next/navigation";
 
 interface CheckboxGroupProps {
     types: string[];
@@ -10,10 +10,10 @@ interface CheckboxGroupProps {
 }
 
 const CheckboxGroup: FunctionComponent<CheckboxGroupProps> = ({
-                                                                  types,
-                                                                  value = [],
-                                                                  onChange,
-                                                              }) => {
+    types,
+    value = [],
+    onChange,
+}) => {
     const searchParams = useSearchParams()!;
     const [internalValue, setInternalValue] = useState<string[]>(() => {
         const urlValue = searchParams.get('employment_type')?.split(',').filter(Boolean) || [];
@@ -44,7 +44,7 @@ const CheckboxGroup: FunctionComponent<CheckboxGroupProps> = ({
     };
 
     return (
-        <FormGroup row sx={{gap: 2, width: '100%'}}>
+        <FormGroup row sx={{ gap: 2, width: '100%' }}>
             {types.map((type) => (
                 <Box
                     key={type}
@@ -57,7 +57,7 @@ const CheckboxGroup: FunctionComponent<CheckboxGroupProps> = ({
                         borderColor: internalValue.includes(type) ? 'primary.main' : '#d0d5dd',
                         boxShadow: '0px 1px 2px rgba(16, 24, 40, 0.05)',
                         fontSize: '14px',
-                        width: {xs: '100%', sm: '32%'},
+                        width: { xs: '100%', sm: '32%' },
                     }}
                 >
                     <FormControlLabel
@@ -66,7 +66,7 @@ const CheckboxGroup: FunctionComponent<CheckboxGroupProps> = ({
                                 checked={internalValue.includes(type)}
                                 onChange={() => handleChange(type)}
                                 sx={{
-                                    '&.Mui-checked': {color: 'primary.main'},
+                                    '&.Mui-checked': { color: 'primary.main' },
                                     padding: '0',
                                     textAlign: 'start',
                                 }}
