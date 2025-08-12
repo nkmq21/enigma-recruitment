@@ -9,11 +9,17 @@ import {
     TextField,
     Container,
     styled,
+    List,
+    ListItem,
+    ListItemIcon,
+    ListItemText
 } from '@mui/material';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import CancelIcon from '@mui/icons-material/Cancel';
 import {z} from 'zod';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {RegisterSchema} from "enigma/schemas";
-import {useForm} from "react-hook-form";
+import {useForm, useWatch} from "react-hook-form";
 import {loginGoogle, register} from "enigma/services/authService";
 
 const PrimaryButton = styled(Button)({
@@ -49,6 +55,30 @@ const GoogleButton = styled(Button)({
     },
 });
 
+interface PasswordCondition {
+    label: string;
+    test: (password: string) => boolean;
+}
+
+const passwordConditions: PasswordCondition[] = [
+    {
+        label: 'At least 8 characters long',
+        test: (password: string) => password.length >= 8,
+    },
+    {
+        label: 'Contains at least one letter',
+        test: (password: string) => /[a-zA-Z]/.test(password),
+    },
+    {
+        label: 'Contains at least one number',
+        test: (password: string) => /[0-9]/.test(password),
+    },
+    {
+        label: 'Contains at least one special character',
+        test: (password: string) => /[^a-zA-Z0-9]/.test(password),
+    },
+];
+
 export const RegisterForm: React.FC = () => {
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
@@ -64,6 +94,13 @@ export const RegisterForm: React.FC = () => {
             password: '',
             name: ''
         }
+    });
+
+    // Watch password field for real-time validation
+    const watchedPassword = useWatch({
+        control: form.control,
+        name: 'password',
+        defaultValue: ''
     });
 
     // Handle form submission
@@ -178,16 +215,53 @@ export const RegisterForm: React.FC = () => {
                                     helperText={form.formState.errors.password?.message}
                                     required
                                 />
-                                <Typography
-                                    variant="caption"
-                                    sx={{
-                                        color: '#475467',
-                                        display: 'block',
-                                        mt: 0.75,
-                                    }}
-                                >
-                                    Must be at least 6 characters.
-                                </Typography>
+                                {/* Password Conditions */}
+                                <Box sx={{mt: 2}}>
+                                    <Typography
+                                        variant="body2"
+                                        sx={{
+                                            color: '#475467',
+                                            mb: 1,
+                                            fontWeight: 500,
+                                        }}
+                                    >
+                                        Password requirements:
+                                    </Typography>
+                                    <List dense sx={{py: 0}}>
+                                        {passwordConditions.map((condition, index) => {
+                                            const isValid = condition.test(watchedPassword);
+                                            return (
+                                                <ListItem key={index} sx={{py: 0.25, px: 0}}>
+                                                    <ListItemIcon sx={{minWidth: 24}}>
+                                                        {isValid ? (
+                                                            <CheckCircleIcon
+                                                                sx={{
+                                                                    fontSize: 16,
+                                                                    color: '#10B981'
+                                                                }}
+                                                            />
+                                                        ) : (
+                                                            <CancelIcon
+                                                                sx={{
+                                                                    fontSize: 16,
+                                                                    color: '#EF4444'
+                                                                }}
+                                                            />
+                                                        )}
+                                                    </ListItemIcon>
+                                                    <ListItemText
+                                                        primary={condition.label}
+                                                        primaryTypographyProps={{
+                                                            fontSize: '12px',
+                                                            color: isValid ? '#10B981' : '#EF4444',
+                                                            fontWeight: 400,
+                                                        }}
+                                                    />
+                                                </ListItem>
+                                            );
+                                        })}
+                                    </List>
+                                </Box>
                             </Box>
                             <PrimaryButton variant="contained" type="submit" disabled={loading}>
                                 {loading ? 'Signing up...' : 'Get started'}

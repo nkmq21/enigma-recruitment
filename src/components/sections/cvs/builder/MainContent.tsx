@@ -232,7 +232,7 @@ export default function MainContent({session}: { session: Session | null }) {
         }
     };
 
-    const handleSavePdf = async () => {
+    const handleSaveCv = async () => {
         try {
             setSaving(true);
             const response = await fetch("/api/cvs", {
@@ -420,7 +420,7 @@ export default function MainContent({session}: { session: Session | null }) {
                         <Button
                             variant="outlined"
                             disabled={saving || !downloadUrl}
-                            onClick={handleSavePdf}
+                            onClick={handleSaveCv}
                         >
                             {saving ? "Saving..." : "Save PDF"}
                         </Button>
