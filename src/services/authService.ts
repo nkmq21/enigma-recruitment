@@ -210,7 +210,7 @@ export async function register(data: z.infer<typeof RegisterSchema>): Promise<Ge
         const hashedPassword = await bcrypt.hash(password, 10);
         // Check if the user already exists
         const existingUser = await _userService.getUser(email, "email");
-        if (existingUser) {
+        if (existingUser.data) {
             return {error: "User already exists"};
         }
         // Create the user

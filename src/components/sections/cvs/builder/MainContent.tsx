@@ -50,6 +50,9 @@ export default function MainContent({session}: { session: Session | null }) {
     const [message, setMessage] = useState<string>("");
     const [showPreview, setShowPreview] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [saving, setSaving] = useState(false);
+    const [fileSize, setFileSize] = useState<string | null>(null);
+    const [fileName, setFileName] = useState<string | null>(null);
     const isLgUp = useMediaQuery(theme.breakpoints.up("lg"));
     const isMdxUp = useMediaQuery(theme.breakpoints.up("mdx"));
     const isBetweenMdxAndLg = isMdxUp && !isLgUp;
@@ -193,14 +196,14 @@ export default function MainContent({session}: { session: Session | null }) {
     const handleExportPdf = async () => {
         try {
             setLoading(true);
-            const response = await fetch("/api/cvs/builder", {
+            const generatedFileName = `${new Date().toISOString()}_${session?.user?.name}'s CV`;            const response = await fetch("/api/cvs/builder", {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify({
                     payload: data,
-                    cvName: `${new Date().toISOString()}_${session?.user?.name}'s CV`,
+                    cvName: generatedFileName,
                     templateKey: selectedTemplateKey
-                }),
+                })
             });
 
             const result = await response.json();
@@ -211,20 +214,51 @@ export default function MainContent({session}: { session: Session | null }) {
                 return;
             }
             setDownloadUrl(result.data.url);
-            const fileSize = result.data.file_size as number < 1000000
+            const calculatedFileSize = result.data.file_size as number < 1000000
                 ? `${result.data.file_size as number / 1000} KB`
                 : `${result.data.file_size as number / 1000000} MB`;
-            setMessage(
-                result?.data?.expires_after
-                    ? `Ready • File name: ${result.data.filename} • File size: ${fileSize} • Expires ${new Date(result.data.expires_after).toLocaleString()}`
-                    : "Ready"
-            );
+
+            setFileName(generatedFileName);
+            setFileSize(calculatedFileSize);
+
+            const messageText = result?.data?.expires_after
+                ? `Ready • File name: ${fileName} • File size: ${fileSize} • Expires ${new Date(result.data.expires_after).toLocaleString()}`
+                : "Ready";
+            setMessage(messageText);
             setLoading(false);
         } catch (error: any) {
             setDownloadUrl(null);
             setMessage(error?.message || "Failed to export PDF");
         }
     };
+
+    const handleSaveCv = async () => {
+        try {
+            setSaving(true);
+            const response = await fetch("/api/cvs", {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({
+                    user_id: session?.user?.id,
+                    cv_url: downloadUrl,
+                    uploaded_time: new Date(),
+                    cv_title: fileName
+                })
+            });
+
+            const result = await response.json();
+            if (!response.ok) {
+                setMessage(result?.error || "Save failed");
+                setSaving(false);
+                return;
+            }
+            setMessage(`Saved • File name: ${fileName} • File size: ${fileSize}`);
+            setSaving(false);
+        } catch (error: any) {
+            setMessage(error?.message || "Failed to save PDF")
+            setSaving(false);
+        }
+    }
 
     return (
         <Box sx={{width: "100%"}}>
@@ -382,6 +416,14 @@ export default function MainContent({session}: { session: Session | null }) {
                         >
                             Toggle Preview
                         </Button>
+                        {/* Save PDF button */}
+                        <Button
+                            variant="outlined"
+                            disabled={saving || !downloadUrl}
+                            onClick={handleSaveCv}
+                        >
+                            {saving ? "Saving..." : "Save PDF"}
+                        </Button>
                         {/* Open PDF button */}
                         <Button
                             variant="outlined"
@@ -390,7 +432,6 @@ export default function MainContent({session}: { session: Session | null }) {
                         >
                             Open PDF
                         </Button>
-
                         {/* Export PDF */}
                         <Button
                             variant="contained"
@@ -408,9 +449,10 @@ export default function MainContent({session}: { session: Session | null }) {
                             ml: 2,
                             mt: 2,
                             color: !message
-                                ? "text.secondary" : message.toLowerCase().includes("fail") || message.toLowerCase().includes("error")
+                                ? "text.secondary" : message.toLowerCase().includes("fail") || message.toLowerCase().includes("error") || message.toLowerCase().includes("cannot")
                                     ? "error.main" : message.toLowerCase().includes("ready")
-                                        ? "success.main" : "text.secondary",
+                                        ? "success.main" : message.toLowerCase().includes("saved")
+                                            ? "blue" : "text.secondary",
                             whiteSpace: {mdx: "nowrap"},
                             maxWidth: {xs: "100%", mdx: 420},
                         }}

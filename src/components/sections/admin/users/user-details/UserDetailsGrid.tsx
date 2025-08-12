@@ -11,19 +11,7 @@ import {
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Image from "next/image";
 import {User} from "enigma/types/models";
-import {format} from "date-fns";
-
-export const toDisplayValue = (
-    value: string | number | Date | null | undefined
-) => {
-    if (value instanceof Date) {
-        return format(value, "MMMM d, yyyy");
-    }
-    if (typeof value === "string" && !isNaN(Date.parse(value))) {
-        return format(new Date(value), "MMMM d, yyyy");
-    }
-    return value ?? "None";
-};
+import {toDisplayValue} from "enigma/utils/dateFormat";
 
 const UserDetailsGrid = ({user}: { user: User | null | undefined }) => {
     return (
