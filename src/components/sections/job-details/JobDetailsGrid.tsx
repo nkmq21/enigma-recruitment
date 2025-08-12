@@ -1,4 +1,4 @@
-import { useState } from "react";
+import {useState} from "react";
 import {
     Box,
     Typography,
@@ -12,146 +12,108 @@ import {
     ListItemText,
     Stack,
     ListItemIcon,
-    Chip,
+    Chip, SvgIcon,
 } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Image from "next/image";
 import ActionButtons from "enigma/components/sections/job-details/JobDetailsActionButtons";
-import { Session } from "next-auth";
 import TagChips from "enigma/components/ui/TagChips";
-import { Job } from 'enigma/types/models';
-import { toDisplayValue } from "enigma/utils/dateFormat";
+import {Job} from 'enigma/types/models';
+import {toDisplayValue, isWithinDays} from "enigma/utils/dateFormat";
+import {usePathname} from "next/navigation";
+import PulsingCircle from "enigma/components/common/PulsingCircle";
+import {LocationCity, MyLocationRounded, Place, ShoppingBagRounded, Wallet, Work} from "@mui/icons-material";
+import {BsBag} from "react-icons/bs";
 
-interface JobDetailsGridProps {
-    session: Session | null;
-    job: Job;
-}
-
-const JobDetailsGrid = ({ session, job }: JobDetailsGridProps) => {
-    const tags = ["ERP/CRM Systems", "Fintech", "Documentation Skills"];
+const JobDetailsGrid = ({userId, job}: { userId: string | null | undefined; job: Job }) => {
+    const pathname = usePathname();
+    const isLocationAdmin = pathname.includes("/admin");
+    const tags = [job.industry.industry_name, job.job_function.job_function_name, job.subfunction.job_subfunction_name];
     const [showMore, setShowMore] = useState(false);
     return (
-        <Box sx={{ display: "flex", flexDirection: "column", gap: 3, p: 2 }}>
-            {/* Job Details Section */}
+        <Box sx={{display: "flex", flexDirection: "column", gap: 3, p: 2}}>
             <Box>
-                <Card sx={{ borderRadius: 4, boxShadow: "none" }}>
-                    <CardMedia
-                        component="img"
-                        height="291"
-                        image="bannerJobDetail.svg"
-                        alt="Job Banner"
-                        sx={{ borderRadius: "8px", objectFit: "cover" }}
-                    />
+                <Card sx={{borderRadius: 4, boxShadow: "none"}}>
+                    {/*<CardMedia*/}
+                    {/*    component="img"*/}
+                    {/*    height="291"*/}
+                    {/*    image="bannerJobDetail.svg"*/}
+                    {/*    alt="Job Banner"*/}
+                    {/*    sx={{borderRadius: "8px", objectFit: "cover"}}*/}
+                    {/*/>*/}
 
                     <CardContent>
-                        {/* Company Info */}
-                        <Box
-                            sx={{
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "space-between",
-                                backgroundColor: "none",
-                                py: 2,
-                                borderBottom: "1px solid #f2f4f7",
-                            }}
-                        >
-                            <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-                                <img
-                                    src="/logoCompany.svg"
-                                    alt="Company Logo"
-                                    style={{ width: 43 }}
-                                />
-                                <Box>
-                                    <Typography variant="h6" fontWeight={500}>
-                                        KBTG SELL
-                                    </Typography>
-                                </Box>
+                        <Box sx={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
+                            <Box
+                                sx={{
+                                    display: "flex",
+                                    alignItems: "flex-start",
+                                    justifyContent: "space-between",
+                                    flexDirection: "column",
+                                    mt: 2,
+                                }}
+                            >
+                                <Typography variant="h4" fontWeight={600}>
+                                    {job.job_title}
+                                </Typography>
+                                <Typography
+                                    variant="body1"
+                                    mt={1}
+                                    sx={{
+                                        display: "flex",
+                                        alignItems: "center",
+                                        gap: 1,
+                                        color: isWithinDays(job.close_date, 7)
+                                            ? "#f59e0b" : isWithinDays(job.close_date, 3)
+                                                ? "#ef4444" : "#6941c6"
+                                    }}
+                                >
+                                    <PulsingCircle closeDate={job.close_date}/>
+                                    Submission deadline: {toDisplayValue(job.close_date)}
+                                </Typography>
                             </Box>
-                            <Box sx={{ display: "flex" }}>
+                            <Box sx={{display: "flex", alignItems: "center", justifyContent: "flex-end", gap: 1}}>
                                 <IconButton size="medium">
-                                    <MoreVertIcon fontSize="medium" />
+                                    <MoreVertIcon fontSize="medium"/>
                                 </IconButton>
                                 <IconButton>
-                                    <Image src="/bookmark.svg" alt="" height={24} width={24} />
+                                    <Image src="/bookmark.svg" alt="" height={24} width={24}/>
                                 </IconButton>
                                 <IconButton>
-                                    <Image src="/share.png" alt="" height={24} width={24} />
+                                    <Image src="/share.png" alt="" height={24} width={24}/>
                                 </IconButton>
+                                <ActionButtons userId={userId} job={job} isLocationAdmin={isLocationAdmin}/>
                             </Box>
                         </Box>
-                        {/* AdminJobsPage Title and Apply Button */}
-                        <Box
-                            sx={{
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "space-between",
-                                gap: 2,
-                                mt: 2,
-                            }}
-                        >
-                            <Typography variant="h5" fontWeight={600}>
-                                {job.job_title}
-                            </Typography>
-                            {/* apply buttton */}
-                            <ActionButtons
-                                role={session?.user?.role?.toLowerCase() as string}
-                            />
-                        </Box>
-                        <Typography variant="body2" color="#6941c6" mt={1}>
-                            Submission deadline {toDisplayValue(job.close_date)} • 21 applicants
-                        </Typography>
 
-                        {/* AdminJobsPage Metadata */}
+                        {/* Job Metadata */}
                         <Box
-                            sx={{ mt: 2, display: "flex", flexDirection: "column", gap: 1 }}
+                            sx={{mt: 2, display: "flex", flexDirection: "column", gap: 1}}
                         >
                             <Stack direction="row" spacing={1.5} alignItems="center">
-                                <Image src="wallet.svg" alt="wallet" width={24} height={24} />
+                                <Wallet sx={{fill: "#236785"}}/>
                                 <Typography variant="body2">
                                     ${job.salary_range_start} - ${job.salary_range_end}
                                 </Typography>
                             </Stack>
                             <Stack direction="row" spacing={1.5} alignItems="center">
-                                <Image
-                                    src="location1.svg"
-                                    alt="location"
-                                    width={24}
-                                    height={24}
-                                />
+                                <Place sx={{fill: "#236785"}}/>
                                 <Typography variant="body2">{job.location}</Typography>
                             </Stack>
                             <Stack direction="row" spacing={1.5} alignItems="center">
-                                <Image
-                                    src="bagBlack.svg"
-                                    alt="experiment"
-                                    width={24}
-                                    height={24}
-                                />
-                                <Chip label={job.employment_type} variant="outlined" size="small" />
+                                <Work sx={{fill: "#236785"}}/>
+                                <Typography variant="body2">{job.employment_type.charAt(0).toUpperCase() + job.employment_type.slice(1)}</Typography>
                             </Stack>
                             <Stack direction="row" spacing={1} flexWrap="wrap" gap={1}>
-                                <TagChips tags={tags} salary="" showSalary={false} />
+                                <TagChips tags={tags} salary="" showSalary={false}/>
                             </Stack>
                         </Box>
                     </CardContent>
 
-                    <Box
-                        sx={{
-                            // width: isCollapsed ? "6%" : "19%",
-                            justifySelf: "flex-end",
-                            position: "absolute",
-                            top: "160%",
-                            left: "73%",
-                            borderRadius: "12px",
-                            backgroundColor: "#d9d9d9",
-                            height: 80,
-                        }}
-                    />
-
-                    {/* AdminJobsPage Summary and Responsibilities */}
-                    <CardContent sx={{ bgcolor: "#fff", borderTop: "3px solid #f2f4f7" }}>
+                    {/* Job Summary and Responsibilities */}
+                    <CardContent sx={{bgcolor: "#fff", borderTop: "3px solid #f2f4f7"}}>
                         <Typography fontWeight={600} fontSize="20px" lineHeight="30px">
-                            AdminJobsPage Summary
+                            Job Summary
                         </Typography>
 
                         <Typography variant="body1" color="#475467" mt={1}>
@@ -159,7 +121,7 @@ const JobDetailsGrid = ({ session, job }: JobDetailsGridProps) => {
                         </Typography>
 
                         {/* Key Responsibilities */}
-                        {(showMore || !showMore) && ( // Always visible in this case, but can be adjusted
+                        {(showMore || !showMore) && (
                             <>
                                 <Typography
                                     fontWeight={600}
@@ -412,7 +374,7 @@ const JobDetailsGrid = ({ session, job }: JobDetailsGridProps) => {
                                 >
                                     How to Apply
                                 </Typography>
-                                <List sx={{ margin: 0 }}>
+                                <List sx={{margin: 0}}>
                                     {/* Combined item: "Click 'Apply Now' or submit your resume..." with email */}
                                     <ListItem
                                         sx={{
@@ -439,10 +401,10 @@ const JobDetailsGrid = ({ session, job }: JobDetailsGridProps) => {
                                         <ListItemText
                                             primary={
                                                 <Box>
-                                                    <Box sx={{ display: "flex" }}>
+                                                    <Box sx={{display: "flex"}}>
                                                         <Typography
                                                             variant="body1"
-                                                            sx={{ color: "#475467" }}
+                                                            sx={{color: "#475467"}}
                                                         >
                                                             Click “
                                                         </Typography>
@@ -458,7 +420,7 @@ const JobDetailsGrid = ({ session, job }: JobDetailsGridProps) => {
                                                         </Typography>
                                                         <Typography
                                                             variant="body1"
-                                                            sx={{ color: "#475467" }}
+                                                            sx={{color: "#475467"}}
                                                         >
                                                             ” or submit your resume and portfolio to:
                                                         </Typography>
@@ -544,7 +506,7 @@ const JobDetailsGrid = ({ session, job }: JobDetailsGridProps) => {
                         )}
                     </CardContent>
 
-                    <Divider />
+                    <Divider/>
                     <Box
                         sx={{
                             display: "flex",
@@ -557,18 +519,18 @@ const JobDetailsGrid = ({ session, job }: JobDetailsGridProps) => {
                         <Typography
                             variant="body1"
                             fontWeight={600}
-                            sx={{ color: "#217799" }}
+                            sx={{color: "#217799"}}
                         >
                             {showMore ? "Show less" : "Show more"}
                         </Typography>
                         <IconButton
-                            sx={{ color: "#217799" }}
+                            sx={{color: "#217799"}}
                             onClick={() => setShowMore(!showMore)}
                         >
                             {showMore ? (
-                                <Image src="/showless.svg" alt="" height={20} width={20} />
+                                <Image src="/showless.svg" alt="" height={20} width={20}/>
                             ) : (
-                                <Image src="/showMore.svg" alt="" height={24} width={24} />
+                                <Image src="/showMore.svg" alt="" height={24} width={24}/>
                             )}
                         </IconButton>
                     </Box>

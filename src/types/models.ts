@@ -96,8 +96,15 @@ export interface Cv {
     user_id: string;
     cv_url: string;
     uploaded_time: Date;
-    cv_title?: string;
-    status?: string;
+    cv_title?: string | null;
+    status?: string | null;
+}
+
+export interface CvCreation {
+    user_id: string;
+    cv_url: string;
+    uploaded_time: Date;
+    cv_title?: string | null;
 }
 
 export interface JobApplication {
