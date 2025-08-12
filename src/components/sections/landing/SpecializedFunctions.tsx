@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { Box, Container, Typography, Card, CardContent } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 const features = [
   {
@@ -41,15 +43,31 @@ const features = [
 ];
 
 const SpecializedFunctions: React.FC = () => {
+  const theme = useTheme();
+  // Mobile & tablet (< mdx = 991px) show 1 item per row
+  const isBelowMdx = useMediaQuery(theme.breakpoints.down("mdx"));
+
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
-  // Since we want 1 item per row on mobile, we don't need to split into columns
-  // We can directly map over features for a single-column layout on mobile
+  // Desktop/laptop 3 fixed columns (unchanged logic)
+  const columns: { item: (typeof features)[number]; idx: number }[][] = [
+    [],
+    [],
+    [],
+  ];
+  features.forEach((item, i) => {
+    columns[i % 3].push({ item, idx: i });
+  });
+  if (features.length % 3 === 1) {
+    const moved = columns[0].pop();
+    if (moved) columns[1].push(moved);
+  }
+
   return (
     <Box sx={{ py: 5, bgcolor: "background.default" }}>
       <Container maxWidth="lg">
         <Box sx={{ textAlign: "center", mb: 7 }}>
-          <Typography variant="h2" gutterBottom sx={{ color: "#101828" }}>
+          <Typography variant="h2" gutterBottom sx={{ color: "text.primary" }}>
             Functions We Specialize In
           </Typography>
           <Typography
@@ -64,75 +82,129 @@ const SpecializedFunctions: React.FC = () => {
           </Typography>
         </Box>
 
-        {/* Responsive grid: 1 column on xs/sm, 3 columns on md and above */}
-        <Box
-          sx={{
-            display: "grid",
-            gridTemplateColumns: {
-              xs: "1fr", // 1 column on extra small screens (mobile)
-              sm: "1fr", // 1 column on small screens
-              md: "1fr 1fr 1fr", // 3 columns on medium screens and above
-            },
-            gap: 2, // Increased gap for better spacing
-          }}
-        >
-          {features.map((item, idx) => (
-            <Card
-              key={idx}
-              sx={{
-                boxShadow: "none",
-                textAlign: "center",
-                width: "100%",
-                mb: 2,
-              }}
-              onMouseEnter={() => setHoveredIndex(idx)}
-              onMouseLeave={() => setHoveredIndex(null)}
-            >
-              <CardContent>
-                <Box
-                  component="img"
-                  src={item.icon}
-                  alt={item.title}
-                  sx={{
-                    backgroundColor: "rgba(255, 255, 255, 0.6)",
-                    border: "1px solid rgba(255, 255, 255, 0.8)",
-                    width: 48,
-                    height: 48,
-                    mb: 2,
-                    cursor: "pointer",
-                  }}
-                />
-                <Typography
-                  variant="h5"
-                  fontWeight={600}
-                  sx={{ cursor: "pointer" }}
-                >
-                  {item.title}
-                </Typography>
-
-                <Box
-                  sx={{
-                    color: "#404A7C",
-                    borderRadius: 1,
-                    mt: 1,
-                    transition:
-                      "opacity 0.3s ease, transform 0.3s ease, max-height 0.3s ease",
-                    maxWidth: "100%",
-                    mx: "auto",
-                    textAlign: "center",
-                    opacity: hoveredIndex === idx ? 1 : 0,
-                    maxHeight: hoveredIndex === idx ? 160 : 0,
-                    overflow: "hidden",
-                    transform:
-                      hoveredIndex === idx ? "scale(1)" : "scale(0.98)",
-                  }}
-                >
-                  <Typography variant="body1">{item.description}</Typography>
-                </Box>
-              </CardContent>
-            </Card>
-          ))}
-        </Box>
+        {isBelowMdx ? (
+          // MOBILE/TABLET: one column, original order (1 item per row)
+          <Box sx={{ display: "grid", gridTemplateColumns: "1fr", gap: 1 }}>
+            {features.map((item, idx) => (
+              <Card
+                key={idx}
+                sx={{
+                  boxShadow: "none",
+                  textAlign: "center",
+                  width: "100%",
+                  mb: 2,
+                }}
+                onMouseEnter={() => setHoveredIndex(idx)}
+                onMouseLeave={() => setHoveredIndex(null)}
+              >
+                <CardContent>
+                  <Box
+                    component="img"
+                    src={item.icon}
+                    alt={item.title}
+                    sx={{
+                      backgroundColor: "rgba(255, 255, 255, 0.6)",
+                      width: 48,
+                      height: 48,
+                      mb: 2,
+                      cursor: "pointer",
+                    }}
+                  />
+                  <Typography
+                    variant="body1"
+                    fontWeight={600}
+                    sx={{ cursor: "pointer" }}
+                  >
+                    {item.title}
+                  </Typography>
+                  <Box
+                    sx={{
+                      color: "#404A7C",
+                      borderRadius: 1,
+                      mt: 1,
+                      transition:
+                        "opacity 0.5s ease-in-out, max-height 0.5s ease-in-out", // Smoother, longer transition
+                      maxWidth: "100%",
+                      mx: "auto",
+                      textAlign: "center",
+                      opacity: hoveredIndex === idx ? 1 : 0,
+                      maxHeight: hoveredIndex === idx ? 200 : 0, // Increased maxHeight to ensure content fits
+                      overflow: "hidden",
+                      transformOrigin: "top",
+                    }}
+                  >
+                    <Typography variant="body1">{item.description}</Typography>
+                  </Box>
+                </CardContent>
+              </Card>
+            ))}
+          </Box>
+        ) : (
+          // LAPTOP/DESKTOP: keep 3 fixed columns (unchanged)
+          <Box
+            sx={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 1 }}
+          >
+            {columns.map((col, colIdx) => (
+              <Box key={colIdx}>
+                {col.map(({ item, idx }) => (
+                  <Card
+                    key={idx}
+                    sx={{
+                      boxShadow: "none",
+                      textAlign: "center",
+                      width: "100%",
+                      mb: 2,
+                    }}
+                    onMouseEnter={() => setHoveredIndex(idx)}
+                    onMouseLeave={() => setHoveredIndex(null)}
+                  >
+                    <CardContent>
+                      <Box
+                        component="img"
+                        src={item.icon}
+                        alt={item.title}
+                        sx={{
+                          backgroundColor: "rgba(255, 255, 255, 0.6)",
+                          width: 48,
+                          height: 48,
+                          mb: 2,
+                          cursor: "pointer",
+                        }}
+                      />
+                      <Typography
+                        variant="body1"
+                        fontWeight={600}
+                        sx={{ cursor: "pointer" }}
+                      >
+                        {item.title}
+                      </Typography>
+                      <Box
+                        sx={{
+                          color: "#404A7C",
+                          borderRadius: 1,
+                          mt: 1,
+                          transition:
+                            "opacity 0.5s ease-in-out, max-height 0.5s ease-in-out", // Smoother, longer transition
+                          maxWidth: "100%",
+                          mx: "auto",
+                          textAlign: "center",
+                          opacity: hoveredIndex === idx ? 1 : 0,
+                          maxHeight: hoveredIndex === idx ? 200 : 0, // Increased maxHeight to ensure content fits
+                          overflow: "hidden",
+                          transformOrigin: "top",
+                        }}
+                      >
+                        <Typography variant="body1">
+                          {item.description}
+                        </Typography>
+                      </Box>
+                    </CardContent>
+                  </Card>
+                ))}
+              </Box>
+            ))}
+          </Box>
+        )}
       </Container>
     </Box>
   );
