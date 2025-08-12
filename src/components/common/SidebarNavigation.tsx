@@ -1,796 +1,796 @@
 "use client";
 import * as React from "react";
-import {useState} from "react";
+import { useState } from "react";
 import BigHeaderLogo from "./HeaderLogo";
-import {SmallHeaderLogo} from "./HeaderLogo";
+import { SmallHeaderLogo } from "./HeaderLogo";
 import {
-    Box,
-    List,
-    ListItem,
-    ListItemButton,
-    ListItemIcon,
-    ListItemText,
-    IconButton,
-    Button,
-    useTheme,
-    Avatar,
-    Typography,
-    ThemeProvider,
-    Collapse,
-    useMediaQuery,
+  Box,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  IconButton,
+  Button,
+  useTheme,
+  Avatar,
+  Typography,
+  ThemeProvider,
+  Collapse,
+  useMediaQuery,
 } from "@mui/material";
 import Image from "next/image";
-import {ExpandLess} from "@mui/icons-material";
-import {signOut} from "next-auth/react";
-import {Session} from "next-auth";
-import {usePathname, useRouter} from "next/navigation";
-import {useSidebar} from "enigma/context/SidebarContext";
+import { ExpandLess } from "@mui/icons-material";
+import { signOut } from "next-auth/react";
+import { Session } from "next-auth";
+import { usePathname, useRouter } from "next/navigation";
+import { useSidebar } from "enigma/context/SidebarContext";
 import ResponsiveLink from "enigma/components/common/ResponsiveLink";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import HowToRegIcon from "@mui/icons-material/HowToReg";
 
 interface NavItem {
-    text: string;
-    icon: React.ReactNode;
-    icon1?: React.ReactNode;
-    href?: string;
-    subItems?: { text: string; href: string; icon?: React.ReactNode }[];
+  text: string;
+  icon: React.ReactNode;
+  icon1?: React.ReactNode;
+  href?: string;
+  subItems?: { text: string; href: string; icon?: React.ReactNode }[];
 }
 
-export const SidebarNavigation = ({session}: { session: Session | null }) => {
-    const theme = useTheme();
-    const router = useRouter();
-    // Sidebar collapse logic
-    const {
-        isDesktopCollapsed,
-        toggleDesktopSidebar,
-        isMobileMenuOpen,
-        toggleMobileMenu,
-    } = useSidebar();
-    const isMobile = useMediaQuery(theme.breakpoints.down("mdx"));
-    const maybeCloseMobile = () => {
-        if (isMobileMenuOpen && isMobile) toggleMobileMenu();
-    };
-    const handleDesktopToggle = () => {
-        if (isMobile) return;
-        toggleDesktopSidebar();
-    };
-    const isCollapsed = isMobile ? false : isDesktopCollapsed;
-    // Session and user information
-    const user = session?.user ?? null;
-    const isLoggedIn = !!user;
-    const name = user?.name ?? user?.email ?? "Guest";
-    const email = user?.email ?? "";
-    const image = user?.image ?? "/Avatar.png";
-    const currentUrl = usePathname();
-    // State to manage the open dropdown menu
-    const [openDropdown, setOpenDropdown] = useState<string | null>(null);
-    const handleToggleDropdown = (text: string) => {
-        setOpenDropdown((prev) => (prev === text ? null : text));
-    };
+export const SidebarNavigation = ({ session }: { session: Session | null }) => {
+  const theme = useTheme();
+  const router = useRouter();
+  // Sidebar collapse logic
+  const {
+    isDesktopCollapsed,
+    toggleDesktopSidebar,
+    isMobileMenuOpen,
+    toggleMobileMenu,
+  } = useSidebar();
+  const isMobile = useMediaQuery(theme.breakpoints.down("mdx"));
+  const maybeCloseMobile = () => {
+    if (isMobileMenuOpen && isMobile) toggleMobileMenu();
+  };
+  const handleDesktopToggle = () => {
+    if (isMobile) return;
+    toggleDesktopSidebar();
+  };
+  const isCollapsed = isMobile ? false : isDesktopCollapsed;
+  // Session and user information
+  const user = session?.user ?? null;
+  const isLoggedIn = !!user;
+  const name = user?.name ?? user?.email ?? "Guest";
+  const email = user?.email ?? "";
+  const image = user?.image ?? "/Avatar.png";
+  const currentUrl = usePathname();
+  // State to manage the open dropdown menu
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const handleToggleDropdown = (text: string) => {
+    setOpenDropdown((prev) => (prev === text ? null : text));
+  };
 
-    // Set the session to be invalid and remove all data when signing out
-    const handleSignOut = async () => {
-        await signOut({redirectTo: "/"});
-    };
+  // Set the session to be invalid and remove all data when signing out
+  const handleSignOut = async () => {
+    await signOut({ redirectTo: "/" });
+  };
 
-    const publicItems: NavItem[] = [
+  const publicItems: NavItem[] = [
+    {
+      text: "Home",
+      icon: <Image src="/homeIcon.svg" alt="home" width={24} height={24} />,
+      href: "/",
+    },
+    {
+      text: "Dashboard",
+      icon: <Image src="/dashboard.svg" alt="home" width={24} height={24} />,
+      href: "/home",
+    },
+    {
+      text: "Career Tools",
+      icon: <Image src="/tool.svg" alt="career tool" width={24} height={24} />,
+      icon1: <Image src="/arrowSlide.svg" alt="arrow" width={24} height={24} />,
+      href: "/#",
+      subItems: [
         {
-            text: "Home",
-            icon: <Image src="/homeIcon.svg" alt="home" width={24} height={24}/>,
-            href: "/",
+          text: "Build your CV",
+          href: `${session?.user ? "/profile/cvs/builder" : "/login"}`,
         },
         {
-            text: "Dashboard",
-            icon: <Image src="/dashboard.svg" alt="home" width={24} height={24}/>,
-            href: "/home",
+          text: "Industry News",
+          href: "/blogs",
         },
         {
-            text: "Career Tools",
-            icon: <Image src="/tool.svg" alt="career tool" width={24} height={24}/>,
-            icon1: <Image src="/arrowSlide.svg" alt="arrow" width={24} height={24}/>,
+          text: "Development",
+          href: "/#",
+        },
+      ],
+    },
+    {
+      text: "Open Jobs",
+      icon: <Image src="/bagicon.svg" alt="home" width={24} height={24} />,
+      href: "/jobs",
+    },
+    ...(session?.user
+      ? [
+          {
+            text: "Profile",
+            icon: (
+              <Image src="/profile.svg" alt="profile" width={24} height={24} />
+            ),
+            icon1: (
+              <Image src="/arrowSlide.svg" alt="arrow" width={24} height={24} />
+            ),
             href: "/#",
             subItems: [
-                {
-                    text: "Build your CV",
-                    href: `${session?.user ? "/profile/cvs/builder" : "/login"}`,
-                },
-                {
-                    text: "Industry News",
-                    href: "/blogs",
-                },
-                {
-                    text: "Development",
-                    href: "/#",
-                },
+              {
+                text: "Saved Jobs",
+                href: "/profile/saved-jobs",
+              },
+              {
+                text: "Manage Resumes",
+                href: "/profile/cvs",
+              },
+              {
+                text: "Job Applications",
+                href: "/profile/applications",
+              },
+              {
+                text: "Personal Info",
+                href: "/profile",
+              },
             ],
-        },
-        {
-            text: "Open Jobs",
-            icon: <Image src="/bagicon.svg" alt="home" width={24} height={24}/>,
-            href: "/jobs",
-        },
-        ...(session?.user
-            ? [
-                {
-                    text: "Profile",
-                    icon: (
-                        <Image src="/profile.svg" alt="profile" width={24} height={24}/>
-                    ),
-                    icon1: (
-                        <Image src="/arrowSlide.svg" alt="arrow" width={24} height={24}/>
-                    ),
-                    href: "/#",
-                    subItems: [
-                        {
-                            text: "Saved Jobs",
-                            href: "/profile/saved-jobs",
-                        },
-                        {
-                            text: "Manage Resumes",
-                            href: "/profile/cvs",
-                        },
-                        {
-                            text: "Job Applications",
-                            href: "/profile/applications",
-                        },
-                        {
-                            text: "Personal Info",
-                            href: "/profile",
-                        },
-                    ],
-                },
-            ]
-            : []),
-        ...(session?.user?.role === "admin"
-            ? [
-                {
-                    text: "Admin Panel",
-                    icon: (
-                        <Image
-                            src="/homeIcon.svg"
-                            alt="admin panel"
-                            width={24}
-                            height={24}
-                        />
-                    ),
-                    href: "/admin",
-                },
-            ]
-            : []),
-    ];
-
-    const adminItems: NavItem[] = [
-        {
-            text: "Dashboard",
-            icon: <Image src="/homeIcon.svg" alt="home" width={24} height={24}/>,
+          },
+        ]
+      : []),
+    ...(session?.user?.role === "admin"
+      ? [
+          {
+            text: "Admin Panel",
+            icon: (
+              <Image
+                src="/homeIcon.svg"
+                alt="admin panel"
+                width={24}
+                height={24}
+              />
+            ),
             href: "/admin",
-        },
-        {
-            text: "User Management",
-            icon: (
-                <Image
-                    src="/homeIcon.svg"
-                    alt="user management"
-                    width={24}
-                    height={24}
-                />
-            ),
-            href: "/admin/users",
-        },
-        {
-            text: "Jobs Management",
-            icon: (
-                <Image src="/bagicon.svg" alt="job management" width={24} height={24}/>
-            ),
-            href: "/admin/jobs",
-        },
-        {
-            text: "Website Settings",
-            icon: <Image src="/settings.svg" alt="settings" width={24} height={24}/>,
-            href: "/admin/web-settings",
-        },
-        {
-            text: "Media",
-            icon: <Image src="/homeIcon.svg" alt="media" width={24} height={24}/>,
-            href: "/admin/media",
-        },
-        {
-            text: "Home",
-            icon: <Image src="/homeIcon.svg" alt="home" width={24} height={24}/>,
-            href: "/home",
-        },
-    ];
+          },
+        ]
+      : []),
+  ];
 
-    const footerItems: NavItem[] = [
-        {
-            text: "Contact Us",
-            icon: <Image src="/support.svg" alt="support" width={24} height={24}/>,
-        },
-        {
-            text: "Settings",
-            icon: <Image src="/setting.svg" alt="setting" width={24} height={24}/>,
-        },
-    ];
+  const adminItems: NavItem[] = [
+    {
+      text: "Dashboard",
+      icon: <Image src="/homeIcon.svg" alt="home" width={24} height={24} />,
+      href: "/admin",
+    },
+    {
+      text: "User Management",
+      icon: (
+        <Image
+          src="/homeIcon.svg"
+          alt="user management"
+          width={24}
+          height={24}
+        />
+      ),
+      href: "/admin/users",
+    },
+    {
+      text: "Jobs Management",
+      icon: (
+        <Image src="/bagicon.svg" alt="job management" width={24} height={24} />
+      ),
+      href: "/admin/jobs",
+    },
+    {
+      text: "Website Settings",
+      icon: <Image src="/setting.svg" alt="settings" width={24} height={24} />,
+      href: "/admin/settings",
+    },
+    {
+      text: "Media",
+      icon: <Image src="/homeIcon.svg" alt="media" width={24} height={24} />,
+      href: "/admin/media",
+    },
+    {
+      text: "Home",
+      icon: <Image src="/homeIcon.svg" alt="home" width={24} height={24} />,
+      href: "/home",
+    },
+  ];
 
-    return (
-        <ThemeProvider theme={theme}>
-            <Box
-                sx={{
-                    position: "fixed",
-                    top: 0,
-                    left: 0,
-                    height: "100%",
-                    flexShrink: 0,
-                    borderRight: `1px solid ${theme.palette.divider}`,
-                    display: "flex",
-                    flexDirection: "column",
-                    backgroundColor: theme.palette.background.paper,
-                    zIndex: 1000,
-                    transition: "width 0.15s ease, transform 0.15s ease",
-                    willChange: "width, transform",
-                    // Desktop styles (> 991px)
-                    [theme.breakpoints.up("mdx")]: {
-                        width: isCollapsed ? "6%" : "18%",
-                        transform: "translateX(0)",
-                    },
-                    // Mobile styles (< 991px)
-                    [theme.breakpoints.down("mdx")]: {
-                        width: "280px",
-                        transform: isMobileMenuOpen ? "translateX(0)" : "translateX(-100%)",
-                        boxShadow: isMobileMenuOpen
-                            ? "2px 0 10px rgba(0, 0, 0, 0.1)"
-                            : "none",
-                    },
-                }}
+  const footerItems: NavItem[] = [
+    {
+      text: "Contact Us",
+      icon: <Image src="/support.svg" alt="support" width={24} height={24} />,
+    },
+    {
+      text: "Settings",
+      icon: <Image src="/setting.svg" alt="setting" width={24} height={24} />,
+    },
+  ];
+
+  return (
+    <ThemeProvider theme={theme}>
+      <Box
+        sx={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          height: "100%",
+          flexShrink: 0,
+          borderRight: `1px solid ${theme.palette.divider}`,
+          display: "flex",
+          flexDirection: "column",
+          backgroundColor: theme.palette.background.paper,
+          zIndex: 1000,
+          transition: "width 0.15s ease, transform 0.15s ease",
+          willChange: "width, transform",
+          // Desktop styles (> 991px)
+          [theme.breakpoints.up("mdx")]: {
+            width: isCollapsed ? "6%" : "18%",
+            transform: "translateX(0)",
+          },
+          // Mobile styles (< 991px)
+          [theme.breakpoints.down("mdx")]: {
+            width: "280px",
+            transform: isMobileMenuOpen ? "translateX(0)" : "translateX(-100%)",
+            boxShadow: isMobileMenuOpen
+              ? "2px 0 10px rgba(0, 0, 0, 0.1)"
+              : "none",
+          },
+        }}
+      >
+        {/* Top section (logo) */}
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: isCollapsed ? "center" : "space-between",
+            alignItems: "center",
+            p: isCollapsed ? 2 : 0,
+            pt: 2,
+            transition: "padding 0.7s ease",
+            borderBottom: `1px solid ${theme.palette.divider}`,
+            position: "relative",
+            width: "100%",
+            boxSizing: "border-box",
+          }}
+        >
+          <Box
+            sx={{
+              flex: 1,
+              maxWidth: isCollapsed ? "100%" : "calc(100% - 60px)", // Leave some space for collapse button
+            }}
+          >
+            {isCollapsed ? <SmallHeaderLogo /> : <BigHeaderLogo />}
+          </Box>
+
+          {/* Desktop collapse button */}
+          {!isDesktopCollapsed && (
+            <IconButton
+              onClick={handleDesktopToggle}
+              disabled={isMobile}
+              aria-disabled={isMobile}
+              sx={{
+                display: { xs: "none", mdx: "flex" },
+                position: "absolute",
+                left: "92%",
+                border: "1px solid #D0D5DD",
+                borderRadius: "50%",
+                p: 1,
+                minWidth: 40,
+                height: 40,
+                backgroundColor: "white",
+                transition: "opacity 0.3s ease",
+                "&:hover": {
+                  backgroundColor: theme.palette.grey[100],
+                },
+              }}
+              aria-label="Toggle sidebar"
             >
-                {/* Top section (logo) */}
-                <Box
-                    sx={{
-                        display: "flex",
-                        justifyContent: isCollapsed ? "center" : "space-between",
-                        alignItems: "center",
-                        p: isCollapsed ? 2 : 0,
-                        pt: 2,
-                        transition: "padding 0.7s ease",
-                        borderBottom: `1px solid ${theme.palette.divider}`,
-                        position: "relative",
-                        width: "100%",
-                        boxSizing: "border-box",
-                    }}
-                >
-                    <Box
-                        sx={{
-                            flex: 1,
-                            maxWidth: isCollapsed ? "100%" : "calc(100% - 60px)", // Leave some space for collapse button
-                        }}
-                    >
-                        {isCollapsed ? <SmallHeaderLogo/> : <BigHeaderLogo/>}
-                    </Box>
+              <Image src="/showbar.svg" alt="collapse" width={24} height={24} />
+            </IconButton>
+          )}
+          {isDesktopCollapsed && (
+            <IconButton
+              onClick={handleDesktopToggle}
+              disabled={isMobile}
+              aria-disabled={isMobile}
+              sx={{
+                display: { xs: "none", mdx: "flex" },
+                position: "absolute",
+                left: "77%",
+                border: "1px solid #D0D5DD",
+                p: 1,
+                minWidth: 40,
+                height: 40,
+                backgroundColor: "white",
+                transition: "opacity 0.3s ease",
+                "&:hover": {
+                  backgroundColor: theme.palette.grey[100],
+                },
+              }}
+              aria-label="Toggle sidebar"
+            >
+              <Image src="/showbar1.svg" alt="expand" width={24} height={24} />
+            </IconButton>
+          )}
+        </Box>
 
-                    {/* Desktop collapse button */}
-                    {!isDesktopCollapsed && (
-                        <IconButton
-                            onClick={handleDesktopToggle}
-                            disabled={isMobile}
-                            aria-disabled={isMobile}
+        {/* Navigation options */}
+        <Box
+          sx={{
+            flex: 1,
+            display: "flex",
+            flexDirection: "column",
+            minHeight: 0.2,
+            borderBottom: `1px solid ${theme.palette.divider}`,
+            scrollbarWidth: "thin",
+            scrollbarColor: "#2494b6 #f1f1f1",
+            "&::-webkit-scrollbar": {
+              width: "8px",
+            },
+            "&::-webkit-scrollbar-track": {
+              background: "#2494b6",
+              borderRadius: "10px",
+            },
+            "&::-webkit-scrollbar-thumb": {
+              background: "#2494b6",
+              borderRadius: "10px",
+            },
+          }}
+        >
+          <List
+            sx={{
+              mt: isCollapsed ? 1 : 0,
+              flex: 1,
+              minHeight: 0,
+              overflowY: "auto",
+            }}
+          >
+            {currentUrl?.split("/")[1] !== "admin"
+              ? publicItems.map((item, index) => (
+                  <React.Fragment key={index}>
+                    {item.icon1 && item.subItems ? (
+                      <>
+                        <ListItem disablePadding>
+                          <ListItemButton
+                            onClick={() => handleToggleDropdown(item.text)}
                             sx={{
-                                display: {xs: "none", mdx: "flex"},
-                                position: "absolute",
-                                left: "92%",
-                                border: "1px solid #D0D5DD",
-                                borderRadius: "50%",
-                                p: 1,
-                                minWidth: 40,
-                                height: 40,
-                                backgroundColor: "white",
-                                transition: "opacity 0.3s ease",
-                                "&:hover": {
-                                    backgroundColor: theme.palette.grey[100],
-                                },
+                              borderRadius: 2,
+                              my: 1,
+                              mx: isCollapsed ? 0 : 1,
+                              justifyContent: isCollapsed
+                                ? "center"
+                                : "flex-start",
+                              backgroundColor:
+                                openDropdown === item.text
+                                  ? "#f2f4f7"
+                                  : "transparent", // Change background when dropdown is open
+                              "&:hover": {
+                                backgroundColor: "#f2f4f7", // Hover background color
+                                color: "#2494b6", // Hover text color
+                                "& .MuiListItemIcon-root": { color: "#2494b6" }, // Hover icon color
+                                "& .MuiListItemText-primary": {
+                                  color: "#2494b6",
+                                }, // Hover text color
+                              },
                             }}
-                            aria-label="Toggle sidebar"
-                        >
-                            <Image src="/showbar.svg" alt="collapse" width={24} height={24}/>
-                        </IconButton>
-                    )}
-                    {isDesktopCollapsed && (
-                        <IconButton
-                            onClick={handleDesktopToggle}
-                            disabled={isMobile}
-                            aria-disabled={isMobile}
-                            sx={{
-                                display: {xs: "none", mdx: "flex"},
-                                position: "absolute",
-                                left: "77%",
-                                border: "1px solid #D0D5DD",
-                                p: 1,
-                                minWidth: 40,
-                                height: 40,
-                                backgroundColor: "white",
-                                transition: "opacity 0.3s ease",
-                                "&:hover": {
-                                    backgroundColor: theme.palette.grey[100],
-                                },
-                            }}
-                            aria-label="Toggle sidebar"
-                        >
-                            <Image src="/showbar1.svg" alt="expand" width={24} height={24}/>
-                        </IconButton>
-                    )}
-                </Box>
-
-                {/* Navigation options */}
-                <Box
-                    sx={{
-                        flex: 1,
-                        display: "flex",
-                        flexDirection: "column",
-                        minHeight: 0.2,
-                        borderBottom: `1px solid ${theme.palette.divider}`,
-                        scrollbarWidth: "thin",
-                        scrollbarColor: "#2494b6 #f1f1f1",
-                        "&::-webkit-scrollbar": {
-                            width: "8px",
-                        },
-                        "&::-webkit-scrollbar-track": {
-                            background: "#2494b6",
-                            borderRadius: "10px",
-                        },
-                        "&::-webkit-scrollbar-thumb": {
-                            background: "#2494b6",
-                            borderRadius: "10px",
-                        },
-                    }}
-                >
-                    <List
-                        sx={{
-                            mt: isCollapsed ? 1 : 0,
-                            flex: 1,
-                            minHeight: 0,
-                            overflowY: "auto",
-                        }}
-                    >
-                        {currentUrl?.split("/")[1] !== "admin"
-                            ? publicItems.map((item, index) => (
-                                <React.Fragment key={index}>
-                                    {item.icon1 && item.subItems ? (
-                                        <>
-                                            <ListItem disablePadding>
-                                                <ListItemButton
-                                                    onClick={() => handleToggleDropdown(item.text)}
-                                                    sx={{
-                                                        borderRadius: 2,
-                                                        my: 1,
-                                                        mx: isCollapsed ? 0 : 1,
-                                                        justifyContent: isCollapsed
-                                                            ? "center"
-                                                            : "flex-start",
-                                                        backgroundColor:
-                                                            openDropdown === item.text
-                                                                ? "#f2f4f7"
-                                                                : "transparent", // Change background when dropdown is open
-                                                        "&:hover": {
-                                                            backgroundColor: "#f2f4f7", // Hover background color
-                                                            color: "#2494b6", // Hover text color
-                                                            "& .MuiListItemIcon-root": {color: "#2494b6"}, // Hover icon color
-                                                            "& .MuiListItemText-primary": {
-                                                                color: "#2494b6",
-                                                            }, // Hover text color
-                                                        },
-                                                    }}
-                                                >
-                                                    <ListItemIcon
-                                                        sx={{
-                                                            color:
-                                                                openDropdown === item.text
-                                                                    ? "#2494b6"
-                                                                    : "#344054", // Change icon color when dropdown is open
-                                                            minWidth: isCollapsed ? 0 : 40,
-                                                        }}
-                                                    >
-                                                        {item.icon}
-                                                    </ListItemIcon>
-                                                    {!isCollapsed && (
-                                                        <>
-                                                            <ListItemText
-                                                                primary={item.text}
-                                                                sx={{
-                                                                    color:
-                                                                        openDropdown === item.text
-                                                                            ? "#2494b6"
-                                                                            : "#344054", // Change text color when dropdown is open
-                                                                }}
-                                                            />
-                                                            <ListItemIcon
-                                                                sx={{
-                                                                    color:
-                                                                        openDropdown === item.text
-                                                                            ? "#2494b6"
-                                                                            : "#344054", // Change icon color when dropdown is open
-                                                                    minWidth: 0,
-                                                                }}
-                                                            >
-                                                                {openDropdown === item.text ? (
-                                                                    <ExpandLess
-                                                                        sx={{width: 24, height: 24}}
-                                                                    />
-                                                                ) : (
-                                                                    item.icon1
-                                                                )}
-                                                            </ListItemIcon>
-                                                        </>
-                                                    )}
-                                                </ListItemButton>
-                                            </ListItem>
-                                            {!isCollapsed && (
-                                                <Collapse
-                                                    in={openDropdown === item.text}
-                                                    timeout="auto"
-                                                    unmountOnExit
-                                                >
-                                                    <List
-                                                        sx={{
-                                                            pl: 4,
-                                                            pr: 1,
-                                                            display: "flex",
-                                                            flexDirection: "column",
-                                                            gap: "2px",
-                                                        }}
-                                                    >
-                                                        {item.subItems.map((subItem, subIndex) => (
-                                                            <ListItem key={subIndex} disablePadding>
-                                                                <ListItemButton
-                                                                    component={ResponsiveLink}
-                                                                    href={subItem.href}
-                                                                    onClick={maybeCloseMobile}
-                                                                    sx={{
-                                                                        borderRadius: 2,
-                                                                        padding: "8px 12px",
-                                                                        color: "#344054",
-                                                                        backgroundColor: "transparent", // Default background for sub-items
-                                                                        "&:hover": {
-                                                                            backgroundColor: "#f2f4f7", // Hover background color
-                                                                            color: "#2494b6", // Hover text color
-                                                                            "& .MuiListItemText-primary": {
-                                                                                color: "#2494b6",
-                                                                            }, // Ensure text color on hover
-                                                                        },
-                                                                    }}
-                                                                >
-                                                                    <ListItemText
-                                                                        primary={subItem.text}
-                                                                        primaryTypographyProps={{
-                                                                            fontSize: "16px",
-                                                                            fontWeight: 500,
-                                                                            lineHeight: "24px",
-                                                                            color: "inherit",
-                                                                        }}
-                                                                    />
-                                                                </ListItemButton>
-                                                            </ListItem>
-                                                        ))}
-                                                    </List>
-                                                </Collapse>
-                                            )}
-                                        </>
-                                    ) : (
-                                        <ListItem disablePadding>
-                                            <ListItemButton
-                                                component={ResponsiveLink}
-                                                href={item.href as string}
-                                                onClick={maybeCloseMobile}
-                                                sx={{
-                                                    borderRadius: 2,
-                                                    my: 1,
-                                                    mx: isCollapsed ? 0 : 1,
-                                                    justifyContent: isCollapsed
-                                                        ? "center"
-                                                        : "flex-start",
-                                                    backgroundColor: "transparent", // Default background for sub-items
-                                                    "&:hover": {
-                                                        backgroundColor: "#f2f4f7", // Hover background color
-                                                        color: "#2494b6", // Hover text color
-                                                        "& .MuiListItemText-primary": {
-                                                            color: "#2494b6",
-                                                        }, // Ensure text color on hover
-                                                    },
-                                                }}
-                                            >
-                                                <ListItemIcon
-                                                    sx={{
-                                                        color: "#344054",
-                                                        minWidth: isCollapsed ? 0 : 40,
-                                                    }}
-                                                >
-                                                    {item.icon}
-                                                </ListItemIcon>
-                                                {!isCollapsed && (
-                                                    <>
-                                                        <ListItemText
-                                                            primary={item.text}
-                                                            sx={{color: "#344054"}}
-                                                        />
-                                                        {item.icon1 && (
-                                                            <ListItemIcon
-                                                                sx={{color: "#344054", minWidth: 0}}
-                                                            >
-                                                                {item.icon1}
-                                                            </ListItemIcon>
-                                                        )}
-                                                    </>
-                                                )}
-                                            </ListItemButton>
-                                        </ListItem>
-                                    )}
-                                </React.Fragment>
-                            ))
-                            : adminItems.map((item, index) => (
-                                <React.Fragment key={index}>
-                                    {item.icon1 && item.subItems ? (
-                                        <>
-                                            <ListItem disablePadding>
-                                                <ListItemButton
-                                                    onClick={() => handleToggleDropdown(item.text)}
-                                                    sx={{
-                                                        borderRadius: 2,
-                                                        my: 1,
-                                                        mx: isCollapsed ? 0 : 1,
-                                                        justifyContent: isCollapsed
-                                                            ? "center"
-                                                            : "flex-start",
-                                                    }}
-                                                >
-                                                    <ListItemIcon
-                                                        sx={{
-                                                            color: "#344054",
-                                                            minWidth: isCollapsed ? 0 : 40,
-                                                        }}
-                                                    >
-                                                        {item.icon}
-                                                    </ListItemIcon>
-                                                    {!isCollapsed && (
-                                                        <>
-                                                            <ListItemText
-                                                                primary={item.text}
-                                                                sx={{color: "#344054"}}
-                                                            />
-                                                            <ListItemIcon
-                                                                sx={{color: "#344054", minWidth: 0}}
-                                                            >
-                                                                {openDropdown === item.text ? (
-                                                                    <ExpandLess
-                                                                        sx={{width: 24, height: 24}}
-                                                                    />
-                                                                ) : (
-                                                                    item.icon1
-                                                                )}
-                                                            </ListItemIcon>
-                                                        </>
-                                                    )}
-                                                </ListItemButton>
-                                            </ListItem>
-                                            {!isCollapsed && (
-                                                <Collapse
-                                                    in={openDropdown === item.text}
-                                                    timeout="auto"
-                                                    unmountOnExit
-                                                >
-                                                    <List
-                                                        sx={{
-                                                            pl: 4,
-                                                            display: "flex",
-                                                            flexDirection: "column",
-                                                            gap: "4px",
-                                                        }}
-                                                    >
-                                                        {item.subItems.map((subItem, subIndex) => (
-                                                            <ListItem key={subIndex} disablePadding>
-                                                                <ListItemButton
-                                                                    component={ResponsiveLink}
-                                                                    href={subItem.href}
-                                                                    sx={{
-                                                                        borderRadius: 2,
-                                                                        padding: "8px 12px",
-                                                                        color: "#344054",
-                                                                        "&:hover": {backgroundColor: "#F5F5F5"},
-                                                                    }}
-                                                                >
-                                                                    {subItem.icon && (
-                                                                        <ListItemIcon
-                                                                            sx={{
-                                                                                minWidth: "24px",
-                                                                                color: "#344054",
-                                                                            }}
-                                                                        >
-                                                                            {subItem.icon}
-                                                                        </ListItemIcon>
-                                                                    )}
-                                                                    <ListItemText
-                                                                        primary={subItem.text}
-                                                                        primaryTypographyProps={{
-                                                                            fontSize: "16px",
-                                                                            fontWeight: 500,
-                                                                            lineHeight: "24px",
-                                                                        }}
-                                                                    />
-                                                                </ListItemButton>
-                                                            </ListItem>
-                                                        ))}
-                                                    </List>
-                                                </Collapse>
-                                            )}
-                                        </>
-                                    ) : (
-                                        <ListItem disablePadding>
-                                            <ListItemButton
-                                                component={ResponsiveLink}
-                                                href={item.href as string}
-                                                sx={{
-                                                    borderRadius: 2,
-                                                    my: 1,
-                                                    mx: isCollapsed ? 0 : 1,
-                                                    justifyContent: isCollapsed
-                                                        ? "center"
-                                                        : "flex-start",
-                                                }}
-                                            >
-                                                <ListItemIcon
-                                                    sx={{
-                                                        color: "#344054",
-                                                        minWidth: isCollapsed ? 0 : 40,
-                                                    }}
-                                                >
-                                                    {item.icon}
-                                                </ListItemIcon>
-                                                {!isCollapsed && (
-                                                    <>
-                                                        <ListItemText
-                                                            primary={item.text}
-                                                            sx={{color: "#344054"}}
-                                                        />
-                                                        {item.icon1 && (
-                                                            <ListItemIcon
-                                                                sx={{color: "#344054", minWidth: 0}}
-                                                            >
-                                                                {item.icon1}
-                                                            </ListItemIcon>
-                                                        )}
-                                                    </>
-                                                )}
-                                            </ListItemButton>
-                                        </ListItem>
-                                    )}
-                                </React.Fragment>
-                            ))}
-                    </List>
-                </Box>
-
-                {/* Bottom section */}
-                <Box sx={{py: isCollapsed ? 1 : 1}}>
-                    <Box sx={{mt: 0, flexGrow: 0}}>
-                        <List sx={{borderBottom: `1px solid ${theme.palette.divider}`}}>
-                            {footerItems.map((item, index) => (
-                                <ListItemButton
-                                    key={index}
-                                    sx={{
-                                        borderRadius: 2,
-                                        my: 1,
-                                        mx: isCollapsed ? 0 : 1,
-                                        justifyContent: isCollapsed ? "center" : "flex-start",
-                                    }}
-                                >
-                                    <ListItemIcon
-                                        sx={{color: "#344054", minWidth: isCollapsed ? 0 : 40}}
-                                    >
-                                        {item.icon}
-                                    </ListItemIcon>
-                                    {!isCollapsed && (
-                                        <ListItemText
-                                            primary={item.text}
-                                            sx={{color: "#344054"}}
-                                        />
-                                    )}
-                                </ListItemButton>
-                            ))}
-                        </List>
-
-                        {!isCollapsed ? (
-                            !isLoggedIn ? (
-                                <Box sx={{mt: 2, m: 2, pt: 2}}>
-                                    <Button
-                                        variant="contained"
-                                        fullWidth
-                                        sx={{mb: 1, bgcolor: "#2494B6"}}
-                                        component={ResponsiveLink}
-                                        href="/register"
-                                    >
-                                        Sign up
-                                    </Button>
-                                    <Button
-                                        component={ResponsiveLink}
-                                        href="/login"
-                                        variant="outlined"
-                                        fullWidth
-                                    >
-                                        Sign in
-                                    </Button>
-                                </Box>
-                            ) : (
-                                <Box
-                                    sx={{
-                                        display: "flex",
-                                        alignItems: "center",
-                                        gap: 1,
-                                        mx: 2,
-                                        pt: 2,
-                                        borderRadius: 1,
-                                    }}
-                                >
-                                    <Avatar
-                                        alt={`Profile picture of ${name}`}
-                                        src={image}
-                                        sx={{width: 40, height: 40}}
-                                    />
-                                    <Box
-                                        sx={{
-                                            flexGrow: 1,
-                                            textOverflow: "ellipsis",
-                                            overflow: "hidden",
-                                        }}
-                                    >
-                                        <Typography
-                                            variant="body2"
-                                            color="#101828"
-                                            sx={{
-                                                fontWeight: 600,
-                                                textOverflow: "ellipsis",
-                                                overflow: "hidden",
-                                            }}
-                                        >
-                                            {name}
-                                        </Typography>
-                                        <Typography
-                                            variant="body2"
-                                            color="#475467"
-                                            sx={{
-                                                fontWeight: 400,
-                                                textOverflow: "ellipsis",
-                                                overflow: "hidden",
-                                            }}
-                                        >
-                                            {email}
-                                        </Typography>
-                                    </Box>
-                                    <IconButton
-                                        onClick={handleSignOut}
-                                        sx={{background: "none", border: "none", padding: 0}}
-                                    >
-                                        <Image src="/exit.svg" alt="exit" width={24} height={24}/>
-                                    </IconButton>
-                                </Box>
-                            )
-                        ) : !isLoggedIn ? (
-                            <Box sx={{pt: 2}}>
-                                <Button fullWidth href="/register">
-                                    <HowToRegIcon/>
-                                </Button>
-                                <Button href="/login" fullWidth>
-                                    <AccountCircleIcon/>
-                                </Button>
-                            </Box>
-                        ) : (
-                            <Box sx={{display: "flex", justifyContent: "center", mt: 3}}>
-                                <Avatar
-                                    alt={`Profile picture of ${name}`}
-                                    src={image}
-                                    sx={{width: 40, height: 40}}
+                          >
+                            <ListItemIcon
+                              sx={{
+                                color:
+                                  openDropdown === item.text
+                                    ? "#2494b6"
+                                    : "#344054", // Change icon color when dropdown is open
+                                minWidth: isCollapsed ? 0 : 40,
+                              }}
+                            >
+                              {item.icon}
+                            </ListItemIcon>
+                            {!isCollapsed && (
+                              <>
+                                <ListItemText
+                                  primary={item.text}
+                                  sx={{
+                                    color:
+                                      openDropdown === item.text
+                                        ? "#2494b6"
+                                        : "#344054", // Change text color when dropdown is open
+                                  }}
                                 />
-                            </Box>
+                                <ListItemIcon
+                                  sx={{
+                                    color:
+                                      openDropdown === item.text
+                                        ? "#2494b6"
+                                        : "#344054", // Change icon color when dropdown is open
+                                    minWidth: 0,
+                                  }}
+                                >
+                                  {openDropdown === item.text ? (
+                                    <ExpandLess
+                                      sx={{ width: 24, height: 24 }}
+                                    />
+                                  ) : (
+                                    item.icon1
+                                  )}
+                                </ListItemIcon>
+                              </>
+                            )}
+                          </ListItemButton>
+                        </ListItem>
+                        {!isCollapsed && (
+                          <Collapse
+                            in={openDropdown === item.text}
+                            timeout="auto"
+                            unmountOnExit
+                          >
+                            <List
+                              sx={{
+                                pl: 4,
+                                pr: 1,
+                                display: "flex",
+                                flexDirection: "column",
+                                gap: "2px",
+                              }}
+                            >
+                              {item.subItems.map((subItem, subIndex) => (
+                                <ListItem key={subIndex} disablePadding>
+                                  <ListItemButton
+                                    component={ResponsiveLink}
+                                    href={subItem.href}
+                                    onClick={maybeCloseMobile}
+                                    sx={{
+                                      borderRadius: 2,
+                                      padding: "8px 12px",
+                                      color: "#344054",
+                                      backgroundColor: "transparent", // Default background for sub-items
+                                      "&:hover": {
+                                        backgroundColor: "#f2f4f7", // Hover background color
+                                        color: "#2494b6", // Hover text color
+                                        "& .MuiListItemText-primary": {
+                                          color: "#2494b6",
+                                        }, // Ensure text color on hover
+                                      },
+                                    }}
+                                  >
+                                    <ListItemText
+                                      primary={subItem.text}
+                                      primaryTypographyProps={{
+                                        fontSize: "16px",
+                                        fontWeight: 500,
+                                        lineHeight: "24px",
+                                        color: "inherit",
+                                      }}
+                                    />
+                                  </ListItemButton>
+                                </ListItem>
+                              ))}
+                            </List>
+                          </Collapse>
                         )}
-                    </Box>
+                      </>
+                    ) : (
+                      <ListItem disablePadding>
+                        <ListItemButton
+                          component={ResponsiveLink}
+                          href={item.href as string}
+                          onClick={maybeCloseMobile}
+                          sx={{
+                            borderRadius: 2,
+                            my: 1,
+                            mx: isCollapsed ? 0 : 1,
+                            justifyContent: isCollapsed
+                              ? "center"
+                              : "flex-start",
+                            backgroundColor: "transparent", // Default background for sub-items
+                            "&:hover": {
+                              backgroundColor: "#f2f4f7", // Hover background color
+                              color: "#2494b6", // Hover text color
+                              "& .MuiListItemText-primary": {
+                                color: "#2494b6",
+                              }, // Ensure text color on hover
+                            },
+                          }}
+                        >
+                          <ListItemIcon
+                            sx={{
+                              color: "#344054",
+                              minWidth: isCollapsed ? 0 : 40,
+                            }}
+                          >
+                            {item.icon}
+                          </ListItemIcon>
+                          {!isCollapsed && (
+                            <>
+                              <ListItemText
+                                primary={item.text}
+                                sx={{ color: "#344054" }}
+                              />
+                              {item.icon1 && (
+                                <ListItemIcon
+                                  sx={{ color: "#344054", minWidth: 0 }}
+                                >
+                                  {item.icon1}
+                                </ListItemIcon>
+                              )}
+                            </>
+                          )}
+                        </ListItemButton>
+                      </ListItem>
+                    )}
+                  </React.Fragment>
+                ))
+              : adminItems.map((item, index) => (
+                  <React.Fragment key={index}>
+                    {item.icon1 && item.subItems ? (
+                      <>
+                        <ListItem disablePadding>
+                          <ListItemButton
+                            onClick={() => handleToggleDropdown(item.text)}
+                            sx={{
+                              borderRadius: 2,
+                              my: 1,
+                              mx: isCollapsed ? 0 : 1,
+                              justifyContent: isCollapsed
+                                ? "center"
+                                : "flex-start",
+                            }}
+                          >
+                            <ListItemIcon
+                              sx={{
+                                color: "#344054",
+                                minWidth: isCollapsed ? 0 : 40,
+                              }}
+                            >
+                              {item.icon}
+                            </ListItemIcon>
+                            {!isCollapsed && (
+                              <>
+                                <ListItemText
+                                  primary={item.text}
+                                  sx={{ color: "#344054" }}
+                                />
+                                <ListItemIcon
+                                  sx={{ color: "#344054", minWidth: 0 }}
+                                >
+                                  {openDropdown === item.text ? (
+                                    <ExpandLess
+                                      sx={{ width: 24, height: 24 }}
+                                    />
+                                  ) : (
+                                    item.icon1
+                                  )}
+                                </ListItemIcon>
+                              </>
+                            )}
+                          </ListItemButton>
+                        </ListItem>
+                        {!isCollapsed && (
+                          <Collapse
+                            in={openDropdown === item.text}
+                            timeout="auto"
+                            unmountOnExit
+                          >
+                            <List
+                              sx={{
+                                pl: 4,
+                                display: "flex",
+                                flexDirection: "column",
+                                gap: "4px",
+                              }}
+                            >
+                              {item.subItems.map((subItem, subIndex) => (
+                                <ListItem key={subIndex} disablePadding>
+                                  <ListItemButton
+                                    component={ResponsiveLink}
+                                    href={subItem.href}
+                                    sx={{
+                                      borderRadius: 2,
+                                      padding: "8px 12px",
+                                      color: "#344054",
+                                      "&:hover": { backgroundColor: "#F5F5F5" },
+                                    }}
+                                  >
+                                    {subItem.icon && (
+                                      <ListItemIcon
+                                        sx={{
+                                          minWidth: "24px",
+                                          color: "#344054",
+                                        }}
+                                      >
+                                        {subItem.icon}
+                                      </ListItemIcon>
+                                    )}
+                                    <ListItemText
+                                      primary={subItem.text}
+                                      primaryTypographyProps={{
+                                        fontSize: "16px",
+                                        fontWeight: 500,
+                                        lineHeight: "24px",
+                                      }}
+                                    />
+                                  </ListItemButton>
+                                </ListItem>
+                              ))}
+                            </List>
+                          </Collapse>
+                        )}
+                      </>
+                    ) : (
+                      <ListItem disablePadding>
+                        <ListItemButton
+                          component={ResponsiveLink}
+                          href={item.href as string}
+                          sx={{
+                            borderRadius: 2,
+                            my: 1,
+                            mx: isCollapsed ? 0 : 1,
+                            justifyContent: isCollapsed
+                              ? "center"
+                              : "flex-start",
+                          }}
+                        >
+                          <ListItemIcon
+                            sx={{
+                              color: "#344054",
+                              minWidth: isCollapsed ? 0 : 40,
+                            }}
+                          >
+                            {item.icon}
+                          </ListItemIcon>
+                          {!isCollapsed && (
+                            <>
+                              <ListItemText
+                                primary={item.text}
+                                sx={{ color: "#344054" }}
+                              />
+                              {item.icon1 && (
+                                <ListItemIcon
+                                  sx={{ color: "#344054", minWidth: 0 }}
+                                >
+                                  {item.icon1}
+                                </ListItemIcon>
+                              )}
+                            </>
+                          )}
+                        </ListItemButton>
+                      </ListItem>
+                    )}
+                  </React.Fragment>
+                ))}
+          </List>
+        </Box>
+
+        {/* Bottom section */}
+        <Box sx={{ py: isCollapsed ? 1 : 1 }}>
+          <Box sx={{ mt: 0, flexGrow: 0 }}>
+            <List sx={{ borderBottom: `1px solid ${theme.palette.divider}` }}>
+              {footerItems.map((item, index) => (
+                <ListItemButton
+                  key={index}
+                  sx={{
+                    borderRadius: 2,
+                    my: 1,
+                    mx: isCollapsed ? 0 : 1,
+                    justifyContent: isCollapsed ? "center" : "flex-start",
+                  }}
+                >
+                  <ListItemIcon
+                    sx={{ color: "#344054", minWidth: isCollapsed ? 0 : 40 }}
+                  >
+                    {item.icon}
+                  </ListItemIcon>
+                  {!isCollapsed && (
+                    <ListItemText
+                      primary={item.text}
+                      sx={{ color: "#344054" }}
+                    />
+                  )}
+                </ListItemButton>
+              ))}
+            </List>
+
+            {!isCollapsed ? (
+              !isLoggedIn ? (
+                <Box sx={{ mt: 2, m: 2, pt: 2 }}>
+                  <Button
+                    variant="contained"
+                    fullWidth
+                    sx={{ mb: 1, bgcolor: "#2494B6" }}
+                    component={ResponsiveLink}
+                    href="/register"
+                  >
+                    Sign up
+                  </Button>
+                  <Button
+                    component={ResponsiveLink}
+                    href="/login"
+                    variant="outlined"
+                    fullWidth
+                  >
+                    Sign in
+                  </Button>
                 </Box>
-            </Box>
-        </ThemeProvider>
-    );
+              ) : (
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 1,
+                    mx: 2,
+                    pt: 2,
+                    borderRadius: 1,
+                  }}
+                >
+                  <Avatar
+                    alt={`Profile picture of ${name}`}
+                    src={image}
+                    sx={{ width: 40, height: 40 }}
+                  />
+                  <Box
+                    sx={{
+                      flexGrow: 1,
+                      textOverflow: "ellipsis",
+                      overflow: "hidden",
+                    }}
+                  >
+                    <Typography
+                      variant="body2"
+                      color="#101828"
+                      sx={{
+                        fontWeight: 600,
+                        textOverflow: "ellipsis",
+                        overflow: "hidden",
+                      }}
+                    >
+                      {name}
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      color="#475467"
+                      sx={{
+                        fontWeight: 400,
+                        textOverflow: "ellipsis",
+                        overflow: "hidden",
+                      }}
+                    >
+                      {email}
+                    </Typography>
+                  </Box>
+                  <IconButton
+                    onClick={handleSignOut}
+                    sx={{ background: "none", border: "none", padding: 0 }}
+                  >
+                    <Image src="/exit.svg" alt="exit" width={24} height={24} />
+                  </IconButton>
+                </Box>
+              )
+            ) : !isLoggedIn ? (
+              <Box sx={{ pt: 2 }}>
+                <Button fullWidth href="/register">
+                  <HowToRegIcon />
+                </Button>
+                <Button href="/login" fullWidth>
+                  <AccountCircleIcon />
+                </Button>
+              </Box>
+            ) : (
+              <Box sx={{ display: "flex", justifyContent: "center", mt: 3 }}>
+                <Avatar
+                  alt={`Profile picture of ${name}`}
+                  src={image}
+                  sx={{ width: 40, height: 40 }}
+                />
+              </Box>
+            )}
+          </Box>
+        </Box>
+      </Box>
+    </ThemeProvider>
+  );
 };
