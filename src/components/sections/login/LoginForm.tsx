@@ -4,10 +4,6 @@ import {useActionState, useState} from "react";
 import BigHeaderLogo from "enigma/components/common/HeaderLogo";
 import {Box, Button, Checkbox, Container, FormControlLabel, Stack, TextField, Typography,} from '@mui/material';
 import {useRouter} from "next/navigation";
-import {z} from "zod";
-import {useForm} from "react-hook-form";
-import {LoginSchema} from "enigma/schemas";
-import {zodResolver} from "@hookform/resolvers/zod";
 import {login, loginGoogle} from "enigma/services/authService";
 
 export const LoginForm: React.FC = () => {
@@ -17,48 +13,40 @@ export const LoginForm: React.FC = () => {
     const [errorMessageGoogle, dispatchGoogle] = useActionState(loginGoogle, undefined);
     const router = useRouter();
 
-    // Initialize the form with react-hook-form and zod
-    const form = useForm<z.infer<typeof LoginSchema>>({
-        resolver: zodResolver(LoginSchema),
-        defaultValues: {
-            email: '',
-            password: ''
-        }
+    // Initialize the form
+    const [formData, setFormData] = useState({
+        email: '',
+        password: ''
     });
 
+    // Handle input changes
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({
+            ...prev,
+            [name]: value
+        }));
+    };
+
     // Handle form submission
-    const onSubmit = async (data: z.infer<typeof LoginSchema>) => {
+    const onSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
         setLoading(true);
         setError(null);
         setSuccess("");
-        // try {
-        console.log("LoginForm - Prepare to invoke login() with data: ", data);
-        const res = await login(data);
-        console.log("LoginForm - Response from login(): ", res);
+        const res = await login(formData);
         if (res.error) {
-            console.log("LoginForm - Error during login: ", res.error);
             setError(res.error);
             setLoading(false);
             setSuccess("");
         }
         if (res.success) {
-            console.log("LoginForm - Successfully logged in: ", res.success);
             setSuccess(res.success);
             setLoading(false);
             setError("");
             router.push("/home");
         }
-        // } catch (err) {
-        //     if (err !== "NEXT_REDIRECT") {
-        //         console.log("Error during logging in: ", err);
-        //     } else {
-        //         console.error("Error during logging in: ", err);
-        //         setError("An error occurred during logging in: " + err);
-        //         throw err;
-        //     }
-        // } finally {
         setLoading(false);
-        // }
     };
 
     return (
@@ -105,15 +93,18 @@ export const LoginForm: React.FC = () => {
                             {/*Credentials login section*/}
                             <Stack spacing={3}>
                                 <Box component="form"
-                                     onSubmit={form.handleSubmit(onSubmit)}
+                                     onSubmit={onSubmit}
                                 >
                                     {/* input mail and password and login */}
                                     <Stack spacing={2.5}>
                                         <TextField
                                             fullWidth
+                                            name="email"
                                             type="email"
                                             label="Email"
                                             placeholder="Enter your email"
+                                            value={formData.email}
+                                            onChange={handleInputChange}
                                             variant="outlined"
                                             sx={{
                                                 '& .MuiOutlinedInput-root': {
@@ -127,16 +118,16 @@ export const LoginForm: React.FC = () => {
                                                     fontWeight: 500,
                                                 },
                                             }}
-                                            {...form.register("email")}
-                                            error={!!form.formState.errors.email}
-                                            helperText={form.formState.errors.email?.message}
                                             required
                                         />
                                         <TextField
                                             fullWidth
+                                            name="password"
                                             type="password"
                                             label="Password"
                                             placeholder="••••••••"
+                                            value={formData.password}
+                                            onChange={handleInputChange}
                                             variant="outlined"
                                             sx={{
                                                 '& .MuiOutlinedInput-root': {
@@ -150,9 +141,6 @@ export const LoginForm: React.FC = () => {
                                                     fontWeight: 500,
                                                 },
                                             }}
-                                            {...form.register("password")}
-                                            error={!!form.formState.errors.password}
-                                            helperText={form.formState.errors.password?.message}
                                             required
                                         />
 

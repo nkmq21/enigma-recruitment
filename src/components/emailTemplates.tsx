@@ -20,12 +20,6 @@ export const EmailTemplateHTML = ({name, confirmLink}: EmailTemplateProps) => (
 );
 
 export function VerifyEmail(name: string, verificationUrl: string) {
-    // Function to shorten URL
-    const shortenUrl = (url: string, maxLength = 50) => {
-        if (url.length <= maxLength) return url;
-        return `${url.substring(0, maxLength - 3)}...`;
-    };
-
     return (
         <div
             style={{
@@ -52,7 +46,7 @@ export function VerifyEmail(name: string, verificationUrl: string) {
                 <tr>
                     <td style={{padding: '15px'}}>
                         <img
-                            src="https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/d1d456e827ae4fc0a39d211ba32bbbabc0583f8f/public/Logo2.svg"
+                            src="https://raw.githubusercontent.com/yeetingthots69/enigma-recruitment/d1d456e827ae4fc0a39d211ba32bbbabc0583f8f/public/Logo2.svg"
                             alt="Career Logo"
                             style={{width: '135px', height: '28px', display: 'block'}}
                         />
@@ -74,9 +68,8 @@ export function VerifyEmail(name: string, verificationUrl: string) {
                     <td style={{padding: '16px', textAlign: 'center'}}>
                         {/* Icon and Title */}
                         <div style={{marginBottom: '16px'}}>
-                            {/* Todo Thay icon */}
                             <img
-                                src="https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/d1d456e827ae4fc0a39d211ba32bbbabc0583f8f/public/email-icon.svg"
+                                src="https://raw.githubusercontent.com/yeetingthots69/enigma-recruitment/d1d456e827ae4fc0a39d211ba32bbbabc0583f8f/public/email-icon.svg"
                                 alt="Email Icon"
                                 style={{
                                     width: '50px', height: '50px', display: 'block', margin: '0 auto'
@@ -178,17 +171,17 @@ export function VerifyEmail(name: string, verificationUrl: string) {
                             <tbody>
                             <tr>
                                 <td style={{padding: '0', textAlign: 'left'}}>
-                      <span
-                          style={{
-                              fontSize: '14px',
-                              lineHeight: '20px',
-                              color: '#2494b6',
-                              wordBreak: 'break-word',
-                              display: 'inline-block',
-                          }}
-                      >
-                        {shortenUrl(verificationUrl)}
-                      </span>
+                                <span style={{
+                                        fontSize: '14px',
+                                        lineHeight: '20px',
+                                        color: '#2494b6',
+                                        wordBreak: 'break-word',
+                                        display: 'inline-block',
+                                        textAlign: "center"
+                                    }}
+                                >
+                                    {verificationUrl}
+                                </span>
                                 </td>
                                 <td style={{padding: '0', textAlign: 'right'}}>
                                     <a
@@ -275,7 +268,7 @@ export function ForgotEmail(name: string, verificationUrl: string) {
                 <tr>
                     <td style={{padding: '15px'}}>
                         <img
-                            src="https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/d1d456e827ae4fc0a39d211ba32bbbabc0583f8f/public/Logo2.svg"
+                            src="https://raw.githubusercontent.com/yeetingthots69/enigma-recruitment/da8a9edf179626b8ba6af2e414f31b0837bcf8c3/public/Logo2.svg"
                             alt="Career Logo"
                             style={{width: '135px', height: '28px', display: 'block'}}
                         />
@@ -297,9 +290,8 @@ export function ForgotEmail(name: string, verificationUrl: string) {
                     <td style={{padding: '16px', textAlign: 'center'}}>
                         {/* Icon and Title */}
                         <div style={{marginBottom: '16px'}}>
-                            {/* TODO: sua icon */}
                             <img
-                                src="https://github.com/outlastzedd/enigma-recruitment-sprint3/blob/d1d456e827ae4fc0a39d211ba32bbbabc0583f8f/public/lock-icon.svg"
+                                src="https://raw.githubusercontent.com/yeetingthots69/enigma-recruitment/d1d456e827ae4fc0a39d211ba32bbbabc0583f8f/public/lock-icon.svg"
                                 alt="Lock Icon"
                                 style={{width: '50px', height: '50px', display: 'block', margin: '0 auto'}}
                             />
@@ -418,6 +410,7 @@ export function ForgotEmail(name: string, verificationUrl: string) {
                                             color: '#2494b6',
                                             wordBreak: 'break-word',
                                             display: 'inline-block',
+                                            textAlign: "center"
                                         }}
                                     >
                                         {verificationUrl}
