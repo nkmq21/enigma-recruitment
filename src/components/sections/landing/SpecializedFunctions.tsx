@@ -37,28 +37,14 @@ const features = [
     title: "Purchasing and Planning",
     description:
       "We recruit planners and buyers who forecast demand, manage suppliers, and streamline procurement workflows for efficiency.",
-  }
+  },
 ];
 
 const SpecializedFunctions: React.FC = () => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
-  // Mỗi phần tử lưu cả original index để hover/keys ổn định
-  const columns: { item: (typeof features)[number]; idx: number }[][] = [
-    [],
-    [],
-    [],
-  ];
-  features.forEach((item, i) => {
-    columns[i % 3].push({ item, idx: i });
-  });
-
-  // Nếu hàng cuối chỉ còn 1 item -> đưa nó sang cột giữa (col 1)
-  if (features.length % 3 === 1) {
-    const moved = columns[0].pop();
-    if (moved) columns[1].push(moved);
-  }
-
+  // Since we want 1 item per row on mobile, we don't need to split into columns
+  // We can directly map over features for a single-column layout on mobile
   return (
     <Box sx={{ py: 5, bgcolor: "background.default" }}>
       <Container maxWidth="lg">
@@ -78,76 +64,73 @@ const SpecializedFunctions: React.FC = () => {
           </Typography>
         </Box>
 
-        {/* 3 fixed columns; mỗi cột là 1 stack độc lập */}
+        {/* Responsive grid: 1 column on xs/sm, 3 columns on md and above */}
         <Box
           sx={{
             display: "grid",
-            gridTemplateColumns: "1fr 1fr 1fr", // luôn 3 item/hàng
-            gap: 1,
+            gridTemplateColumns: {
+              xs: "1fr", // 1 column on extra small screens (mobile)
+              sm: "1fr", // 1 column on small screens
+              md: "1fr 1fr 1fr", // 3 columns on medium screens and above
+            },
+            gap: 2, // Increased gap for better spacing
           }}
         >
-          {columns.map((col, colIdx) => (
-            <Box key={colIdx}>
-              {col.map(({ item, idx }, indexInCol) => (
-                <Card
-                  key={idx}
+          {features.map((item, idx) => (
+            <Card
+              key={idx}
+              sx={{
+                boxShadow: "none",
+                textAlign: "center",
+                width: "100%",
+                mb: 2,
+              }}
+              onMouseEnter={() => setHoveredIndex(idx)}
+              onMouseLeave={() => setHoveredIndex(null)}
+            >
+              <CardContent>
+                <Box
+                  component="img"
+                  src={item.icon}
+                  alt={item.title}
                   sx={{
-                    boxShadow: "none",
-                    textAlign: "center",
-                    width: "100%",
+                    backgroundColor: "rgba(255, 255, 255, 0.6)",
+                    border: "1px solid rgba(255, 255, 255, 0.8)",
+                    width: 48,
+                    height: 48,
                     mb: 2,
+                    cursor: "pointer",
                   }}
-                  onMouseEnter={() => setHoveredIndex(idx)}
-                  onMouseLeave={() => setHoveredIndex(null)}
+                />
+                <Typography
+                  variant="h5"
+                  fontWeight={600}
+                  sx={{ cursor: "pointer" }}
                 >
-                  <CardContent>
-                    <Box
-                      component="img"
-                      src={item.icon}
-                      alt={item.title}
-                      sx={{
-                        backgroundColor: "rgba(255, 255, 255, 0.6)",
-                        border: "1px solid rgba(255, 255, 255, 0.8)",
-                        width: 48,
-                        height: 48,
-                        mb: 2,
-                        cursor: "pointer",
-                      }}
-                    />
-                    <Typography
-                      variant="body1"
-                      fontWeight={600}
-                      sx={{ cursor: "pointer" }}
-                    >
-                      {item.title}
-                    </Typography>
+                  {item.title}
+                </Typography>
 
-                    {/* Chỉ cột hiện tại bị đẩy xuống khi expand */}
-                    <Box
-                      sx={{
-                        color: "#404A7C",
-                        borderRadius: 1,
-                        mt: 1,
-                        transition:
-                          "opacity 0.3s ease, transform 0.3s ease, max-height 0.3s ease",
-                        maxWidth: "100%",
-                        mx: "auto",
-                        textAlign: "center",
-                        opacity: hoveredIndex === idx ? 1 : 0,
-                        maxHeight: hoveredIndex === idx ? 160 : 0,
-                        overflow: "hidden",
-                        transform:
-                          hoveredIndex === idx ? "scale(1)" : "scale(0.98)",
-                      }}
-                    >
-                      <Typography variant="body1">
-                        {item.description}
-                      </Typography>
-                    </Box>
-                  </CardContent>
-                </Card>
-              ))}
-            </Box>
+                <Box
+                  sx={{
+                    color: "#404A7C",
+                    borderRadius: 1,
+                    mt: 1,
+                    transition:
+                      "opacity 0.3s ease, transform 0.3s ease, max-height 0.3s ease",
+                    maxWidth: "100%",
+                    mx: "auto",
+                    textAlign: "center",
+                    opacity: hoveredIndex === idx ? 1 : 0,
+                    maxHeight: hoveredIndex === idx ? 160 : 0,
+                    overflow: "hidden",
+                    transform:
+                      hoveredIndex === idx ? "scale(1)" : "scale(0.98)",
+                  }}
+                >
+                  <Typography variant="body1">{item.description}</Typography>
+                </Box>
+              </CardContent>
+            </Card>
           ))}
         </Box>
       </Container>
