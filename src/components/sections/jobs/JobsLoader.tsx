@@ -4,10 +4,10 @@ import {
     Box,
     CircularProgress
 } from "@mui/material";
-import {JobListPage} from "enigma/components/common/JobCard";
-import {Job} from "enigma/types/models";
-import {useSearchParams, useRouter} from "next/navigation";
-import {PaginatedResponse} from "enigma/types/DTOs";
+import { JobListPage } from "enigma/components/common/JobCard";
+import { Job } from "enigma/types/models";
+import { useSearchParams, useRouter } from "next/navigation";
+import { PaginatedResponse } from "enigma/types/DTOs";
 import Pagination from "enigma/components/ui/JobPagination";
 
 export default function JobsLoader() {
@@ -29,57 +29,23 @@ export default function JobsLoader() {
             try {
                 const queryParams = new URLSearchParams();
                 queryParams.set('status', 'active,prioritized');
-                const query = searchParams.get('query');
-                if (query) {
-                    queryParams.set('query', query);
-                }
 
-                const locations = searchParams.get('locations');
-                if (locations) {
-                    queryParams.set('locations', locations);
-                }
+                // Simplify parameter building
+                const paramKeys = [
+                    'query', 'locations', 'jobFunctions', 'jobSubfunctions',
+                    'industries', 'employment_type', 'postDateRange', 'salaryMin', 'salaryMax'
+                ];
 
-                const jobFunctions = searchParams.get('jobFunctions');
-                if (jobFunctions) {
-                    queryParams.set('jobFunctions', jobFunctions);
-                }
-
-                const jobSubfunctions = searchParams.get('jobSubfunctions');
-                if (jobSubfunctions) {
-                    queryParams.set('jobSubfunctions', jobSubfunctions);
-                }
-
-                const industries = searchParams.get('industries');
-                if (industries) {
-                    queryParams.set('industries', industries);
-                }
-
-                const employmentType = searchParams.get('employment_type');
-                if (employmentType) {
-                    queryParams.set('employment_type', employmentType);
-                }
-
-                const postDateRange = searchParams.get('postDateRange');
-                if (postDateRange) {
-                    queryParams.set('postDateRange', postDateRange);
-                }
-
-                const salaryMin = searchParams.get('salaryMin');
-                if (salaryMin) {
-                    queryParams.set('salaryMin', salaryMin);
-                }
-
-                const salaryMax = searchParams.get('salaryMax');
-                if (salaryMax) {
-                    queryParams.set('salaryMax', salaryMax);
-                }
-
-                //TODO: other filter criteria will continue from here
+                paramKeys.forEach(key => {
+                    const value = searchParams.get(key);
+                    if (value) {
+                        queryParams.set(key, value);
+                    }
+                });
 
                 const page = searchParams.get('page') || '1';
                 queryParams.set('page', page);
-
-                queryParams.set('limit','10');
+                queryParams.set('limit', '10');
 
                 console.log('query params', queryParams.toString());
 
@@ -90,12 +56,11 @@ export default function JobsLoader() {
 
                 const data: PaginatedResponse<Job> = await response.json();
                 if (data.items && Array.isArray(data.items)) {
-                    // Make sure each job has the required properties
                     const transformedJobs = data.items.map((job: Job) => ({
                         ...job,
-                        industry: job.industry || {industry_name: ""},
-                        job_function: job.job_function || {job_function_name: ""},
-                        subfunction: job.subfunction || {job_subfunction_name: ""},
+                        industry: job.industry || { industry_name: "" },
+                        job_function: job.job_function || { job_function_name: "" },
+                        subfunction: job.subfunction || { job_subfunction_name: "" },
                         close_date: job.close_date ? new Date(job.close_date) : new Date(),
                         created_date: job.created_date ? new Date(job.created_date) : new Date()
                     }));
@@ -117,9 +82,23 @@ export default function JobsLoader() {
         fetchJobs();
     }, [searchParams]);
 
+    // Helper function to safely extract meta values
+    const getMetaInfo = () => {
+        if (!meta) return null;
+
+        return {
+            page: meta.page ?? 1,
+            limit: meta.limit ?? 10,
+            total: meta.total ?? 0,
+            totalPages: meta.totalPages ?? 1
+        };
+    };
+
+    const metaInfo = getMetaInfo();
+
     return (
         <Box sx={{
-            display: "flex", flexDirection: {xs: "column", lg: "row"}, gap: 4, width: '100%'
+            display: "flex", flexDirection: { xs: "column", lg: "row" }, gap: 4, width: '100%'
         }}>
             {/* Left Column */}
             <Box sx={{
@@ -137,8 +116,8 @@ export default function JobsLoader() {
                             opacity: 0,
                             animation: 'fadeIn 0.5s ease-in-out forwards', // Fade-in transition for the Box
                             '@keyframes fadeIn': {
-                                from: {opacity: 0, transform: 'scale(0.8)'},
-                                to: {opacity: 1, transform: 'scale(1)'},
+                                from: { opacity: 0, transform: 'scale(0.8)' },
+                                to: { opacity: 1, transform: 'scale(1)' },
                             },
                         }}
                     >
@@ -147,40 +126,41 @@ export default function JobsLoader() {
                                 color: '#40b0d0', // Match the blue theme from OurServices component
                                 animation: 'spin 1s linear infinite', // Continuous spinning animation
                                 '@keyframes spin': {
-                                    '0%': {transform: 'rotate(0deg)'},
-                                    '100%': {transform: 'rotate(360deg)'},
+                                    '0%': { transform: 'rotate(0deg)' },
+                                    '100%': { transform: 'rotate(360deg)' },
                                 },
                             }}
                             size={40} // Size of the loader
                         />
-                        <Typography variant="body1" sx={{mt: 2, color: '#475467'}}>
+                        <Typography variant="body1" sx={{ mt: 2, color: '#475467' }}>
                             Loading jobs...
                         </Typography>
                     </Box>
                 ) : jobs.length > 0 ? (
                     <>
-                        <JobListPage jobs={jobs}/>
-                        {meta && (
-                            <Box sx={{mt: 2, textAlign: 'center', color: '#475467'}}>
+                        <JobListPage jobs={jobs} />
+
+                        {/* Using helper function */}
+                        {metaInfo && (
+                            <Box sx={{ mt: 2, textAlign: 'center', color: '#475467' }}>
                                 <Typography variant="body2">
-                                    Showing {((meta.page - 1) * meta.limit) + 1}-{Math.min(meta.page * meta.limit, meta.total)} of {meta.total} jobs
-                                    (Page {meta.page} of {meta.totalPages})
+                                    Showing {((metaInfo.page - 1) * metaInfo.limit + 1)}-{Math.min(metaInfo.page * metaInfo.limit, metaInfo.total)} of {metaInfo.total} jobs
+                                    (Page {metaInfo.page} of {metaInfo.totalPages})
                                 </Typography>
                             </Box>
                         )}
 
-                        {/* Added the Pagination component */}
-                        {meta && meta.totalPages > 1 && (
+                        {metaInfo && metaInfo.totalPages > 1 && (
                             <Pagination
-                                currentPage={meta.page}
-                                totalPages={meta.totalPages}
+                                currentPage={metaInfo.page}
+                                totalPages={metaInfo.totalPages}
                                 onPageChange={handlePageChange}
                                 loading={loading}
                             />
                         )}
                     </>
                 ) : (
-                    <Box sx={{textAlign: 'center', py: 4, color: '#475467'}}>
+                    <Box sx={{ textAlign: 'center', py: 4, color: '#475467' }}>
                         <Typography variant="body1">No jobs found matching your criteria.</Typography>
                     </Box>
                 )}
