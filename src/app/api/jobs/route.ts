@@ -27,6 +27,9 @@ export async function GET(request: NextRequest) {
 
     const postDateRange = searchParams.get('postDateRange') || '' as string;
 
+    const salaryMin = parseInt(searchParams.get('salaryMin') || '0');
+    const salaryMax = parseInt(searchParams.get('salaryMax') || '10000');
+
     //TODO: other filter params will continue from here
 
     const filters: JobSearchFilters = {
@@ -38,6 +41,8 @@ export async function GET(request: NextRequest) {
         industries,
         employment_type,
         postDateRange,
+        salaryMin,
+        salaryMax,
         page,
         limit
     };

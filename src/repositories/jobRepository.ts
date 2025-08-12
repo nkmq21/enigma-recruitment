@@ -10,10 +10,14 @@ export interface JobSearchFilters {
     jobSubfunctions?: string[];
     industries?: string[];
     employment_type?: string[];
-    postDateRange: string;
+    postDateRange?: string;
+    salaryMin?: number;
+    salaryMax?: number;
     page: number;
     limit: number;
 }
+
+const maxSalaryValue = 10000;
 
 export async function findById(jobId: string): Promise<Job | null> {
     try {
@@ -95,6 +99,8 @@ export async function findByFilter(filters: JobSearchFilters): Promise<{ jobs: J
         (!filters.jobSubfunctions || filters.jobSubfunctions.length === 0) &&
         (!filters.industries || filters.industries.length === 0) &&
         (!filters.employment_type || filters.employment_type.length === 0) &&
+        (!filters.salaryMin || filters.salaryMin === 0) &&
+        (!filters.salaryMax || filters.salaryMax === 0) &&
         !filters.postDateRange
     ) {
         return findByStatus(filters.status, filters.page, filters.limit);
@@ -118,6 +124,8 @@ export async function findByFilter(filters: JobSearchFilters): Promise<{ jobs: J
                 ${_buildJobSubfunction(filters.jobSubfunctions || [])}
                 ${_buildIndustries(filters.industries || [])}
                 ${_buildEmploymentType(filters.employment_type || [])}
+                ${_buildMinSalary(filters.salaryMin || 0)}
+                ${_buildMaxSalary(filters.salaryMax || maxSalaryValue)}
                 ${dateCondition}
                 ${lowercasedQuery ? _buildSearchCondition(lowercasedQuery) : Prisma.empty}
             ORDER BY j.job_id, j.close_date DESC
@@ -139,6 +147,8 @@ export async function findByFilter(filters: JobSearchFilters): Promise<{ jobs: J
                 ${_buildJobSubfunction(filters.jobSubfunctions || [])}
                 ${_buildIndustries(filters.industries || [])}
                 ${_buildEmploymentType(filters.employment_type || [])}
+                ${_buildMinSalary(filters.salaryMin || 0)}
+                ${_buildMaxSalary(filters.salaryMax || maxSalaryValue)}
                 ${dateCondition}
                 ${lowercasedQuery ? _buildSearchCondition(lowercasedQuery) : Prisma.empty}
         `;
@@ -158,10 +168,10 @@ function _buildDateCondition(postDateRange?: string): Prisma.Sql {
     switch (postDateRange) {
         case 'Past 24 hours':
             return Prisma.sql`AND j.created_date >= NOW() - INTERVAL '24 Hours'`;
-        case ' Past week':
+        case 'Past week':
             return Prisma.sql`AND j.created_date >= NOW() - INTERVAL '1 Week'`;
         case 'Past month':
-            return Prisma.sql`AND j.created_date >= NOW() - INTERVAL '1 Month'`
+            return Prisma.sql`AND j.created_date >= NOW() - INTERVAL '1 Month'`;
         default:
             return Prisma.empty;
     }
@@ -197,6 +207,14 @@ function _buildEmploymentType(employmentType: string[]): Prisma.Sql {
     return employmentType.length > 0
         ? Prisma.sql`AND j.employment_type ILIKE ANY(${employmentType})`
         : Prisma.empty
+}
+
+function _buildMinSalary(salaryMin: number | null): Prisma.Sql {
+    return (salaryMin != null && salaryMin > 0) ? Prisma.sql`AND j.salary_range_start >= ${salaryMin}` : Prisma.empty
+}
+
+function _buildMaxSalary(salaryMax: number | null): Prisma.Sql {
+    return (salaryMax != null && salaryMax > 0 && salaryMax < maxSalaryValue) ? Prisma.sql`AND j.salary_range_end <= ${salaryMax}` : Prisma.empty
 }
 
 function _buildSearchCondition(query: string): Prisma.Sql {
