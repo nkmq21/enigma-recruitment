@@ -1,4 +1,3 @@
-"use client";
 import {
     Box,
     Typography,
@@ -20,12 +19,15 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import {Close} from '@mui/icons-material';
 import theme from "enigma/styles/theme";
 import React from "react";
+import {Cv, Job} from "enigma/types/models";
 
 interface ContentProps {
+    cvs: Cv[];
+    job: Job;
     handleClose: () => void;
 }
 
-const ApplyDialog: React.FC<ContentProps> = ({handleClose}) => {
+const ApplyDialog: React.FC<ContentProps> = ({cvs, job, handleClose}) => {
     return (
         <ThemeProvider theme={theme}>
             <Card sx={{
@@ -51,7 +53,7 @@ const ApplyDialog: React.FC<ContentProps> = ({handleClose}) => {
             }}>
                 <Box sx={{display: 'flex'}}>
                     <Typography variant="h5" fontWeight={600}>
-                        $Senior Business Analyst (Blockchain)
+                        {job.job_title}
                     </Typography>
                     <IconButton sx={{ml: 'auto'}} onClick={handleClose}>
                         <Close/>
@@ -102,7 +104,7 @@ const ApplyDialog: React.FC<ContentProps> = ({handleClose}) => {
                             />
                         </Box>
 
-                        <Box sx={{flex: 1,}}>
+                        <Box sx={{flex: 1}}>
                             <FormControl
                                 fullWidth
                                 variant="outlined"
@@ -179,25 +181,13 @@ const ApplyDialog: React.FC<ContentProps> = ({handleClose}) => {
                     <Box>
                         {/* LinkedIn Profile */}
                         <Typography variant="body2" fontWeight={500} gutterBottom>
-                            LinkedIn Profile <Typography component="span" color="#667085"> (optional)</Typography>
+                            LinkedIn Profile/Your Own Website <Typography component="span"
+                                                                          color="#667085"> (optional)</Typography>
                         </Typography>
                         <TextField
-                            placeholder="www.linkedin.com/feed/"
+                            placeholder="https://linkedin.com/feed/"
                             fullWidth
                             variant="outlined"
-                            InputProps={{
-                                startAdornment: (
-                                    <Box sx={{
-                                        bgcolor: '#f9fafb', // Màu nền giống AddOn
-                                        padding: '10px 14px 10px 0', // Padding giống AddOn
-                                        borderRight: '1px solid #d0d5dd',
-                                    }}>
-                                        <Typography variant="body1">
-                                            http://
-                                        </Typography>
-                                    </Box>
-                                ),
-                            }}
                             sx={{
                                 '& .MuiOutlinedInput-root': {
                                     borderRadius: '8px', // Bo góc toàn bộ input
@@ -284,43 +274,26 @@ const ApplyDialog: React.FC<ContentProps> = ({handleClose}) => {
 
                     {/* Resume Dropdown */}
                     <FormControl fullWidth variant="outlined">
-                        <InputLabel>Choose from your resumes</InputLabel>
+                        <InputLabel>Or choose from your resumes</InputLabel>
                         <Select
                             label="Choose from your resumes"
-                            defaultValue="Business Analyst Resume"
+                            defaultValue={cvs[0] ? cvs[0].cv_title : ""}
                             startAdornment={
                                 <InputAdornment position="start">
-                                    <img src="fileResume.svg" alt="PDF" style={{width: 20}}/>
+                                    <img src="/fileResume.svg" alt="PDF" style={{width: 20}}/>
                                 </InputAdornment>
                             }
                         >
-                            <MenuItem value="Business Analyst Resume">
-                                Business Analyst Resume (200 KB)
-                            </MenuItem>
-                            <MenuItem value="Business Analyst Resume">
-                                Business Analyst Resume (200 KB)
-                            </MenuItem>
-                            <MenuItem value="Business Analyst Resume">
-                                Business Analyst Resume (200 KB)
-                            </MenuItem>
-
+                            {cvs.map((item, index) => (
+                                <MenuItem key={index} value={item.cv_id}>
+                                    {item.cv_title}
+                                </MenuItem>
+                            ))}
                         </Select>
                     </FormControl>
                 </Box>
                 {/* Navigation Actions */}
                 <Box sx={{display: "flex", justifyContent: "flex-end", gap: 2}}>
-                    <Button
-                        variant="outlined"
-                        sx={{
-                            borderRadius: 2,
-                            textTransform: "none",
-                            width: 148,
-                            borderColor: '#D0D5DD',
-                            color: '#344054'
-                        }}
-                    >
-                        Save draft
-                    </Button>
                     <Button
                         variant="contained"
                         sx={{
