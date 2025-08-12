@@ -1,4 +1,3 @@
-// TODO: Load job details based on jobId from searchParams
 import React from 'react';
 import {auth} from "enigma/auth";
 import '@fontsource/inter/400.css';
