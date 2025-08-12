@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useRef, useState } from "react";
+import React, { FunctionComponent, useRef, useState, useEffect } from "react";
 import {
   Box,
   Typography,
@@ -9,7 +9,6 @@ import {
 } from "@mui/material";
 import Image from "next/image";
 import theme from "enigma/styles/theme";
-import { ArrowDropDown } from "@mui/icons-material";
 
 // Define ResetButton component
 const ResetButton: FunctionComponent<{
@@ -26,58 +25,106 @@ const ResetButton: FunctionComponent<{
   </Button>
 );
 
-const SalaryFilter: FunctionComponent = () => {
-  const [value, setValue] = useState<number[]>([0, 2000]); // Initial slider values
-  const salaryFromRef = useRef<HTMLInputElement>(null);
-  const salaryToRef = useRef<HTMLInputElement>(null);
+interface SalaryFilterProps {
+  onSalaryChange?: (salaryRange: { min: number; max: number }) => void;
+  initialMin?: number;      // User's previously selected min value
+  initialMax?: number;      // User's previously selected max value
+  rangeMin?: number;        // Filter's minimum possible value
+  rangeMax?: number;        // Filter's maximum possible value
+}
+
+const SalaryFilter: FunctionComponent<SalaryFilterProps> = ({
+  onSalaryChange,
+  initialMin = 0,
+  initialMax = 10000,
+  rangeMin = 0,           // Filter range starts at 0
+  rangeMax = 10000,       // Filter range goes up to 10000
+}) => {
+  const [value, setValue] = useState<number[]>([initialMin, initialMax]);
+  const [textValues, setTextValues] = useState({
+    from: initialMin.toString(),
+    to: initialMax.toString(),
+  });
 
   // Format value with $
-  const valueLabelFormat = (val: number) => `${val}$`;
+  const valueLabelFormat = (val: number) => `$${val.toLocaleString()}`;
 
   // Calculate label position as percentage
   const getLabelPosition = (val: number) => {
-    const min = 0;
-    const max = 2000;
-    return ((val - min) / (max - min)) * 100;
+    return ((val - rangeMin) / (rangeMax - rangeMin)) * 100;
   };
 
   // Handle slider change
   const handleChange = (event: Event, newValue: number | number[]) => {
-    setValue(newValue as number[]);
-    // Update TextField values
-    if (salaryFromRef.current && salaryToRef.current) {
-      salaryFromRef.current.value = (newValue as number[])[0].toString();
-      salaryToRef.current.value = (newValue as number[])[1].toString();
+    const newSliderValue = newValue as number[];
+    setValue(newSliderValue);
+
+    // Update text field values
+    setTextValues({
+      from: newSliderValue[0].toString(),
+      to: newSliderValue[1].toString(),
+    });
+
+    // Call parent callback
+    if (onSalaryChange) {
+      onSalaryChange({ min: newSliderValue[0], max: newSliderValue[1] });
     }
   };
 
   // Handle TextField change
-  // const handleTextFieldChange = (index: number) => (event: React.ChangeEvent<HTMLInputElement>) => {
-  //     const inputValue = event.target.value.replace(/[^0-9]/g, ''); // Allow only numbers
-  //     const newValue = [...value];
-  //     const numValue = inputValue ? Math.min(parseInt(inputValue), 2000) : 0; // Cap at max 2000
-  //     newValue[index] = numValue;
-  //
-  //     // Ensure min <= max
-  //     if (index === 0 && numValue > newValue[1]) {
-  //         newValue[1] = numValue;
-  //         if (salaryToRef.current) salaryToRef.current.value = numValue.toString();
-  //     } else if (index === 1 && numValue < newValue[0]) {
-  //         newValue[0] = numValue;
-  //         if (salaryFromRef.current) salaryFromRef.current.value = numValue.toString();
-  //     }
-  //
-  //     setValue(newValue);
-  // };
+  const handleTextFieldChange = (field: 'from' | 'to') => (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const inputValue = event.target.value.replace(/[^0-9]/g, '');
+    const numValue = inputValue ? Math.min(parseInt(inputValue), rangeMax) : rangeMin;
+
+    // Update text values
+    const newTextValues = { ...textValues, [field]: inputValue };
+    setTextValues(newTextValues);
+
+    // Update slider values
+    const newValue = [...value];
+    const index = field === 'from' ? 0 : 1;
+    newValue[index] = numValue;
+
+    // Ensure min <= max
+    if (field === 'from' && numValue > newValue[1]) {
+      newValue[1] = numValue;
+      setTextValues({ ...newTextValues, to: numValue.toString() });
+    } else if (field === 'to' && numValue < newValue[0]) {
+      newValue[0] = numValue;
+      setTextValues({ ...newTextValues, from: numValue.toString() });
+    }
+
+    setValue(newValue);
+
+    // Call parent callback
+    if (onSalaryChange) {
+      onSalaryChange({ min: newValue[0], max: newValue[1] });
+    }
+  };
 
   // Handle reset
   const handleReset = () => {
-    setValue([0, 2000]); // Reset to initial values
-    if (salaryFromRef.current && salaryToRef.current) {
-      salaryFromRef.current.value = "";
-      salaryToRef.current.value = "";
+    setValue([rangeMin, rangeMax]); // Reset to full range
+    setTextValues({
+      from: rangeMin.toString(),
+      to: rangeMax.toString()
+    });
+
+    if (onSalaryChange) {
+      onSalaryChange({ min: rangeMin, max: rangeMax });
     }
   };
+
+  // Sync with external changes
+  useEffect(() => {
+    setValue([initialMin, initialMax]);
+    setTextValues({
+      from: initialMin.toString(),
+      to: initialMax.toString(),
+    });
+  }, [initialMin, initialMax]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -92,12 +139,13 @@ const SalaryFilter: FunctionComponent = () => {
           fullWidth
           variant="outlined"
           placeholder="From"
-          inputRef={salaryFromRef}
+          value={textValues.from}
+          onChange={handleTextFieldChange('from')}
           InputProps={{
             startAdornment: (
               <Image
                 src="/salaryMoney.svg"
-                alt="industries"
+                alt="salary"
                 height={20}
                 width={20}
                 style={{ marginRight: "10px" }}
@@ -117,7 +165,19 @@ const SalaryFilter: FunctionComponent = () => {
           fullWidth
           variant="outlined"
           placeholder="To"
-          inputRef={salaryToRef}
+          value={textValues.to}
+          onChange={handleTextFieldChange('to')}
+          InputProps={{
+            startAdornment: (
+              <Image
+                src="/salaryMoney.svg"
+                alt="salary"
+                height={20}
+                width={20}
+                style={{ marginRight: "10px" }}
+              />
+            ),
+          }}
           sx={{
             "& .MuiInputLabel-asterisk": {
               color: "#236785",
@@ -131,12 +191,11 @@ const SalaryFilter: FunctionComponent = () => {
       <Slider
         value={value}
         onChange={handleChange}
-        min={0}
-        max={2000}
+        min={rangeMin}
+        max={rangeMax}
         sx={{ color: "primary.main" }}
       />
       <Box sx={{ position: "relative", height: "20px" }}>
-        {/* Nhãn cho giá trị min */}
         <Typography
           variant="body1"
           sx={{
@@ -150,7 +209,6 @@ const SalaryFilter: FunctionComponent = () => {
         >
           {valueLabelFormat(value[0])}
         </Typography>
-        {/* Nhãn cho giá trị max */}
         <Typography
           variant="body1"
           sx={{
