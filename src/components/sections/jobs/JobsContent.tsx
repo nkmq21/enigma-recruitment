@@ -182,7 +182,9 @@ export default function JobsContent() {
                     searchParams?.get('query') ||
                     searchParams?.get('industries') ||
                     searchParams?.get('employment_type') ||
-                    searchParams?.get('postDateRange')
+                    searchParams?.get('postDateRange') ||
+                    searchParams?.get('salaryMin') ||
+                    searchParams?.get('salaryMax')
                 ) && (
                     <ActiveFiltersContainer>
                         <ActiveFiltersLabel>
@@ -262,6 +264,28 @@ export default function JobsContent() {
                                     onDelete={() => {
                                         const newParams = new URLSearchParams(searchParams?.toString());
                                         newParams.delete('employment_type');
+                                        router.push(`/jobs?${newParams.toString()}`);
+                                    }}
+                                />
+                            )}
+                            {searchParams?.get('salaryMin') && (
+                                <FilterChip
+                                    label={`Min Salary: $${searchParams?.get('salaryMin')?.replace(/,/g, ', ')}`}
+                                    size="small"
+                                    onDelete={() => {
+                                        const newParams = new URLSearchParams(searchParams?.toString());
+                                        newParams.delete('salaryMin');
+                                        router.push(`/jobs?${newParams.toString()}`);
+                                    }}
+                                />
+                            )}
+                            {searchParams?.get('salaryMax') && (
+                                <FilterChip
+                                    label={`Max Salary: $${searchParams?.get('salaryMax')?.replace(/,/g, ', ')}`}
+                                    size="small"
+                                    onDelete={() => {
+                                        const newParams = new URLSearchParams(searchParams?.toString());
+                                        newParams.delete('salaryMax');
                                         router.push(`/jobs?${newParams.toString()}`);
                                     }}
                                 />

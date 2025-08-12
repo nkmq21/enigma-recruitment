@@ -6,14 +6,22 @@ import {
 } from "@mui/material";
 import { JobListPage } from "enigma/components/common/JobCard";
 import { Job } from "enigma/types/models";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import { PaginatedResponse } from "enigma/types/DTOs";
+import Pagination from "enigma/components/ui/JobPagination";
 
 export default function JobsLoader() {
     const [jobs, setJobs] = React.useState<Job[]>([]);
     const [loading, setLoading] = React.useState(true);
     const [meta, setMeta] = React.useState<PaginatedResponse<Job>['meta'] | null>(null);
     const searchParams = useSearchParams()!;
+    const router = useRouter();
+
+    const handlePageChange = (newPage: number) => {
+        const params = new URLSearchParams(searchParams.toString());
+        params.set('page', newPage.toString());
+        router.push(`/jobs?${params.toString()}`);
+    }
 
     React.useEffect(() => {
         const fetchJobs = async () => {
@@ -21,45 +29,23 @@ export default function JobsLoader() {
             try {
                 const queryParams = new URLSearchParams();
                 queryParams.set('status', 'active,prioritized');
-                const query = searchParams.get('query');
-                if (query) {
-                    queryParams.set('query', query);
-                }
 
-                const locations = searchParams.get('locations');
-                if (locations) {
-                    queryParams.set('locations', locations);
-                }
+                // Simplify parameter building
+                const paramKeys = [
+                    'query', 'locations', 'jobFunctions', 'jobSubfunctions',
+                    'industries', 'employment_type', 'postDateRange', 'salaryMin', 'salaryMax'
+                ];
 
-                const jobFunctions = searchParams.get('jobFunctions');
-                if (jobFunctions) {
-                    queryParams.set('jobFunctions', jobFunctions);
-                }
-
-                const jobSubfunctions = searchParams.get('jobSubfunctions');
-                if (jobSubfunctions) {
-                    queryParams.set('jobSubfunctions', jobSubfunctions);
-                }
-
-                const industries = searchParams.get('industries');
-                if (industries) {
-                    queryParams.set('industries', industries);
-                }
-
-                const employmentType = searchParams.get('employment_type');
-                if (employmentType) {
-                    queryParams.set('employment_type', employmentType);
-                }
-
-                const postDateRange = searchParams.get('postDateRange');
-                if (postDateRange) {
-                    queryParams.set('postDateRange', postDateRange);
-                }
-
-                //TODO: other filter criteria will continue from here
+                paramKeys.forEach(key => {
+                    const value = searchParams.get(key);
+                    if (value) {
+                        queryParams.set(key, value);
+                    }
+                });
 
                 const page = searchParams.get('page') || '1';
                 queryParams.set('page', page);
+                queryParams.set('limit', '10');
 
                 console.log('query params', queryParams.toString());
 
@@ -70,7 +56,6 @@ export default function JobsLoader() {
 
                 const data: PaginatedResponse<Job> = await response.json();
                 if (data.items && Array.isArray(data.items)) {
-                    // Make sure each job has the required properties
                     const transformedJobs = data.items.map((job: Job) => ({
                         ...job,
                         industry: job.industry || { industry_name: "" },
@@ -89,12 +74,27 @@ export default function JobsLoader() {
             } catch (error) {
                 console.error("jobs fetch failed: ", error);
                 setJobs([]);
+                setMeta(null);
             } finally {
                 setLoading(false);
             }
         };
         fetchJobs();
     }, [searchParams]);
+
+    // Helper function to safely extract meta values
+    const getMetaInfo = () => {
+        if (!meta) return null;
+
+        return {
+            page: meta.page ?? 1,
+            limit: meta.limit ?? 10,
+            total: meta.total ?? 0,
+            totalPages: meta.totalPages ?? 1
+        };
+    };
+
+    const metaInfo = getMetaInfo();
 
     return (
         <Box sx={{
@@ -139,13 +139,24 @@ export default function JobsLoader() {
                 ) : jobs.length > 0 ? (
                     <>
                         <JobListPage jobs={jobs} />
-                        {meta && (
+
+                        {/* Using helper function */}
+                        {metaInfo && (
                             <Box sx={{ mt: 2, textAlign: 'center', color: '#475467' }}>
                                 <Typography variant="body2">
-                                    Showing {jobs.length} of {meta.total} jobs
-                                    (Page {meta.page} of {meta.totalPages})
+                                    Showing {((metaInfo.page - 1) * metaInfo.limit + 1)}-{Math.min(metaInfo.page * metaInfo.limit, metaInfo.total)} of {metaInfo.total} jobs
+                                    (Page {metaInfo.page} of {metaInfo.totalPages})
                                 </Typography>
                             </Box>
+                        )}
+
+                        {metaInfo && metaInfo.totalPages > 1 && (
+                            <Pagination
+                                currentPage={metaInfo.page}
+                                totalPages={metaInfo.totalPages}
+                                onPageChange={handlePageChange}
+                                loading={loading}
+                            />
                         )}
                     </>
                 ) : (

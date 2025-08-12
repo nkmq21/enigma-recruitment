@@ -26,5 +26,5 @@ export interface Skills {
 }
 
 export interface Meta {
-    position: string; generated_by: string;
+    position: string;
 }

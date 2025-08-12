@@ -122,6 +122,35 @@ CREATE TABLE IF NOT EXISTS cvs (
 );
 
 -- ─────────────────────────────────────────────────────────────────────────────
+-- CVs → PK becomes UUID (no sequence)
+-- ─────────────────────────────────────────────────────────────────────────────
+
+CREATE TABLE IF NOT EXISTS cv_documents (
+  id           uuid        PRIMARY KEY DEFAULT public.uuid_generate_v7(),
+  cv_id        uuid        NOT NULL REFERENCES cvs (cv_id) ON UPDATE CASCADE ON DELETE CASCADE,
+  template_key text        NOT NULL,
+  data         jsonb       NOT NULL,
+  version      integer     NOT NULL DEFAULT 1,
+  is_latest    boolean     NOT NULL DEFAULT true,
+  created_at   timestamptz NOT NULL DEFAULT now(),
+  updated_at   timestamptz NOT NULL DEFAULT now()
+);
+
+-- Helpful indexes
+CREATE INDEX IF NOT EXISTS cv_documents_cv_isLatest_idx ON cv_documents (cv_id, is_latest);
+
+CREATE INDEX IF NOT EXISTS cv_documents_cv_updatedAt_idx ON cv_documents (cv_id, updated_at);
+
+-- Enforce “only one latest per CV” (partial unique index)
+CREATE UNIQUE INDEX IF NOT EXISTS cv_documents_one_latest_per_cv ON cv_documents (cv_id) WHERE is_latest;
+
+-- Add a GIN index for querying by containment on data (e.g., data @> ...). jsonb_path_ops is fast for containment but narrower.
+CREATE INDEX cv_documents_data_gin ON cv_documents USING GIN (data jsonb_path_ops);
+
+-- Add compression
+ALTER TABLE cv_documents ALTER COLUMN data SET COMPRESSION lz4;
+
+-- ─────────────────────────────────────────────────────────────────────────────
 -- Jobs (string PK unchanged)
 -- ─────────────────────────────────────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS jobs (
