@@ -134,6 +134,7 @@ model Cv {
   uploaded_time DateTime         @default(now()) @db.Timestamp(6)
   cv_title      String?
   status        String?          @default("active")
+  cv_documents  cv_documents[]
   user          User             @relation(fields: [user_id], references: [id])
   applications  JobApplication[]
 
@@ -162,4 +163,20 @@ model tenants {
   updated    DateTime  @default(dbgenerated("LOCALTIMESTAMP")) @db.Timestamp(6)
   deleted    DateTime? @db.Timestamp(6)
   compute_id String?   @db.Uuid
+}
+
+model cv_documents {
+  id           String   @id @default(dbgenerated("public.uuid_generate_v7()")) @db.Uuid
+  cv_id        String   @db.Uuid
+  template_key String
+  data         Json
+  version      Int      @default(1)
+  is_latest    Boolean  @default(true)
+  created_at   DateTime @default(now()) @db.Timestamptz(6)
+  updated_at   DateTime @default(now()) @db.Timestamptz(6)
+  cvs          Cv       @relation(fields: [cv_id], references: [cv_id], onDelete: Cascade)
+
+  @@index([cv_id, is_latest], map: "cv_documents_cv_islatest_idx")
+  @@index([cv_id, updated_at], map: "cv_documents_cv_updatedat_idx")
+  @@index([data(ops: JsonbPathOps)], map: "cv_documents_data_gin", type: Gin)
 }

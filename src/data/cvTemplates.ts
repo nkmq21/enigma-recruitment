@@ -155,7 +155,7 @@ export const RESUME_TEMPLATE_1 = `
     {{/if}}
 
     <div class="foot">
-      Generated for {{profile.name}}{{#if meta.position}} — {{meta.position}}{{/if}}{{#if meta.generated_by}} • {{meta.generated_by}}{{/if}}
+      Generated for {{profile.name}}{{#if meta.position}} — {{meta.position}}{{/if}} • enigma-recruitment.com
     </div>
   </div>
 </body>
