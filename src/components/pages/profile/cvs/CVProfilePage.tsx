@@ -7,7 +7,7 @@ import { SidebarNavigation } from "enigma/components/common/SidebarNavigation";
 import { Session } from "next-auth";
 import { useSidebar } from "enigma/context/SidebarContext";
 import BigHeaderLogo from "enigma/components/common/HeaderLogo";
-import MainContent from "enigma/components/sections/profile/cv/MainContent";
+import MainContent from "enigma/components/sections/profile/cvs/MainContent";
 
 export default function CVProfilePage({
   session,

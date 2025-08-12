@@ -1,5 +1,5 @@
 import { auth } from "enigma/auth";
-import CVProfilePage from "enigma/components/pages/profile/cv/CVProfilePage";
+import CVProfilePage from "enigma/components/pages/profile/cvs/CVProfilePage";
 
 export default async function CvsPage() {
   const session = await auth();
