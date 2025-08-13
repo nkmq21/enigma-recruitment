@@ -156,47 +156,47 @@ export const SidebarNavigation = ({session}: { session: Session | null }) => {
             : []),
     ];
 
-    const adminItems: NavItem[] = [
-        {
-            text: "Dashboard",
-            icon: <Image src="/homeIcon.svg" alt="home" width={24} height={24}/>,
-            href: "/admin",
-        },
-        {
-            text: "User Management",
-            icon: (
-                <Image
-                    src="/homeIcon.svg"
-                    alt="user management"
-                    width={24}
-                    height={24}
-                />
-            ),
-            href: "/admin/users",
-        },
-        {
-            text: "Jobs Management",
-            icon: (
-                <Image src="/bagicon.svg" alt="job management" width={24} height={24}/>
-            ),
-            href: "/admin/jobs",
-        },
-        {
-            text: "Website Settings",
-            icon: <Image src="/settings.svg" alt="settings" width={24} height={24}/>,
-            href: "/admin/web-settings",
-        },
-        {
-            text: "Media",
-            icon: <Image src="/homeIcon.svg" alt="media" width={24} height={24}/>,
-            href: "/admin/media",
-        },
-        {
-            text: "Home",
-            icon: <Image src="/homeIcon.svg" alt="home" width={24} height={24}/>,
-            href: "/home",
-        },
-    ];
+  const adminItems: NavItem[] = [
+    {
+      text: "Dashboard",
+      icon: <Image src="/homeIcon.svg" alt="home" width={24} height={24} />,
+      href: "/admin",
+    },
+    {
+      text: "User Management",
+      icon: (
+        <Image
+          src="/homeIcon.svg"
+          alt="user management"
+          width={24}
+          height={24}
+        />
+      ),
+      href: "/admin/users",
+    },
+    {
+      text: "Jobs Management",
+      icon: (
+        <Image src="/bagicon.svg" alt="job management" width={24} height={24} />
+      ),
+      href: "/admin/jobs",
+    },
+    {
+      text: "Website Settings",
+      icon: <Image src="/setting.svg" alt="settings" width={24} height={24} />,
+      href: "/admin/settings",
+    },
+    {
+      text: "Media",
+      icon: <Image src="/homeIcon.svg" alt="media" width={24} height={24} />,
+      href: "/admin/media",
+    },
+    {
+      text: "Home",
+      icon: <Image src="/homeIcon.svg" alt="home" width={24} height={24} />,
+      href: "/home",
+    },
+  ];
 
     const footerItems: NavItem[] = [
         {

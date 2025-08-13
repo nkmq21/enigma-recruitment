@@ -1,10 +1,10 @@
-// src/app/(auth)/admin/page.tsx
+// src/app/(auth)/admin/media/page.tsx
 import { auth } from "enigma/auth";
-import AdminStatisticsPage from "enigma/components/pages/admin/statistics/AdminStatisticsPage";
+import SettingPage from "enigma/components/pages/admin/setting/SettingPage";
 
 export default async function Page() {
   const session = await auth();
-  return <AdminStatisticsPage session={session} />;
+  return <SettingPage session={session} />;
 }
 
 export async function generateMetadata() {
