@@ -10,9 +10,9 @@ import ListItemText from "@mui/material/ListItemText";
 import Avatar from "@mui/material/Avatar";
 import Checkbox from "@mui/material/Checkbox";
 import Stack from "@mui/material/Stack";
-import PictureAsPdf from "@mui/icons-material/PictureAsPdf";
 import Check from "@mui/icons-material/Check";
-import Image from "next/image"; // Replace with 'img' if not using Next.js
+import Image from "next/image";
+import ResponsiveLink from "enigma/components/common/ResponsiveLink";
 
 const MainPanel = () => {
     return (
@@ -186,6 +186,8 @@ const MainPanel = () => {
                                 borderColor: "rgba(255, 255, 255, 0.2)",
                             },
                         }}
+                        component={ResponsiveLink}
+                        href="/profile/cvs/builder"
                     >
                         Create CV
                     </Button>

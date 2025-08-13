@@ -1,6 +1,5 @@
 import React from "react";
 import {Box, Typography} from "@mui/material";
-import SidePanel from "./SidePanel";
 import MainPanel from "./MainPanel";
 
 const MainContent = () => {
@@ -19,7 +18,7 @@ const MainContent = () => {
                 fontWeight={600}
                 color="#101828"
             >
-                Dashboard
+                Manage CVs
             </Typography>
             <Box
                 sx={{
@@ -30,9 +29,6 @@ const MainContent = () => {
             >
                 {/* Main Section */}
                 <MainPanel/>
-
-                {/* Side Panel */}
-                <SidePanel/>
             </Box>
         </Box>
     );

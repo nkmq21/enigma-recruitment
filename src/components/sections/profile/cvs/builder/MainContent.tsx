@@ -15,18 +15,18 @@ import {
     MenuItem,
 } from "@mui/material";
 import theme from "enigma/styles/theme";
-import CvBuilderPreview from "enigma/components/sections/cvs/builder/CvBuilderPreview";
+import CvBuilderPreview from "enigma/components/sections/profile/cvs/builder/CvBuilderPreview";
 import * as Templates from "enigma/data/cvTemplates"; // every export should be a string HTML template
 import {Session} from "next-auth";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import {useDeferredValue} from "react";
-import PersonalInfo from "enigma/components/sections/cvs/builder/PersonalInfo";
-import Experience from "enigma/components/sections/cvs/builder/Experience";
-import Projects from "enigma/components/sections/cvs/builder/Projects";
-import Education from "enigma/components/sections/cvs/builder/Education";
-import SkillsMeta from "enigma/components/sections/cvs/builder/SkillsMeta";
+import PersonalInfo from "enigma/components/sections/profile/cvs/builder/PersonalInfo";
+import Experience from "enigma/components/sections/profile/cvs/builder/Experience";
+import Projects from "enigma/components/sections/profile/cvs/builder/Projects";
+import Education from "enigma/components/sections/profile/cvs/builder/Education";
+import SkillsMeta from "enigma/components/sections/profile/cvs/builder/SkillsMeta";
 import {initial} from "enigma/data/cvBuilderInitialData";
-import DraftPicker from "enigma/components/sections/cvs/builder/DraftPicker";
+import DraftPicker from "enigma/components/sections/profile/cvs/builder/DraftPicker";
 
 export default function MainContent({session}: { session: Session | null }) {
     const [data, setData] = useState(initial);

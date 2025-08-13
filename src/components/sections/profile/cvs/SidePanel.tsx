@@ -145,66 +145,6 @@ const SidePanel = () => {
                             </Typography>
                         </Box>
                     </Box>
-                    {/* Toggles */}
-                    <Box
-                        sx={{
-                            display: "flex",
-                            alignItems: "center",
-                        }}
-                    >
-                        <Switch
-                            defaultChecked
-                            sx={{
-                                "& .MuiSwitch-thumb": {
-                                    backgroundColor: "#40b0d0",
-                                },
-                                "& .MuiSwitch-track": {
-                                    backgroundColor: "#ffffffff",
-                                    opacity: 0.5,
-                                },
-                            }}
-                        />
-
-                        <Typography
-                            variant="body2"
-                            sx={{
-                                fontWeight: 500,
-                                color: "#344054",
-                            }}
-                        >
-                            Allow Employers to Search Your Profile
-                        </Typography>
-                    </Box>
-
-                    <Box
-                        sx={{
-                            display: "flex",
-                            alignItems: "center",
-                        }}
-                    >
-                        <Switch
-                            defaultChecked
-                            sx={{
-                                "& .MuiSwitch-thumb": {
-                                    backgroundColor: "#40b0d0",
-                                },
-                                "& .MuiSwitch-track": {
-                                    backgroundColor: "#ffffffff",
-                                    opacity: 0.5,
-                                },
-                            }}
-                        />
-
-                        <Typography
-                            variant="body2"
-                            sx={{
-                                fontWeight: 500,
-                                color: "#344054",
-                            }}
-                        >
-                            Job Seeking
-                        </Typography>
-                    </Box>
                 </Box>
             </Box>
 

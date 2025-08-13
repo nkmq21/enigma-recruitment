@@ -7,7 +7,7 @@ import Footer from "enigma/components/common/Footer";
 import theme from "enigma/styles/theme";
 import BigHeaderLogo from "enigma/components/common/HeaderLogo";
 import Image from "next/image";
-import MainContent from "enigma/components/sections/cvs/builder/MainContent";
+import MainContent from "enigma/components/sections/profile/cvs/builder/MainContent";
 import { Session } from "next-auth";
 import { useSidebar } from "enigma/context/SidebarContext";
 
