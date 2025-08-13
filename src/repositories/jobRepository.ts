@@ -90,6 +90,29 @@ export async function findByStatus(status: string[], page: number, limit: number
     }
 }
 
+export async function getJobs(page: number, limit: number): Promise<{ jobs: Job[], total: number }> {
+    const skip = (page - 1) * limit;
+    try {
+        const [jobs, total] = await Promise.all([
+            prisma.job.findMany({
+                include: {
+                    industry: true,
+                    job_function: true,
+                    subfunction: true,
+                },
+                skip,
+                take: limit,
+                orderBy: { created_date: 'desc' }
+            }),
+            prisma.job.count()
+        ]);
+        return { jobs: jobs as Job[], total };
+    } catch (error) {
+        console.error('error fetching all jobs: ', error);
+        return { jobs: [], total: 0 };
+    }
+}
+
 export async function findByFilter(filters: JobSearchFilters): Promise<{ jobs: Job[], total: number }> {
     const skip = (filters.page - 1) * filters.limit;
 
