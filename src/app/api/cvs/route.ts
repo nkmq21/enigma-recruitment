@@ -1,19 +1,22 @@
 // src/app/api/cvs/route.ts
 import {NextRequest, NextResponse} from "next/server";
-import * as cvService from "enigma/services/cvService";
-import type {Cv, CvCreation} from "enigma/types/models";
+import {createCv, getAllCvs} from "enigma/services/cvService";
+import type {Cv} from "enigma/types/models";
 import {GenericResponse} from "enigma/types/DTOs";
 
 export async function POST(req: NextRequest) {
     try {
-        const data: CvCreation = await req.json();
-        const result: GenericResponse<Cv> = await cvService.createCv(data);
-        if (result.error) {
-            return NextResponse.json({error: result.error}, {status: 400});
+        const {user_id, cv_url, cv_title, source_document_id, uploaded_time} = await req.json();
+
+        if (!user_id) {
+            return NextResponse.json({ error: "user_id required" }, { status: 400 });
         }
-        return NextResponse.json(result.data, {status: 201});
+
+        const result = await createCv({user_id, cv_url, cv_title, source_document_id, uploaded_time});
+        if (result.error) return NextResponse.json({ error: result.error }, { status: 400 });
+        return NextResponse.json(result.data, { status: 201 });
     } catch (e: any) {
-        return NextResponse.json({error: e?.message ?? "Unknown error"}, {status: 500});
+        return NextResponse.json({ error: e?.message ?? "Unknown error" }, { status: 500 });
     }
 }
 
@@ -24,7 +27,7 @@ export async function GET(req: NextRequest) {
         if (!userid) {
             return NextResponse.json({error: "User ID is required"}, {status: 400});
         }
-        const result: GenericResponse<Cv[]> = await cvService.getAllCvs(userid);
+        const result: GenericResponse<Cv[]> = await getAllCvs(userid);
         if (result.error) {
             return NextResponse.json({error: result.error}, {status: 400});
         }

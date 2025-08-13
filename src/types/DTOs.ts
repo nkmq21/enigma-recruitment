@@ -14,3 +14,19 @@ export interface PaginatedResponse<T> {
         totalPages?: number;
     }
 }
+
+export interface CvDTO {
+    user_id: string;
+    cv_url: string;
+    cv_title?: string | null;
+    source_document_id?: string | null;
+    maxFinalsPerUser?: number | null;
+    uploaded_time?: Date | null;
+}
+
+export interface CvDocumentDTO {
+    user_id: string;
+    template_key: string;
+    data: unknown;
+    draftLimit?: number;
+}

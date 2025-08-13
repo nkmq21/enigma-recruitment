@@ -1,3 +1,4 @@
+// src/components/sections/cvs/builder/Education.tsx
 import { memo } from "react";
 import Grid from "@mui/material/Grid";
 import { Paper, Stack, Typography, IconButton, Tooltip, TextField, Box } from "@mui/material";

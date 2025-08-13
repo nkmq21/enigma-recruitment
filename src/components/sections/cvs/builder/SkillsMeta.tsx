@@ -1,3 +1,4 @@
+// src/components/sections/cvs/builder/SkillsMeta.tsx
 import { memo } from "react";
 import Grid from "@mui/material/Grid";
 import { Paper, TextField, Typography } from "@mui/material";

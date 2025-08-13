@@ -285,7 +285,7 @@ const ApplyDialog: React.FC<ContentProps> = ({cvs, job, handleClose}) => {
                             }
                         >
                             {cvs.map((item, index) => (
-                                <MenuItem key={index} value={item.cv_id}>
+                                <MenuItem key={index} value={item.cv_id || `Resume ${index + 1}`}>
                                     {item.cv_title}
                                 </MenuItem>
                             ))}

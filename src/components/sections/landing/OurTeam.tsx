@@ -72,7 +72,7 @@ const OurTeam: FunctionComponent = () => {
                 <Box sx={{mt: 8, bgcolor: '#d6f1f7', borderRadius: 4, p: 4, textAlign: 'left'}}>
                     <Typography fontSize="20px" lineHeight="30px" color="#101828" fontWeight={600}
                                 sx={{maxWidth: 664, mx: 'auto'}}>
-                        Ready to collaborate?
+                        Interested in joining us?
                     </Typography>
                     <Typography fontSize="18px" lineHeight="28px" color="#475467"
                                 sx={{mt: 1, maxWidth: 664, mx: 'auto'}}>

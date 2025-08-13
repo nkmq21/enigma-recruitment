@@ -1,4 +1,4 @@
-// src/app/api/cvs/builder/route.ts
+// src/app/api/cvs/builder/export/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import Handlebars from "handlebars";
 import * as Templates from "enigma/data/cvTemplates";

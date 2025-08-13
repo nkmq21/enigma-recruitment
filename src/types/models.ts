@@ -92,19 +92,23 @@ export interface Job {
 }
 
 export interface Cv {
-    cv_id: string;
-    user_id: string;
-    cv_url: string;
-    uploaded_time: Date;
+    cv_id: string | null;
+    user_id?: string | null;
+    cv_url?: string;
+    uploaded_time?: Date;
     cv_title?: string | null;
     status?: string | null;
 }
 
-export interface CvCreation {
+export interface CvDocument {
+    id: string;
+    cv_id?: string | null;
+    template_key: string;
+    data: unknown;
+    version: number;
+    created_at: Date;
+    updated_at: Date;
     user_id: string;
-    cv_url: string;
-    uploaded_time: Date;
-    cv_title?: string | null;
 }
 
 export interface JobApplication {

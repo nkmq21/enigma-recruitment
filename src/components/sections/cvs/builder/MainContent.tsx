@@ -26,6 +26,7 @@ import Projects from "enigma/components/sections/cvs/builder/Projects";
 import Education from "enigma/components/sections/cvs/builder/Education";
 import SkillsMeta from "enigma/components/sections/cvs/builder/SkillsMeta";
 import {initial} from "enigma/data/cvBuilderInitialData";
+import DraftPicker from "enigma/components/sections/cvs/builder/DraftPicker";
 
 export default function MainContent({session}: { session: Session | null }) {
     const [data, setData] = useState(initial);
@@ -51,8 +52,7 @@ export default function MainContent({session}: { session: Session | null }) {
     const [showPreview, setShowPreview] = useState(false);
     const [loading, setLoading] = useState(false);
     const [saving, setSaving] = useState(false);
-    const [fileSize, setFileSize] = useState<string | null>(null);
-    const [fileName, setFileName] = useState<string | null>(null);
+    const [sourceDocumentId, setSourceDocumentId] = useState<string | null>(null);
     const isLgUp = useMediaQuery(theme.breakpoints.up("lg"));
     const isMdxUp = useMediaQuery(theme.breakpoints.up("mdx"));
     const isBetweenMdxAndLg = isMdxUp && !isLgUp;
@@ -196,7 +196,8 @@ export default function MainContent({session}: { session: Session | null }) {
     const handleExportPdf = async () => {
         try {
             setLoading(true);
-            const generatedFileName = `${new Date().toISOString()}_${session?.user?.name}'s CV`;            const response = await fetch("/api/cvs/builder", {
+            const generatedFileName = `${new Date().toISOString()}_${session?.user?.name}'s CV`;
+            const exportResponse = await fetch("/api/cvs/builder/export", {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify({
@@ -206,56 +207,78 @@ export default function MainContent({session}: { session: Session | null }) {
                 })
             });
 
-            const result = await response.json();
-            if (!response.ok || !result?.data?.url) {
+            const exportResult = await exportResponse.json();
+            if (!exportResponse.ok || !exportResult?.data?.url) {
                 setDownloadUrl(null);
-                setMessage(result?.error || "Conversion failed");
+                setMessage(exportResult?.error || "Conversion failed");
                 setLoading(false);
                 return;
             }
-            setDownloadUrl(result.data.url);
-            const calculatedFileSize = result.data.file_size as number < 1000000
-                ? `${result.data.file_size as number / 1000} KB`
-                : `${result.data.file_size as number / 1000000} MB`;
+            setDownloadUrl(exportResult.data.url);
+            const calculatedFileSize = exportResult.data.file_size as number < 1000000
+                ? `${exportResult.data.file_size as number / 1000} KB`
+                : `${exportResult.data.file_size as number / 1000000} MB`;
 
-            setFileName(generatedFileName);
-            setFileSize(calculatedFileSize);
-
-            const messageText = result?.data?.expires_after
-                ? `Ready • File name: ${fileName} • File size: ${fileSize} • Expires ${new Date(result.data.expires_after).toLocaleString()}`
+            const saveCvResponse = await fetch("/api/cvs", {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({
+                    user_id: session?.user?.id,
+                    cv_url: exportResult.data.url,
+                    cv_title: generatedFileName,
+                    source_document_id: sourceDocumentId,
+                    uploaded_time: new Date()
+                })
+            });
+            const saveCvResult = await saveCvResponse.json();
+            if (!saveCvResponse.ok) {
+                setMessage("/api/cvs responded: " + saveCvResult?.error || "Add CV failed");
+                setSaving(false);
+                return saveCvResult;
+            }
+            const messageText = exportResult?.data?.expires_after
+                ? `Ready • File name: ${exportResult.data.filename} • File size: ${calculatedFileSize} • Expires ${new Date(exportResult.data.expires_after).toLocaleString()}. 
+                Please download the PDF before it expires.`
                 : "Ready";
             setMessage(messageText);
             setLoading(false);
         } catch (error: any) {
             setDownloadUrl(null);
             setMessage(error?.message || "Failed to export PDF");
+        } finally {
+            setLoading(false);
         }
     };
 
     const handleSaveCv = async () => {
         try {
+            setMessage("");
             setSaving(true);
-            const response = await fetch("/api/cvs", {
+
+            // Save the editable JSON
+            const response = await fetch("/api/cvs/builder/drafts", {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify({
                     user_id: session?.user?.id,
-                    cv_url: downloadUrl,
-                    uploaded_time: new Date(),
-                    cv_title: fileName
+                    template_key: selectedTemplateKey,
+                    data: deferredData,
+                    draft_limit: 5
                 })
             });
-
             const result = await response.json();
             if (!response.ok) {
-                setMessage(result?.error || "Save failed");
+                setMessage("/api/cvs/builder/drafts responded: " + result?.error || "Save CV draft failed");
                 setSaving(false);
                 return;
             }
-            setMessage(`Saved • File name: ${fileName} • File size: ${fileSize}`);
+            setMessage(`Saved • Draft ID ${result.id} • Version ${result.version} • Last modified ${new Date(result.updated_at).toLocaleString()}`);
+            setSourceDocumentId(result.id);
             setSaving(false);
         } catch (error: any) {
-            setMessage(error?.message || "Failed to save PDF")
+            setMessage("/api/cvs/builder/export caught: " + error?.message || "Failed to export PDF");
+            setSaving(false);
+        } finally {
             setSaving(false);
         }
     }
@@ -300,6 +323,26 @@ export default function MainContent({session}: { session: Session | null }) {
                                     ))}
                                 </Select>
                             </FormControl>
+                        </Paper>
+                        <Paper elevation={1} sx={{ p: 2, mb: 2, borderRadius: 2, border: "1px solid #E5E7EB" }}>
+                            <DraftPicker
+                                userId={session?.user?.id}
+                                limit={5}
+                                onError={(msg) => setMessage(`/api/cvs/builder/drafts: ${msg}`)}
+                                onLoad={(draft) => {
+                                    setData(draft.data as typeof data);
+                                    setSelectedTemplateKey(draft.template_key);
+                                    setSourceDocumentId(draft.id);
+                                    // UX message
+                                    try {
+                                        const when = new Date(draft.updated_at).toLocaleString();
+                                        setMessage(`Loaded draft v${draft.version} • ${when}`);
+                                    } catch {
+                                        setMessage(`Loaded draft v${draft.version}`);
+                                    }
+                                    // window.scrollTo({ top: 0, behavior: "smooth" });
+                                }}
+                            />
                         </Paper>
                         <Box sx={{
                             maxHeight: {
@@ -416,13 +459,13 @@ export default function MainContent({session}: { session: Session | null }) {
                         >
                             Toggle Preview
                         </Button>
-                        {/* Save PDF button */}
+                        {/* Save CV button */}
                         <Button
                             variant="outlined"
-                            disabled={saving || !downloadUrl}
+                            disabled={saving}
                             onClick={handleSaveCv}
                         >
-                            {saving ? "Saving..." : "Save PDF"}
+                            {saving ? "Saving..." : "Save draft data"}
                         </Button>
                         {/* Open PDF button */}
                         <Button

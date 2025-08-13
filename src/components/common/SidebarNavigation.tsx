@@ -98,11 +98,7 @@ export const SidebarNavigation = ({session}: { session: Session | null }) => {
                 {
                     text: "Industry News",
                     href: "/blogs",
-                },
-                {
-                    text: "Development",
-                    href: "/#",
-                },
+                }
             ],
         },
         {
