@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Table,
   TableBody,
@@ -14,80 +14,140 @@ import {
   IconButton,
 } from "@mui/material";
 import Image from "next/image";
+import { Job } from "enigma/types/models";
+import { PaginatedResponse } from "enigma/types/DTOs";
+import { toDisplayValue } from "enigma/utils/dateFormat";
 
 const JobsTable: React.FC = () => {
-  const jobData = [
-    {
-      title: "Project Manager",
-      location: "Pasadena, Oklahoma",
-      postDate: "March 13, 2014",
-      expirationDate: "March 13, 2014",
-      state: "Open",
-    },
-    {
-      title: "Software Engineer",
-      location: "Lansing, Illinois",
-      postDate: "October 24, 2018",
-      expirationDate: "October 24, 2018",
-      state: "Open",
-    },
-    {
-      title: "Accountant",
-      location: "Portland, Illinois",
-      postDate: "October 31, 2017",
-      expirationDate: "October 31, 2017",
-      state: "Open",
-    },
-    {
-      title: "Marketing Specialist",
-      location: "Great Falls, Maryland",
-      postDate: "August 7, 2017",
-      expirationDate: "August 7, 2017",
-      state: "Open",
-    },
-    {
-      title: "Project Manager",
-      location: "Syracuse, Connecticut",
-      postDate: "July 14, 2015",
-      expirationDate: "July 14, 2015",
-      state: "Open",
-    },
-    {
-      title: "Sales Representative",
-      location: "Corona, Michigan",
-      postDate: "December 29, 2012",
-      expirationDate: "December 29, 2012",
-      state: "Open",
-    },
-    {
-      title: "Medical Assistant",
-      location: "Lafayette, California",
-      postDate: "September 9, 2013",
-      expirationDate: "September 9, 2013",
-      state: "Expired",
-    },
-    {
-      title: "Dog Trainer",
-      location: "Coppell, Virginia",
-      postDate: "March 6, 2018",
-      expirationDate: "March 6, 2018",
-      state: "Expired",
-    },
-    {
-      title: "Nursing Assistant",
-      location: "Stockton, New Hampshire",
-      postDate: "May 31, 2015",
-      expirationDate: "May 31, 2015",
-      state: "Expired",
-    },
-    {
-      title: "Marketing Coordinator",
-      location: "Kent, Utah",
-      postDate: "October 25, 2019",
-      expirationDate: "October 25, 2019",
-      state: "Expired",
-    },
-  ];
+  // const jobData = [
+  //   {
+  //     title: "Project Manager",
+  //     location: "Pasadena, Oklahoma",
+  //     postDate: "March 13, 2014",
+  //     expirationDate: "March 13, 2014",
+  //     state: "Open",
+  //   },
+  //   {
+  //     title: "Software Engineer",
+  //     location: "Lansing, Illinois",
+  //     postDate: "October 24, 2018",
+  //     expirationDate: "October 24, 2018",
+  //     state: "Open",
+  //   },
+  //   {
+  //     title: "Accountant",
+  //     location: "Portland, Illinois",
+  //     postDate: "October 31, 2017",
+  //     expirationDate: "October 31, 2017",
+  //     state: "Open",
+  //   },
+  //   {
+  //     title: "Marketing Specialist",
+  //     location: "Great Falls, Maryland",
+  //     postDate: "August 7, 2017",
+  //     expirationDate: "August 7, 2017",
+  //     state: "Open",
+  //   },
+  //   {
+  //     title: "Project Manager",
+  //     location: "Syracuse, Connecticut",
+  //     postDate: "July 14, 2015",
+  //     expirationDate: "July 14, 2015",
+  //     state: "Open",
+  //   },
+  //   {
+  //     title: "Sales Representative",
+  //     location: "Corona, Michigan",
+  //     postDate: "December 29, 2012",
+  //     expirationDate: "December 29, 2012",
+  //     state: "Open",
+  //   },
+  //   {
+  //     title: "Medical Assistant",
+  //     location: "Lafayette, California",
+  //     postDate: "September 9, 2013",
+  //     expirationDate: "September 9, 2013",
+  //     state: "Expired",
+  //   },
+  //   {
+  //     title: "Dog Trainer",
+  //     location: "Coppell, Virginia",
+  //     postDate: "March 6, 2018",
+  //     expirationDate: "March 6, 2018",
+  //     state: "Expired",
+  //   },
+  //   {
+  //     title: "Nursing Assistant",
+  //     location: "Stockton, New Hampshire",
+  //     postDate: "May 31, 2015",
+  //     expirationDate: "May 31, 2015",
+  //     state: "Expired",
+  //   },
+  //   {
+  //     title: "Marketing Coordinator",
+  //     location: "Kent, Utah",
+  //     postDate: "October 25, 2019",
+  //     expirationDate: "October 25, 2019",
+  //     state: "Expired",
+  //   },
+  // ];
+  const [loading, setLoading] = React.useState(true);
+  const [jobData, setJobData] = React.useState<Job[]>([]);
+  const [meta, setMeta] = React.useState<PaginatedResponse<Job>['meta'] | null>(null);
+  React.useEffect(() => {
+    const fetchJobs = async () => {
+      setLoading(true);
+      try {
+        const queryParams = new URLSearchParams();
+        queryParams.set('status', 'active,prioritized');
+        queryParams.set('page', '1');
+        queryParams.set('limit', '10');
+
+        console.log('query params', queryParams.toString());
+
+        const response = await fetch(`/api/admin/jobs?${queryParams.toString()}`);
+        if (!response.ok) {
+          throw new Error('failed to fetch jobs');
+        }
+        const data: PaginatedResponse<Job> = await response.json();
+        if (data.items && Array.isArray(data.items)) {
+          const transformedJobs = data.items.map((job: Job) => ({
+            ...job,
+            industry: job.industry || { industry_name: "" },
+            job_function: job.job_function || { job_function_name: "" },
+            subfunction: job.subfunction || { job_subfunction_name: "" },
+            close_date: job.close_date ? new Date(job.close_date) : new Date(),
+            created_date: job.created_date ? new Date(job.created_date) : new Date()
+          }));
+          setJobData(transformedJobs);
+          setMeta(data.meta);
+        } else {
+          console.error('the response have unexpected data', data);
+          setJobData([]);
+          setMeta(null);
+        }
+      } catch (error) {
+        console.error("jobs fetch failed: ", error);
+        setJobData([]);
+        setMeta(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchJobs();
+  }, []);
+
+  const getMetaInfo = () => {
+    if (!meta) return null;
+    return {
+      page: meta.page ?? 1,
+      limit: meta.limit ?? 10,
+      total: meta.total ?? 0,
+      totalPages: meta.totalPages ?? 1
+    }
+  }
+
+  const metaInfo = getMetaInfo();
 
   // State để theo dõi các hàng được chọn
   const [selected, setSelected] = React.useState<readonly number[]>([]);
@@ -95,9 +155,11 @@ const JobsTable: React.FC = () => {
   // Xử lý chọn tất cả
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      const newSelected = jobData.map((_, index) => index);
-      setSelected(newSelected);
-      return;
+      const newSelected = jobData?.map((_, index) => index);
+      if (newSelected) {
+        setSelected(newSelected);
+        return;
+      }
     }
     setSelected([]);
   };
@@ -210,7 +272,7 @@ const JobsTable: React.FC = () => {
                     sx={{ fontWeight: 500 }}
                     color="#344054"
                   >
-                    {job.title}
+                    {job.job_title}
                   </Typography>
                 </TableCell>
                 <TableCell>
@@ -220,28 +282,28 @@ const JobsTable: React.FC = () => {
                 </TableCell>
                 <TableCell>
                   <Typography variant="body2" fontWeight={500} color="#344054">
-                    {job.postDate}
+                    {toDisplayValue(job.created_date)}
                   </Typography>
                 </TableCell>
                 <TableCell>
                   <Typography variant="body2" fontWeight={500} color="#344054">
-                    {job.expirationDate}
+                    {toDisplayValue(job.close_date)}
                   </Typography>
                 </TableCell>
                 <TableCell>
                   <Chip
-                    label={job.state}
+                    label={job.status}
                     size="small"
                     sx={{
                       borderRadius: "9px",
                       backgroundColor:
-                        job.state === "Open" ? "#ECFDF5" : "#F9FAFB",
+                        job.status === "Open" ? "#ECFDF5" : "#F9FAFB",
                       border:
-                        job.state === "Open"
+                        job.status === "Open"
                           ? "1px solid #9DE9AB"
                           : "1px solid #D1D5DB",
                       fontSize: "12px",
-                      color: job.state === "Open" ? "#087443" : "#363F72",
+                      color: job.status === "Open" ? "#087443" : "#363F72",
                       lineHeight: "18px",
                       fontWeight: "500",
                     }}

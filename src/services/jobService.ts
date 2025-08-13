@@ -1,7 +1,7 @@
 // src/services/jobService.ts
 import { Job } from 'enigma/types/models';
 import { GenericResponse, PaginatedResponse } from 'enigma/types/DTOs';
-import { findByFilter, findById, findByStatus, JobSearchFilters } from 'enigma/repositories/jobRepository';
+import { findByFilter, findById, findByStatus, getJobs, JobSearchFilters } from 'enigma/repositories/jobRepository';
 import { Prisma, PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
@@ -32,6 +32,31 @@ export async function JobLocation() {
 
     //map to string[]
     return jobLocation.map((job) => job.location);
+}
+
+export async function getAllJobs(page: number, limit: number): Promise<GenericResponse<PaginatedResponse<Job>>> {
+    try {
+        const { jobs, total } = await getJobs(page, limit);
+        if (!jobs) {
+            return {
+                error: 'job not found'
+            }
+        }
+        return {
+            success: 'retrieved all jobs',
+            data: {
+                items: jobs,
+                meta: {
+                    total: total
+                }
+            }
+        }
+    } catch (error) {
+        console.error('error when querying jobs: ', error);
+        return {
+            error: 'failed to retrieve all jobs',
+        }
+    }
 }
 
 export async function getJobById(jobId: string): Promise<GenericResponse<Job>> {
