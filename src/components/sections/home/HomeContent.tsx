@@ -14,12 +14,13 @@ export const HomeContent = () => {
             component="main"
             sx={{
                 flexGrow: 1,
-                p: {xs: 0.5, sm: 2},
+                p: {xs: 2, sm: 3},
                 width: "100%",
-                ml: 0.5,
+                maxWidth: "100%",
+                boxSizing: "border-box",
                 "@media (max-width: 991px)": {
-                    maxWidth: "100%",
-                },
+                    p: 5
+                }
             }}
         >
             <Typography
@@ -31,7 +32,7 @@ export const HomeContent = () => {
             </Typography>
 
             <SearchBar
-                placeholder="AdminJobsPage title, description, or industry name"
+                placeholder="Search jobs by title or location"
                 targetPath="/jobs"
             />
 

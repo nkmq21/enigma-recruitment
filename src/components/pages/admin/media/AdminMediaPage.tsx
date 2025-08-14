@@ -18,6 +18,7 @@ export default function AdminMediaPage({session}: { session: Session | null }) {
                 display: "flex",
                 alignItems: "flex-start",
                 justifyContent: "flex-start",
+                overflow: "hidden"
             }}>
                 {/* Mobile open button */}
                 <IconButton
@@ -76,10 +77,11 @@ export default function AdminMediaPage({session}: { session: Session | null }) {
                         width={"1920"}
                         height={"1440"}
                         style={{
-                            position: "absolute",
+                            position: "fixed",
                             top: 0,
-                            zIndex: -1, // Place the image behind all other content
-                            height: "auto", // Optional: Maintain aspect ratio
+                            zIndex: -1,
+                            height: "auto",
+                            opacity: .5
                         }}
                     />
                     <Box

@@ -1,13 +1,13 @@
-import { auth } from "enigma/auth";
-import CVProfilePage from "enigma/components/pages/profile/cvs/CVProfilePage";
+import {auth} from "enigma/auth";
+import CvProfilePage from "enigma/components/pages/profile/cvs/CvProfilePage";
 
-export default async function CvsPage() {
-  const session = await auth();
-  return <CVProfilePage session={session} />;
+export default async function Page() {
+    const session = await auth();
+    return <CvProfilePage session={session}/>;
 }
 
 export async function generateMetadata() {
-  return {
-    title: "Resumes | Enigma Recruitment",
-  };
+    return {
+        title: "Resumes | Enigma Recruitment",
+    };
 }

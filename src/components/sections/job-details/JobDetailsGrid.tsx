@@ -22,8 +22,7 @@ import {Job} from 'enigma/types/models';
 import {toDisplayValue, isWithinDays} from "enigma/utils/dateFormat";
 import {usePathname} from "next/navigation";
 import PulsingCircle from "enigma/components/common/PulsingCircle";
-import {LocationCity, MyLocationRounded, Place, ShoppingBagRounded, Wallet, Work} from "@mui/icons-material";
-import {BsBag} from "react-icons/bs";
+import {Place, Wallet, Work} from "@mui/icons-material";
 
 const JobDetailsGrid = ({userId, job}: { userId: string | null | undefined; job: Job }) => {
     const pathname = usePathname();

@@ -22,6 +22,7 @@ const LandingPage = ({session}: { session: Session | null }) => {
                     display: "flex",
                     alignItems: "flex-start",
                     justifyContent: "flex-start",
+                    overflow: "hidden"
                 }}
             >
                 {/* Mobile open button */}
@@ -88,8 +89,8 @@ const LandingPage = ({session}: { session: Session | null }) => {
                         style={{
                             position: "absolute",
                             top: 0,
-                            zIndex: -1, // Place the image behind all other content
-                            height: "auto", // Optional: Maintain aspect ratio
+                            zIndex: -1,
+                            height: "auto",
                         }}
                     />
                     <Box

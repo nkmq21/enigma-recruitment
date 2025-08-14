@@ -274,13 +274,13 @@ const ApplyDialog: React.FC<ContentProps> = ({cvs, job, handleClose}) => {
 
                     {/* Resume Dropdown */}
                     <FormControl fullWidth variant="outlined">
-                        <InputLabel>Or choose from your resumes</InputLabel>
+                        <InputLabel>Choose from your resumes</InputLabel>
                         <Select
                             label="Choose from your resumes"
-                            defaultValue={cvs[0] ? cvs[0].cv_title : ""}
+                            defaultValue="Pick a resume"
                             startAdornment={
                                 <InputAdornment position="start">
-                                    <img src="/fileResume.svg" alt="PDF" style={{width: 20}}/>
+                                    <Image src="/fileResume.svg" alt="PDF" width={"20"} height={"20"}/>
                                 </InputAdornment>
                             }
                         >

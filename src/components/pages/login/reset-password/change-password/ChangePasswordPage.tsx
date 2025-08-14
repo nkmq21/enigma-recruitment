@@ -28,6 +28,7 @@ export default function ChangePasswordPage() {
                         overflow: 'hidden',
                         flex: 1,
                         bgcolor: '#FFF',
+                        height: '100vh'
                     }}
                 >
                     <Grid

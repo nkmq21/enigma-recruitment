@@ -1,17 +1,17 @@
 "use client";
 import * as React from "react";
-import {Box, ThemeProvider, IconButton} from "@mui/material";
+import {Box, IconButton, ThemeProvider} from "@mui/material";
+import Image from "next/image";
 import theme from "enigma/styles/theme";
-import {MainContent} from "../../sections/task/MainContent";
 import {SidebarNavigation} from "enigma/components/common/SidebarNavigation";
 import {Session} from "next-auth";
 import {useSidebar} from "enigma/context/SidebarContext";
-import Image from "next/image";
 import BigHeaderLogo from "enigma/components/common/HeaderLogo";
+import MainContent from "enigma/components/sections/profile/cvs/MainContent";
 
-export default function TaskPage({session}: { session: Session | null }) {
-    // 18% for expanded sidebar, 6% for collapsed sidebar
-    const {isDesktopCollapsed, toggleMobileMenu, isMobileMenuOpen} = useSidebar();
+export default function CvProfilePage({session}: {session: Session | null}) {
+    const {isDesktopCollapsed, toggleMobileMenu, isMobileMenuOpen} =
+        useSidebar();
     const sidebarWidth = isDesktopCollapsed ? "6%" : "18%";
     return (
         <ThemeProvider theme={theme}>
@@ -21,6 +21,7 @@ export default function TaskPage({session}: { session: Session | null }) {
                     display: "flex",
                     alignItems: "flex-start",
                     justifyContent: "flex-start",
+                    overflow: "hidden"
                 }}
             >
                 {/* Mobile open button */}
@@ -41,7 +42,12 @@ export default function TaskPage({session}: { session: Session | null }) {
                     }}
                     aria-label="Toggle mobile menu"
                 >
-                    <Image src="/showbar1.svg" alt="Menu Icon Expand" width={24} height={24}/>
+                    <Image
+                        src="/showbar1.svg"
+                        alt="Menu Icon Expand"
+                        width={24}
+                        height={24}
+                    />
                 </IconButton>
 
                 <SidebarNavigation session={session}/>
@@ -64,14 +70,14 @@ export default function TaskPage({session}: { session: Session | null }) {
                 )}
                 <Box
                     sx={{
-                        pt: 10,
+                        pt: 5,
                         width: "100%",
                         maxWidth: "100%",
                         position: "relative",
                         ml: {xs: 0, mdx: sidebarWidth},
                         [theme.breakpoints.down("mdx")]: {
-                            pt: 1
-                        }
+                            pt: 1,
+                        },
                     }}
                 >
                     <Image
@@ -84,6 +90,7 @@ export default function TaskPage({session}: { session: Session | null }) {
                             top: 0,
                             zIndex: -1, // Place the image behind all other content
                             height: "auto", // Optional: Maintain aspect ratio
+                            opacity: .5
                         }}
                     />
                     <Box
@@ -91,8 +98,8 @@ export default function TaskPage({session}: { session: Session | null }) {
                             display: "none",
                             [theme.breakpoints.down("mdx")]: {
                                 display: "block",
-                                zIndex: 1
-                            }
+                                zIndex: 1,
+                            },
                         }}
                     >
                         <BigHeaderLogo/>

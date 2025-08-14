@@ -23,6 +23,7 @@ const CvBuilderPage = ({ session }: { session: Session | null }) => {
                     display: "flex",
                     alignItems: "flex-start",
                     justifyContent: "flex-start",
+                    overflow: "hidden"
                 }}
             >
                 {/* Mobile open button */}
@@ -72,7 +73,7 @@ const CvBuilderPage = ({ session }: { session: Session | null }) => {
 
                 <Box
                     sx={{
-                        pt: 10,
+                        pt: 5,
                         width: "100%",
                         maxWidth: "100%",
                         position: "relative",
@@ -82,6 +83,19 @@ const CvBuilderPage = ({ session }: { session: Session | null }) => {
                         },
                     }}
                 >
+                    <Image
+                        src="/Background.svg"
+                        alt=""
+                        width={"1920"}
+                        height={"1440"}
+                        style={{
+                            position: "absolute",
+                            top: 0,
+                            zIndex: -1,
+                            height: "auto",
+                            opacity: .5
+                        }}
+                    />
                     <Box
                         sx={{
                             display: "none",

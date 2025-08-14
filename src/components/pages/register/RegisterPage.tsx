@@ -11,17 +11,20 @@ export const RegisterPage: React.FC = () => {
                 bgcolor: '#FFF',
                 display: 'flex',
                 flexDirection: 'column',
+                height: '100vh'
             }}>
             <Box
                 sx={{
                     display: 'flex',
                     flex: 1,
                     width: '100%',
+                    height: '100%',
                     flexWrap: 'wrap',
                     bgcolor: '#FFF',
                     '@media (max-width: 1025px)': {
                         maxWidth: '100%',
                     },
+                    overflow: 'hidden'
                 }}
             >
                 <RegisterForm />

@@ -25,6 +25,7 @@ const JobsPage = ({session}: { session: Session | null }) => {
                     display: "flex",
                     alignItems: "flex-start",
                     justifyContent: "flex-start",
+                    overflow: "hidden"
                 }}
             >
                 {/* Mobile open button */}
@@ -88,10 +89,10 @@ const JobsPage = ({session}: { session: Session | null }) => {
                             position: "absolute",
                             top: 0,
                             left: 0,
-                            zIndex: -1, // Place the image behind all other content
+                            zIndex: -1,
                             width: "100%",
-                            height: "auto", // Optional: Maintain aspect ratio
-                            opacity: 0.69,
+                            height: "auto",
+                            opacity: .5
                         }}
                     />
                     <Box

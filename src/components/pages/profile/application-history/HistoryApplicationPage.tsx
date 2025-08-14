@@ -20,6 +20,7 @@ export default function HistoryApplicationPage({session}: { session: Session | n
                     display: "flex",
                     alignItems: "flex-start",
                     justifyContent: "flex-start",
+                    overflow: "hidden"
                 }}
             >
                 {/* Mobile open button */}
@@ -63,7 +64,7 @@ export default function HistoryApplicationPage({session}: { session: Session | n
                 )}
                 <Box
                     sx={{
-                        pt: 10,
+                        pt: 5,
                         width: "100%",
                         maxWidth: "100%",
                         position: "relative",
@@ -81,8 +82,9 @@ export default function HistoryApplicationPage({session}: { session: Session | n
                         style={{
                             position: "absolute",
                             top: 0,
-                            zIndex: -1, // Place the image behind all other content
-                            height: "auto", // Optional: Maintain aspect ratio
+                            zIndex: -1,
+                            height: "auto",
+                            opacity: .5
                         }}
                     />
                     <Box

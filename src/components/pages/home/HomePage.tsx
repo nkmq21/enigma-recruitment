@@ -1,6 +1,6 @@
 "use client";
 import * as React from "react";
-import {Box, ThemeProvider, IconButton, Divider} from "@mui/material";
+import {Box, ThemeProvider, IconButton} from "@mui/material";
 import {SidebarNavigation} from "enigma/components/common/SidebarNavigation";
 import {HomeContent} from "../../sections/home/HomeContent";
 import {Session} from "next-auth";
@@ -21,6 +21,7 @@ export default function HomePage({session}: { session: Session | null }) {
                     display: "flex",
                     alignItems: "flex-start",
                     justifyContent: "flex-start",
+                    overflow: "hidden"
                 }}
             >
                 {/* Mobile open button */}
@@ -84,6 +85,7 @@ export default function HomePage({session}: { session: Session | null }) {
                             top: 0,
                             zIndex: -1, // Place the image behind all other content
                             height: "auto", // Optional: Maintain aspect ratio
+                            opacity: 0.5
                         }}
                     />
                     <Box

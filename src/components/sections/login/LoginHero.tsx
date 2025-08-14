@@ -1,6 +1,6 @@
 "use client";
 import * as React from "react";
-import { Box, Typography, IconButton, Stack } from '@mui/material';
+import {Box, Typography, IconButton, Stack} from '@mui/material';
 import {images} from 'enigma/data/heroImageData';
 
 export function LoginHero() {
@@ -17,11 +17,11 @@ export function LoginHero() {
         <Box
             component="section"
             sx={{
-                minWidth: { xs: '100%', md: '640px' },
+                minWidth: {xs: '100%', md: '640px'},
                 overflow: 'hidden',
                 flex: 1,
                 '@media (max-width: 1025px)': {
-                    display: 'none', // Ẩn hoàn toàn phần quảng bá trên tablet
+                    display: 'none'
                 },
             }}
         >
@@ -51,8 +51,8 @@ export function LoginHero() {
                         justifyContent: 'center',
                         minHeight: '960px',
                         width: '100%',
-                        px: { xs: 2, md: 8 },
-                        py: { xs: 2, md: 5.375 },
+                        px: {xs: 2, md: 8},
+                        py: {xs: 2, md: 5.375},
                     }}
                 >
                     <Box
@@ -89,7 +89,7 @@ export function LoginHero() {
                             bgcolor: 'rgba(215, 215, 215, 0.20)',
                             minHeight: '874px',
                             width: '100%',
-                            pt: { xs: '100px', md: '478px' },
+                            pt: {xs: '100px', md: '478px'},
                             px: 2.5,
                             pb: 2.5,
                             zIndex: 2, // Đảm bảo carousel hiển thị phía trước
@@ -104,11 +104,11 @@ export function LoginHero() {
                                 objectFit: 'contain',
                             }}
                         />
-                        <Stack spacing={4} sx={{ mt: 4, color: '#FFF' }}>
+                        <Stack spacing={4} sx={{mt: 4, color: '#FFF'}}>
                             <Typography
                                 variant="h1"
                                 sx={{
-                                    fontSize: { xs: '40px', md: '60px' },
+                                    fontSize: {xs: '40px', md: '60px'},
                                     fontWeight: 600,
                                     lineHeight: 1.2,
                                     letterSpacing: '-1.2px',
@@ -122,45 +122,33 @@ export function LoginHero() {
                                     lineHeight: '28px',
                                 }}
                             >
-                                Log in to access suitable positions, track your application status, and connect with top opportunities through Enigma Recruitment.
+                                Log in to access suitable positions, track your application status, and connect with top
+                                opportunities through Enigma Recruitment.
                             </Typography>
                         </Stack>
-                        <Box sx={{ mt: 4 }}>
-                            <Stack direction="row" spacing={4}>
-                                <IconButton
-                                    sx={{
-                                        width: 56,
-                                        height: 56,
-                                        border: '1px solid rgba(255, 255, 255, 0.50)',
-                                        borderRadius: '50%',
-                                    }}
-                                >
+                        <Box
+                            sx={{
+                                position: 'absolute',
+                                bottom: 50,
+                                left: 20,
+                                zIndex: 3
+                            }}
+                        >
+                            <Stack direction="row" spacing={1}>
+                                {images.map((_, index) => (
                                     <Box
-                                        component="img"
-                                        src="https://cdn.builder.io/api/v1/image/assets/8ef08a3c60b44d4ba008c3e63d84c943/148346d1dd8e33007b64abe7dc978388fc5d7213?placeholderIfAbsent=true"
+                                        key={index}
                                         sx={{
-                                            width: 24,
-                                            height: 24,
+                                            width: 12,
+                                            height: 12,
+                                            borderRadius: '50%',
+                                            bgcolor: index === currentImage ? '#FFF' : 'rgba(255, 255, 255, 0.3)',
+                                            cursor: 'pointer',
+                                            transition: 'background-color 0.3s ease',
                                         }}
+                                        onClick={() => setCurrentImage(index)}
                                     />
-                                </IconButton>
-                                <IconButton
-                                    sx={{
-                                        width: 56,
-                                        height: 56,
-                                        border: '1px solid rgba(255, 255, 255, 0.50)',
-                                        borderRadius: '50%',
-                                    }}
-                                >
-                                    <Box
-                                        component="img"
-                                        src="https://cdn.builder.io/api/v1/image/assets/8ef08a3c60b44d4ba008c3e63d84c943/7a3e0cf616556771510c94e40c642ab6a72f5ec0?placeholderIfAbsent=true"
-                                        sx={{
-                                            width: 24,
-                                            height: 24,
-                                        }}
-                                    />
-                                </IconButton>
+                                ))}
                             </Stack>
                         </Box>
                     </Box>

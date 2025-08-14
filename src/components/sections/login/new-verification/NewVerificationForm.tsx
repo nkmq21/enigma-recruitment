@@ -1,8 +1,8 @@
 "use client";
 import * as React from "react";
 import BigHeaderLogo from "enigma/components/common/HeaderLogo";
-import { Box, Button, Container, Stack, Typography, Divider } from '@mui/material';
-import { useSearchParams } from "next/navigation";
+import {Box, Button, Container, Stack, Typography} from '@mui/material';
+import {useSearchParams} from "next/navigation";
 import {useCallback, useEffect, useState} from "react";
 import {newVerification} from "enigma/services/authService";
 
@@ -34,20 +34,15 @@ export const NewVerificationForm: React.FC = () => {
             <Box
                 component="form"
                 sx={{
-                    minWidth: { xs: '100%', md: '480px' },
+                    minWidth: {xs: '100%', md: '480px'},
                     display: 'flex',
                     flexDirection: 'column',
                     flex: 1,
+                    height: '100vh',
                     position: 'relative',
                 }}
             >
-                <BigHeaderLogo />
-                <Divider sx={{
-                    mt: 1, mb: 3, width: '100%',
-                    display: {
-                        lg: 'none', sm: 'block',
-                    }
-                }} />
+                <BigHeaderLogo/>
                 <Container
                     sx={{
                         display: 'flex',
@@ -55,7 +50,7 @@ export const NewVerificationForm: React.FC = () => {
                         alignItems: 'center',
                         flex: 1,
                         py: 18,
-                        px: { xs: 3, md: 4 },
+                        px: {xs: 3, md: 4},
                         '@media (max-width: 1025px)': {
                             py: 10,
                         },
@@ -85,12 +80,13 @@ export const NewVerificationForm: React.FC = () => {
                                             {success}
                                         </Typography>
                                         <Typography variant="body1" color="text.secondary">
-                                            Your email has been verified successfully. You can now log in to your account.
+                                            Your email has been verified successfully. You can now log in to your
+                                            account.
                                         </Typography>
                                     </>
                                 )}
                             </Stack>
-                            <Stack spacing={3} >
+                            <Stack spacing={3}>
                                 {/* input mail and password and login */}
                                 <Box>
                                     <Stack spacing={2}>
@@ -116,7 +112,7 @@ export const NewVerificationForm: React.FC = () => {
                             </Stack>
                         </Stack>
                     </Box>
-                </Container >
+                </Container>
                 <Box
                     sx={{
                         position: 'absolute',
@@ -160,7 +156,7 @@ export const NewVerificationForm: React.FC = () => {
                         help@enigma-recruitment.com
                     </Typography>
                 </Box>
-            </Box >
+            </Box>
         </>
     );
 }   

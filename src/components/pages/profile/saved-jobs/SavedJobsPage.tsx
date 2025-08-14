@@ -9,7 +9,7 @@ import {Session} from "next-auth";
 import BigHeaderLogo from "enigma/components/common/HeaderLogo";
 import {useSidebar} from "enigma/context/SidebarContext";
 
-export default function SaveJobPage({session}: { session: Session | null }) {
+export default function SavedJobsPage({session}: { session: Session | null }) {
     // 18% for expanded sidebar, 6% for collapsed sidebar
     const {isDesktopCollapsed, toggleMobileMenu, isMobileMenuOpen} = useSidebar();
     const sidebarWidth = isDesktopCollapsed ? "6%" : "18%";
@@ -21,6 +21,7 @@ export default function SaveJobPage({session}: { session: Session | null }) {
                     display: "flex",
                     alignItems: "flex-start",
                     justifyContent: "flex-start",
+                    overflow: "hidden"
                 }}
             >
                 {/* Mobile open button */}
@@ -64,7 +65,7 @@ export default function SaveJobPage({session}: { session: Session | null }) {
                 )}
                 <Box
                     sx={{
-                        pt: 10,
+                        pt: 5,
                         width: "100%",
                         maxWidth: "100%",
                         position: "relative",
@@ -80,10 +81,11 @@ export default function SaveJobPage({session}: { session: Session | null }) {
                         width={"1920"}
                         height={"1440"}
                         style={{
-                            position: "absolute",
+                            position: "fixed",
                             top: 0,
-                            zIndex: -1, // Place the image behind all other content
-                            height: "auto", // Optional: Maintain aspect ratio
+                            zIndex: -1,
+                            height: "auto",
+                            opacity: 0.5
                         }}
                     />
                     <Box

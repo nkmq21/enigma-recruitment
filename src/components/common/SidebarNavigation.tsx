@@ -4,23 +4,25 @@ import {useState} from "react";
 import BigHeaderLogo from "./HeaderLogo";
 import {SmallHeaderLogo} from "./HeaderLogo";
 import {
-    Box,
-    List,
-    ListItem,
-    ListItemButton,
-    ListItemIcon,
-    ListItemText,
-    IconButton,
-    Button,
-    useTheme,
-    Avatar,
-    Typography,
-    ThemeProvider,
-    Collapse,
-    useMediaQuery,
+    Box, List, ListItem, ListItemButton, ListItemIcon, ListItemText, IconButton,
+    Button, useTheme, Avatar, Typography, ThemeProvider, Collapse, useMediaQuery
 } from "@mui/material";
+import {
+    HomeOutlined,
+    DashboardOutlined,
+    WorkOutlineOutlined,
+    ExpandLess,
+    ExpandMoreOutlined,
+    PanToolOutlined,
+    AdminPanelSettingsOutlined,
+    AreaChartOutlined,
+    PersonOutlined,
+    SettingsOutlined,
+    GroupsOutlined,
+    BusinessOutlined,
+    NewspaperOutlined, ArrowLeft
+} from "@mui/icons-material";
 import Image from "next/image";
-import {ExpandLess} from "@mui/icons-material";
 import {signOut} from "next-auth/react";
 import {Session} from "next-auth";
 import {usePathname, useRouter} from "next/navigation";
@@ -77,18 +79,18 @@ export const SidebarNavigation = ({session}: { session: Session | null }) => {
     const publicItems: NavItem[] = [
         {
             text: "Home",
-            icon: <Image src="/homeIcon.svg" alt="home" width={24} height={24}/>,
+            icon: <HomeOutlined sx={{fill: "#475467"}}/>,
             href: "/",
         },
         {
             text: "Dashboard",
-            icon: <Image src="/dashboard.svg" alt="home" width={24} height={24}/>,
+            icon: <DashboardOutlined sx={{fill: "#475467"}}/>,
             href: "/home",
         },
         {
             text: "Career Tools",
-            icon: <Image src="/tool.svg" alt="career tool" width={24} height={24}/>,
-            icon1: <Image src="/arrowSlide.svg" alt="arrow" width={24} height={24}/>,
+            icon: <PanToolOutlined sx={{fill: "#475467"}}/>,
+            icon1: <ExpandMoreOutlined sx={{fill: "#475467"}}/>,
             href: "/#",
             subItems: [
                 {
@@ -103,19 +105,15 @@ export const SidebarNavigation = ({session}: { session: Session | null }) => {
         },
         {
             text: "Open Jobs",
-            icon: <Image src="/bagicon.svg" alt="home" width={24} height={24}/>,
+            icon: <WorkOutlineOutlined sx={{fill: "#475467"}}/>,
             href: "/jobs",
         },
         ...(session?.user
             ? [
                 {
                     text: "Profile",
-                    icon: (
-                        <Image src="/profile.svg" alt="profile" width={24} height={24}/>
-                    ),
-                    icon1: (
-                        <Image src="/arrowSlide.svg" alt="arrow" width={24} height={24}/>
-                    ),
+                    icon: <PersonOutlined sx={{fill: "#475467"}}/>,
+                    icon1: <ExpandMoreOutlined sx={{fill: "#475467"}}/>,
                     href: "/#",
                     subItems: [
                         {
@@ -142,61 +140,45 @@ export const SidebarNavigation = ({session}: { session: Session | null }) => {
             ? [
                 {
                     text: "Admin Panel",
-                    icon: (
-                        <Image
-                            src="/homeIcon.svg"
-                            alt="admin panel"
-                            width={24}
-                            height={24}
-                        />
-                    ),
+                    icon: <AdminPanelSettingsOutlined sx={{fill: "#475467"}}/>,
                     href: "/admin",
                 },
             ]
             : []),
     ];
 
-  const adminItems: NavItem[] = [
-    {
-      text: "Dashboard",
-      icon: <Image src="/homeIcon.svg" alt="home" width={24} height={24} />,
-      href: "/admin",
-    },
-    {
-      text: "User Management",
-      icon: (
-        <Image
-          src="/homeIcon.svg"
-          alt="user management"
-          width={24}
-          height={24}
-        />
-      ),
-      href: "/admin/users",
-    },
-    {
-      text: "Jobs Management",
-      icon: (
-        <Image src="/bagicon.svg" alt="job management" width={24} height={24} />
-      ),
-      href: "/admin/jobs",
-    },
-    {
-      text: "Website Settings",
-      icon: <Image src="/setting.svg" alt="settings" width={24} height={24} />,
-      href: "/admin/settings",
-    },
-    {
-      text: "Media",
-      icon: <Image src="/homeIcon.svg" alt="media" width={24} height={24} />,
-      href: "/admin/media",
-    },
-    {
-      text: "Home",
-      icon: <Image src="/homeIcon.svg" alt="home" width={24} height={24} />,
-      href: "/home",
-    },
-  ];
+    const adminItems: NavItem[] = [
+        {
+            text: "Dashboard",
+            icon: <AreaChartOutlined sx={{fill: "#475467"}}/>,
+            href: "/admin",
+        },
+        {
+            text: "User Management",
+            icon: <GroupsOutlined sx={{fill: "#475467"}}/>,
+            href: "/admin/users",
+        },
+        {
+            text: "Jobs Management",
+            icon: <BusinessOutlined sx={{fill: "#475467"}}/>,
+            href: "/admin/jobs",
+        },
+        {
+            text: "Website Settings",
+            icon: <SettingsOutlined sx={{fill: "#475467"}}/>,
+            href: "/admin/settings",
+        },
+        {
+            text: "Media",
+            icon: <NewspaperOutlined sx={{fill: "#475467"}}/>,
+            href: "/admin/media",
+        },
+        {
+            text: "Back to Home",
+            icon: <ArrowLeft sx={{fill: "#475467"}}/>,
+            href: "/home",
+        },
+    ];
 
     const footerItems: NavItem[] = [
         {

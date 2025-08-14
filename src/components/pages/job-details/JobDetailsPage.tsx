@@ -37,6 +37,7 @@ export default function JobDetailsPage({session, job}: JobDetailsPageProps) {
                     display: "flex",
                     alignItems: "flex-start",
                     justifyContent: "flex-start",
+                    overflow: "hidden"
                 }}
             >
                 {/* Mobile open button */}
